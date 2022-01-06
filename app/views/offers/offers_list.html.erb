@@ -1,0 +1,115 @@
+<style type="text/css">
+  .z-depth-5 {
+    padding: 20px;
+    box-shadow: 4px 4px 8px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+   }
+
+   .col-height {
+    min-height: 350px;
+   }
+
+  .product-imitation {
+    text-align: center;
+    padding: 23px 20px;
+    background-color: #f8f8f9;
+    color: #bebec3;
+    font-weight: 600;
+  }
+
+  .product-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #676a6c;
+    display: block;
+    margin: 2px 0 5px 0;
+  }
+
+  input[type="submit"] {
+    margin-top: 10px;
+    background: #1ab394;
+    border: 1px solid #1ab394;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 2px 15px;
+    border-radius: 4px;
+    text-transform: capitalize;
+  }
+
+  .week-file-field {
+    display: inline !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-lg-3">
+      <h2><b>Offers</b></h2>
+    </div>
+
+    <div class="col-lg-9">
+      <div class="row">
+        <div class="col-lg-6 col-sm-6" style="margin-top: 25px">
+          <a href="<%= week_list_path %>" class="btn btn-m btn-outline btn-primary inline branchlist"><i class="fa fa-eye"></i> Week List </a>
+
+          <span class="pull-right" style="margin-top: -7px;">
+            <% if is_super_admin?(@admin) %>
+              <a class="btn btn-sm btn-primary" href="/week/new_week_list"><i class="fa fa-plus-circle"></i> Add New Week List</a>
+            <% else %>
+              <label>Upload week xlsx</label>
+
+              <%= form_for :upload_csv, url: upload_week_csv_path, html: { class: "form-inline" } do |f| %>
+                <%= f.file_field :file, class: "week-file-field" %>
+                <%= f.submit :upload %>
+              <% end %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br>
+
+<div class="col-lg-12 white-bg col-height">
+  <div class="container pt-20">
+    <h3 class="text-center" style="color:#2E92FF;">Offers</h3>
+    <br>
+
+    <div class="row gap-30">
+      <div class="col-lg-12">
+        <% [1, 2 , 3, 4, 5].each do |position| %>
+          <div class="col-lg-4 col-md-6">
+            <div class="ibox">
+              <div class="ibox-content product-box">
+                <div class="product-imitation">
+                  <img style = "width: 100%;height: 190px;" src="/assets/business_bg.jpg" alt="Offer logo" >
+                </div>
+
+                <div class="product-desc">
+                  <div class="row" style="margin-left: 1px; margin-right: 1px;">
+                    <a href="#" class="product-name pull-left">
+                      Top: <%= position %>
+                      <br>Banner: <%= position %>
+                    </a>
+
+                    <a href="<%= offers_list_show_path(position: position) %>" class="btn btn-sm btn-outline btn-primary pull-right inline branchlist"><i class="fa fa-eye"></i> View </a>
+                  </div>
+
+                  <span class="pricing-list-v4-title">Total Request: <%= find_place_offers(position).count %></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:notice].present? %>
+    swal("Done!", "<%= flash[:notice] %>", "success");
+  <% end %>
+</script>

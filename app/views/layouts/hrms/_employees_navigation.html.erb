@@ -1,0 +1,177 @@
+<% selected_user = @selected_user || @user %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <li class="displayNavigation openDashboardNewTransactipnPopup">
+        <a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Dashboard</span></a>
+      </li>
+
+      <li class="displayMaster <%= is_active_customer('customers_list') ? nil : 'deactive' %>">
+        <a href="/business/hrms/employees/dashboard"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Employee</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_action('index') %>"><%= link_to "Add Employee", business_hrms_employees_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('review_employee') %>"><%= link_to "Employee Approve", review_employee_business_hrms_employees_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('rejected_employee') %>"><%= link_to "Rejected Employees", rejected_employee_business_hrms_employees_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('approve_employee') %>"><%= link_to "Add Family", business_hrms_family_details_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('assign_asset') %>"><%= link_to "Assign Assets", business_hrms_assign_assets_path(restaurant_id: params[:restaurant_id]) %></li>
+           <li class="<%= is_active_action('assign_asset') %>"><%= link_to "Handover Asset", hand_over_list_business_hrms_assign_assets_path(restaurant_id: params[:restaurant_id]) %></li>
+        </ul>
+      </li>
+
+      <li class="displayMaster <%= is_active_customer('customers_list') ? nil : 'deactive' %>">
+        <a href="/business/hrms/employees/dashboard"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Payroll</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li><%= link_to "Add Salary", business_hrms_salaries_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Loan", business_hrms_loans_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Loan Approve", review_loan_business_hrms_loans_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Rejected Loans", rejected_loan_business_hrms_loans_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Loan Revise", business_hrms_loan_revises_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Loan Settlement", business_hrms_loan_settlements_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%= link_to "Add Reimbursement", business_hrms_reimbursements_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('review_employee') %>"><%= link_to "Reimbursement Approve", review_reimbursement_business_hrms_reimbursements_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('rejected_employee') %>"><%= link_to "Rejected Reimbursements", rejected_reimbursement_business_hrms_reimbursements_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li><%#= link_to "Revise Salary", '#' %></li>
+          <li><%= link_to "Final Settlement", business_hrms_family_details_path %></li>
+          <li><%= link_to "Revise Salary", '#' %></li>
+
+        </ul>
+      </li>
+
+      <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Attendence</span></a>
+      </li>
+
+      <li class="displayNavigation">
+          <a href="<%= business_partner_logout_path %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Expense Claim</span></a>
+      </li>
+
+      <!-- <li class="displayNavigation">
+          <a href="<%#= hrms_restaurant_shifts_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-label">Shift</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse">
+            
+          </ul>
+      </li>
+ -->
+      <li>
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Recruitment</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse">
+            <li><%= link_to "Job Positions",business_hrms_job_positions_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li><%= link_to "Applications", business_hrms_job_applications_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li><%= link_to "Approved Applications", business_hrms_approved_application_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li><%= link_to "On-Hold Applications", business_hrms_holded_application_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li><%= link_to "Rejected Applications", business_hrms_rejected_application_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li><%= link_to "Resumes & Letters", resume_list_business_hrms_job_applications_path(restaurant_id: params[:restaurant_id]) %></li>
+          </ul>
+      </li>
+
+      <!-- <li>
+          <a href="#"><span class="nav-label">Vacancy List</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse">
+            <li><%#= link_to "Status ", "#" %></li>
+            <li><%#= link_to "Project ", "#" %></li>
+            <li><%#= link_to "Role", "#" %></li>
+            <li><%#= link_to "Tag", "#" %></li>
+            <li><%#= link_to "Candidates By Status", "#" %></li>
+            <li><%#= link_to "Created", "#" %></li>
+            <li><%#= link_to "Action", "#" %></li>
+          </ul>
+      </li>
+
+      <li>
+          <a href="#"><span class="nav-label">Interview Action</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse">
+            <li><%#= link_to "Person Name", "#" %></li>
+            <li><%#= link_to "Action Description", "#" %></li>
+            <li><%#= link_to "Perform On (Date)", "#" %></li>
+            <li><%#= link_to "Completed Checklist", "#" %></li>
+          </ul>
+      </li>
+
+      <li>
+          <a href="#"><span class="nav-label">Interview Action List</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse">
+            <li><%#= link_to "Person Name", "#" %></li>
+            <li><%#= link_to "Completed On ", "#" %></li>
+            <li><%#= link_to "Updated On ", "#" %></li>
+            <li><%#= link_to "Action", "#" %></li>
+          </ul>
+      </li> -->
+    </ul>
+  </div>
+</nav>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

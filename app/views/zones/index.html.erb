@@ -1,0 +1,91 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-2">
+    <h2>Zones List</h2>
+  </div>
+
+  <div class="col-sm-8">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <%= select_tag(:searched_district_id, options_for_select(@districts, params[:searched_district_id]), prompt: "Select District", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Name", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="col-sm-2">
+    <h2 class="pull-right">
+      <%= link_to zones_path(format: :csv, searched_district_id: params[:searched_district_id], keyword: params[:keyword]) do %>
+        <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Zones Table</h5>
+
+          <span class="pull-right">
+            <%= link_to "Add New Zone", new_zone_path, class: "btn btn-xs btn-success", style: "margin-right: 20px;" %>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @zones.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Name (English)</th>
+                  <th>Name (Arabic)</th>
+                  <th>District</th>
+                  <th>Area Count</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @zones.each do |zone| %>
+                  <tr>
+                    <td><%= zone.name %></td>
+                    <td><%= zone.name_ar %></td>
+                    <td><%= zone.district.name %></td>
+
+                    <td>
+                      <%= link_to zone.coverage_areas.active_areas.size.to_s + " Areas", zone_path(zone.id), remote: true, class: "btn btn-xs btn-primary" %>
+                      <%= link_to "Add Areas", free_area_list_zone_path(zone.id), remote: true, class: "btn btn-xs btn-success" %>
+                    </td>
+
+                    <td>
+                      <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_zone_path(zone.id), class: "btn btn-xs btn-info" %>
+
+                      <% if is_super_admin?(@admin) %>
+                        <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", zone, method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete?" } %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Zone available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

@@ -1,0 +1,282 @@
+<%#= stylesheet_link_tag 'admin_application', media: 'all', 'data-turbolinks-track' => true %>
+<!-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.css" rel="stylesheet" type="text/css"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.js"></script> -->
+<!-- <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script> -->
+<style type="text/css">
+  .fc-daygrid-event {
+  position: relative;
+  white-space: nowrap;
+  border-radius: 3px;
+  font-size: .85em;
+  font-size: var(--fc-small-font-size,.85em);
+  }
+  .fc-h-event {
+  border: 1px solid #3788d8;
+  border: 1px solid var(--fc-event-border-color,#3788d8);
+  background-color: #3788d8;
+  background-color: var(--fc-event-bg-color,#3788d8);
+  }
+  .fc-event-main{
+  color: white;
+  }
+  @media (min-width: 992px) {
+  .container-scroll > .row {
+  overflow-x: auto;
+  white-space: nowrap;
+  }
+  .container-scroll > .row > .col-md-2 {
+  display: inline-block;
+  float: none;
+  }
+  }
+  .container-scroll > .row {
+  margin-top: 24px;
+  }
+  .container-scroll > .row > .col-md-2 {
+    font-weight: bold;
+    text-align: center;
+  }
+  .active-employee{
+    border: 2px solid blue;
+    border-radius: 6px;
+    padding: 1px;
+  }
+  .fc-event-main{
+    cursor: pointer;
+  }
+  #preloader{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index:100000;
+  opacity:0.5;
+  background:#ededed;
+  top:0 !important;
+  left: 0 !important;
+}
+
+#preloader #inner-div-preloader{
+  position: fixed;
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  top:0;
+  height:100%;  
+}
+</style>
+<%= render 'add_employee' %>
+<%= render 'list_employee' %>
+
+<div id="preloader">
+  <div id="inner-div-preloader">
+    <%= image_tag 'loader.gif', id: "preloader-img", alt: "loader" %>
+  </div>
+</div>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-6">
+    <h2>Schedule Shifts</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <br>
+      <span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+          <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Title", autocomplete: :off) %>
+          <%= date_field_tag(:searched_date, params[:searched_date], class: "form-control admin-search-field") %>
+        </div>
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+      </span>
+    </div>
+  </div>
+  <!-- <div class="col-sm-12" style="max-height: 841px;overflow-y: scroll;"> -->
+    <div class="col-sm-12">
+
+    <!-- <div class="col-sm-10" style="max-height: 841px;overflow-y: scroll;"> -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div style="overflow-x: auto;width: 100%;margin-bottom: 4%;">
+            <div class="col-wrapper" style="display: grid;grid-template-columns: repeat(8, minmax(0, 1fr));grid-column-gap: 15px;width:100%;margin-bottom: 2%;min-width: 1700px;">
+
+              <div class="col-box">
+                <div class="wrapper wrapper-content animated fadeInRight">
+                  <div class="row">
+                    <!-- <div class="col-lg-12"> -->
+                      <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                          <div id='external-events'>
+                            <p>
+                            <h4><b>STATIONS</b></h4>
+                            </p>
+                            <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;">
+                              <div class='fc-event-main'>
+                                abc
+                              </div>
+                            </div>
+                            <br/>
+                            <%# @shift_dates.each do |key, val| %>
+
+                              <%# val.each do |station| %>
+                              <% (1..@shift_dates.values.flatten.compact.map{|a| a.shift}.uniq{|t| t.name }.length).each_with_index do |num, index| %>
+                                <% @stations.each do |station| %>
+                                  <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+                                    <div class='fc-event-main'>
+                                      <%= station.name %>
+                                    </div>
+                                  </div>
+                                  <br>
+                                  <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;min-height: 25px;">
+                                    <div class='fc-event-main'>
+                                      abc
+                                    </div>
+                                  </div>
+                                <br/>
+                                <% end %>
+                                <hr style="border-top: 1px solid #2e4eea;"></hr>
+                                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;min-height: 25px;">
+                                  <div class='fc-event-main'>
+                                    abc
+                                  </div>
+                                </div>
+                                <br/>
+                              <%# end %>
+                            <% end %>
+
+                          </div>
+                          <div id='calendar-container'>
+                            <div id='calendar'></div>
+                          </div>
+                        </div>
+                      </div>
+                    <!-- </div> -->
+                  </div>
+                </div>
+              </div>
+
+              <% @shift_dates.each do |key, val| %>
+                <div class="col-box">
+                  <div class="wrapper wrapper-content animated fadeInRight">
+                    <div class="row">
+                      <div class="ibox float-e-margins">
+                        <div class="ibox-content">
+                          <div id='external-events'>
+                            <p>
+                            <h4><b><%= key.upcase %></b></h4>
+                            </p>
+
+                            <% if val.blank? %>
+                              <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;min-height: 25px;">
+                                <div class='fc-event-main'>
+                                  abc
+                                </div>
+                              </div>
+                              <br>
+                              
+                              <% @stations.each do |station| %>
+                                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;min-height: 25px;">
+                                  <div class='fc-event-main'>
+                                  </div>
+                                </div>
+                                <br>
+                                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="background: white;border: white;min-height: 25px;">
+                                  <div class='fc-event-main'>
+                                  </div>
+                                </div>
+                                <br>
+
+                              <% end %>
+                              <hr style="border-top: 1px solid #2e4eea;"></hr>
+                            <% end %>
+
+                            <% shift_names = [] %>
+                            <% val.each do |shift_date| %>
+                              <% unless shift_names.include?(shift_date&.shift.name) %>
+                                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+                                  <div class='fc-event-main'>
+                                    <%= shift_date&.shift.name %>
+                                    <% shift_names << shift_date&.shift.name %>
+                                  </div>
+                                </div>
+                                <br>
+                                <% @stations.each do |station| %>
+
+                                  <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="min-height: 25px;background: #1ab394;">
+                                    <div class='fc-event-main add_employee_btn' data-toggle='modal' data-target="#add_employee_modal" 
+                                    station="<%= station.name %>" shift="<%= shift_date&.shift.name %>" shift_id="<%= shift_date&.shift.id %>" station_id="<%= station.id %>" day="<%= key %>">
+                                      <i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp; Add Employee
+                                    </div>
+                                  </div><br/>
+                                  <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style="min-height: 25px;background: #f8ac59;border: 1px solid #f8ac59;">
+                                    <% total_count = find_employee_list(shift_date, station, key)&.length %>
+                                    <div class='fc-event-main list_employee_btn' data-toggle='modal' data-target="#list_employee_modal" 
+                                    station="<%= station.name %>" shift="<%= shift_date&.shift.name %>" shift_id="<%= shift_date.id %>" station_id="<%= station.id %>" day="<%= key %>" total_count="<%= total_count %>">
+                                      Show Employee List
+                                    </div>
+                                  </div>
+
+                                  
+                                  <br>
+                                <% end %>
+                                <hr style="border-top: 1px solid #2e4eea;"></hr>
+                              <% end %>
+
+                            <% end %>
+                          </div>
+                          <div id='calendar-container'>
+                            <div id='calendar'></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+</div>
+<script type="text/javascript">
+  $('.add_employee_btn').click(function(){
+    $('#shift').val(this.getAttribute('shift'))
+    $('#station').val(this.getAttribute('station'))
+    $('#shift_id').val(this.getAttribute('shift_id'))
+    $('#station_id').val(this.getAttribute('station_id'))
+    $('#day').val(this.getAttribute('day'))
+  })
+
+  $('.list_employee_btn').click(function(){
+    $('#employee-success-msg').hide();
+
+    $('.shift_field_list').val(this.getAttribute('shift'))
+    $('.station_field_list').val(this.getAttribute('station'))
+    $('#shift_id').val(this.getAttribute('shift_id'))
+    $('#station_id').val(this.getAttribute('station_id'))
+    $('#day').val(this.getAttribute('day'))
+    $('#total-emp-count').text("(" + this.getAttribute('total_count') + ")")
+    $("#preloader").show();
+    $.ajax({
+      type: "GET",
+      url: "/hrms/shifts/fetch_station_employees",
+      dataType: 'script',
+      data: { shift_id: this.getAttribute('shift_id'), station_id: this.getAttribute('station_id'), day_id: this.getAttribute('day')}
+    });
+  })
+
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+</script>

@@ -1,0 +1,111 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="container form-border">
+     <%= render 'form' %>
+  </div>
+</div>
+<%= render "welcome/footer" %>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script type="text/javascript">
+  $("#mobile_number").intlTelInput({
+  allowDropdown: true,
+  autoHideDialCode: true,
+  autoPlaceholder: "on",
+  dropdownContainer: "body",
+  excludeCountries: [],
+  formatOnDisplay: true,
+  geoIpLookup: function(callback) {
+    $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      var countryCode = (resp && resp.country) ? resp.country : "";
+      callback(countryCode);
+    });
+  },
+  hiddenInput: "full_phone",
+  initialCountry: "auto",
+  nationalMode: true,
+  initialCountry: 'bh',
+  onlyCountries: [],
+  placeholderNumberType: "MOBILE",
+  preferredCountries: ['bh'],
+  separateDialCode: true,
+  utilsScript: "/assets/telinput/utils.js"
+  });
+  
+  
+  $("#upload-image2").click(function(){
+      $("#upload-input2").click();
+  });
+  
+  $("#upload-image").click(function(){
+      $("#upload-input").click();
+      //$("#upload-input").show();
+  });
+  
+  $('#upload-input').change(function() {
+    var file = this.files[0].name;
+    $(".upload_paragraph").text(file);
+  });
+  
+   $('#upload-input2').change(function() {
+    var file = this.files[0].name;
+    $(".upload_paragraph1").text(file);
+  });
+</script>
+<style type="text/css">
+  .form-border {
+  border: 1px solid #686464;
+  padding: 1% 2% 2% 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  }
+  @media (min-width: 1200px){
+  .container {
+  width: 1140px;
+  max-width: 100%;
+  }
+  }
+  .form-field {
+  padding: 10px 20px 10px 20px;
+  }
+  .heading{
+  color: #fff;
+  font-size: 25px;
+  font-weight: 550;
+  margin-top: 2%;
+  }
+  h2{
+  font-family: "Source Sans Pro", sans-serif;
+  }
+  label {
+  display: inline-block;
+  margin-bottom: 10px;
+  }
+  input[type=text] {
+  border: 3px solid #555;
+  }
+  input[type=text]:focus {
+  border: 3px solid #555;
+  }
+  .label_name{
+  color: #fff;
+  font-size: 16px;
+  width: 100%
+  }
+  img {
+  vertical-align: middle;
+  border-style: none;
+  }
+  #upload-input {
+  display: none;
+  }
+  #upload-input2{
+  display: none;
+  }
+</style>
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

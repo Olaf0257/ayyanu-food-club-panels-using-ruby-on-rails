@@ -1,0 +1,178 @@
+
+
+<style type="text/css">
+  .setheight{
+  height:38px !important;
+  }
+  .form-group{
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <h2 style="margin-top:20px;"><b>Branch Over All Reports</b></h2>
+</div>
+ <div class="row">
+    <div class="col-lg-12">
+      <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+        <div class="col-lg-2 col-md-6">
+          <div class="form-group">
+            <%= select_tag :per_page,options_for_select([20,40,60,80,100], params[:per_page].to_i),
+            :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight"%>
+          </div>
+        </div>
+        <%=form_for :search,url: admin_over_all_report_path,method: :get,:html=>{:class=>"form-inline"} do |f|%>
+        <div class="col-lg-4 col-md-6">
+          <div class="form-group">
+            <select class="form-control setheight" name="branch" style="width: 100%;"> 
+            <%if @branches.present?%>
+              <%=@branches.each do |b|%>
+              <option value="<%=b.id%>" <%=@branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.address%></option>
+              <%end%>
+              <%end%>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="form-group">
+            <select class="form-control setheight" name="search_key" style="width: 100%;">
+              <option value="month">Month</option>
+              <option value="halfyearly">Half Yearly</option>
+              <option value="year">Year</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <button type="submit" class="btn btn-danger btn-block"> Search </button>
+        </div>
+        <%end%>
+      </span>
+    </div>
+  </div>
+
+<div class="wrapper wrapper-content animated fadeInRight" >
+  
+    <div class="row">
+      <div class="col-lg-6 col-md-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Orders</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-6 col-sm-4 col-xs-12"> 
+              </div>
+              <div class="col-lg-3 col-sm-4 col-xs-6">
+                <label class="btn btn-md  btn-block" style="background-color: #8AB3DF; color: white"><%=@currentYear%></label>
+              </div>
+              <div class="col-lg-3 col-sm-4 col-xs-6">
+                <label class="btn btn-md btn-block" style="background-color: #EE7E32;color: white"><%=@currentYear - 1%></label>
+              </div>
+            </div>
+            <div id="morris-line-chart_order_count_graph"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Revenue Growth</h5>
+          </div>
+          <div class="ibox-content">
+            <div class="row">
+              <div class="col-lg-6 col-sm-4 col-xs-12"> 
+              </div>
+              <div class="col-lg-3 col-sm-4 col-xs-6">
+                <label class="btn btn-md  btn-block" style="background-color: #8AB3DF; color: white"><%=@currentYear%></label>
+              </div>
+              <div class="col-lg-3 col-sm-4 col-xs-6">
+                <label class="btn btn-md btn-block" style="background-color: #EE7E32;color: white"><%=@currentYear - 1%></label>
+              </div>
+            </div>
+            <div id="morris-line-chart_order_data_graph"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+</div>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+<script src="/assets/jquery-3.1.1.min.js"></script>
+<script src="/assets/bootstrap.min.js"></script>
+<script src="/assets/jquery.metisMenu.js"></script>
+<script src="/assets/jquery.slimscroll.min.js"></script>
+<!-- Morris -->
+<script src="/assets/raphael-2.1.0.min.js"></script>
+<script src="/assets/morris/morris.js"></script>
+<!-- Custom and plugin javascript -->
+<script src="/assets/admin/inspinia.js"></script>
+<script src="/assets/pace/pace.min.js"></script>
+<!-- Morris demo data-->
+<!-- <script src="/assets/morris-demo.js"></script>        -->
+<script type="text/javascript">
+  var branch_orders_graph_data = []
+  "<%if @branch_orders_graph_data.present?%>"
+   "<%=@branch_orders_graph_data.each do |d|%>"
+       branch_orders_graph_data.push({y: '<%=d["y"]%>',a:'<%=d["a"]%>',b:'<%=d["b"]%>'})       
+   "<%end%>"  
+  "<%end%>"
+
+   $(function() {
+       Morris.Bar({
+       element: 'morris-line-chart_order_data_graph',
+       data: branch_orders_graph_data,
+       parseTime: false,
+       xkey: 'y' ,
+       ykeys: ['a','b'],
+       labels: ['Current Month ','Total Revenue'],
+       hideHover: 'auto',
+       resize: true,
+       barColors: ['#8AB3DF','#EE7E32'],
+     });
+      });
+  
+   var branch_orders_count_data = []
+   var branch_orders_count_data1 = []
+  
+  "<%if @branch_order_count_graph_data.present?%>"
+   "<%=@branch_order_count_graph_data.each do |d|%>"
+       branch_orders_count_data.push({y: '<%=d["y"]%>',a:'<%=d["a"]%>',b:'<%=d["b"]%>'})
+       branch_orders_count_data1.push({y: '<%=d["y"]%>',a:'<%=d["a"]%>',b:'<%=d["b"]%>'})
+   "<%end%>"
+  "<%end%>"
+
+  
+   // console.log(branch_orders_graph_data)
+   $(function() {
+       Morris.Bar({
+       element: 'morris-line-chart_order_count_graph',
+       data: branch_orders_count_data,
+       parseTime: false,
+       xkey: 'y' ,
+       ykeys: ['a','b'],
+       labels: ['Current Month ','Total Revenue'],
+       hideHover: 'auto',
+       resize: true,
+       barColors: ['#8AB3DF','#EE7E32'],
+     });
+      });
+  
+   $(function() {
+       Morris.Line({
+         element: 'morris-line-chart',
+          data: branch_orders_count_data1,
+         data: [
+                 { y: '2006', a: 100, b: 90 } 
+               ],
+         xkey: 'y',
+         ykeys: ['a', 'b'],
+         labels: ['Month', 'Number'],
+         hideHover: 'auto',
+         resize: true,
+         lineColors: ['#54cdb4','#1ab394'],
+       });
+     });
+  
+</script>
+

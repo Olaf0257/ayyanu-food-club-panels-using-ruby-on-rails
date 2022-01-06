@@ -1,0 +1,15 @@
+<% menu_categories.each do |category| %>
+  <%= link_to business_partner_pos_menu_items_path(category, pos_table_id: pos_table_id), remote: true do  %>
+    <div class="card" style="display: inline-block;
+      height: 60px;
+      width: 32%;
+      border-radius: 5px;
+      text-align: center;
+      vertical-align: middle;">
+          <div class="card-body">
+            <p style="color: black;top: 15px;position: relative;text-align: center;"><%= category.category_title %>
+            </p>
+          </div>
+    </div>
+  <% end %>
+<% end %>

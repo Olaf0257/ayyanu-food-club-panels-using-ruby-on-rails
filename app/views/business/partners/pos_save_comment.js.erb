@@ -1,0 +1,26 @@
+<% if params['selected_menuaddon_transaction_id'].present? %>
+	<% if @pos_transaction.present? %>
+		if ($('.comment_<%= @pos_transaction.id %>').length > 0){
+			$('.comment_<%= @pos_transaction.id %>').find('.comment_text').text('<%= @pos_transaction.comments %>');
+		}
+		else{
+			transaction_tr = $('#pos_transactions_list').find('#transaction_data_<%= @pos_transaction.id %>');
+			var child_transactions = transaction_tr.siblings('.parent_id_<%= @pos_transaction.id %>');
+			if (child_transactions.length > 0){
+				transaction_tr = child_transactions.last()
+			}
+			transaction_tr.after("<%= j render partial: 'pos_comment', locals: { transaction: @pos_transaction }%>")
+		}
+        var menuAddonId = $('#selected_menuaddon_id').val();
+        if(menuAddonId && $('[data-menu-item-id='+menuAddonId+']')) {
+        	$('[data-menu-item-id='+menuAddonId+']').attr('data-comments', "<%= @pos_transaction.comments %>" );
+        }
+        $('#comments').val("<%= @pos_transaction.comments %>");
+		$('#addOnPOPUP').modal('hide');
+		toastr.success('Comment added successfully');
+	<% else %>
+		 toastr.error('Item not found');
+	<% end %>
+<% else %>
+	toastr.error('Select Item Addon for add comment');
+<% end %>

@@ -1,0 +1,26 @@
+<div class="check-table check_<%= current_check.id %>" data-check-id="<%= current_check.id %>" style="width: <%= width %>">
+  <div class="check_info">
+	  <span>CHK NO <%= current_check.check_id %>
+      <% if current_check.order_type_id.eql?(1) && current_check.pos_table.present? %>
+        <% pos_count = tableCount(current_check.pos_table, current_check) %>
+        <br>TBL <%= current_check.pos_table.pos_table_no %><%= pos_count ? "/#{pos_count}" : ''%>
+      <% end %>
+    </span>
+	  <span class="span_check_<%= current_check.id %> float-right"><%= number_with_precision(current_check.pos_transactions.pluck(:total_amount).sum, :precision => 3) %> BHD</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Qty</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Seat</th>
+    </thead>
+    <tbody id='check_data_<%= current_check.id %>'>
+      <input type='hidden' data-table-check-id='<%= current_check.id %>' data-transaction-ids='<%= current_check.pos_transactions.pluck(:id) %>' class='selected_transaction split_selected_transaction' >
+      <% current_check.pos_transactions.includes(:addon_pos_transactions).where(parent_pos_transaction_id: nil).each do |transaction| %>
+        <%= render partial: 'transaction_data_list', locals: {transaction: transaction, is_split: true} %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

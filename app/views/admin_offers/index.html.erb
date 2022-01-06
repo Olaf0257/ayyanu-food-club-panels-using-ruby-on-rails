@@ -1,0 +1,102 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-4">
+    <h2>Admin Offers List</h2>
+  </div>
+
+  <div class="col-lg-8">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Title", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Admin Offers Table</h5>
+
+          <span class="pull-right">
+            <%= link_to "Add New Offer", new_admin_offer_path, class: "btn btn-xs btn-success", style: "margin-right: 20px;" %>
+          </span>
+
+          <span class="pull-right">
+            <%= link_to admin_offers_path(format: :csv, searched_country_id: params[:searched_country_id], keyword: params[:keyword]) do %>
+              <button style="margin-right: 10px;" class="btn btn-xs btn-warning csv-button pull-right" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+            <% end %>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @offers.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="5%">Id</th>
+                  <th width="15%">Image</th>
+                  <th width="20%">Title</th>
+                  <th width="10%">Discount(%)</th>
+                  <th width="15%">Country</th>
+                  <th width="15%">Business Offers</th>
+                  <th width="20%">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @offers.each do |offer| %>
+                  <tr>
+                    <td><%= offer.id %></td>
+
+                    <td>
+                      <% if offer.offer_image.present? %>
+                        <img src="<%= offer.offer_image %>" width="80" height="60">
+                      <% end %>
+                    </td>
+
+                    <td><%= offer.offer_title %></td>
+                    <td><%= offer.offer_percentage %></td>
+                    <td><%= offer.country.name %></td>
+                    <td><%= link_to "#{ offer.offers.size } Offers", admin_offer_path(offer.id) %></td>
+
+                    <td>
+                      <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_admin_offer_path(offer.id), class: "btn btn-xs btn-info" %>
+
+                      <% if is_super_admin?(@admin) %>
+                        <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", offer, method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete?" } %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Offers available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+          <center> <%= will_paginate @offers, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

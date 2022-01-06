@@ -1,0 +1,43 @@
+<div class="modal fade" id="suggested_restaurant_users_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Users</h4>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <p>Restaurant: <b><%= @restaurant.title %></b></p>
+          <p>Area: <b><%= @area.area %></b></p>
+        </div>
+        <hr>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.contact.present? ? (user.country_code.to_s + user.contact.to_s) : "NA" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to "Download CSV", admin_suggested_restaurants_users_path(restaurant_id: @restaurant.id, area_id:@area.id, format: :csv), class: "btn btn-success" %>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

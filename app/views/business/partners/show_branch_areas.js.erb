@@ -1,0 +1,5 @@
+$(".manual-order-category-list").not(":first").closest("div").remove();
+$(".manual-order-addon-list, .manual-order-item-quantity, .manual-order-item-list").html("");
+$(".manual-order-addon-list-wrapper").html('<span class="manual-order-addon-list"></span>');
+$(".add-manual-order-item").addClass("hide");
+$(".manual-order-category-list").html('<%= escape_javascript select_tag(:category_id, options_for_select(@categories.to_a), prompt: "Select Category", class: "form-control business-search-field manual-order-menu-category", required: true) %>');

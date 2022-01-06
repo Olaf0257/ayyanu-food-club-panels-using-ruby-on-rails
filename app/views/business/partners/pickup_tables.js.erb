@@ -1,0 +1,12 @@
+<% if @error.present? %>
+    $('.pickupTableError').empty().append('<%= @error %>');
+    $('#PickupErrorModal').modal();
+    $('#table_no_form')[0].reset();
+    $('#pickupTablePopup').modal('hide');
+<% else %>
+    $('.driver-th').addClass('hide');
+	$('#pickupCheckModalPopup .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: @pos_check, is_display_driver: false }%>");
+    $('#pickupCheckModalPopup .modal-body .searching').empty().append("<%= j render partial: 'pickup_check_search', locals: { pos_checks: @pos_check, pickup_check: false }%>");
+	selectSinglePickupCheckRow();
+	$('#pickupCheckModalPopup').modal('show');
+<% end %>

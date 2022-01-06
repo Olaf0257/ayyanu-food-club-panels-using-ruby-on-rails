@@ -1,0 +1,6 @@
+$(".district-state-list").html("").addClass("hide")
+
+<% if @states.present? %>
+  $(".district-state-list").removeClass("hide");
+  $(".district-state-list").html('<%= escape_javascript select_tag(:state, options_for_select(@states), required: true, class: "form-control", style: "height: 34px") %>')
+<% end %>

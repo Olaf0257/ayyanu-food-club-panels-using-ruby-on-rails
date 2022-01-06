@@ -1,0 +1,8 @@
+<%= select_tag(:designation_ids, options_from_collection_for_select(@designations, :id, :name), {id: 'user_privilege_designation_ids', class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true, name: 'user_privilege[designation_ids][]'}) %>
+
+<script type="text/javascript">
+  $("#user_privilege_designation_ids").select2({
+  		placeholder: "Select Designation",
+  		allowClear: true
+	});
+</script>

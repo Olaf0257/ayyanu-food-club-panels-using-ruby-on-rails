@@ -1,0 +1,35 @@
+<div class="modal fade" id="edit_dine_in_order_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Order #<%= @order.id %></h4>
+      </div>
+
+      <%= form_tag business_update_dine_in_order_path, class: "form-horizontal dine-in-order-update-form" do %>
+        <%= hidden_field_tag(:order_id, @order.id) %>
+
+        <div class="modal-body">
+          <div class="row" style="margin-bottom:10px;">
+            <p><b>Order Type:</b></p>
+            <%= select_tag(:order_type, options_for_select(["Dine In", "Takeaway"], (@order.table_number.present? ? "Dine In" : "Takeaway")), class: "form-control business-search-field", required: true) %>
+          </div>
+
+          <div class="row" style="margin-bottom:10px;">
+            <p><b>Table Number</b></p>
+            <%= text_field_tag(:table_number, @order.table_number, class: "form-control", autocomplete: :off) %>
+          </div>
+
+          <div class="row" style="margin-bottom:10px;">
+            <p><b>Payment Type:</b></p>
+            <%= select_tag(:order_mode, options_for_select(Order::PAYMENT_OPTIONS, @order.order_type), class: "form-control business-search-field", required: true) %>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+            <input type="submit" value="Submit" class="btn theme-btn pull-right">
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

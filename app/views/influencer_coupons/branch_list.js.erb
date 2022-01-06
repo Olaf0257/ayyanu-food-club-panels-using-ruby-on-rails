@@ -1,0 +1,7 @@
+$("#<%= @count %>").find(".coupon-category-list").html("");
+$("#<%= @count %>").find(".coupon-item-list").html("");
+
+targetField = $("#<%= @count %>").find(".coupon-branch-list");
+targetField.html('<%= escape_javascript select_tag("branch_ids_#{@count.to_s}[]", options_for_select(@branches.to_a), prompt: "All Branches", class: "form-control admin-search-field coupon-branch-select", multiple: true) %>');
+
+targetField.find(".coupon-branch-select").select2();

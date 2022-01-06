@@ -1,0 +1,12 @@
+<div class="container">
+  <h3>Upload Image</h3><hr>
+
+  <%= form_tag upload_menu_item_image_path, multipart: true, class: "form-horizontal" do %>
+    <%= file_field_tag :menu_item_image, required: true, class: "form-control" %><br>
+    <%= submit_tag "Upload Image", class: "btn btn-sm btn-warning" %>
+  <% end %>
+
+  <% if @image_url.present? %>
+    <br>Copy this link: <i><%= @image_url %></i>
+  <% end %>
+</div>

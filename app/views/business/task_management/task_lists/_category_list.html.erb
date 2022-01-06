@@ -1,0 +1,10 @@
+<%= select_tag(:task_category_id, options_from_collection_for_select(@task_categories, :id, :category_name, @task_list&.task_category_id), {class: 'form-control', style: 'height: 40px!important;', required: true, include_blank: "Select Task Category", name: 'task_list[task_category_id]'}) %>
+<script type="text/javascript">
+	$('#task_category_id, #task_list_task_category_id').change(function(){
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_task_activity_based_task_category_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { task_category_id: $('#task_category_id option:selected').val() }
+		})
+	})
+</script>

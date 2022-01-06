@@ -1,0 +1,12 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "New Customer") do |sheet|
+  sheet.add_row ["Branch: " + @branch_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Branch Id", "Branch Address", "Number Of Customer", "Total Number Of Order", "Total Amount (#{@restaurant.currency_code_en})"]
+
+  @data.each do |report|
+    sheet.add_row [report[:id], report[:branch_address], report[:customer_count], report[:total_order_count], report[:total_amount].to_s]
+  end
+
+  sheet.add_row ["TOTAL", "", @data.sum { |d| d[:customer_count].to_i }, @data.sum { |d| d[:total_order_count].to_i }, number_with_precision(@data.sum { |d| d[:total_amount].to_f }, precision: 3)]
+end

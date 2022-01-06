@@ -1,0 +1,28 @@
+<div class="modal fade" id="zones_area_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Areas under <%= @zone.name %></h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <ul>
+            <% @areas.each do |area| %>
+              <div class="col-sm-6">
+                <li>
+                  <%= area.area %>
+                  <i class="fa fa-trash remove-zone-area-btn" data-id="<%= area.id %>"></i>
+                </li>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger zone-area-modal-close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

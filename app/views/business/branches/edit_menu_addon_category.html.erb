@@ -1,0 +1,202 @@
+<style type="text/css">
+select{
+  height: 100% !important;
+}
+.service {
+    margin-right: 0px;
+    margin-left:  0px;
+</style>
+<!-- <div class="row wrapper border-bottom white-bg page-heading"> -->
+
+  <div class="row wrapper border-bottom white-bg page-heading">
+
+
+
+
+
+  <div class="col-sm-8">
+    <h2>Edit Addon Category</h2>
+    <ol class="breadcrumb">
+          <li>
+          <a href="<%=business_restaurant_path(restaurant_id:params[:restaurant_id])%>">Restaurant</a>
+        </li>
+        <li>
+           <a href="<%=business_resturant_branch_path(encode_token(@branch.id),restaurant_id:params[:restaurant_id])%>">Branch</a>
+        </li>
+        <li>
+            <a href="<%=business_branch_menu_items_path(encode_token(@branch.id),restaurant_id:params[:restaurant_id])%>">Menu Items</a>
+        </li>
+          <li class="active">
+            <strong>Edit Addon Category</strong>
+          </li>
+      </ol>
+  </div>
+  <div class="col-sm-4" style="margin-top:20px;">
+      <a href="<%=business_branch_menu_items_path(encode_token(@branch.id),restaurant_id:params[:restaurant_id])%>" class="pull-right"><button class="btn btn-danger btn-sm">Back to Menu <i class="fa fa-arrow-right"></i></button></a>
+    </div>
+</div>
+<br><br>
+<div class="row">
+
+  <div class="col-lg-3 col-md-2 col-sm-12"></div>
+  <div class="col-lg-6 col-md-8 col-sm-12 mb-30" data-match-height="confirm">
+    <div class="metro-box-wrapper equal-height">
+      <%=form_for :versions,url: business_branch_menu_item_addon_category_path(restaurant_id:params[:restaurant_id]),:html=>{:multipart=>true,:id=>"add_addon_category_content_form"} do |f|%>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center>
+              <h3 style="color: white;">Edit Addon Category</h3>
+
+            </center>
+          </div>
+          <div class="panel-body">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="control-label">Category Title (English)</label> <input class="form-control mb-0" id="addon_category_name" name="addon_category_name" placeholder="Category title" value="<%=@category.addon_category_name%>" type="text" autocomplete="off">
+               <input type="hidden"  name="branch_id" value="<%=params[:branch_id]%>">
+                 <input type="hidden"  name="category_id" value="<%=@category.id%>">
+                 <input type="hidden"  name="restaurant_id" value="<%=params[:restaurant_id]%>">
+              </div>
+            </div>
+            <br>
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="control-label">Category Title (Arabic)</label> <input class="form-control mb-0" id="addon_category_name_ar" value="<%=@category.addon_category_name_ar%>" name="addon_category_name_ar" placeholder="Category title in arabic" type="text" autocomplete="off">
+              </div>
+
+            </div>
+            <div class="col-sm-12">
+              <div class="form-group" style="">
+                <label>Min Selected Quantity</label>
+                <input type="number" name="min_selected_quantity" id="min_selected_quantity" class="form-control" value="<%=@category.min_selected_quantity%>" required="true" placeholder="0" min="0" autocomplete="off" >
+              </div>
+            </div>
+             <div class="col-sm-12">
+              <div class="form-group" style="">
+                <label>Max Selected Quantity</label>
+                <input type="number" name="max_selected_quantity" id="max_selected_quantity" value="<%=@category.max_selected_quantity%>" class="form-control" required="true" placeholder="0" min="0" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <label>Is Available</label>
+
+                <select class="form-control" required="true" name="available" style="height: 40px;">
+                  <option <% if @category.available == true %> selected <% end %>value="true">Available</option>
+                  <option <% if @category.available == false %> selected <% end %>value="false">Not available</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-lg-6">
+                <center><a href="#" class="btn btn-danger btn-border" style="margin-right: 10px; margin-top: 20px; width: 95%;" onclick="delete_addon_category(<%=@category.id%>)">Delete Addon Category </a></center>
+              </div>
+              <div  class="col-lg-6">
+                <button class="btn btn-primary btn-border pull-right" id="" style="margin-top: 20px;">Save Addon Category </button>
+              </div>
+            </div>
+
+          </div><!--panel-body-->
+        </div><!--panel-->
+      <%end%>
+    </div><!--equal-height-->
+  </div>
+</div><!--row-->
+<br>
+<br>
+<br>
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+
+
+  $("#add_addon_category_content_form").submit(function(){
+    if($('#addon_category_name').val().length >= 200 || $('#addon_category_name').val().length <= 0 ){
+      swal({
+          title: "Please enter valid title",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+       $('#addon_category_name').focus();
+      return false;
+    }
+    else if($.trim($('#addon_category_name').val())===""){
+      $('#addon_category_name').focus();
+      swal("Warning","Please enter valid title name(English)","warning");
+      return false;
+    }
+    else if($.trim($('#addon_category_name_ar').val())===""){
+      $('#addon_category_name_ar').focus();
+      swal("Warning","Please enter valid title name(Arabic)","warning");
+      return false;
+    }
+    else if ($('#addon_category_name_ar').val().length >= 200 || $('#addon_category_name_ar').val().length <= 0 ){
+      swal({
+          title: "Please enter valid title",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+      $('#addon_category_name_ar').focus();
+      return false;
+    }
+
+    else if($('#min_selected_quantity').val() > $('#max_selected_quantity').val())
+    {
+    swal({
+          title: "Max quantity should be greater than min quantity",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+    $('#min_selected_quantity').focus();
+      return false;
+   }
+
+    else{
+      return true;
+    }
+  });
+
+   function delete_addon_category(no){
+    swal({
+        title: "Are you sure?",
+        text: "Do you want to delete this menu category",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, Delete it!",
+        cancelButtonText: "No, cancel plz!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+      function(isConfirm){
+        if (isConfirm) {
+          $.ajax({
+            type: "GET",
+            url: '/business/remove/menu/addon/category/'+no+'',
+            dataType: "JSON",
+            success:function(data) {
+
+              if (data.code==200){
+                swal("Deleted!", "menu category has been deleted.", "success");
+               window.location.href = '/business/restaurant/branch/'+''+"<%=encode_token(@branch.id)%>"+'/'+"<%=params[:restaurant_id]%>";
+              }
+            },
+            error: function() {
+              swal("Error","Something went wrong","Error")
+            }
+          });
+
+        }else {
+          swal("Cancelled", "No change in menu category", "error");
+        }
+      });
+  };
+</script>

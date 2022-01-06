@@ -1,0 +1,2 @@
+$('.payment-method-form-data').empty().append("<%= j render partial: 'form', locals: {payment_method: @payment_method, action: 'update'} %>");
+$('.payment-method-form-data').removeClass('hide');

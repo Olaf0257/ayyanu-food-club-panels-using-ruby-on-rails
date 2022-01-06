@@ -1,0 +1,22 @@
+$('#transferTableDineInList, #employeeDetails').modal('hide');
+<% if @current_check.present? && @merge_check.present? %>
+	$('#pos_transactions_list').empty().append("<%= j render partial: 'transaction_data', locals: { transactions: @current_check.pos_transactions.where(parent_pos_transaction_id: nil) }%>");
+	var sub_total = parseFloat("<%= @total_amount %>");
+	$('#pos_total').empty().append(sub_total.toFixed(3) + 'BHD');
+	$('#remain_payment_amount').val(sub_total.toFixed(3));
+	var taxable_amount = (sub_total * parseFloat($("#tax_percentage").val())/100);
+	$('#tax_amount').empty().append(taxable_amount.toFixed(3) + 'BHD');
+	$('#pos_sub_total').empty().append((sub_total - taxable_amount).toFixed(3) + 'BHD');
+	$('.validated_field').addClass('pending_transaction');
+    <% pos_count = tableCount(@current_check&.pos_table, @current_check) %>
+	$('.displayTbl').empty().append('TBL <%= @current_check&.pos_table&.pos_table_no %><%= pos_count ? "/#{pos_count}" : "" %>');
+	toastr.success('Transfer table successfully.');
+<% else %>
+	$('#errorMessagePickupCheckPopup .errorMessage').text("Check Not Found.");
+	$('#errorMessagePickupCheckPopup').modal('show');
+<% end %>
+voidSelection();
+tableRowSelection();
+addOnItemRightSideSelect();
+addOnTransaction();
+editSeatNumber();

@@ -1,0 +1,4 @@
+<%= select_tag(:location, options_from_collection_for_select(@branches, :id, :address), {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true, name: 'task_type[location][]'}) %>
+<script type="text/javascript">
+	$(".select2_branch").select2();
+</script>

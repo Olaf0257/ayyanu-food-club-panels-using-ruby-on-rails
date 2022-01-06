@@ -1,0 +1,29 @@
+<div class="modal fade" id="scheduleEditCatering" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 28%">
+    <%= form_for :branch, url: business_catering_schedule_path(id: catering.id), method: :patch, remote: true do |f| %>
+      <input type='hidden' name='timezone' id="current_time_zone" value="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Schedule Catering</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for='start_time'>Start Time</label>
+            <input type="datetime-local" class="form-control" min="<%= catering.start_time > DateTime.now ? catering.start_time.strftime("%Y-%m-%dT%H:%M") : DateTime.now.strftime("%Y-%m-%dT%H:%M") %>" id="start_time" name="start_time" value='<%= catering.start_time.strftime("%Y-%m-%dT%H:%M")  %>' id='cateringStartTime'>
+          </div>
+          <div class="form-group">
+            <label for='end_time'>End Time</label>
+            <input type="datetime-local" class="form-control" value='<%= catering.end_time > DateTime.now ? catering.end_time.strftime("%Y-%m-%dT%H:%M") : DateTime.now.strftime("%Y-%m-%dT%H:%M") %>' min='<%= catering.end_time.strftime("%Y-%m-%dT%H:%M") %>' id="end_time" name="end_time" id='cateringEndTime'>
+          </div>
+          <div class="row" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

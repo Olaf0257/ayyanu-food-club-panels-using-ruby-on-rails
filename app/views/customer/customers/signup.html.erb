@@ -1,0 +1,140 @@
+<style type="text/css">
+  .form-control {
+    height: 44px;
+    border-radius: 0px;
+  }
+
+  .input-group-addon {
+    border-radius: 0px;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    border-radius: 0px;
+  }
+
+  .panel {
+    border-radius: 0px;
+    opacity: .9
+  }
+
+  .business-login-button, .business-login-button:hover {
+    background-color: #2f4050;
+  }
+
+  .intl-tel-input .country-list .country {
+    display: block;
+  }
+
+  .form-group {
+    margin-left: 0 !important;
+  }
+</style>
+
+<div class="login-page">
+  <div style="text-align: center;height: 150px;margin-top: 2%;">
+    <%= link_to root_path do %>
+      <img src="/assets/food_club_logo.png" style="height: 100%;"></img>
+    <% end %>
+  </div>
+
+  <div class="container">
+    <br><center><%= link_to image_tag("google_btn.png", width: "185px"), "/auth/google_oauth2" %> <%= link_to image_tag("facebook_btn.png", width: "185px"), "/auth/facebook" %></center>
+
+    <div class="panel panel-default" style="margin: 2% auto;width:50%;">
+      <div class="panel-heading text-center" style="padding: 15px;" id="c-heading">Customer Registration Form</div>
+
+      <div class="panel-body">
+        <%= form_tag customer_create_customer_path, id: "login-form", class: "form-horizontal", autocomplete: :off, multipart: true do |f| %>
+          <div class="extra-items">
+            <% if flash[:success].present? %>
+              <div class="alert alert-success">
+                <%= flash[:success] %>
+              </div>
+            <% elsif flash[:error].present? %>
+              <div class="alert alert-danger">
+                <%= flash[:error] %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <%= text_field_tag(:name, "", class: "form-control", required: true, placeholder: "Name") %>
+            <%= hidden_field_tag(:referrer_id, params[:referral]) %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-info-sign"></i></span>
+            <%= text_field_tag(:user_name, "", class: "form-control", required: true, placeholder: "User name") %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><b>@</b></span>
+            <%= email_field_tag(:email, "", class: "form-control", required: true, placeholder: "Email") %>
+          </div>
+
+          <div class="form-group">
+            <%= text_field_tag(:contact, "", class: "form-control", id: "contact", autocomplete: :off, required: true, placeholder: "Contact") %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-copyright-mark"></i></span>
+            <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id)), prompt: "Select Country", class: "form-control", required: true) %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <%= password_field_tag(:password, "", class: "form-control", required: true, minlength: 6, placeholder: "Password (min 6 characters)") %>
+          </div>
+
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
+            <%= file_field_tag(:image, class: "form-control") %>
+          </div>
+
+          <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+              <button class="btn btn-success btn-block business-login-button">Sign Up</button>
+            </div>
+          </div>
+          <br>
+        <% end %>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script>
+  $("#contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone_contact",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

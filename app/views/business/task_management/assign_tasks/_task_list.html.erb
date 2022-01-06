@@ -1,0 +1,7 @@
+<%= select_tag(:task_list_ids, options_from_collection_for_select(@task_lists, :id, :name), {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true, name: 'assign_task[task_list_ids][]'}) %>
+<script type="text/javascript">
+	$("#task_list_ids").select2({
+    	placeholder: "Select Task List",
+    	allowClear: true
+	});
+</script>

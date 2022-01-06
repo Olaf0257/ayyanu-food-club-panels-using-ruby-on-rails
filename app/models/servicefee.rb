@@ -1,0 +1,2 @@
+class Servicefee < ApplicationRecord
+end

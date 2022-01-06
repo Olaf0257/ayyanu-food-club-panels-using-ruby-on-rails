@@ -1,0 +1,20 @@
+<% pickup_checks.each_with_index do |pickup_check, index| %>
+	<% if pickup_check.order_type_id.present? && pickup_check&.order&.current_status != 'CANCELLED' %>
+		<tr style="cursor: pointer;" data-check-id="<%= pickup_check.id %>">
+			<td><%= pickup_check.check_id %></td>
+			<td><%= pickup_check.order_type.name %></td>
+			<td><%= number_with_precision(pickup_check.pos_transactions.map(&:total_amount).sum, precision: 3) %></td>
+			<td><%= pickup_check.order_type_id == 4 ? number_with_precision(pickup_check.pos_payments.map(&:paid_amount).sum, precision: 3) : '-' %></td>
+			<td><%= pickup_check.order_type_id == 4 ? number_with_precision((pickup_check.pos_transactions.map(&:total_amount).sum - pickup_check.pos_payments.map(&:paid_amount).sum), precision: 3) : '-' %></td>
+	        <% pos_count = tableCount(pickup_check&.pos_table, pickup_check) %>
+			<% if is_display_driver.present? %>
+				<td><%= pickup_check&.driver&.name %></td>
+				<td class="order-status"><%= pickup_check&.order&.current_status %></td>
+			<% end %>
+			<td><%= pickup_check&.user&.name %></td>
+			<td><%= pickup_check&.user&.contact %></td>
+			<td><%= set_time_formated(pickup_check.created_at) %></td>
+			<td><%= pickup_check.pos_table.present? && pickup_check.order_type_id == 1 ? ("#{pickup_check&.pos_table&.pos_table_no}  #{pos_count ? "/#{pos_count}" : ''}" ) : '' %></td>
+		</tr>
+	<% end %>
+<% end %>

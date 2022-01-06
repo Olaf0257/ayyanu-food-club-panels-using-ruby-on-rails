@@ -1,0 +1,117 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<% currency = @orders.first&.currency_code_en %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-6">
+    <h2 class="font-bold">Settle Amount - Orders List</h2>
+  </div>
+</div>
+
+<div class="row settle-amount-search">
+  <div class="col-sm-3">
+    <h3 class="pull-right">GRAND TOTAL: <%= number_with_precision(@grand_total, precision: 3) %> <%= currency %></h3>
+  </div>
+
+  <div class="col-sm-3">
+    <% if @orders.present? %>
+      <%= form_tag business_approve_amount_settle_path do %>
+        <%= hidden_field_tag(:order_date, params[:date].presence || Date.today) %>
+        <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <%= submit_tag "APPROVE", class: "btn btn-success btn-sm", data: { confirm: "Are you sure?" } %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= form_for :search, method: :get, html: { class: "form-inline" }, authenticity_token: true do |f| %>
+    <div class="col-sm-3">
+      <div class="form-group pull-right">
+        <%= text_field_tag(:date, (params[:date].presence || Date.today), autocomplete: :off, class: "form-control", id: "datepicker") %>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+      <%= submit_tag "SEARCH", class: "btn btn-danger btn-sm" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight delivery-transporters-list">
+  <div class="row white-bg">
+    <div class="col-sm-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <span class="pull-left"><%= page_entries_info @orders %></span>
+        </div>
+
+        <div class="ibox-content">
+          <% if @orders.present? %>
+            <div class="full-height-scroll">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order Id</td>
+                      <th>Branch</th>
+                      <th>Customer Name</th>
+                      <th>Customer Mobile</th>
+                      <th>Order Time</th>
+                      <th>Total Amount</th>
+                      <th>Refund Charge</th>
+                      <th>Delivery Charge</th>
+                      <th>FC Charge</th>
+                      <th>Payable Amount</th>
+                      <th>Payment By</th>
+                      <th>Order Stage</th>
+                      <th>Driver</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% @orders.each do |order| %>
+                      <tr>
+                        <td><%= order.id %></td>
+                        <td><b><%= order.branch&.address.presence || "NA" %></b></td>
+                        <td><%= order.user.name %></td>
+                        <td><%= order.contact.presence || "NA" %></td>
+                        <td><%= order.created_at.strftime('%B %d %Y %I:%M %p') %></td>
+                        <td><%= number_with_precision(order.total_amount.to_f, precision: 3) %> <%= currency %></td>
+                        <td><%= number_with_precision(order.third_party_refund_charge, precision: 3) %> <%= currency %></td>
+                        <td><%= number_with_precision(order.business_third_party_delivery_charge, precision: 3) %> <%= currency %></td>
+                        <td><%= number_with_precision(order.business_food_club_charges, precision: 3) %> <%= currency %></td>
+                        <td><%= number_with_precision(order.third_party_payable_amount_business, precision: 3) %> <%= currency %></td>
+                        <td><%= order.payment_mode == "online" ? "ONLINE" : order.payment_mode == "COD" ? "CASH" : "CREDIT CARD MACHINE" %></td>
+                        <td><label class="label label-info"><%= order.current_status %></label></td>
+                        <td><%= order.transporter.name %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <center><%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">No Order Present.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Done!", "<%= flash[:success] %>", "success");
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning");
+  <% end %>
+
+  $("#datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

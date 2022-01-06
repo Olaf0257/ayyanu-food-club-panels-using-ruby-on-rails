@@ -1,0 +1,29 @@
+<div class="tab-pane fade" id="statement">
+  <div class="tabs-wrp brd-rd5">
+    <h4 itemprop="headline" class="pull-right">MY POINTS: <%= @points[:totalPoint].to_f.round(3) %></h4>
+
+    <div class="statement-table">
+      <table>
+        <thead>
+          <tr>
+            <th>RESTAURANT</th>
+            <th>BRANCH</th>
+            <th>POINTS</th>
+            <th>DETAIL</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @points[:point].each do |point| %>
+            <tr>
+              <td><%= point["branch"]["restaurant_name"] %></td>
+              <td><%= point["branch"]["address"] %></td>
+              <td><%= point["user_point"].to_f.round(3) %></td>
+              <td><span class="red-clr point-details-link" data-id="<%= point['branch']['id'] %>">VIEW</span></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

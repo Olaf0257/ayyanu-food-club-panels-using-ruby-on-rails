@@ -1,0 +1,39 @@
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :user_type %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.select(:user_type, options_for_select(Post::USER_TYPE_LIST, f.object&.user_type), { prompt: "Select User Type" }, { class: "form-control admin-search-field", required: true }) %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :post_category_id, "Category" %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.select(:post_category_id, options_for_select(PostCategory.pluck(:name, :id).sort, f.object&.post_category_id), { prompt: "Select Category" }, { class: "form-control admin-search-field", required: true }) %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :title %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_field(:title, placeholder: "Enter title", required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :body, "Description" %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_area(:body, placeholder: "Enter description", required: true, class: "form-control posts-text-area") %>
+  </div>
+</div>

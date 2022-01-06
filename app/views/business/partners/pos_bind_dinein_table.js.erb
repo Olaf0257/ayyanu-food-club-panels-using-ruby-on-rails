@@ -1,0 +1,30 @@
+$('#bindDineInTablePopup').modal('hide');
+<% if @pos_table.present? && @pos_check.present? %>
+	$('.displayCheckNo').removeClass('hide');
+	$('.displayCheckType').text("<%= @pos_check.order_type.name %>");
+	$('#check_order_type_id').val("<%= @pos_check.order_type_id %>");
+	<% @pos_check.pos_transactions.each do |transaction| %>
+		$('#transaction_data_<%= transaction.id %>').empty().append("<%= j render partial: 'transaction_list', locals: { transaction: transaction }%>");
+	<% end %>
+	<% if @pos_check.order_type_id == 1 %>
+		$('.displayTbl').removeClass('hide');
+        <% pos_count = tableCount(@pos_check&.pos_table, @pos_check) %>
+		<% if @pos_check&.pos_table.present? %>
+			$('.displayTbl').empty().append('TBL <%= @pos_check&.pos_table&.pos_table_no %><%= pos_count ? "/#{pos_count}" : "" %>');
+		<% end %>
+		$("[data-target='#seatNumber']").removeClass('disabled');
+	<% else %>
+		$('.displayTbl').addClass('hide');
+		$("[data-target='#seatNumber']").addClass('disabled');
+	<% end %>
+	$('.is_redirect_page').val('true');
+	$('#guestCoverModal').modal('show');
+	$('#guestCoverModal .no-guest-error').addClass('hide');
+	$('.validated_field').addClass('pending_transaction');
+<% elsif !@pos_check.present? %>
+	$('#errorMessagePickupCheckPopup').modal('show');
+	$('#errorMessagePickupCheckPopup .errorMessage').text('Check Not Found');
+<% else %>
+	$('#errorMessagePickupCheckPopup').modal('show');
+	$('#errorMessagePickupCheckPopup .errorMessage').text('Table Not Found');
+<% end %>

@@ -1,0 +1,241 @@
+select.form-control:not([size]):not([multiple]) {
+  height: calc(3.5rem - 2px) !important;
+}
+
+.business-search-field {
+  width: 220px !important;
+  height: 35px !important;
+  max-width: 100% !important;
+}
+.fcPanelText {
+  cursor: pointer;
+  border: 1px solid #4cb495 !important;
+  background-color: #4cb495 !important;
+}
+.fcSpanDesign {
+  background-color: white;
+  color: black;
+  font-weight: bolder;
+  padding: 10px;
+}
+.sidenav {
+  height: 100%;
+  width: 60px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #2f4050;
+  overflow-x: hidden;
+  padding-top: 51px;
+}
+
+.sidenav a {
+  padding: 10px 14px;;
+  text-decoration: none;
+  font-size: 25px;
+  color: #f9fafd;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.partner-main {
+  margin-left: 60px; /* Same as the width of the sidenav */
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav { padding-top: 15px; }
+  .sidenav a { font-size: 18px; }
+}
+
+@media screen and (max-width: 576px) {
+  .sidenav {
+    padding-top: 0;
+  }
+}
+
+.sidebar-images {
+  height: 30px;
+  width: 30px;
+}
+
+.active-link {
+  height: 45px;
+  top: 34px;
+  z-index: -1;
+
+  &:after {
+    content: "";
+    position: relative;
+    left: 80%;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    bottom: 34px;
+    border-color:  transparent white transparent transparent;
+    border-width: 8px;
+  }
+}
+.dropdownList {
+  width: 220px !important;
+  height: 35px !important;
+  max-width: 100% !important;
+}
+
+.partner-main {
+  background-color: #ffffff;
+}
+
+.partner-navbar-side {
+  background-color: #ffffff;
+
+  .partner-nav-header {
+    background: none;
+  }
+
+  .nav > li.active {
+    background: #efefef;
+  }
+
+  .nav > li.active > a {
+    color: #000000;
+
+    &:hover, &:active {
+      color: #ffffff;
+    }
+  }
+
+  .nav > li > a {
+    color: #584d4d;
+
+    &:focus {
+      color: #ffffff;
+    }
+  }
+
+  .nav-second-level {
+    background-color: #efefef;
+  }
+}
+
+.hide {
+  display: none !important;
+}
+
+.new-delivery-transporter {
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height:40px !important;
+  }
+
+  .branch-select-div {
+    height: 70px;
+  }
+}
+
+.delivery-transporters-list {
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height: 40px !important;
+  }
+
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important;
+  }
+
+  .intl-tel-input {
+    z-index: 99999 !important;
+  }
+}
+
+#edit_transporter_form {
+  .form-control {
+    margin-bottom: 10px;
+  }
+}
+
+.intl-tel-input {
+  z-index: 99999 !important;
+}
+
+.help-button {
+  font-weight: bold;
+  letter-spacing: 2px;
+
+  a {
+    color: white;
+  }
+}
+
+#map_canvas {
+  height: 100% !important;
+}
+
+.pending-order-row {
+  background-color: #efe2e2;
+}
+
+.debit-points {
+  color: red;
+}
+
+.credit-points {
+  color: green;
+}
+
+.settle-amount-search {
+  margin-top: 10px;
+}
+
+.remove-driver-shift-btn, .remove-branch-timing {
+  color: red;
+  cursor: pointer;
+}
+
+.changed-delivery-order {
+  background-color: #e4e4f7 !important;
+}
+
+.user-radio {
+  position: relative;
+  top: 3px;
+  margin-right: 10px !important;
+  height: 14px;
+  width: 14px;
+}
+
+.total-summary-row{
+  font-weight: 600;
+}
+
+.offer-qty-checkbox {
+  height: 14px;
+  width: 14px;
+  vertical-align: middle;
+  margin-left: 3px !important;
+  margin-bottom: 5px !important;
+}
+#newCustomerPopup .modal-body .row, #newCustomerCheckIdPopup .modal-body .row {
+  margin-bottom: 10px;
+}

@@ -1,0 +1,45 @@
+<div class="col-md-12">
+	<label>POS Other Pages:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.pos_other_pages.include?("Food") %>
+		 	<input type="checkbox"  name="pos_other_pages[food]" value="Food" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_other_pages[food]" value="Food">
+		<%end%>
+		<label class="label_color">Food</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_other_pages.include?("Condiments") %>
+			<input type="checkbox"  name="pos_other_pages[condiments]" value="Condiments" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_other_pages[condiments]" value="Condiments">
+		<%end%>
+		<label class="label_color">Condiments</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_other_pages.include?("Payments") %>
+			<input type="checkbox"  name="pos_other_pages[payments]" value="Payments" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_other_pages[payments]" value="Payments">
+		<%end%>
+		<label class="label_color">Payments</label>
+	</div>
+	<!-- <div class="col-md-3">
+		<%# if @privilege.pos_other_pages.include?("Functions") %>
+			<input type="checkbox"  name="pos_other_pages[functions]" value="Functions" checked="">
+		<%#else%>
+			<input type="checkbox"  name="pos_other_pages[functions]" value="Functions">
+		<%#end%>
+		<label class="label_color">Functions</label>
+	</div> -->
+	<div class="col-md-3">
+		<% if @privilege.pos_other_pages.include?("Additional") %>
+			<input type="checkbox"  name="pos_other_pages[additional]" value="Additional" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_other_pages[additional]" value="Additional">
+		<%end%>
+		<label class="label_color">Additional</label>
+	</div>
+</div>

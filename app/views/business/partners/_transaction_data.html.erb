@@ -1,0 +1,18 @@
+<% transactions.includes(:addon_pos_transactions).each do |transaction| %>
+  <tr id="transaction_data_<%= transaction.id %>" class='transaction_selection' data-transaction-id='<%= transaction.id %>'>
+    <%= render partial: 'transaction_list', locals: {transaction: transaction} %>
+  <tr>
+  <% if transaction.comments.present? %>
+    <%= render partial: 'pos_comment', locals: {transaction: transaction} %>
+  <% end %>
+  <% if transaction.addon_pos_transactions.present? %>
+    <% transaction.addon_pos_transactions.each do |add_on_transaction| %>
+      <tr id="transaction_data_<%= add_on_transaction.id %>" class='transaction_selection <%= "parent_id_#{add_on_transaction.parent_pos_transaction_id}" %> addon_item' data-transaction-id='<%= add_on_transaction.id %>'>
+        <%= render partial: 'transaction_list', locals: {transaction: add_on_transaction} %>
+      <tr>
+      <% if add_on_transaction.comments.present? %>
+          <%= render partial: 'pos_comment', locals: {transaction: add_on_transaction} %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

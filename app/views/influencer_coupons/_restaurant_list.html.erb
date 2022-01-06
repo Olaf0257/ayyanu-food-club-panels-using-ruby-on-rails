@@ -1,0 +1,32 @@
+<hr>
+
+<div class="row form-group">
+  <div class="col-xs-12">
+    <h3><%= check_box_tag "all_restaurants", "1", false, class: "coupon-all-restaurant-checkbox" %> ALL RESTAURANTS</h3>
+  </div>
+</div>
+
+<div class="row form-group coupon-restaurant-list" id ="1">
+  <div class="col-sm-2">
+    <%= select_tag("restaurant_id_1", options_for_select(@restaurants), prompt: "Select Restaurant", required: true, class: "form-control admin-search-field coupon-restaurant-select") %>
+  </div>
+
+  <div class="col-sm-3 coupon-branch-list">
+  </div>
+
+  <div class="col-sm-3 coupon-category-list">
+  </div>
+
+  <div class="col-sm-3 coupon-item-list">
+  </div>
+
+  <div class="col-sm-1">
+    <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-coupon-restaurant" %>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $(".coupon-restaurant-select").select2();
+  });
+</script>

@@ -1,0 +1,86 @@
+name,consists_of,base_unit,qty,other_unit
+Bag 5 pcs,5,Each,5,Each
+Bottle 1.500 Ltr,1,Each,1,Each
+Bottle 330 ML,1,Each,1,Each
+Box 100 Pcs,100,Each,100,Each
+Box 1000 Pcs,1000,Each,1000,Each
+Box 10000 Pcs,10000,Each,10000,Each
+Box 10X100 Pcs,1000,Each,1000,Each
+Box 20 Pcs,20,Each,20,Each
+Box 24 Pcs,24,Each,24,Each
+Box 50 Pcs,50,Each,50,Each
+Box 60 Pcs,60,Each,60,Each
+Each,1,Each,1,Each
+Pack 12 Pcs,12,Each,12,Each
+Pack 12x1.500 Ltr,12,Each,12,Each
+Pack 150 Pcs,150,Each,150,Each
+Pack 1x36 Pcs,36,Each,36,Each
+Pack 20 Bags,20,Each,20,Each
+Pack 24x330 Ml,24,Each,24,Each
+Pack 250 Pcs,250,Each,250,Each
+Pack 300 Pcs,300,Each,300,Each
+Pack 40x50 Pcs 1 BOX,2000,Each,2000,Each
+Pack 6 Pcs,6,Each,6,Each
+Pack 800 Pcs,800,Each,800,Each
+Hour,1,Hour,1,Hour
+Box 10 KG,10,Kilogram,10,Kilogram
+Box 6 KG,6,Kilogram,6,Kilogram
+Can 1.6 KG,1.6,Kilogram,1.6,Kilogram
+Gallon 11.34 KG,11.34,Kilogram,11.34,Kilogram
+Gramm,0.001,Kilogram,0.001,Kilogram
+Kilogram,1,Kilogram,1,Kilogram
+Pack 1.900 KG,1.9,Kilogram,1.9,Kilogram
+Pack 10 KG,10,Kilogram,10,Kilogram
+Pack 100 GM,0.1,Kilogram,0.1,Kilogram
+Pack 100GMx40 Pcs,4,Kilogram,4,Kilogram
+Pack 12x800 GM,9.6,Kilogram,9.6,Kilogram
+Pack 15 GM,0.015,Kilogram,0.015,Kilogram
+pack 15 KG,15,Kilogram,15,Kilogram
+Pack 2.00 KG,2,Kilogram,2,Kilogram
+Pack 2.25 KG,2.25,Kilogram,2.25,Kilogram
+Pack 2.300 KG,2.3,Kilogram,2.3,Kilogram
+Pack 2.5 KG,2.5,Kilogram,2.5,Kilogram
+Pack 2.550 KG,2.55,Kilogram,2.55,Kilogram
+Pack 2.800 KG,2.8,Kilogram,2.8,Kilogram
+Pack 2.900 KG,2.9,Kilogram,2.9,Kilogram
+Pack 200 GM,0.2,Kilogram,0.2,Kilogram
+Pack 25 KG,25,Kilogram,25,Kilogram
+Pack 3 KG,3,Kilogram,3,Kilogram
+Pack 300 GM,0.3,Kilogram,0.3,Kilogram
+Pack 350 GM,0.35,Kilogram,0.35,Kilogram
+Pack 4.400 KG,4.4,Kilogram,4.4,Kilogram
+Pack 40 KG,40,Kilogram,40,Kilogram
+Pack 400 GM,0.4,Kilogram,0.4,Kilogram
+Pack 450 GM,0.45,Kilogram,0.45,Kilogram
+Pack 5 KG,5,Kilogram,5,Kilogram
+Pack 50 KG,50,Kilogram,50,Kilogram
+Pack 500 GM,0.5,Kilogram,0.5,Kilogram
+Pack 550 GM,0.55,Kilogram,0.55,Kilogram
+Pack 7 KG,7,Kilogram,7,Kilogram
+Pack 700 GM,0.7,Kilogram,0.7,Kilogram
+Pack 750 GM,0.75,Kilogram,0.75,Kilogram
+Pack 8 KG,8,Kilogram,8,Kilogram
+Pack 800 GM,0.8,Kilogram,0.8,Kilogram
+Pack 960 GM,0.96,Kilogram,0.96,Kilogram
+Sack 50 KG,50,Kilogram,50,Kilogram
+Kilowatt,1,Kilowatt,1,Kilowatt
+1 Gallon 3.78 LTR,3.78,Liter,3.78,Liter
+"Bottle 0,1l",0.1,Liter,0.1,Liter
+Bottle 0.710 Ltr,0.71,Liter,0.71,Liter
+"Bottle 1,0l",1,Liter,1,Liter
+Bottle 150 ML,0.15,Liter,0.15,Liter
+Bottle 450 ML,0.45,Liter,0.45,Liter
+Bottle 500 ML,0.5,Liter,0.5,Liter
+Bottle 600 ML,0.6,Liter,0.6,Liter
+Can 4 Ltr,4,Liter,4,Liter
+Gallon 2.85 Ltr,2.85,Liter,2.85,Liter
+Liter,1,Liter,1,Liter
+pack 10 LTR,10,Liter,10,Liter
+Pack 17.50 LTR,17.5,Liter,17.5,Liter
+Pack 4.800 LTR,4.8,Liter,4.8,Liter
+Pack 5 LTR,5,Liter,5,Liter
+Pack 8 LTR,8,Liter,8,Liter
+Meter,1,Meter,1,Meter
+Portion,1,Portion,1,Portion
+Sqaremeter,1,Sqaremeter,1,Sqaremeter
+Volume Unit,1,Volume Unit,1,Volume Unit

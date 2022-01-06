@@ -1,0 +1,10 @@
+<% if @branch.present? %>
+	$('#orderListModalPopup').modal('show');
+	$('.order-list tbody').empty();
+	<% @newOrders.each do |order| %>
+		$('.order-list tbody').append("<%= j render partial: 'order_data', locals: { o: order } %>");
+	<% end %>
+	updateOrderStatus();
+<% else %>
+	toastr.error('Branch not found');
+<% end %>

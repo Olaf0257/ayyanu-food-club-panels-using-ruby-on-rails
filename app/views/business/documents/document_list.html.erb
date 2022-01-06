@@ -1,0 +1,116 @@
+
+
+
+  <div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-12">
+    <h2 style="margin-top:20px;"><b>Contract Documents List</b></h2>
+    </div>
+      
+  </div>
+
+<br><br>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Documents Table</h5>
+          <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+          <a href="" class="btn btn-primary btn-sm addcoveragearea " style="margin-left: 2px;margin-bottom: 10px;" data-target="#add-category-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Upload Contract Document</a>
+           <a style="margin-left: 2px;margin-bottom: 10px;" target="blank" class="btn btn-info btn-sm" href="<%=@restaurant_contract.present? ? @restaurant_contract.contract_url : "" %>"><i class="fa fa-file"></i> View / Download Contract </a>
+        </span>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @documents.present? %>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Url</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr >
+                <td><%=@documents.id%></td>
+                <td><%=@documents.restaurant.title%></td>
+                <td><a href="<%=@documents.doc_url%>" target='_blank'><%=@documents.doc_url%></a></td>
+                <td>
+                  <%if(@documents.is_approved == false and @documents.is_rejected == false)%>
+                  <label class="label label-sm" style=" background-color:#086608; color:white;">Pending</label>
+                  <%elsif (@documents.is_approved == true and @documents.is_rejected == false)%>
+                  <label class="label label-sm" style=" background-color:#3FECA8; color:white;">Approved</label>  
+                  <%else%>
+                  <label class="label label-sm label-warning" style=" color:white;">Rejected</label>
+                  <%end%>
+                </td>
+                <td>
+                  <a href="<%=@documents.doc_url%>" target='_blank' class="btn btn-xs btn-success"  style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>         
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <%else%>
+          <center>
+            <div class="alert alert-danger">No doc available yet.</div>
+          </center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+          <center> <%#= will_paginate @documents ,renderer: BootstrapPagination::Rails %></center>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="add-coverage-area" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Contract Document</h4>
+        </div>
+      
+        <div class="modal-body">
+        
+            <div class="row" style="margin-bottom:10px;">          
+              <p>Restaurant Name</p>
+              <input type="text"  name="restaurant_name" value="<%=@restaurant.title%>" required="true" class="form-control" autocomplete="off" disabled>
+            </div>
+             <div class="row"> 
+              <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+              <div class="form-group col-lg-12 ">
+                <label>Upload Contract Document </label><br>
+                <%=form_for :upload_contract_document,url: business_upload_contract_doc_path(:restaurant_id=>params[:restaurant_id]) do |f|%>
+                <%=f.file_field :file,:style=>"display: inline-block;"%>
+                <%=f.submit :upload%>
+                <input type="hidden"  name="restaurant_id" value="<%=@restaurant.id%>" /> 
+                <%end%>
+              </div>
+                  <!-- </span>  -->
+            </div>          
+            
+           
+          </div>  
+      
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  
+   $(document).ready(function() {
+   $(document).on("click", '.addcoveragearea', function(event) { 
+    $('#add-coverage-area').modal({backdrop: 'static', keyboard: false});
+    $('#add-coverage-area').modal('show');
+
+    })
+
+  });
+</script>

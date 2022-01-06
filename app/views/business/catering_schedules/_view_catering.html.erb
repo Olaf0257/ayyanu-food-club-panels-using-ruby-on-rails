@@ -1,0 +1,98 @@
+<div class="modal fade" id="scheduleShowCatering" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 28%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Schedule Catering</h4>
+      </div>
+      <div class="modal-body">
+        <table style="width: 100%;border: 0;" class="table cate_table">
+          <tr>
+            <td><b>Start Time</b></td>
+            <td><%= catering.start_time.strftime("%Y-%m-%dT%H:%M") %></td>
+          </tr>
+          <tr>
+            <td><b>End Time</b></td>
+            <td><%= catering.end_time.strftime("%Y-%m-%dT%H:%M") %></td>
+          </tr>
+          <tr>
+            <td><b>Customer</b></td>
+            <td><%= pos_check&.user&.name %></td>
+          </tr>
+        </table>
+        <% transactions = pos_check.pos_transactions.where(parent_pos_transaction_id: nil) %>
+        <% if transactions.present? %>
+          <h3>Check Details</h3>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Qty</th>
+                <th>Name</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% transactions.includes(:addon_pos_transactions).each do |transaction| %>
+                <tr>
+                  <td><%= transaction.qty.to_i %></td>
+                  <td><%= transaction.item_name %></td>
+                  <td><%= number_with_precision(transaction.total_amount, precision: 3) %></td>
+                </tr>
+                <% transaction.addon_pos_transactions.each do |addon|%>
+                  <tr>
+                    <td><%= addon.qty.to_i %></td>
+                    <td><span style="padding-left: 13px;">-</span>&nbsp;<%= addon.item_name %></td>
+                    <td><%= number_with_precision(addon.total_amount, precision: 3) %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+              <% if pos_check.pos_payments.present? %>
+                <% pos_check.pos_payments.each do |payment| %>
+                  <% if payment.payment_method_id != 4 %>
+                    <tr>
+                      <td colspan="2"><%= payment.payment_method.name %></td>
+                      <td><%= number_with_precision(payment.paid_amount, precision: 3) %><%= payment.currency_type.present? ? payment.currency_type.currency : 'BHD' %></span>
+                    </tr>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% tax = get_tax_amount(pos_check)%>
+              <% total_amount = total_transaction_amount(pos_check)%>
+              <% discount = get_discount(pos_check, discount_per(pos_check), tax)%>
+              <tr>
+                <td colspan="2">Sub Total</td>
+                <td><%= number_with_precision(before_tax_amount(tax, total_amount), precision: 3) %>BHD</td>
+              </tr>
+              <% if pos_check.offer_id.present? %>
+                <tr>
+                  <td colspan="2">Discount(<%= check_offer_text(pos_check) %>)</td>
+                  <td><%= number_with_precision( discount, precision: 3) %>BHD</td>
+                </tr>
+              <% elsif pos_check.pos_payments.present? && pos_check.pos_payments.pluck(:payment_method_id).include?(4) %>
+                <% payment = pos_check.pos_payments.find_by(payment_method_id: 4)%>
+                <tr>
+                  <td colspan="2"><%= payment&.payment_method&.name %></td>
+                  <td><%= number_with_precision(payment.paid_amount, precision: 3) %><%= payment.currency_type.present? ? payment.currency_type.currency : 'BHD' %></td>
+                </tr>
+              <% end %>
+              <tr>
+                <td colspan="2">Tax (Vat <%= tax.round %>%)</td>
+                <td><%= number_with_precision(taxonlyamount(tax, total_amount), precision: 3) %>BHD</td>
+              </tr>
+              <tr>
+                <td colspan="2">Total Due</td>
+                <td><%= number_with_precision((total_amount - @pos_check.pos_payments.pluck(:paid_amount).sum - discount), precision: 3) %>BHD</td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<style type="text/css">
+  .cate_table tbody tr,
+  .cate_table tbody tr td   {
+    border: 0;
+  }
+</style>

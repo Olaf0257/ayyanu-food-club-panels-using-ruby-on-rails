@@ -1,0 +1,30 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Add New Offer</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, admin_offers_path, class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Add New Offer</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_for @offer, html: { class: "form-horizontal", autocomplete: "off" } do |f| %>
+        <%= render "form", f: f %>
+
+        <div class="row form-group">
+          <center><%= f.submit "Create New Offer", class: "btn btn-success btn-sm" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

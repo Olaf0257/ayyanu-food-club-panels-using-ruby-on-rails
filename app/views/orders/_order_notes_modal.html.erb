@@ -1,0 +1,66 @@
+<div class="modal fade" id="order_notes_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Order Id <%= @order.id %> <%= @type.to_s.titleize %> Notes</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <% if @type == "cancel" %>
+            <% if @incident %>
+              <h3 class="text-center">ORDER DETAILS</h3>
+
+              <p><b>Order Id:</b> <%= @order.id %></p>
+              <p><b>Order Time:</b> <%= @order.created_at.strftime("%B %d %Y %I:%M%p") %></p>
+              <p><b>Cancelled At:</b> <%= @order.cancelled_at&.strftime("%B %d %Y %I:%M%p") %></p>
+              <p><b>Restaurant:</b> <%= @order.branch.restaurant.title %></p>
+              <p><b>Branch:</b> <%= @order.branch.address %></p>
+              <p><b>Items Ordered:</b> <%= @order.order_items.map { |i| "#{i.quantity} #{i.menu_item.item_name}" }.join(", ") %></p>
+
+              <hr>
+
+              <% reporter = User.find_by(id: @incident.reported_by) %>
+
+              <% if reporter %>
+                <h3 class="text-center">PERSON WHO CANCELLED THE ORDER</h3>
+
+                <p><b>Person Name:</b> <%= reporter.name %></p>
+                <p><b>Person Number:</b> <%= reporter.country_code.to_s + reporter.contact.to_s %></p>
+                <p><b>Person Email:</b> <%= reporter.email %></p>
+                <p><b>Person Occupation:</b> <%= reporter.auths.first&.role.to_s.titleize %></p>
+              <% end %>
+
+              <hr>
+
+              <h3 class="text-center">COMPLAINT & WITNESS DETAILS</h3>
+
+              <p><b>Complaint On:</b> <%= @incident.complaint_on %> (<%= @incident.item_type %>)</p>
+              <p><b>Complaint Description:</b> <%= @incident.complaint_description %></p>
+              <p><b>Refund Required:</b> <%= @incident.refund_required ? "Yes" : "No" %></p>
+              <p><b>Witness Name:</b> <%= @incident.witness_name %></p>
+              <p><b>Witness Number:</b> <%= @incident.witness_number %></p>
+              <p><b>Witness Description:</b> <%= @incident.witness_description %></p>
+              <p><b>Call Center Executive:</b> <%= User.find_by(id: @incident.created_by)&.name %></p>
+            <% else %>
+              <p><%= @order.cancel_notes %></p>
+            <% end %>
+          <% else %>
+            <p>Fault: <%= @order.refund_fault %></p>
+            <p><%= @order.refund_notes %></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <% if @type == "cancel" && @incident %>
+          <%= link_to order_view_cancel_notes_path(format: :csv, order_id: @order.id, type: "cancel") do %>
+            <button style="float:left" class="btn btn-warning csv-button" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+          <% end %>
+        <% end %>
+
+        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

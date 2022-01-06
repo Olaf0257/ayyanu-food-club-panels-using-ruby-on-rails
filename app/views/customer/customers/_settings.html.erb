@@ -1,0 +1,109 @@
+<style>
+  .intl-tel-input .country-list .country {
+    display: block;
+  }
+</style>
+
+<div class="tab-pane fade" id="account-settings">
+  <div class="tabs-wrp account-settings brd-rd5">
+    <h4 itemprop="headline">ACCOUNT SETTINGS</h4>
+    <div class="account-settings-inner">
+      <div class="row">
+
+        <%= form_tag customer_update_customer_path, class: "profile-info-form", autocomplete: :off, multipart: true do |f| %>
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="profile-info text-center">
+              <div class="profile-thumb brd-rd50">
+                <%= image_tag(@user.image, id: "profile-display") %>
+              </div>
+
+              <div class="profile-img-upload-btn">
+                <label class="fileContainer brd-rd5 yellow-bg">
+                  UPLOAD PICTURE
+                  <%= file_field_tag(:image, id: "profile-upload") %>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-8 col-sm-8 col-lg-8">
+            <div class="profile-info-form-wrap">
+              <div class="row mrg20">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>Name <sup>*</sup></label>
+                  <%= text_field_tag(:name, @user.name, class: "brd-rd3", required: true, placeholder: "Name") %>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>User name <sup>*</sup></label>
+                  <%= text_field_tag(:user_name, @user.user_name, class: "brd-rd3", required: true, placeholder: "User name") %>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>Email <sup>*</sup></label>
+                  <%= email_field_tag(:email, @user.email, class: "brd-rd3", required: true, placeholder: "Email") %>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>Contact <sup>*</sup></label>
+                  <%= text_field_tag(:contact, @user.contact, class: "brd-rd3", id: "contact", autocomplete: :off, required: true, placeholder: "Contact") %>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>Country <sup>*</sup></label>
+
+                  <div class="select-wrp">
+                    <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id), @user.country_id), prompt: "Select Country", required: true) %>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <label>Password (Min 6 characters)</label>
+                  <%= password_field_tag(:password, "", class: "form-control", minlength: 6, placeholder: "Leave blank if you dont want to change it") %>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                  <div class="loc-map2">
+                    <div class="brd-rd3" id="loc-map"></div>
+                    <div class="loc-srch" style="bottom: 0">
+                      <button class="brd-rd3 red-bg" type="submit">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script>
+  $("#contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone_contact",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%= @user.country_code.present? ? @user.country_code.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

@@ -1,0 +1,29 @@
+<div class='nested-fields'>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :article_id %>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.collection_select :article_id, @articles, :id, :purchase_details, {prompt: 'Choose Article'}, {class: "form-control add-article", required: true, disabled: true} %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :quantity %>
+    </div>
+    <div class="col-sm-10">
+      <%= f.text_field(:quantity, required: true, class: "form-control", disabled: true) %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :net_amount %>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.text_field(:net_amount, required: true, class: "form-control", disabled: true) %>
+    </div>
+  </div>
+  <hr style="border: 1px solid;">
+</div>

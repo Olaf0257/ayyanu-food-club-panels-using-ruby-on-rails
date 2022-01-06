@@ -1,0 +1,120 @@
+<% if !["Customer","Manager"].include?(pos_check.kds_type)%>
+  <div class="col-sm-3 <%= pos_check.kds_type %> kds_div_slot" id="kds-item-<%= pos_check.id %>" data-check-id=<%= pos_check.id %> style="height: 270px;border: 3px solid black;">
+    <div style="font-size: 16px;font-weight: 600;">
+      <table width="100%">
+        <tr>
+          <td><span>CHK NO <%= pos_check.check_id %></span></td>
+          <td>
+            <span class="check-lapsed-counter" data-created-at="<%= pos_check.created_at.iso8601 %>" style="float: center;"><%= pos_check.time_lapsed rescue nil%></span>
+          </td>
+          <td>
+            <span id='current_time1' style="float: right;">07:40</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="check_pos_type" style="font-size: 16px;font-weight: 600;text-align: center;">
+      <span><%= pos_check&.order_type&.name  %></span>
+    </div>
+    <div style="font-size: 16px;font-weight: 600;">
+      <% if pos_check.pos_table.present? && pos_check.order_type_id.eql?(1) %>
+        <% pos_count = tableCount(pos_check.pos_table, pos_check) %>
+        <span>TBL #<%= pos_check.pos_table.pos_table_no %><%= pos_count ? "/#{pos_count}" : ''%></span>
+      <% end %>
+      <span class="order_status1">Order Status: In progress</span>
+      <span style="float: right;">Guest Count: <%= pos_check.no_of_guest || 0 %></span>
+    </div>
+      <div class="overflowHandle" style="width: 100%">
+        <input type="hidden" class="transaction_val" data-value="<%= pos_check.pos_transactions.pluck(:id) %>">
+        <% pos_check.pos_transactions.each do |transaction| %>
+          <% color = transaction.get_color %>
+          <div id="<%= transaction.id %>" style="font-size: 16px;font-weight: 600;background-color: <%= transaction.get_color.first %>; color: <%= transaction.get_color.last %>">
+            <span>
+              <div class="row">
+                <div class="col-sm-10">
+                  <% if transaction.itemable_type != 'MenuItem' %>
+                    &nbsp;&nbsp;&nbsp;+
+                  <% end %>
+                  <%= transaction.item_name %>
+                </div>
+                <div class="col-sm-2">
+                  <%= transaction.qty.to_i %>
+                </div>
+              </div>
+            </span>
+          </div>
+        <% end %>
+      </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  setInterval(function(){
+    $(".check-lapsed-counter").each(function() {
+      element = $(this);
+      currentTime = new Date();
+      elementDate = new Date(element.data('createdAt'))
+      delta = Math.abs(currentTime - elementDate) / 1000;
+
+      var days = Math.floor(delta / 86400);
+      delta -= days * 86400;
+
+      var timer = ""
+
+      var hours = Math.floor(delta / 3600) % 24;
+      delta -= hours * 3600;
+
+      if (hours > 0) {
+        timer = timer + hours + ":"
+      }
+
+      var minutes = Math.floor(delta / 60) % 60;
+      delta -= minutes * 60;
+
+      if (minutes < 10) {
+        minutes = "0" + minutes
+      }
+
+      var seconds = Math.floor(delta % 60)
+
+      if (seconds < 10) {
+        seconds = "0" + seconds
+      }
+
+      element.html(timer + minutes + ":" + seconds);
+    });
+  }, 1000);
+
+
+  // setInterval(function()
+  // { 
+  //     var trans_val = $(".transaction_val").attr('data-value');
+  //     var total_trans = []
+  //     if( trans_val == "[]")
+  //       {
+  //         $(".transaction_val").each(function(e) { 
+  //             trans = $(this).attr('data-value');
+  //             trans = JSON.parse(trans)
+  //             total_trans.push(trans)
+  //         });
+  //         trans_val = [].concat.apply([], total_trans);
+  //       }
+  //     else
+  //       {
+  //         trans_val = JSON.parse(trans_val)
+  //       }
+  //     trans_val.forEach(myFunction)
+  //     function myFunction(item) {
+  //       $.ajax({
+  //         type:"GET",
+  //         url: "/business/kds/change_order_color",
+  //         data: {transaction_id: item},
+  //         success:function(data)
+  //         {
+  //           $("#" + data["transaction_id"]).css({"background-color": data["color"][0],"color" : data["color"][1]});
+  //             //do something with response data
+  //         }
+  //       });
+  //     }
+  // }, 30000);
+</script>

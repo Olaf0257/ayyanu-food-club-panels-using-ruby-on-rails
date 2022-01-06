@@ -1,0 +1,30 @@
+<style type="text/css">
+  .setheight{
+    height:100% !important;
+  }
+  .ibox{
+  	margin-bottom: 0px;
+  }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-12">
+		<br>
+		<h2><b>All <%=params[:role]%></b>
+			<span class="pull-right">
+				<%=form_for :search,method: :get,:html=>{:class=>"form-inline"} do |f|%>
+				<div class="form-group">
+					<input type="hidden"  name="role" value="<%=params[:role]%>">
+						<input type="text" class="form-control" autocomplete="off" name="keyword" value="<%=params[:keyword]%>" placeholder="Search by name or email">
+						</div>						
+						<button type="submit" class="btn btn-info">Search</button>
+				<%end%>
+			</span>
+			<div class="form-group col-lg-2 pull-right" style="width: 10% height: 30%">
+			
+			</div>
+		</h2>
+	</div>
+</div>	
+
+<br>
+<%=render :partial=>"index_restaurant_customer_list"%>

@@ -1,0 +1,17 @@
+<div class="row mb-2 timing-row" id="<%= day %>">
+  <div class="col-sm-2">
+    <label class="pull-right"><span class="text-danger remove-branch-timing"><i class="fa fa-trash"></i> Remove</span></label>
+  </div>
+
+  <div class="col-sm-4">
+    <%= select_tag("opening_time_#{day}_#{count}", options_for_select(BranchTiming::TIME_LIST), prompt: "Select Opening Time", class: "form-control branch-opening-time", style: "height: 34px;") %>
+  </div>
+
+  <div class="col-sm-4">
+    <%= select_tag("closing_time_#{day}_#{count}", options_for_select(BranchTiming::TIME_LIST), prompt: "Select Closing Time", class: "form-control branch-closing-time", style: "height: 34px;") %>
+  </div>
+
+  <div class="col-sm-2">
+    <%= link_to "Add Hours", "#", class: "add-branch-hours" %>
+  </div>
+</div>

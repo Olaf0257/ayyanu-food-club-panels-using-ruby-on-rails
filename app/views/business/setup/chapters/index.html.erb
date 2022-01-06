@@ -1,0 +1,83 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2 class="font-bold ">Chapters List</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Title", autocomplete: :off) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+          <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Chapter" href="<%= new_business_setup_restaurant_chapter_path(params[:restaurant_id])  %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @chapters.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Manuals Name</th>
+                  <th>Chapter</th>
+                  <th>Created At</th>
+                  <th>Created By</th>
+                  <th>Assigned To</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @chapters.each do |chapter| %>
+                <tr id="trans-<%=chapter.id %>">
+                  <td id="<%=chapter.id %>-id"><%=chapter.id%></td>
+                  <td id="<%=chapter.id %>-id"><%=chapter.manual.try(:name)%></td>
+                  <td id="<%=chapter.id %>-id"><%=chapter.chapter_title%></td>
+                  <td id="<%=chapter.id %>-id"><%=chapter.created_at.strftime("%d/%m/%Y")%></td>
+                  <td id="<%=chapter.id %>-id"><%=chapter.created_by&.name%></td>
+                  <td id="<%=chapter.id %>-id"><%=chapter.users.map(&:name).join(" , ")%></td>
+                  <td>
+                    <%if chapter.pdf_document.present?%>
+                    <%= link_to '<i class="fa fa-eye"></i> View Chapter'.html_safe,chapter.pdf_document , class: 'btn btn-primary btn-sm',target: "_blank" %>
+                    <%end%>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit chapter'.html_safe, edit_business_setup_restaurant_chapter_path(params[:restaurant_id],chapter), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove chapter'.html_safe, business_setup_restaurant_chapter_path(params[:restaurant_id],chapter), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Chapter available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

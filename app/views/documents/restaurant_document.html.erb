@@ -1,0 +1,146 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-lg-6">
+      <h2><b>Restaurant Documents List</b></h2>
+    </div>
+  
+  </div>
+</div>
+<br><br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Documents Table</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @documents.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name </th> 
+                  <th>Url</th> 
+                  <th>Status</th>                  
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@documents.each do |doc|%>
+                  <tr >
+                    <td><%=doc.id%></td>
+                    <td><%=doc.restaurant.title%></td>
+                    <td style="word-break: break-all;"><%=doc.doc_url%></td>  
+                    <td> 
+                      <%if(doc.is_approved == false and doc.is_rejected == false)%>
+                          <label class="label label-sm" style=" background-color:#086608; color:white;">Pending</label>
+                        <%elsif (doc.is_approved == true and doc.is_rejected == false)%>
+                          <label class="label label-sm" style=" background-color:#3FECA8; color:white;">Approved</label>  
+                        <%else%>
+                          <label class="label label-sm label-warning" style=" color:white;">Rejected</label>
+                      <%end%> 
+                      
+                    </td>           
+                    <td>  
+                    <%if !doc.is_approved and !doc.is_rejected%>                  
+                      <a href="<%=approve_restaurant_doc_path(doc.id)%>" class="btn btn-xs btn-primary" id="<%=doc.id%>-reject" style="font-size: 13px; color: white;"><i class="fa fa-check" aria-hidden="true"> Accept </i> </a>
+                       <a href="#" class="btn btn-xs btn-danger rejectDocument" id="<%=doc.id%>-reject" style="font-size: 13px; color: white;"><i class="fa fa-ban" aria-hidden="true"> Reject </i> </a>
+                    
+                    <%end%>      
+                    <a href="<%=doc.doc_url.present? ? doc.doc_url : ""%>" target="blank" class="btn btn-xs btn-success" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>                  
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No doc available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%= will_paginate @documents ,renderer: BootstrapPagination::Rails %></center><br>
+       </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="reject-document-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center>
+        <div id="showimage"></div>
+      </center>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Document</h4>
+      </div>
+      <%=form_for :document,url: reject_restaurant_doc_path,:html=>{:multipart=> true} do |f| %>
+      <div class="modal-body">
+        <form action="#" class="form-horizontal" method="post" data-remote="true">
+          <input type="hidden" name="restaurant_doc_id" id="restaurant_doc_id"  value="">
+          <div class="row" style="margin-bottom:10px;">          
+            <p>Reject Reason</p>
+              <input type="text"  name="reject_resion" id="reject_resion"  placeholder="Reject reason" required="true" class="form-control" autocomplete="off"> 
+          </div>       
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+             <input type="submit" class="btn theme-btn pull-right" value="Submit" id="reject_restaurant_doc">
+            
+          </div>
+        </form>
+      </div>
+      <%end%>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+   $(document).ready(function() {
+   $(document).on("click", '.rejectDocument', function(event) { 
+    var id = $(this).attr("id").split('-')[0]
+    $('#restaurant_doc_id').val(id);
+    console.log($('#restaurant_doc_id').val(id))
+    $('#reject-document-modal').modal({backdrop: 'static', keyboard: false});
+    $('#reject-document-modal').modal('show');
+
+    })
+
+  });
+
+   $('#reject_restaurant_doc').on("click",function() {
+    if($('#reject_resion').val().trim()=="")
+    {
+      $('#reject_resion').focus();
+     swal("Reject resion can't be blank!","Please enter reject resion","warning")
+     return false;
+    }     
+    else
+    {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<img src='/assets/rest-loading.gif' width='20%'>",
+        showConfirmButton: false
+      });
+     
+    }
+  });
+
+
+
+</script>

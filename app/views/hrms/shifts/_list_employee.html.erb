@@ -1,0 +1,135 @@
+<style type="text/css">
+  .subject-info-box-1,
+  .subject-info-box-2 {
+  float: left;
+  width: 45%;
+  }
+  .subject-info-box-2 select{
+  }
+  .subject-info-arrows {
+  float: left;
+  width: 10%;
+  }
+  .subject-info-arrows input{
+  width: 70%;
+  margin-bottom: 5px;
+  }
+  #lstBox1{
+  height: 200px;
+  }
+  #lstBox2{
+  height: 200px;
+  }
+  .subject-info-arrows.text-center{
+  margin-top: 5.5%;
+  }
+  #btnAllRight, #btnRight, #btnLeft, #btnAllLeft{
+  background-color: white;
+  color: black;
+  }
+  .wrapper.wrapper-content.animated.fadeInRight{
+  padding-bottom: 0%;
+  }
+  #schedule_employee{
+  margin-top: 2%;
+  }
+  #add_employee_modal{
+  width: 90%;
+  }
+  #employee-success-msg{
+    display: none;
+  }
+</style>
+<div class="modal fade" id='list_employee_modal' role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width:130%;">
+      <div class="modal-header" style="border-bottom: none;background-color: #1ab394;color: white;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h5 class="modal-title"><b>Employee List</b></h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div>
+            <div class="wrapper wrapper-content animated fadeInRight" style="padding-bottom:1%;padding-top:0;">
+              <div class="row">
+                <label style="color: green;margin-bottom: 4%;" id="employee-success-msg">Employee deleted successfully!</label><br/>
+                <label>Station</label>
+                <%= text_field_tag(:station,'', class: 'form-control station_field_list', disabled: true) %>
+                <label>Shift</label>
+                <%= text_field_tag(:shift,'', class: 'form-control shift_field_list', disabled: true) %><br/><br/>
+                <%= hidden_field_tag :user_id, '' %>
+                <%= hidden_field_tag :restaurant_id, params[:restaurant_id] %>
+                <%= hidden_field_tag :employee_ids, '' %>
+                <%= hidden_field_tag :shift_id, '' %>
+                <%= hidden_field_tag :station_id, '' %>
+                <%= hidden_field_tag :day, '' %>
+                <% @employees = User.last(5)%>
+                <div class="ibox-content" id="employee-list-container">
+                  
+                </div>
+                <div class="clearfix"></div>
+                <br/>
+                <button type="button" class="btn btn-success btn-md pull-right" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  (function () {
+  $("#btnRight").click(function (e) {
+  var selectedOpts = $("#lstBox1 option:selected");
+  // if (selectedOpts.length == 0) {
+  //   alert("Nothing to move.");
+  //   e.preventDefault();
+  // }
+  $("#lstBox2").append($(selectedOpts).clone());
+  $(selectedOpts).remove();
+  e.preventDefault();
+  });
+  $("#btnAllRight").click(function (e) {
+  var selectedOpts = $("#lstBox1 option");
+  // if (selectedOpts.length == 0) {
+  //   alert("Nothing to move.");
+  //   e.preventDefault();
+  // }
+  $("#lstBox2").append($(selectedOpts).clone());
+  $(selectedOpts).remove();
+  e.preventDefault();
+  });
+  $("#btnLeft").click(function (e) {
+  var selectedOpts = $("#lstBox2 option:selected");
+  // if (selectedOpts.length == 0) {
+  //   alert("Nothing to move.");
+  //   e.preventDefault();
+  // }
+  $("#lstBox1").append($(selectedOpts).clone());
+  $(selectedOpts).remove();
+  e.preventDefault();
+  });
+  $("#btnAllLeft").click(function (e) {
+  var selectedOpts = $("#lstBox2 option");
+  // if (selectedOpts.length == 0) {
+  //   alert("Nothing to move.");
+  //   e.preventDefault();
+  // }
+  $("#lstBox1").append($(selectedOpts).clone());
+  $(selectedOpts).remove();
+  e.preventDefault();
+  });
+  })(jQuery);
+  
+  
+  $('#schedule_employee').click(function(){
+  employee_ids = []
+  var select_box = $('#lstBox2')[0].options;
+  for (i = 0; i < select_box.length; i++) {
+  employee_ids.push(select_box[i].value)
+  }
+  $('#employee_ids')[0].setAttribute('value', employee_ids)
+  // $('#day').val(this.getAttribute('day'))
+  })
+</script>

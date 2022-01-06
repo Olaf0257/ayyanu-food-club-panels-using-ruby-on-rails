@@ -1,0 +1,41 @@
+
+
+<style type="text/css">
+  .dashboard-timer {
+  font-size: 2.5em;
+  padding: 10px;
+  text-align: center;
+  margin: 0 auto;
+  background: #ccc;
+  }
+</style>
+<div id="manager_update">
+   <%=render partial: "manager_dashboard",locals: {:@branches=>@branches,:@transporters=>@transporters,:@managers=>@managers,:@orders=>@orders,:@newOrders=>@newOrders,:@punchedOrders=>@punchedOrders}%>
+</div>
+
+<br>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  function refresh(){
+    // window.location.href="/business/partner/dashboard?agex=true"
+    // location.reload();
+    $.ajax({
+      url: "/business/manager/dashboard?agex=true",
+      type: 'GET',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      dataType: "script",
+      success: function(response) {
+      }
+    });
+  };
+
+</script>

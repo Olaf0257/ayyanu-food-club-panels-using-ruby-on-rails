@@ -1,0 +1,90 @@
+<%= form_for(@task_type, url: (params[:action] == "edit" ? business_task_management_restaurant_task_type_path : business_task_management_restaurant_task_types_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :country %>
+		</div>
+
+		<div class="col-sm-10">
+			<%#= f.text_field(:country, required: true, class: "form-control") %>
+			<%= f.select :country_ids, Country.all.map{|c| [c.name,c.id]}, {:include_hidden => false }, {class: "form-control setheight select2_branch", style: 'height: 40px!important;',multiple: true, required: true } %>
+		</div>
+  </div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :branch %>
+		</div>
+
+		<div class="col-sm-10" id="branch_container">
+			<% if params[:action] == "edit"%>
+				<%= f.select(:location, options_from_collection_for_select(@restaurant.branches.where(country: @task_type.countries.pluck(:name)), :id, :address, find_location_ids(@task_type)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:location, options_from_collection_for_select(Branch.where(id: 0), :id, :address, find_location_ids(@task_type)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :name %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:name, required: true, class: "form-control") %>
+		</div>
+	</div>
+
+	<%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+	<%= f.hidden_field :created_by_id, value: @user.id %>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update Task Title", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create Task Title", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+<script type="text/javascript">
+$("#assign_asset_asset_group_id").change(function(){
+
+ var asset_type_id = $("#assign_asset_asset_group_id").val();
+ $.ajax({
+  type: "GET",
+  url: "/business/asset_management/assets/find_asset_type_list",
+  data: {asset_type_id: asset_type_id},
+  cache: false,
+  success: function(data){
+    var asset_types = data.asset_types
+    var options =  '<option value=""><strong>Add Asset Type</strong></option>'; //create your "title" option
+    $(asset_types).each(function(index, value){ //loop through your elements
+            options += '<option value="'+value.id+'">'+value.name+'</option>'; //add the option element as a string
+    });
+
+    $('#assign_asset_asset_type_id').html(options); 
+  }
+});
+});
+
+	$(".select2_branch").select2();
+
+	$("#task_type_country_ids").select2({
+    	placeholder: "Select Country",
+    	allowClear: true
+	});
+
+	$('#task_type_country_ids').change(function(){
+		var select = $('#task_type_country_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_country_based_branch_business_task_management_restaurant_task_types_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { country_name: selected_options }
+		})
+	})
+</script>

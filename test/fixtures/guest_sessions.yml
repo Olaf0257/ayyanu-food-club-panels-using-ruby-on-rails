@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guest_token: MyString
+  device_id: MyString
+  device_type: MyString
+
+two:
+  guest_token: MyString
+  device_id: MyString
+  device_type: MyString

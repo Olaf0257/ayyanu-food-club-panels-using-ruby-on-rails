@@ -1,0 +1,7 @@
+<% if params[:start_date] || params[:end_date] %>
+  $("#coupon_user_modal").html("<%= escape_javascript render 'user_list' %>");
+<% else %>
+  $("#coupon_user_modal").remove();
+  $(".page-heading").append("<%= escape_javascript render(partial: 'coupon_user_modal') %>");
+  $("#coupon_user_modal").modal("show");
+<% end %>

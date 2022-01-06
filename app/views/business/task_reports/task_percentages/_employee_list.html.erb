@@ -1,0 +1,1 @@
+<%= select_tag(:searched_emp_id, options_from_collection_for_select(@employees.uniq, :id, :name), {id: 'searched_emp_id', class: 'form-control setheight', prompt: "Select Employee" , style: 'height: 40px!important;', name: 'searched_emp_id'}) %>

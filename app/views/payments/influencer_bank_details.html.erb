@@ -1,0 +1,42 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-10">
+    <h2>Bank Details for <%= @user.name %> (<%= @user.email %>)</h2>
+  </div>
+
+  <div class="col-sm-2">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, influencer_list_path, class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Bank Details</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <p><b>Legal Name:</b> <%= @bank_detail.legal_name %></p>
+          <p><b>IBAN:</b> <%= @bank_detail.iban %></p>
+          <p><b>Account Number:</b> <%= @bank_detail.account_number %></p>
+          <p><b>Beneficiary Address:</b> <%= @bank_detail.beneficiary_address %></p>
+          <p><b>Bank Address:</b> <%= @bank_detail.bank_address %></p>
+          <p><b>Swift Code:</b> <%= @bank_detail.swift_code %></p>
+          <p><b>Civil ID:</b> <%= link_to "View", @bank_detail.civil_id, target: "_blank" %></p>
+          <p><b>Civil ID Number:</b> <%= @bank_detail.civil_id_number %></p>
+          <p><b>Civil ID Issuing Country:</b> <%= @bank_detail.civil_id_issuing_country %></p>
+          <p><b>Civil ID Issuing Date:</b> <%= @bank_detail.civil_id_issuing_date %></p>
+          <p><b>Civil ID Expiry Date:</b> <%= @bank_detail.civil_id_expiry_date %></p>
+          <p><b>Contact Person Name:</b> <%= @bank_detail.contact_full_name %></p>
+          <p><b>Contact Person Email:</b> <%= @bank_detail.contact_email %></p>
+          <p><b>Contact Person Mobile:</b> <%= @bank_detail.contact_country_code %> - <%= @bank_detail.contact_mobile %></p>
+          <p><b>Brand Name:</b> <%= @bank_detail.brand_name %></p>
+          <p><b>Sector:</b> <%= @bank_detail.sector %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

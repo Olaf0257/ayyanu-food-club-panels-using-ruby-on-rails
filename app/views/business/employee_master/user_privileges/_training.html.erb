@@ -1,0 +1,21 @@
+<div class="col-md-12">
+	<label>TRAINING:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.training.include?("Dashboard") %>
+			<input type="checkbox"  name="training[dashboard]" value="DashBoard" checked="">
+		<%else%>
+			<input type="checkbox"  name="training[dashboard]" value="DashBoard">
+		<%end%>
+		<label class="label_color">DashBoard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.training.include?("Create Chapter") %>
+			<input type="checkbox"  name="training[create_chapter]"  value="Create Chapter" checked=""> 
+		<%else%>
+			<input type="checkbox"  name="training[create_chapter]"  value="Create Chapter">
+		<%end%>
+		<label class="label_color">Create Chapter</label>
+	</div>
+</div>

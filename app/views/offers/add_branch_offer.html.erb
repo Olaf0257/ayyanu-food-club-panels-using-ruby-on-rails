@@ -1,0 +1,332 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+
+<style type="text/css">
+  .mrgin-bottom-2{
+    margin-bottom:2%;
+  }
+  .private_dock{
+    display: none;
+  }
+
+    .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+            background: rgba(255, 0, 0, 0.13) !important;
+            color: red !important;
+            cursor: not-allowed !important;
+        }
+
+</style>
+
+<div class="container">
+  <%#= render :partial=>'steps'%>
+  <%=form_for :marina,url: restaurant_branch_menu_new_offer_path,:html=>{id: "add-marina-form",:class=>"form-horizontal",:multipart => true} do |f|%> 
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;margin-top: 1%;">
+          <div class="panel-heading text-center"><h3>Add Sweet Deals</h3></div>
+          <div class="panel-body" >  
+            <div class="row mrgin-bottom-2">
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label> Title </label> 
+                <input type="text" placeholder="Enter offer title" name="offer_title" class="form-control"  id="offer_title" autocomplete="off">
+              </div>  
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Start Date</label> <br>
+
+                   <input type="text" id="datepicker" class="form-control" name="start_date" autocomplete="off">   
+
+              </div>
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label> End Date </label> <br>
+                 <input type="text" id="enddatepicker" class="form-control" name="end_date" autocomplete="off">
+              </div>
+            </div>
+            <div class="row mrgin-bottom-2">
+              
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="">
+                  <div class="form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     
+                      <label> Offer Type </label> 
+                      <select class="form-control"  name="offer_type" id="offer_type" class="form-control" onchange="change_offer_type(this.options[this.selectedIndex].value,'','')" style="height: 38px;">                     
+                      <option value="individual">Individual</option>
+                      <option value="all">All</option>
+                       
+                      </select>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     
+                      <label> Branch </label> 
+                      <select class="form-control"  name="branch" id="branch_id" onload="area_data(this.options[this.selectedIndex].value);" onchange="get_states(this.options[this.selectedIndex].value,'region','')" style="height: 38px;">
+                     
+                      <%=@branches.each do |b|%>
+                      <option value="<%=b.id%>" <%=@branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.address%></option>
+                     
+                      <%end%>                        
+                      </select>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="area_id">
+                      <label> Menu Item </label> 
+                      <select class="form-control"  name="menu_item" id="region" style="height: 38px;">
+                        <!-- <option>Select State</option> -->
+                      </select>
+                    </div> 
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top: 10px;">
+                      <label>Offer Percentage</label> 
+                      <input type="text" placeholder="Enter offer discount percentage" name="discount_percentage" class="form-control"  id="discount_percentage" autocomplete="off">
+                    </div>                     
+                  </div>  
+                </div>             
+              </div>                 
+            </div>
+           <div class="row">
+              <div class="col-lg-4">
+                <h4>Upload Branch Image (Optional)</h4>
+                <div style="position: relative;">
+                  <a href='javascript:;'>                
+                    <img src="/assets/ic_placeholder.png" class="img-tag add-img-tag" width="85%" height="100vh" onmouseover="showXbutton(this);" onmouseout="hideXbutton(this);">
+                    <button type="button" class="btn-tag val" style="display: none;">Hello</button> 
+                  <label class="file">
+                  <input type="file" id='add-img-tag'  name="offer_image" onchange='addreadURL(event)' aria-label="File browser example">
+                  <span class="file-custom"></span>
+                </label>  
+                  </a>             
+              </div> 
+            <p style="margin-top:-10px;"><b>Image size :</b> 500x500</p> 
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong> Save</strong></button>
+          </div>
+        </div>
+      </div>
+    </div> 
+  <%end%> 
+</div>  
+
+<script src="/assets/bootstrap-toggle.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+
+  <%if flash[:check_marina].present?%>
+    swal("warning","<%=flash[:check_marina]%>","warning")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+  
+
+  
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+  var readURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readLogoURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $("#marina-logo").attr("src",getImagePath);
+  }
+
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+
+  
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+        console.log(latlng)
+        $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+
+  
+  
+  $("#saveBtn").on("click",function(){
+    var percentage = /^\d{0,2}(?:\.\d)?$/;
+    var floatValues =  /[+-]?([0-9]*[.])?[0-9]+/;
+    var end_date = $.trim($('#enddatepicker').val())
+    var start_date =  $.trim($('#datepicker').val())
+    // 
+    if($('#offer_title').val().length >= 41 || $('#offer_title').val().length <= 0){
+       $('#offer_title').focus();
+      swal("Warning","Please enter title","warning");
+      return false;
+    }else if($.trim($('#datepicker').val())===""){
+      $('#datepicker').focus();
+      swal("Warning","Please Select Start Date","warning");
+      return false;    
+    }else if($.trim($('#enddatepicker').val())===""){
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select End Date","warning");
+      return false;
+    }
+    else if(start_date === end_date ) {
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select Diffrent Date","warning");
+      return false;
+    }else if(!percentage.test($('#discount_percentage').val()) || $.trim($('#discount_percentage').val())==="" || $('#discount_percentage').val() <= 0)
+    {
+      $('#discount_percentage').focus();
+     swal("Percentage can't be blank!","please enter percentage","warning");
+     return false;
+    }
+    else{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+
+
+    function get_states(branch_id,region,v){
+      console.log(branch_id)    
+    $.ajax({
+      type: "POST",
+      url: '/api/v1/branch/menu/list',
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        menue_items = data.menue_items ? data.menue_items : ''
+        console.log(menue_items)
+        print_state(menue_items,region)
+      },
+      error: function() {  
+        swal("Error","Something went wrong","Error")
+      }
+    }); 
+  }
+
+   function print_state(menue_items,region){
+    if (menue_items){
+        $("#"+region).empty();
+        var option_state_str = document.getElementById(region);
+       for (var i = 0; i < menue_items.length; i++) {
+        var option = document.createElement("OPTION");
+          option.innerHTML = menue_items[i].item_name;
+          option.value = menue_items[i].id;
+          option_state_str.options.add(option);
+        } 
+    }         
+  }
+   
+
+
+window.onload =function area_data(branch_id){
+    branch_id = "<%=@branches.first.id%>"   
+    region = "region"    
+    $.ajax({
+      type: "POST",
+      url: '/api/v1/branch/menu/list',
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        menu = data.menue_items ? data.menue_items : ''
+        print_state(menu,region)
+      },
+      error: function() {  
+        swal("Error","Something went wrong","Error")
+      }
+    }); 
+  }
+
+   $(function(){
+    var opened = false;
+    var dp = $('#datepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+
+   $(function(){
+    var opened = false;
+    var dp = $('#enddatepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+
+   function change_offer_type(offer_type){
+    if (offer_type=="all"){
+      document.getElementById('area_id').hidden = "hidden"; // hide body div tag
+      document.getElementById('region').hidden = "";
+    } 
+    else{
+      document.getElementById('area_id').hidden = "";
+
+    }
+
+  }
+</script>

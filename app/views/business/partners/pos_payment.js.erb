@@ -1,0 +1,31 @@
+<% if @pos_check.present? %>
+	<% if @done_payment >= @total_transaction %>
+		$('.okBtnOfRemainAmountPopup').removeClass('disabled');
+		toastr.error("You have already paid full bill amount");
+	<% else %>
+		<% if @error.present? %>
+			toastr.error("<%= @error %>");
+		<% else %>
+			var payment_amount = parseFloat($('#remain_payment_amount').val())
+			var amount_paid = parseFloat("<%= @pos_payment.paid_amount %>");
+			// var new_amount = payment_amount - amount_paid;
+			// var total_paid_amount = parseFloat("<%= @pos_check.pos_payments.pluck(:paid_amount).sum %>");
+			// $('#pos_total').text(new_amount.toFixed(3)+'BHD');
+			// $('#remain_payment_amount').val(new_amount.toFixed(3));
+			$('#remain_payment_amount').val('<%= number_with_precision(@sub_total, precision: 3) %>');
+		    $('#discount_amount').empty().append('<%= number_with_precision(@discount, precision: 3)%>BHD');
+		    $('#tax_amount').empty().append('<%= number_with_precision(@tax_amount, precision: 3)%>BHD');
+		    $('#pos_sub_total').empty().append('<%= number_with_precision(@sub_total, precision: 3) %>BHD');
+		    $('#pos_total').empty().append('<%= number_with_precision(@total_amount, precision: 3) %>BHD');
+			$('#selected_qty').val('');
+			$('.numberpadDisplaySelection').text('');
+			$('.payment_amount_details').append("<div style='margin: 10px 0px;' class='payment_detail' data-payment-id='<%= @pos_payment&.id %>'><span><%= @pos_payment.payment_method.name %></span><span style='float: right;'><%= number_with_precision(@pos_payment.paid_amount, precision: 3) %><%= @pos_payment.currency_type.present? ? @pos_payment.currency_type.currency : 'BHD' %></span></div>");
+			$('#remainAmountDetailsPopup').modal('hide');
+			$('.report-list').empty().append("<%= j render partial: 'report_data', locals: {pos_check: @pos_check} %>");
+			toastr.success("Payment successfully");
+		<% end %>
+	<% end %>
+<% else %>
+	toastr.error("Check not found");
+<% end %>
+voidSelection();

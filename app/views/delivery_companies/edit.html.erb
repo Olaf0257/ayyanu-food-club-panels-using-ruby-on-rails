@@ -1,0 +1,137 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Edit Delivery Company</h2>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Edit Delivery Company</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_for @delivery_company, html: { multipart: true, class: "form-horizontal", autocomplete: "off" } do |f| %>
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :name, "Company Name" %>
+            <%= f.text_field(:name, placeholder: "Enter company name", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :email %>
+            <%= f.email_field(:email, placeholder: "Enter email", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :contact_no %><br>
+            <%= f.text_field(:contact_no, placeholder: "Enter contact number", required: true, class: "form-control", id: "user_contact", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :address1 %>
+            <%= f.text_field(:address1, placeholder: "Enter address", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :address2 %>
+            <%= f.text_field(:address2, placeholder: "Enter address", class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :address3 %>
+            <%= f.text_field(:address3, placeholder: "Enter address", class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <% if is_super_admin?(@admin) %>
+            <div class="col-sm-6">
+              <%= f.label :country_id %>
+              <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id), f.object.country_id), { prompt: "Select Country" }, { required: true, class: "form-control delivery-company-country-select", style: "height: 34px" }) %>
+            </div>
+          <% else %>
+            <%= hidden_field_tag(:delivery_company_country_id, @admin.country_id) %>
+          <% end %>
+
+          <div class="col-sm-6">
+            <%= label_tag :state %>
+            <span class="delivery-company-state-list"><%= select_tag(:state, options_for_select(@states, @selected_states.pluck(:name)), class: "form-control delivery-company-state-select select2_state", style: "height: 34px", multiple: true) %></span>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :district %>
+            <span class="delivery-company-district-list"><%= select_tag(:district, options_for_select(@districts.pluck(:name, :id).sort, @selected_districts.pluck(:id)), class: "form-control delivery-company-district-select select2_district", style: "height: 34px", multiple: true) %></span>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :zone %>
+            <span class="delivery-company-zone-list"><%= select_tag(:zone_ids, options_for_select(@zones, @selected_zones.pluck(:id)), class: "form-control delivery-company-zone-select select2_zone", style: "height: 34px", multiple: true) %></span>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :agreement %>
+            <%= f.file_field(:agreement, class: "form-control", accept: "image/png, image/jpeg, application/pdf") %>
+
+            <% if f.object.agreement.present? %>
+              <%= link_to "View Agreement", f.object.agreement, target: "_blank" %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <center><%= f.submit "Update Delivery Company", class: "btn btn-success btn-sm" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $(".select2_state, .select2_district, .select2_zone").select2();
+
+  $("#user_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

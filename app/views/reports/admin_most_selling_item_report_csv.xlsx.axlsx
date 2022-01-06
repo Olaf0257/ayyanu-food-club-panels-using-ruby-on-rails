@@ -1,0 +1,15 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Top Selling Items") do |sheet|
+  sheet.add_row ["Country: " + @country_name, "Restaurant: " + @restaurant_name, "Delivery Type: " + @delivery_type, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Country", "Restaurant", "Branch", "Item Name", "Item Price (#{@restaurants.first&.currency_code_en.to_s})", "Total Order", "Total Order Amount (#{@restaurants.first&.currency_code_en.to_s})", "% Order"]
+
+  if @items.present?
+    @items.each do |report|
+      item = MenuItem.find(report[:id])
+      sheet.add_row [item.menu_category.branch.restaurant.country.name, item.menu_category.branch.restaurant.title, item.menu_category.branch.address, report[:item_name], report[:price_per_item].to_s, report[:totalItemCount], number_with_precision((report[:price_per_item].to_f * report[:totalItemCount].to_i), precision: 3), report[:percentage]]
+    end
+
+    sheet.add_row ["TOTAL", "", "", "", number_with_precision(@items.sum { |i| i[:price_per_item].to_f }, precision: 3), @items.sum { |i| i[:totalItemCount].to_i }, number_with_precision(@items.sum { |i| i[:price_per_item].to_f * i[:totalItemCount].to_i }, precision: 3)]
+  end
+end

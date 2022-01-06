@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+    <div class="ibox-title">
+    <div class="row <%= 'hide' unless @user %>">
+      <div class="col-lg-6"> <h5>Order Location</h5></div>
+       <div class="col-lg-6"></div>
+    </div>
+    </div>
+
+      <div class="ibox-title" style="height: 62px;">
+        <div class="col-lg-4">
+        <h5 style="margin-top: 6px;">User Icon:</h5>
+        <div class="col-lg-2">
+          <%= image_tag("tracking5.png", alt: 'image', style: "width: 41px;", class: "img-circle m-t-s img-responsive") %>
+        </div>
+
+        </div>
+        <div class="col-lg-4">
+        <h5 style="margin-top: 6px;">Driver Icon:</h5>
+        <div class="col-lg-2">
+          <%= image_tag("tracking4.png", alt: 'image', style: "width: 41px;", class: "img-circle m-t-s img-responsive") %>
+        </div>
+
+        </div>
+        <div class="col-lg-4">
+        <h5 style="margin-top: 6px;">Restaurant Icon:</h5>
+        <div class="col-lg-2">
+          <%= image_tag("tracking2.png", alt: 'image', style: "width: 41px;", class: "img-circle m-t-s img-responsive") %>
+        </div>
+
+        </div>
+      </div>
+      <br>
+      <div class="ibox-content">
+        <div id="map" style="min-height: 80vh"></div>
+      </div>
+    </div>
+    <%p @driver%>
+  </div>
+</div>
+
+<script defer src="https://maps.googleapis.com/maps/api/js?key=<%=google_map_javascript_api%>&callback=initMap&libraries=geometry,places"> </script>
+
+<script src='https://cdn.firebase.com/js/client/2.4.0/firebase.js'></script>
+
+<script type="text/javascript">
+  var user_logo = "https://ik.imagekit.io/sodhemlpr/tracking5_DSRFsp7A7.png";
+  var driver_marker = "https://ik.imagekit.io/sodhemlpr/tracking4_dGQhLQWA1.png";
+  var restaurant_logo = "https://ik.imagekit.io/sodhemlpr/tracking2_9ubqLf8Qh.png";
+
+  var latitude = <%= @driver.latitude || @branch.latitude %> ;
+  var longitude  = <%= @driver.longitude || @branch.longitude %>;
+  var markers = []
+  var myFirebase = new Firebase("https://foodclub-34cb3.firebaseio.com/");
+
+  function initMap() {
+    var myCenter = new google.maps.LatLng(latitude,longitude);
+    var infowindow = new google.maps.InfoWindow();
+    var geocoder = new google.maps.Geocoder;
+    var trafficLayer = new google.maps.TrafficLayer();
+
+    var mapProp = {
+      center: myCenter,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map"), mapProp);
+    map.setCenter(new google.maps.LatLng(latitude,longitude));
+
+    trafficLayer.setMap(map);
+    var order_latitude = <%= @order.latitude %>;
+    var order_longitude = <%= @order.longitude %>;
+    var branch_latitude = <%= @branch.latitude %>;
+    var branch_longitude = <%= @branch.longitude %>;
+    myCenter = new google.maps.LatLng(parseFloat(order_latitude), parseFloat(order_longitude));
+
+    var marker = new google.maps.Marker({
+      position: myCenter,
+      icon: user_logo
+    });
+
+    marker.setMap(map);
+    marker.setPosition(order_latitude,order_longitude);
+
+    myCenter = new google.maps.LatLng(parseFloat(branch_latitude), parseFloat(branch_longitude));
+    var marker = new google.maps.Marker({
+      position: myCenter,
+      icon: restaurant_logo
+    });
+
+    marker.setMap(map);
+    marker.setPosition(branch_latitude,branch_longitude);
+
+    <% driver_id = @driver.id %>
+
+    myFirebase.child('Transporter_' + <%= driver_id %> + '/l').on("value", function(snapshot) {
+      var snap = snapshot.val();
+      latitude = snap[0]
+      longitude = snap[1]
+      plotMarker(latitude,longitude);
+    });
+
+    var numDeltas = 100;
+    var delay = 10;
+    var i = 0;
+    var deltaLat;
+    var deltaLng;
+
+    function plotMarker(latitude,longitude){
+      myCenter = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
+
+      var marker = new google.maps.Marker({
+        position: myCenter,
+        icon: driver_marker
+      });
+
+      marker.setMap(map);
+      marker.setPosition(latitude,longitude);
+
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+
+      google.maps.event.addListener(marker, "click", function() {
+        infowindow.setContent('<div><strong>' + latitude + ',' + longitude + '</strong></div>');
+        infowindow.open(map, this);
+      });
+      markers.push(marker);
+    }
+  }
+</script>

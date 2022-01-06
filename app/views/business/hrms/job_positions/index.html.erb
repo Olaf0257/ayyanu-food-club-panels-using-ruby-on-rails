@@ -1,0 +1,88 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Job Positions</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%= new_business_hrms_job_position_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @job_postions.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Countries</th>
+                  <th>Branch</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  
+                  <th>Number of rounds</th>
+                  <th>Status</th>
+                  <th>Requirement responsibility</th>
+                  <th>Expected employees</th>
+                  <!-- <th>Job Description</th> -->
+                  <th>Name of rounds</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @job_postions.each do |job_postion| %>
+                    <td><%= job_postion.id %></td>
+                    <td><%= job_postion.title %></td>
+                    <td><%= job_postion.countries.pluck(:name).join(",") %></td>
+                    <td><%= find_branch(job_postion) %></td>
+                    <td><%= job_postion.department&.name %></td>
+                    <td><%= job_postion.designation&.name %></td>
+                    
+                    <td><%= job_postion.number_of_rounds %></td>
+                    <td></td>
+                    <td><%= job_postion.requirement_responsibility %></td>
+                    <td><%= job_postion.expected_employees %></td>
+                    <!-- <td><%#= job_postion.job_description %></td> -->
+                    <% round_names = JSON(job_postion.name_of_rounds) rescue []%>
+                    <td><%= round_names.join(",") %></td>
+
+                    <td><%= created_by(job_postion) %></td>
+                    <td><%= job_postion.created_at %></td>
+                    <td>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit job position'.html_safe, edit_business_hrms_job_position_path(job_postion, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove job position'.html_safe, business_hrms_job_position_path(job_postion, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                      <%= link_to '<i class="fa fa-pencil"></i> Apply for job application'.html_safe, job_opening_path(job_postion), class: 'btn btn-success btn-sm', target: "_blank" %>
+                      <%= link_to '<i class="fa fa-eye"></i>&nbsp; View Job Description'.html_safe, job_postion.job_description, target: '_blank', class: 'btn btn-info btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Job Position available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

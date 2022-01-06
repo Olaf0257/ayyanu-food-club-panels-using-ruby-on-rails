@@ -1,0 +1,482 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<style type="text/css">
+  select {
+    height: 100% !important;
+  }
+
+  .service {
+    margin-right: 0px;
+    margin-left:  0px;
+  }
+
+  .mb-2 {
+    margin-bottom: 2%;
+  }
+
+  .private_dock {
+    display: none;
+  }
+
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+  }
+
+  .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+    background: rgba(255, 0, 0, 0.13) !important;
+    color: red !important;
+    cursor: not-allowed !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Edit Menu Item</h2>
+    <ol class="breadcrumb">
+      <li><a href="<%= business_restaurant_path(encode_token(@branch.restaurant.id)) %>">Restaurant</a></li>
+      <li><a href="<%= business_resturant_branch_path(encode_token(@branch.id), restaurant_id: params[:restaurant_id]) %>">Branch</a></li>
+      <li><a href="<%= business_branch_menu_items_path(encode_token(@branch.id), restaurant_id: params[:restaurant_id]) %>">Menu Items</a></li>
+      <li class="active"><strong>Edit Menu Item</strong></li>
+    </ol>
+  </div>
+
+  <div class="col-sm-4" style="margin-top: 20px;">
+    <a href="<%= request.referer %>" class="pull-right" style="margin-left: 20px;"><button class="btn btn-danger btn-sm">Back to Menu  <i class="fa fa-arrow-right"></i></button></a>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="text-center">Edit Menu Item</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= render partial: "welcome/alerts" %>
+
+      <div id="itemcategory" atrr-category="<%= @menu_item.menu_category.category_title %>"></div>
+      <%= form_for :menu_item, url: business_update_branch_menu_item_path(restaurant_id: params[:restaurant_id]), html: { multipart: true, autocomplete: "off" } do |f| %>
+        <input type="hidden" name="menu_item_id" value="<%= @menu_item.id %>">
+        <input type="hidden" name="branch_id" value="<%= @branch.id %>">
+        <input type="hidden" name="restaurant_id" value="<%= params[:restaurant_id] %>">
+        <input type="hidden" id='hidden-edit-img-tag' name="cropped_image">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-check">
+              <input type="hidden" name='include_in_pos' id="include_in_pos" value="<%= @menu_item.include_in_pos %>">
+              <input class="form-check-input" type="checkbox" <%if @menu_item.include_in_pos %> checked <%end%> id="include_in_pos_checkbox">
+              <label class="form-check-label" style="padding-left: 20px;" for="include_in_pos_checkbox">
+                Include In POS
+              </label>
+              <input type="hidden" name='include_in_app' id="include_in_app" value="<%= @menu_item.include_in_app %>">
+              <input class="form-check-input" type="checkbox" <%if @menu_item.include_in_app %> checked <%end%> id="include_in_app_checkbox">
+              <label class="form-check-label" style="padding-left: 20px;" for="include_in_app_checkbox">
+                Include In App
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Menu Item (English)</label>
+              <input type="text" name="item_name" id="item_name" class="form-control" required="true" placeholder="Item name" value="<%= @menu_item.item_name %>" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Price (BD)</label>
+              <input type="text" name="price_per_item" class="form-control" placeholder="0.0"  id="item_price" value="<%= sprintf( "%0.03f", @menu_item.price_per_item) %>" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <label>Description (English) Max Length 150</label>
+              <input type="text" name="item_description" id="item_description" class="form-control" required="true" placeholder="Description" value="<%= @menu_item.item_description %>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Menu Item (Arabic)</label>
+              <input type="text" name="item_name_ar" class="form-control" required="true" id="item_name_ar" placeholder="Item name" value="<%= @menu_item.item_name_ar %>" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Description (Arabic) Max Length 150</label>
+              <input type="text" name="item_description_ar" id="item_description_ar" class="form-control" required="true" placeholder="Description" value="<%= @menu_item.item_description_ar %>">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Menu Category</label>
+              <select class="form-control" required="true" id="category-tag" name="menu_category_id" style="height: 40px;">
+                <% i= -1 %>
+                <% @menu_category.order(:category_title).each do |cat| %>
+                  <option <% if cat.id == @menu_item.menu_category_id %> selected <% end %> value="<%= cat.id %>"><%= cat.category_title %> </option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Is Available</label>
+
+              <select class="form-control" required="true" name="is_available" style="height: 40px;">
+                <option <% if @menu_item.is_available == true %> selected <% end %>value="true">Yes</option>
+                <option <% if @menu_item.is_available == false %> selected <% end %>value="false">No</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Calories</label>
+              <input type="text" name="calorie" id="calorie" class="form-control" value="<%= @menu_item.calorie %>" required="true" placeholder="calories" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <label>Addon Category</label>
+            <select class="select2_demo_2 form-control" name="addon_category_id[]" multiple="multiple">
+              <% @item_cat_addons.each do |cat| %>
+                <option <% if @addon_category.include? cat.id %> selected <% end %> value="<%= cat.id %>"><%= cat.addon_category_name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+
+        <div class="row <%= 'hide' if @menu_item.menu_category.category_title != 'Daily Dishes' %>" id="dist-date">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Select Dish Date</label>
+              <input type="text" name="dish_date[]" id="multi_date" class="form-control" placeholder="Date" value="<%= @allDate %>" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Image</label>
+
+              <% if @menu_item.item_image.present? %>
+                <span class="btn btn-xs btn-danger remove-menu-item-image-btn" data-id="<%= @menu_item.id %>">Remove Image</span>
+              <% end %>
+
+              <br>
+              <div style="margin-bottom: 15px" class="col-lg-8">
+                <a href='javascript:;'>
+                  <img src="<%= @menu_item.item_image.presence || '/assets/ic_placeholder.png' %>" class="img-tag edit-img-tag" width="60%">
+                  <%= link_to 'Crop Image', "javascript:void(0);" , class: "btn btn-success btn-sm image_cropper_button" %>
+                  <br><br>
+
+                  <label class="file">
+                    <input type="file" id='edit-img-tag' name="image" onchange='readURL(event)' aria-label="File browser example">
+                    <span class="file-custom"></span>
+                  </label>
+                </a>
+
+                <p style="margin-top:-10px;"><b>Image size:</b> 500X500</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Far Menu</label>
+              <%= select_tag(:far_menu, options_for_select([["Yes", true], ["No", false]], @menu_item.far_menu), class: "form-control", style: "height: 40px;") %>
+            </div>
+             <div class="form-group">
+              <label>Menu Items</label>
+              <%= f.select(:menu_item_ids, options_from_collection_for_select(@selected_menu_items, :id, :item_name, @menu_item.menu_item_ids), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Preparation Time (Minutes)</label>
+              <%= select_tag(:preparation_time, options_for_select((0..60).to_a, @menu_item.preparation_time), class: "form-control", style: "height: 40px;") %>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Recipes</label>
+              <%= select_tag(:recipe_ids, options_for_select(Recipe.where(branch: @branch).pluck(:name, :id), @menu_item.recipe_ids), class: "form-control", style: "height: 40px;", multiple: true) %>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Stations</label>
+              <%= select_tag(:station_ids, options_for_select(Station.where(branch: @branch).pluck(:name, :id), @menu_item.station_ids), class: "form-control", style: "height: 40px;", multiple: true) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <br><br>
+            <div>
+              <center><a href="#" class="btn btn-danger btn-border pull-right btn-sm" style="margin-right: 10px; width: 95%;" onclick="delete_menu_item(<%= @menu_item.id %>)">Delete Menu Item </a></center>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <br><br>
+            <div class="form-group">
+              <center><button class="btn btn-primary btn-sm" style="width: 95%;" id="add_menu_item" >Save Menu Item</button></center>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+<script src="/assets/select2.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" rel="stylesheet"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.3/cropper.js"></script>
+<div class="modal fade" tabindex="-1" role="dialog" id="imagemodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crop Image</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="img-container">
+        <img src="" id="imagepreview" style="width: 100%;" >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="cropped_image">Save</button>
+        <!-- <button type="button" class="btn btn-primary">Save without Changes</button> -->
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var readURL = function(event) {
+      var componentId = event.target.id
+      var getImagePath = URL.createObjectURL(event.target.files[0]);
+      $("." + componentId).attr("src", getImagePath );
+      var file = document.getElementById("edit-img-tag").files[0];
+      $(".image_cropper_button").attr("data-value", getImagePath);
+    }
+
+    $(".select2_demo_2").select2({
+      tokenSeparators: ['2', '1']
+    });
+
+    $("#add_menu_item").on("click", function() {
+      var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+      var price = /^0$|^[1-9]\d*$|^\.\d+$|^0\.\d*$|^[1-9]\d*\.\d*$/;
+      var file = document.getElementById("edit-img-tag").files[0];
+
+      if (file !== undefined){
+        var file_type = file.type.split('/').pop().toLowerCase();
+        var file_size = file.size;
+      }
+
+      if(!price.test($("#calorie").val()) || $("#calorie").val() < 0) {
+        $("#calorie").focus();
+        swal("Warning", "Please Enter item calorie.", "warning");
+        return false;
+      } else if($("#item_description").val().length >= 500 || $.trim($("#item_description").val()) === "") {
+        $("#item_description").focus();
+        swal("Warning", "Please Enter valid description(English).", "warning");
+        return false;
+      } else if($("#item_description_ar").val().length >= 500 || $.trim($("#item_description_ar").val()) === "") {
+        $("#item_description_ar").focus();
+        swal("Warning", "Please Enter valid description(Arabic).", "warning");
+        return false;
+      } else if($("#item_name").val().length >= 80 || $("#item_name").val().length <= 0 ||($.trim($("#item_name").val()) === "")) {
+        $("#item_name").focus();
+        swal("Warning", "Please enter the item name", "warning");
+        return false;
+      } else if(!price.test($("#item_price").val()) || $("#item_price").val() < 0) {
+        $("#item_price").focus();
+        swal("Warning", "Please enter a valid price.", "warning");
+        return false;
+      } else if($("#item_name_ar").val().length >= 80 || $("#item_name_ar").val().length <= 0 || ($.trim($("#item_name_ar").val()) === "")) {
+        $("#item_name_ar").focus();
+        swal("Warning", "Please Enter item name in arabic.", "warning");
+        return false;
+      } else if ($("#dist-date").hasClass("hide") == false && $.trim($('#multi_date').val()) === "") {
+        $("#multi_date").focus();
+        swal("Warning", "Please select Dish Date", "warning");
+        return false;
+      } else if ($.trim($("#item_price").val()) == 0 && $(".select2_demo_2").val() == null) {
+        swal("Warning", "Please select addon category", "warning");
+        return false;
+      } else if(file &&  file_size > 1024000) {
+        $("#edit-img-tag").focus();
+        swal("Warning", "Failed to upload an image. The image maximum size is 1MB.", "warning");
+        return false;
+      } else if(file &&  file_type != "jpeg" && file_type != "jpg" && file_type != "png" ) {
+        $("#edit-img-tag").focus();
+        swal("Warning", "Failed to upload an image. Please upload file having extensions .jpeg/.jpg/.png only..", "warning");
+        return false;
+      } else {
+        swal({
+          html:true,
+          title: "Please wait...",
+          text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+          showConfirmButton: false
+        });
+        return true
+      }
+    });
+
+    $(function(){
+      var opened = false;
+      var dp = $("#multi_date").datepicker({
+        todayHighlight: true,
+        multidate: true,
+        format: 'yyyy-mm-dd',
+        startDate: new Date(),
+      }).on("show", function(){
+      });
+    });
+
+    $("#menu_item_menu_item_ids").select2({
+      placeholder: "Select Menu Item",
+      allowClear: true
+    });
+
+    $("#recipe_ids").select2({
+      placeholder: "Select Recipe",
+      allowClear: true
+    });
+
+    $("#station_ids").select2({
+      placeholder: "Select Station",
+      allowClear: true
+    });
+
+    
+
+    $(document).ready(function(){
+      $("#category-tag").on("change", function() {
+        if ($("#category-tag option:selected").text().trim() == "Daily Dishes") {
+          $("#dist-date").removeClass("hide");
+        } else {
+          $("#dist-date").addClass("hide");
+        }
+      });
+
+
+      $('.image_cropper_button').click(function(e) {
+        e.preventDefault();
+        var image_url = $(this).data("value");
+        $('#imagepreview').attr('src', image_url);
+        var image = document.getElementById('imagepreview');
+        var cropBoxData;
+        var canvasData;
+        var cropper;
+        $('#imagemodal').on('shown.bs.modal', function () {
+          cropper = new Cropper(image, {
+            zoomable: false,
+            aspectRatio: 3 / 2,
+            autoCropArea: 0.7,
+            ready: function () {
+              //Should set crop box data first here
+              cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+            }
+          });
+        }).on('hidden.bs.modal', function () {
+          cropBoxData = cropper.getCropBoxData();
+          canvasData = cropper.getCanvasData();
+          cropper.destroy();
+        });
+        $('#imagemodal').modal('show');
+
+        $("#cropped_image").click(function(e){
+          e.preventDefault();
+          cropper.getCroppedCanvas().toBlob((blob) => {
+            const formData = new FormData();
+            formData.append('item_image', blob);
+
+            // Use `jQuery.ajax` method
+            $.ajax({
+              url: "/business/branch/image/crop",
+              type: "post",
+              data: formData,
+              dataType: "json",
+              processData: false,
+              contentType: false,
+              success: function(data) {
+                if (data["status"] == 200){
+                  $("#hidden-edit-img-tag").val(data["data"]);
+                  $('#imagemodal').modal('hide');
+                  $(".edit-img-tag").attr("src", URL.createObjectURL(blob));
+                }
+              },
+              error: function(data) {
+              },
+            });
+          });
+        });
+      });
+    });
+
+    function delete_menu_item(no) {
+      swal({
+        title: "Are you sure?",
+        text: "Do you want to delete this menu item",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, Delete it!",
+        cancelButtonText: "No, cancel plz!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+
+      function(isConfirm) {
+        if (isConfirm) {
+          $.ajax({
+          type: "GET",
+          url: '/remove/menu/item/'+no+'',
+          dataType: "JSON",
+          success:function(data) {
+            if (data.code == 200) {
+              swal("Deleted!", "menu item has been deleted.", "success");
+              window.location.href = '/business/restaurant/branch/'+''+"<%= encode_token(@branch.id) %>"+'/'+"<%= params[:restaurant_id] %>";
+            }
+          },
+          error: function() {
+            swal("Error", "Something went wrong", "Error")
+          }
+        });
+      } else {
+        swal("Cancelled", "No change in menu item", "error");
+      }
+    });
+  };
+</script>

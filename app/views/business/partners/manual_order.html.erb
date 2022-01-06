@@ -1,0 +1,272 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<style>
+  .row {
+    margin-bottom: 10px;
+  }
+
+  hr {
+    background-color: #000000;
+    height: 1px;
+  }
+
+  .form-control {
+    width: 100% !important;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-6">
+    <h2 style="margin-top:20px;"><b>Create On-Demand Delivery Order</b></h2>
+  </div>
+
+  <div class="col-xs-6">
+    <% if @restaurants %>
+      <h2 style="margin-top:20px;"><%= select_tag(:restaurant_id, options_for_select(@restaurants, params[:restaurant_id]), class: "form-control business-search-field on-demand-restaurant-change") %></h2>
+    <% end %>
+  </div>
+</div>
+
+<%= form_tag business_create_manual_order_cart_path, autocomplete: :off, remote: true do %>
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <h3 class="text-center">Customer Details <span class="btn btn-xs btn-success user-search-change-btn">Change / Search</span></h3>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Name: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:user_name, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Email: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= email_field_tag(:user_email, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3 class="text-center">Delivery Address Details</h3>
+
+    <div class="row hide">
+      <div class="form-group">
+        <label class="col-sm-3">Address:</label>
+
+        <div class="col-sm-6 user-address-list">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Address Area: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6 manual-order-area-list">
+          <%= select_tag(:area_id, options_for_select(@areas.to_a), prompt: "Select Area", class: "form-control business-search-field", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Address Name: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Address Type: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), class: "form-control business-search-field", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Block: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Road No: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Building: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Floor:</label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:floor, "", class: "form-control") %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Additional Directions (Optional):</label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Mobile: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Landline Number (Optional):</label>
+
+        <div class="col-sm-6">
+          <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3 class="text-center">Branch</h3>
+
+    <div class="row">
+      <div class="form-group">
+        <label class="col-sm-3">Branch: <span class="text-danger">*</span></label>
+
+        <div class="col-sm-6">
+          <%= select_tag(:branch_id, options_for_select(@branches.pluck(:address, :id)), prompt: "Select Branch", class: "form-control business-search-field manual-order-branch", required: true) %>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3 class="text-center">Delivery Request</h3>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <%= label_tag(:delivery_request, "Delivery Request") %>
+        <%= text_field_tag(:note, "", class: "form-control", placeholder: "Enter delivery request") %>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3 class="text-center">Item Details</h3>
+
+    <div class="row" id ="1">
+      <div class="col-sm-3 manual-order-category-list">
+      </div>
+
+      <div class="col-sm-3 manual-order-item-list">
+      </div>
+
+      <div class="col-sm-2 manual-order-item-quantity">
+      </div>
+
+      <div class="col-sm-3 manual-order-addon-list-wrapper">
+        <span class="manual-order-addon-list"></span>
+      </div>
+
+      <div class="col-sm-1">
+        <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-manual-order-item hide" %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group text-center">
+        <%= submit_tag "Save Details", class: "btn btn-md btn-success", data: { disable_with: "Saving..." } %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<%= render "user_search_details" %>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script>
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#manual_order_search_modal").modal({ backdrop: "static", keyboard: false })
+  $("#manual_order_search_modal").modal("show");
+
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

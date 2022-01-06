@@ -1,0 +1,26 @@
+<div class="modal fade" id="edit_order_amount_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Order #<%= @order.id %> Transferrable Amount</h4>
+      </div>
+
+      <%= form_tag update_order_transferrable_amount_path do %>
+        <div class="modal-body">
+          <%= hidden_field_tag(:order_id, @order.id) %>
+
+          <div class="row">
+            <%= label_tag :transferrable_amount %>
+            <%= number_field_tag(:transferrable_amount, @order.transferrable_amount, class: "form-control", autocomplete: :off, min: 0, step: 0.001) %>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <%= submit_tag "Submit", class: "btn btn-success" %>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

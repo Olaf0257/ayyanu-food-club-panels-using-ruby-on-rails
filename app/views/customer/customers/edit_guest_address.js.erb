@@ -1,0 +1,4 @@
+$("#edit_guest_address_modal").remove();
+$("body").append("<%= escape_javascript render(partial: 'edit_guest_address_modal') %>");
+$("#edit_guest_address_modal").modal("show");
+guest_initialize();

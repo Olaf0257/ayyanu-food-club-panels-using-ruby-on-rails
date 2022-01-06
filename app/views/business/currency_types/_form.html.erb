@@ -1,0 +1,27 @@
+<div class="form-row" style='margin-top: 25px; margin-left: 25px; width:75%; background-color: white;'>
+    <%= form_for currency_type, url: {action: action} do |f| %>
+        <div class="row">
+    
+            <% if action.eql?('create') %>
+                <%= f.hidden_field :created_by_id, value: @user&.id %>
+            <% else %>
+                <%= f.hidden_field :last_updated_by_id, value: @user&.id %>
+            <% end %>
+            <div class="col-sm-6">
+                <label for="currency_type_name">Currency Type</label>
+                <%= f.text_field :currency, class: 'form-control', id: "currency_type_name",  placeholder: 'Currency Type' %>
+            </div>
+            <div class="col-sm-6">
+                <label for="currency_type_name">Conversion Amount</label>
+                <%= f.number_field :amount, class: 'form-control', id: "currency_type_name", min: "0", step: "0.01",  placeholder: 'Per BHD amount' %>
+            </div>
+            <div class="col-sm-2">
+                <label for="defaultCheck1">Enabled</label>
+                <%= f.check_box :is_enabled, class: 'form-check-input', id: 'defaultCheck1', style: 'display: block;' %>
+            </div>
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+        </div>
+    <% end %>
+</div>

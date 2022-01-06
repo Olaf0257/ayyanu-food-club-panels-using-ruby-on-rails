@@ -1,0 +1,129 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+<script src="/assets/bootstrap-toggle.min.js"></script>
+
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2>Vendors</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= select_tag(:country_id, options_for_select(@countries, params[:country_id]), prompt: "Select Country", class: "form-control") %>
+          <%= select_tag(:area_id, options_for_select(@areas, params[:area_id]), prompt: "Select Area", class: "form-control", id: "data-area") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Company, company Ragistration no, Created By, Mobile No", autocomplete: :off) %>
+          <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Bank" href="<%= new_business_setup_vendor_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @vendors.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>First Name</th>
+                  <th>Middle Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th> Mobile</th>
+                  <th>Phone (Landline)</th>
+                  <th>Company</th>
+                  <th>Company Registration No</th>
+                  <th>Company registration expiry date</th>
+                  <th>Country</th>
+                  <th>Area</th>
+                  <th>Address</th>
+                  <th>Tax No.</th>
+                  <th>Name of company representative</th>
+                  <th>Actions</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @vendors.each do |vendor| %>
+                <tr>
+                  <td><%=vendor.id%></td>
+                  <td><%=vendor.user&.try(:first_name)%></td>
+                  <td><%=vendor.user&.middle_name %></td>
+                  <td><%=vendor.user&.try(:last_name)%></td>
+                  <td><%=vendor.user&.try(:email)%></td>
+                  <td><%= vendor.mobile_code.to_s + vendor.mobile_no rescue nil%></td>
+                  <td><%= vendor.landline_code.to_s + vendor.phone_no rescue nil%></td>
+                  <td><%=vendor.company_name%></td>
+                  <td><%=vendor.company_registration_no%></td>
+                  <td><%=vendor.company_registration_expiry_date%></td>
+                  <td><%=vendor.country.try(:name)%></td>
+                  <td><%=vendor.area.try(:area)%></td>
+                  <td><%=vendor.address%></td>
+                  
+                  <td><%=vendor.tax_percentage%></td>
+                  <td><%=vendor.name_of_company_representative%></td>
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Vendor'.html_safe, edit_business_setup_vendor_path(vendor,restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Vendor'.html_safe, business_setup_vendor_path(vendor,restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                     <td>
+                    <%=form_for :vendor,url: change_vendors_state_business_setup_vendors_path,:html=>{:multipart=>true,:id=>"#{vendor.id}-submit-form-vendor"},:remote=>true do |f|%>
+                  <span class="m-l-ms" style="font-weight: bold;"> <input type="hidden" name="vendor_id" value="<%=vendor.id%>">
+                    <%if vendor.status %>
+                   <input type="hidden" name="status" id="<%=vendor.id%>-signed" value="false">
+                   <%else%>
+                   <input type="hidden" name="status" id="<%=vendor.id%>-signed" value="true">
+                   <%end%>
+                  <input type="checkbox" style="height:323px;" value="<%=vendor.id%>" id="asc" class="input-signed" <%if vendor.status %> checked <%end%> data-toggle="toggle" data-style="ios" data-on="Disable"  data-off="Enable" >
+                  </span>
+                  <%end%>
+                </td>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Vendor available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script bank="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+
+  $('.input-signed').on("change",function(){
+   vendor= $(this).val()
+   // trandingstatus = $('#'+restaurant+'-tranding').is(':checked')
+   // topstatus =  $('#'+restaurant+'-top').is(':checked')
+   // $('#'+vendor+'-is_tranding').val(trandingstatus)
+   // $('#'+vendor+'-in_top_50').val(topstatus)
+   $('#'+vendor+'-submit-form-vendor').submit()
+  })
+</script>

@@ -1,0 +1,104 @@
+<% if params[:scan_branch].blank? %>
+  <div id="mySidenav" class="home-menu-sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <%= link_to "Brands", sitemap_path(country_id: encode_token(session[:country_id].presence || 15), anchor: "sitemap_restaurants") %>
+    <%= link_to "About Us", root_path + "about/us/true" %>
+  </div>
+
+  <header id="header" class="default">
+    <div class="topbar">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-2">
+            <div class="topbar-left text-center text-md-left">
+              <ul class="list-inline">
+                <li> <a href="#"> <span onclick="openNav()"> MENU</span> </a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-xs-10">
+            <div class="topbar-right text-center text-md-right">
+              <ul class="list-inline">
+                <li class="hide"><a href="#">العربية</a></li>
+
+                <% if current_page?(root_path) %>
+                  <li class="nav-item dropdown">
+                    <a class="dropdown-toggle-no-caret" href="#" id="countryDropdown" role="button" <% unless mobile_device? %> data-toggle="dropdown" <% end %> aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-map-marker"></span> <%= @country_name.upcase %></a>
+
+                    <div class="dropdown-menu-right dropdown-menu" id="login_dropdown" aria-labelledby="accountDropdown">
+                      <% @countries.each do |country| %>
+                        <%= link_to country.name.upcase, root_path(country_id: encode_token(country.id)), class: "dropdown-item" %>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+
+                <li class="nav-item dropdown">
+                  <% if current_user %>
+                    <a class="dropdown-toggle-no-caret" href="#" id="accountDropdown" role="button" <% unless mobile_device? %> data-toggle="dropdown" <% end %> aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <%= current_user.name %> <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+
+                    <div class="dropdown-menu-right dropdown-menu" id="login_dropdown" aria-labelledby="accountDropdown">
+                      <%= link_to "My Account", customer_dashboard_path, class: "dropdown-item" %>
+                      <%= link_to "My Cart", customer_cart_item_list_path, class: "dropdown-item" %>
+                      <%= link_to "Sign Out", customer_customer_logout_path, class: "dropdown-item" %>
+                    </div>
+                  <% else %>
+                    <a class="dropdown-toggle-no-caret" href="#" id="accountDropdown" role="button" <% unless mobile_device? %> data-toggle="dropdown" <% end %> aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> LOG IN <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+
+                    <div class="dropdown-menu-right dropdown-menu" id="login_dropdown" aria-labelledby="accountDropdown">
+                      <%= link_to "Customer Login", customer_customer_login_path, class: "dropdown-item" %>
+                      <%= link_to "Restaurant Login", business_partner_login_path, class: "dropdown-item" %>
+                      <%= link_to "Admin Login", admin_login_path, class: "dropdown-item" %>
+                      <%= link_to "Employee Login", admin_login_path, class: "dropdown-item" %>
+                      <%= link_to "Vendor Login", "#", class: "dropdown-item" %>
+                      <%= link_to "Delivery Company", business_partner_login_path, class: "dropdown-item" %>
+                      <%= link_to "Influencer Login", business_partner_login_path, class: "dropdown-item" %>
+                    </div>
+                  <% end %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="menu-left text-center text-md-left">
+              <div class="logo-box">
+                <%= link_to root_path do %>
+                  <%= image_tag("food_club_banner.png") %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <% unless params[:controller] == "enterprises"%>
+            <div class="col-xs-9">
+              <div class="menu-items">
+                <nav class="navbar navbar-expand-lg navbar-light bg-grey menu-right">
+                  <ul class="navbar-nav mr-auto nav-text">
+                    <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link hide-for-mobile" %></li>
+                    <li class="nav-item"><%= link_to "Sweet Deals", customer_restaurants_offer_list_path, class: "nav-link" %></li>
+                    <li class="nav-item"><%= link_to "How To Order?", list_posts_path(user_role: "visitor"), class: "nav-link", target: "_blank" %></li>
+                  </ul>
+
+                  <div class="icons-set">
+                    <ul class="list-inline">
+                      <li class="partner-btn">
+                        <%= link_to "Become a Partner", enterprise_information_path, class: "b-btn btn-link", target: "blank" %>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </header>
+<% end %>

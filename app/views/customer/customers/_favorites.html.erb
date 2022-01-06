@@ -1,0 +1,31 @@
+<div class="tab-pane fade" id="my-reviews">
+  <div class="tabs-wrp brd-rd5">
+    <h4 itemprop="headline">FAVOURITE RESTAURANTS</h4>
+
+    <div class="restaurants-list">
+      <% if @favorite_branches.present? %>
+        <% @favorite_branches.each do |branch| %>
+          <div class="featured-restaurant-box style3 brd-rd5">
+            <div class="featured-restaurant-thumb">
+              <%= link_to customer_restaurants_list_path(restaurant_id: encode_token(branch.restaurant_id)) do %>
+                <%= image_tag(branch.restaurant.logo) %>
+              <% end %>
+            </div>
+
+            <div class="featured-restaurant-info">
+              <h4 itemprop="headline">
+                <%= link_to branch.restaurant.title, customer_restaurants_list_path(restaurant_id: encode_token(branch.restaurant_id)) %>
+              </h4>
+
+              <ul class="post-meta">
+                <li><i class="fa fa-map-marker"></i> <%= branch.address %></li>
+              </ul>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <h4>No Favourites Present</h4>
+      <% end %>
+    </div>
+  </div>
+</div>

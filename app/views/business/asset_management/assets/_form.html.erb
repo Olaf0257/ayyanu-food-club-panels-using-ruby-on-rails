@@ -1,0 +1,135 @@
+<%= form_for(@add_asset, url: (params[:action] == "edit" ? business_asset_management_asset_path : business_asset_management_assets_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+	
+	<div class="row">
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Asset Name', name: 'asset[name]', required: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Select Asset Location</label>
+      <%= f.collection_select :branch_id, @branches, :id, :address, {prompt: 'Select Asset Location'}, {class: "form-control", required: true, include_hidden: false} %>
+    </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_type %>
+       <%= f.select(:asset_type_id, options_from_collection_for_select(AssetType.all, :id, :name, @add_asset.asset_type_id), {include_blank: "Select Asset Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Country Of Origin</label>
+       <%= f.text_field :country_of_origin, class: 'form-control', placeholder: 'Country of origin', required: true  %>
+    </div>
+  </div>
+
+   <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_category %>
+      <%= f.collection_select :asset_category_id, AssetCategory.all,:id,:name,{prompt: 'Add Category'},{:class => 'form-control',include_hidden: false} %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Station Assigned To</label>
+      <%= f.collection_select :station_id, Station.all,:id,:name,{prompt: 'Add Station'},{:class => 'form-control',include_hidden: false} %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :brand %>
+       <%= f.collection_select :brand_id, Brand.all.order(:name),:id,:name, {include_blank: true},{:class => 'form-control'} %>
+    </div>
+
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :model %>
+      <%= f.text_field :model, class: 'form-control', placeholder: 'Model', name: 'asset[model]'%>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :serial_number %>
+      <%= f.text_field :serial_number, class: 'form-control', placeholder: 'Serial Number', name: 'asset[serial_number]'%>
+    </div>
+
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :purchase_date %>
+      <%= f.date_field :purchase_date, class: 'form-control', placeholder: 'Purchase Date', name: 'asset[purchase_date]' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :invoice_number %>
+      <%= f.text_field :invoice_number, class: 'form-control', placeholder: 'Invoice Number', name: 'asset[invoice_number]'  %>
+    </div>
+
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_pic_upload %>
+      <%= f.file_field :asset_pic_upload, class: 'form-control', placeholder: 'Asset Pic Upload', name: 'asset[asset_pic_upload]', required: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :current_value %>
+      <%= f.text_field :current_value, class: 'form-control', placeholder: 'Current Value', name: 'asset[current_value]' %>
+    </div>
+
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :original_value %>
+      <%= f.text_field :original_value, class: 'form-control', placeholder: 'Original Value', name: 'asset[original_value]'  %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :warranty %>
+      <%= f.date_field :warranty, class: 'form-control', placeholder: 'Warranty', name: 'asset[warranty]' %>
+    </div>
+      <div class="col-xs-6 col-md-6">
+       <label>HS Code</label>
+      <%= f.text_field :hs_code, class: 'form-control', placeholder: 'HS Code'  %>
+    </div>
+    </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <label>Item Description</label>
+      <%= f.text_area :item_description, class: 'form-control', placeholder: 'Item Description' %>
+    </div>
+  </div>
+
+<%= hidden_field_tag 'restaurant_id', params[:restaurant_id], name: 'asset[restaurant_id]' %>
+
+	<%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %><br/>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update Asset", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create Asset", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+<script type="text/javascript">
+$("#asset_asset_type_id").change(function(){
+ var asset_type_id = $("#asset_asset_type_id").val();
+ $.ajax({
+  type: "GET",
+  url: "/business/asset_management/assets/find_asset_type_list",
+  data: {asset_category_id: asset_type_id},
+  cache: false,
+  success: function(data){
+    var asset_types = data.asset_types
+    var options =  '<option value=""><strong>Add Category</strong></option>'; //create your "title" option
+    $(asset_types).each(function(index, value){ //loop through your elements
+            options += '<option value="'+value.id+'">'+value.name+'</option>'; //add the option element as a string
+    });
+
+    $('#asset_asset_category_id').html(options); 
+  }
+});
+});
+</script>

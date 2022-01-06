@@ -1,0 +1,12 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Revenue") do |sheet|
+	sheet.add_row ["Branch: " + @branch_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+	sheet.add_row ["Order Id", "Stage 1-2 (Minutes)", "Stage 2-3 (Minutes)", "Stage 3-4 (Minutes)", "Stage 4-5 (Minutes)", "Stage 5-6 (Minutes)"]
+
+	if @data.present?
+		@data.each do |report|
+			sheet.add_row [report[:id], report[:stage1], report[:stage2], report[:stage3], report[:stage4], report[:stage5]]
+		end
+	end
+end

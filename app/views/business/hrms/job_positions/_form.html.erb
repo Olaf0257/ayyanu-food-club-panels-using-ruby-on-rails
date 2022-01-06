@@ -1,0 +1,277 @@
+<%= form_for(@job_position, url: (params[:id].blank? ? business_hrms_job_positions_path : edit_business_hrms_job_position_path(@job_position).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :country %>
+      <label>Country<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.select :country_ids, Country.all.map{|c| [c.name,c.id]}, {:include_hidden => false}, {class: "form-control setheight  select2_branch", style: 'height: 40px!important;', required: true, multiple: true} %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :branch %>
+      <label>Branch<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10" id="branch_container">
+      <% if params[:action] == "edit"%>
+        <%= f.select(:location, options_from_collection_for_select(@restaurant.branches.where(country: @job_position.countries.pluck(:name)), :id, :address, find_location_ids(@job_position)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+      <% else %>
+        <%= f.select(:location, options_from_collection_for_select(Branch.where(id: 0), :id, :address, find_location_ids(@job_position)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+      <% end %>
+    </div>
+  </div>
+  
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :department %>
+      <label>Department<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.select(:department_id, options_from_collection_for_select(Department.all, :id, :name, @job_position.department_id), {include_blank: "Select Department"}, {class: 'form-control', required: true, style: 'height: 40px!important;'}) %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label 'Designation*' %>
+      <label>Designation<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10" id="designation_container" value="<%= @job_position.designation&.name %>">
+      
+      <% if params[:action] == "edit" %>
+        <%= f.select(:designation_id, options_from_collection_for_select(@job_position.department.designations, :id, :name, @job_position.designation_id), {include_blank: "Select Designation"}, {class: 'form-control', required: true, style: 'height: 40px!important;'}) %>
+      <% else %>
+        <%= f.select(:designation_id, options_for_select([]), {include_blank: "Select Designation"}, {class: 'form-control', style: 'height: 40px!important;', required: true, id: "ddlPassport" }) %>
+      <% end %>
+    </div>
+  </div>
+`
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :title %>
+      <label>Title<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.text_field(:title, required: true, class: "form-control") %>
+    </div>
+  </div>
+
+  <!-- <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :candidate_name %>
+      <label>Candidate Name<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%#= f.text_field(:candidate_name, required: true, class: "form-control") %>
+    </div>
+  </div> -->
+
+  
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :number_of_rounds %>
+      <label>Number of rounds<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.number_field(:number_of_rounds, required: true, class: "form-control") %>
+    </div>
+  </div>
+
+  <div class="row form-group" id="name_of_rounds">
+    <% if params[:action] == "edit" %>
+      <% value = JSON @job_position.name_of_rounds rescue []%>
+      <% value.each_with_index do |val, index| %>
+
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+          <%= f.text_field(:name_of_rounds, required: true, class: "form-control custom-round-name", name: "round_names[number_of_rounds#{index}]", value: val) %>
+        </div>
+      <% end %> 
+    <% end %>
+  </div>
+
+  <!-- <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :status %>
+      <label>Status<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%#= f.text_field(:status, required: true, class: "form-control") %>
+    </div>
+  </div> -->
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :requirement_responsibility %>
+      <label>Requirement responsibility<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.text_area(:requirement_responsibility, required: true, class: "form-control") %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :expected_employees %>
+      <label>Expected employees<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.number_field(:expected_employees, required: true, class: "form-control") %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :job_description %>
+      <% if params[:action] == "edit" %>
+        <label>Job Description <p>(Upload PDF, JPEG, DOC)</p> </label>
+      <% else %>
+        <label>Job Description <p>(Upload PDF)</p><span class="text-danger">*</span></label>
+      <% end %>
+    </div>
+
+    <div class="col-sm-10">
+      <%#= f.text_area(:job_description, required: true, class: "form-control") %>
+      <%#= f.text_area(:job_description, required: true, class: "form-control") %>
+      <% if params[:action] == "edit" %>
+        <%= f.file_field :job_description, class: "btn btn-info", id:'edit-img-tag','aria-label':"File browser example" %>
+      <% else %>
+        <%= f.file_field :job_description, class: "btn btn-info", id:'edit-img-tag','aria-label':"File browser example", required: true %>
+      <% end %>
+    </div>
+  </div>
+
+   <!-- <div class="row form-group">
+    <div class="col-sm-2">
+      <%#= f.label :name_of_rounds %>
+      <label>Name of rounds<span class="text-danger">*</span></label>
+    </div>
+
+    <div class="col-sm-10">
+      <%#= f.text_area(:name_of_rounds, required: true, class: "form-control") %>
+    </div> -->
+  <!-- </div> -->
+
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+
+  <div class="row form-group">
+    <% if params[:action] == "edit" %>
+      <center><%= f.submit "Update Job Position", class: "btn btn-success btn-sm" %></center>
+    <% else %>
+      <center><%= f.submit "Create Job Position", class: "btn btn-success btn-sm" %></center>
+    <% end %>
+  </div>
+<% end %>
+<script type="text/javascript">
+
+  $(".select2_branch").select2();
+  $("#job_position_country_ids").select2({
+      placeholder: "Select Country",
+      allowClear: true
+  });
+  
+  $('#job_position_country_ids').change(function(){
+    var select = $('#job_position_country_ids option:selected')
+    var selected_options = []
+    for (var i = 0; i < select.length; i++){
+      selected_options.push(select[i].text)
+    }
+    $.ajax({
+      type: "GET",
+      url: "<%= find_country_based_branch_business_hrms_job_positions_path(restaurant_id: params[:restaurant_id]) %>",
+      data: { country_name: selected_options }
+    })
+  })
+
+   $('#job_position_department_id').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/job_positions/department_designation",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  })
+
+  $('#job_position_number_of_rounds').keyup(function(){
+    var rounds = parseInt(this.value);
+    // var num = 0;
+    if( $.isNumeric(rounds) != NaN ){
+      rounds = rounds - $('.custom-round-name').length
+      if(rounds < 0){
+        var blank_inputs = $('.custom-round-name').filter(function() {
+            return !this.value;
+        })
+        if(blank_inputs.length == 0 || blank_inputs.length < Math.abs(rounds)){
+           swal("Error", "Text field is not empty.", "warning");
+        }
+        else{
+          for (i = 0; i < Math.abs(rounds); ++i) {
+            blank_inputs[i].remove()
+          }
+        }
+      }
+      else{
+        for (i = 0; i < rounds; ++i) {
+          $("#name_of_rounds").append('<div class="col-sm-2"></div><div class="col-sm-10"><input required="required" class="form-control custom-round-name" type="text" name="job_position[number_of_rounds]" id="job_position_number_of_rounds" placeholder="Enter Round Name"></div>');    
+
+        }
+        $('.custom-round-name').each(function(index){
+          // var num = num + 1;
+          var name = "round_names[number_of_rounds" + index.toString() + "]"
+          this.setAttribute('name', name)
+        })
+      }
+    }
+  })
+
+  $('#job_position_number_of_rounds').click(function(){
+    var rounds = parseInt(this.value);
+    // var num = 0;
+    if( $.isNumeric(rounds) != NaN ){
+      rounds = rounds - $('.custom-round-name').length
+      if(rounds < 0){
+        var blank_inputs = $('.custom-round-name').filter(function() {
+            return !this.value;
+        })
+        if(blank_inputs.length == 0 || blank_inputs.length < Math.abs(rounds)){
+           swal("Error", "Text field is not empty.", "warning");
+        }
+        else{
+          for (i = 0; i < Math.abs(rounds); ++i) {
+            blank_inputs[i].remove()
+          }
+        }
+      }
+      else{
+        for (i = 0; i < rounds; ++i) {
+          $("#name_of_rounds").append('<div class="col-sm-2"></div><div class="col-sm-10"><input required="required" class="form-control custom-round-name" type="text" name="job_position[number_of_rounds]" id="job_position_number_of_rounds" placeholder="Enter Round Name"></div>');    
+
+        }
+        $('.custom-round-name').each(function(index){
+          // var num = num + 1;
+          var name = "round_names[number_of_rounds" + index.toString() + "]"
+          this.setAttribute('name', name)
+        })
+      }
+    }
+  })
+   
+</script>

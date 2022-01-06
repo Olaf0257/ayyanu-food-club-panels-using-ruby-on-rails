@@ -1,0 +1,101 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require admin/bootstrap.min.css
+ *= require jquery-ui/jquery-ui.css
+ *= require sweetalert2
+ *= require admin/fancy_checkbox.css
+ *= require admin/style
+ *= require animate/animate.css
+ *= require admin/bootstrap-tagsinput.css
+ *= require restaurants.scss
+ *= require delivery_charge.scss
+ *= require coverage_area.scss
+ *= require users.scss
+ *= require areas.scss
+
+//= require dataTables/dataTables.bootstrap.css
+//= require dataTables/dataTables.responsive.css
+//= require dataTables/dataTables.tableTools.min.css
+//= require morris/morris-0.4.3.min.css
+//= require chartist/chartist.min.css
+ *= require_self
+*/
+
+.driver-name {
+  color: #000000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.track-driver-legend {
+  margin-top: 15px;
+}
+
+.track-driver-refresh-btn {
+  margin-left: 50px;
+}
+
+.track-driver-timer {
+  width: 60px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.settle-amount-search {
+  margin-top: 10px;
+}
+
+.no-click {
+  pointer-events: none !important;
+}
+
+#external-events {
+  position: fixed;
+  z-index: 2;
+  top: 20px;
+  left: 20px;
+  width: 150px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  background: #eee;
+  max-height: 70%;
+  overflow: auto;
+}
+
+#external-events .fc-event {
+  cursor: move;
+  margin: 3px 0;
+}
+
+#calendar-container {
+  position: relative;
+  z-index: 1;
+  margin-left: 200px;
+}
+
+#calendar {
+  max-width: 1100px;
+  margin: 20px auto;
+}
+
+.fc-daygrid-block-event .fc-event-time, .fc-daygrid-block-event .fc-event-title {
+  padding: 1px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.fc .fc-button .fc-icon {
+  position: relative;
+  bottom: 4px;
+}

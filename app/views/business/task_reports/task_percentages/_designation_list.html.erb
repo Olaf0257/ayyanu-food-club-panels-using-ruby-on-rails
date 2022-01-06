@@ -1,0 +1,12 @@
+<%= select_tag(:searched_designation_id, options_from_collection_for_select(@designations, :id, :name), {id: 'searched_designation_id', prompt: "Select Designation", class: 'form-control setheight', style: 'height: 40px!important;' , name: 'searched_designation_id'}) %>
+<script type="text/javascript">
+
+	$('#searched_designation_id').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "<%= find_employee_based_designation_business_task_reports_task_percentages_path(restaurant_id: params[:restaurant_id]) %>",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  });
+</script>

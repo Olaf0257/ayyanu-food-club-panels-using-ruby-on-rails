@@ -1,0 +1,139 @@
+<tr id="order-<%=o.id%>" class="main-tr">
+  <td>
+    <p ><%=o.id%></p>
+  </td>
+  <td>
+    <p ><%=o.user.name%></p>
+  </td>
+  <td>
+    <p ><%=o.contact.present? ? o.contact : 'Not available'%></p>
+  </td>
+  <td>
+    <p ><%=o.landline.present? ? o.landline : 'Not available'%></p>
+  </td>
+  <td>
+    <p ><%=(o.created_at).strftime('%B %d %Y %I:%M%p')%></p>
+  </td>
+  <td>
+    <p ><%=number_with_precision(o.total_amount,:precision => 3)%> BD</p>
+  </td>
+  <td>
+    <p ><%=o.payment_mode=='online' ? '<label class="label" style=" background-color:#17a2b8; color:white; padding: 3px 23px 3px 22px;">Online</label>'.html_safe : o.payment_mode=='COD' ? '<label class="label" style=" background-color:#DD1A80; color:white; padding: 3px 23px 3px 27px;">CASH</label>'.html_safe : '<label class="label" style=" background-color:#F1B950; color:white; padding: 3px 23px 3px 27px;">CREDIT CARD MACHINE</label>'.html_safe%></p>
+  </td>
+  <td>
+    <%= link_to 'Accept Order', 'javascript:void(0)', class: 'btn btn-success order_status_btn', id: 'accept-order', data: { order_id: o.id } %> 
+    <%= link_to 'Reject Order', 'javascript:void(0)', class: 'btn btn-danger order_status_btn', id: 'reject-order', data: { order_id: o.id } %> 
+  </td>
+</tr>
+<tr>
+  <td colspan="3">
+    <div><strong>Delivery Address</strong></div>
+    <div class="t-u">
+      <span>Property Type : </span>
+      <span><%= o.address_type %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Block : </span>
+      <span><%= o.block %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Road Number : </span>
+      <span><%= o.street %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Additional Direction : </span>
+      <span><%= o.additional_direction %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Area : </span>
+      <span><%= o.area %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Building : </span>
+      <span><%= o.building %></span>
+    </div>
+
+    <div class="t-u">
+      <span>Floor : </span>
+      <span><%= o.floor %></span>
+    </div>
+
+    <div class="t-u">
+      <span><%= o.address_type %> No</span>
+      <span><%= o.apartment_number %></span>
+    </div>
+  </td>
+  <td colspan="5">
+    <% @invoice = order_show_json(o, "") %>
+    <div class="t-u invoice-div">
+      <span class="qty">Qty</span>
+      <span class="item-list">Item List</span>
+      <span class="amount">Unit Price (BD)</span>
+      <span class="amount">Discount (BD)</span>
+      <span class="amount">Total Price (BD)</span>
+    </div>
+    <% @invoice["order_items"].each do |item| %>
+      <div class="t-u invoice-div">
+        <span class="qty"><strong><%=item["quantity"]%></strong></span>
+
+        <span class="item-list">
+          <div>
+            <strong>
+              <%= item["menu_item"]["item_name"] %>
+            </strong>
+          </div>
+
+          <small>
+            <% if item["item_addons"].present? %>
+              <% item["item_addons"].each do |addon| %>
+                <%= addon["addon_title"] %>: <%= number_with_precision(addon["addon_price"], precision: 3) %> BD,
+              <% end %>
+            <% end %>
+          </small>
+
+          <% if item["description"].present? %>
+            <small>
+              (<%=item["description"]%>)
+            </small>
+          <% end %>
+        </span>
+
+        <span class="amount"><%= (number_with_precision((item["price_per_item"].to_f), precision: 3) || 0.000) %></span>
+        <span class="amount"><%= (number_with_precision((item["discount_amount"].to_f), precision: 3) || 0.000) %></span>
+        <span class="amount"><%= (number_with_precision((item["total_item_price"].to_f) || 0.000)) %></span>
+      </div>
+    <% end %>
+  </td>
+</tr>
+
+<style type="text/css">
+  .invoice-div {
+    width: 100%;
+  }
+  .invoice-div .qty{
+    display: inline-block;
+    border-right: 1px solid black;
+    width: 5%;
+  }
+
+  .invoice-div .amount {
+    display: inline-block;
+    border-right: 1px solid black;
+    width: 18%; 
+  }
+
+  .invoice-div .item-list{
+    display: inline-block;
+    border-right: 1px solid black;
+    width: 35%;
+  }
+
+  .main-tr {
+    border-top: 2px solid black;
+  }
+</style>

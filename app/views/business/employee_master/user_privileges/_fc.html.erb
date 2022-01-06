@@ -1,0 +1,79 @@
+<div class="col-md-12">
+	<label>FC:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.fc.include?("Online panel") %>
+			<input type="checkbox"  name="fc[online_panel]" value="Online panel" checked="">	
+		<%else%>
+			<input type="checkbox"  name="fc[online_panel]" value="Online panel">	
+		<%end%>
+		<label class="label_color">Online panel</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.fc.include?("Manage IOU") %>
+			<input type="checkbox"  name="fc[manage_iou]" value="Manage IOU" checked="">
+		<%else%>
+			<input type="checkbox"  name="fc[manage_iou]" value="Manage IOU">
+		<%end%>
+		<label class="label_color">Manage IOU</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.fc.include?("On Demand") %>
+			<input type="checkbox"  name="fc[on_demand]" value="On Demand" checked="">
+		<%else%>
+			<input type="checkbox"  name="fc[on_demand]" value="On Demand">
+		<%end%>
+		<label class="label_color">On Demand</label>
+	</div>
+	<!-- <div class="col-md-3">
+		<%# if @privilege.fc.include?("Manage Advertisement") %>
+			<input type="checkbox"  name="fc[manage_advertisement]" value="Manage Advertisement" checked="">
+		<%#else%>
+			<input type="checkbox"  name="fc[manage_advertisement]" value="Manage Advertisement">
+		<%#end%>
+		<label class="label_color">Manage Advertisement</label>
+	</div> -->
+	<!-- <div class="col-md-3">
+		<%# if @privilege.fc.include?("Pending Rejected Ads") %>
+			<input type="checkbox"  name="fc[pending_rejected_ads]" value="Pending Rejected Ads" checked="">
+		<%#else%>
+			<input type="checkbox"  name="fc[pending_rejected_ads]" value="Pending Rejected Ads">
+		<%#end%>
+		<label class="label_color">Pending Rejected Ads</label>
+	</div> -->
+	<!-- <div class="col-md-3">
+		<%# if @privilege.fc.include?("Sweet Deals") %>
+			<input type="checkbox"  name="fc[sweet_deals]" value="Sweet Deals" checked="">
+		<%#else%>
+			<input type="checkbox"  name="fc[sweet_deals]" value="Sweet Deals">
+		<%#end%>
+		<label class="label_color">Sweet Deals</label>
+	</div> -->
+	<div class="col-md-3">
+		<% if @privilege.fc.include?("Notifications") %>
+			<input type="checkbox"  name="fc[notifications]" value="Notifications" checked="">		
+		<%else%>
+			<input type="checkbox"  name="fc[notifications]" value="Notifications">
+		<%end%>
+		<label class="label_color">Notifications</label>
+	</div>
+	<!-- <div class="col-md-3">
+		<%# if @privilege.fc.include?("Employee") %>
+			<input type="checkbox"  name="fc[employee]" value="Employee" checked="">
+		<%#else%>
+			<input type="checkbox"  name="fc[employee]" value="Employee">
+		<%#end%>
+		<label class="label_color">Employee</label>
+	</div> -->
+	<div class="col-md-3">
+		<% if @privilege.fc.include?("Setting") %>
+			<input type="checkbox"  name="fc[setting]" value="Setting" checked="">
+		<%else%>
+			<input type="checkbox"  name="fc[setting]" value="Setting">
+		<%end%>
+		<label class="label_color">Setting</label>
+	</div>
+</div>
+
+

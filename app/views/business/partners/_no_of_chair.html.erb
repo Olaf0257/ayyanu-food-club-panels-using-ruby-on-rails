@@ -1,0 +1,90 @@
+<%# if branch.pos_tables.present? || params["no_of_table"].present? %>
+  <% pos_tables = @branch&.pos_tables&.where(floor_name: params[:floor_name]) %>
+  <%= form_for :branch, url: business_pos_no_of_chair_per_table_path, method: :post, html: { class: "form-inline no-of-chair", remote: true, autocomplete: :off } do |f| %>
+    <%#= hidden_field_tag(:branch_id, branch.id) %>
+
+    <div class="modal-body" style="padding-left: 0;
+    padding-right: 0;">
+      <% if pos_tables&.present? %>
+        <% table_data = JSON.parse(pos_tables.to_json) %>
+        <% if params["no_of_table"].present? %>
+            <% difference = pos_tables.length - params["no_of_table"].to_i %>
+            <% (0...difference.abs).each do |value| %>
+              <% difference < 0 ? table_data.push(table_data.length.to_s) : table_data.pop %>
+            <% end %>
+        <% end %>
+      <% else %>
+        <% table_data = (0...params["no_of_table"].to_i).to_a.map(&:to_s) %>
+      <% end %>
+
+      <div class="row no-row-chair" style="text-align: center;">
+        <div class="col-xs-6 col-md-6">
+          <%= label_tag :country %><br>
+          <%= select_tag(:country_name, options_for_select(Country.all.pluck(:name), @pos_table&.country_name), prompt: "Select Country", class: "form-control", id: 'country_id', style: "width: 100%", required: true) %>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <%= label_tag :branch %><br>
+          <div id="branch_container">
+            <% if params[:branch_id].present? %>
+              <%= select_tag(:branch_id, options_from_collection_for_select(@branches_list, :id, :address, @pos_table.branch_id), {class: "form-control", id: 'pos_branch', prompt: 'Select Branch', style: 'height: 40px !important', required: true, style: "width: 100%;", required: true}) %>
+              <%= hidden_field_tag 'original_floor_name', params[:floor_name] %>
+              <%= hidden_field_tag 'original_branch_id', params[:branch_id] %>
+            <% else %>
+              <%= select_tag(:branch_id, options_for_select([]), prompt: "Select Branch", class: "form-control", id: 'branch_id', style: "width: 100%") %>
+            <% end %>
+          </div>
+        </div>
+      </div><br/>
+      <div class="row no-row-chair" style="text-align: center;">
+        <div class="col-xs-6 col-md-6">
+          <%= label_tag :floor_name %><br>
+          <%= text_field_tag('floor_name', params[:floor_name], class: "form-control", id: "floor_name", style: 'width: 100%;', required: true) %>
+        </div>
+      </div><br/>
+
+      <div class="form-group form-inline" style="width: 100%;text-align: center;padding-top: 5%;">
+        <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+        <%= hidden_field_tag 'resturant_id', params[:restaurant_id] %>
+        
+        <label for="no_of_table">No of Table:</label>
+        <% if params[:branch_id].present? %>
+          <%= text_field_tag('no_of_table', (pos_tables.length > 0 ? pos_tables.length : '' rescue '') , class: "form-control", id: "no_of_table",  onkeypress: "return isNumber(event)") %>
+        <% else %>
+          <%= text_field_tag('no_of_table','', class: "form-control", id: "no_of_table",  onkeypress: "return isNumber(event)") %>
+        <% end %>
+      </div><br/><br/><br/>
+
+      <div class="form-data">
+        <% table_data.each do |table_no| %>
+        <div class="row no-row-chair" style="text-align: center;">
+          <!-- <div class="form-group form-inline"> -->
+          <div class="col-xs-6 col-md-6">
+            <%= label_tag :pos_table_no, "Table No" %><br>
+            <%= text_field_tag('pos_table_no[]', table_no['pos_table_no'] ? table_no['pos_table_no']  : "#{ table_no.is_a?(Hash) ? table_no['pos_table_no'].to_i+1 : table_no.to_i+1}", class: "form-control", style: "width: 100%") %>
+            <span class="hide error" style="display: block;padding-top: 16px;"></span>
+          </div>
+
+          <div class="col-xs-6 col-md-6">
+            <%= label_tag :no_of_chair, "No of Chair" %><br>
+            <%= text_field_tag('no_of_chair[]', table_no['no_of_chair'] ? table_no['no_of_chair'] : '', class: "form-control chair_details", onkeypress: "return isNumber(event)", style: "width: 100%")%>
+            <span class="hide error" style="display: block;text-align: left;color: red;">Please add no of chair</span>
+          </div>
+        </div>
+      <% end %>
+      </div>
+      
+        <%= hidden_field_tag :created_by_id, value: @user.id %><br/>
+
+      <%= submit_tag "Submit", class: "btn btn-success pull-right", id: "submit_pos" %><br/><br/>
+    </div>
+  <% end %>
+<%# end %>
+<script type="text/javascript">
+  $('#country_id').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "<%= business_partner_find_country_based_branch_path %>",
+      data: { id: this.value, restaurant_id: "<%= params[:restaurant_id] %>"}
+    });
+  })
+</script>

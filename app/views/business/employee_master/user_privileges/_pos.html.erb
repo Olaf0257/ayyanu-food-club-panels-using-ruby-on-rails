@@ -1,0 +1,53 @@
+<div class="col-md-12">
+	<label>POS:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("New Transaction") %>
+			<input type="checkbox"  name="pos[new_transaction]" value="New Transaction" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[new_transaction]" value="New Transaction">
+		<%end%>
+		<label class="label_color">New Transaction</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("Begin Check By Name") %>
+			<input type="checkbox"  name="pos[begin_check_by_name]"  value="Begin Check By Name" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[begin_check_by_name]"  value="Begin Check By Name">
+		<%end%>
+		<label class="label_color">Begin Check By Name</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("Pickup Check") %>
+			<input type="checkbox"  name="pos[pickup_check]" value="Pickup Check" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[pickup_check]" value="Pickup Check">
+		<%end%>
+		<label class="label_color">Pickup Check</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("Void") %>
+			<input type="checkbox"  name="pos[void]" value="Void" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[void]" value="Void">
+		<%end%>
+		<label class="label_color">Void</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("Cancel") %>
+			<input type="checkbox"  name="pos[cancel]" value="Cancel" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[cancel]" value="Cancel">
+		<%end%>
+		<label class="label_color">Cancel</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos.include?("Functions") %>
+			<input type="checkbox"  name="pos[functions]" value="Functions" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos[functions]" value="Functions">
+		<%end%>
+		<label class="label_color">Functions</label>
+	</div>
+</div>

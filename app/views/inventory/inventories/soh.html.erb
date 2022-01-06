@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2 class="font-bold">Stock On Hand Control</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <%= select_tag(:over_group_id, options_for_select(@restaurant.over_groups.pluck(:name, :id), params[:over_group_id]), prompt: "Select Over Group", class: "form-control") %>
+        <%= select_tag(:major_group_id, options_for_select(@restaurant.major_groups.pluck(:name, :id), params[:major_group_id]), prompt: "Select Major Group", class: "form-control") %>
+        <%= select_tag(:item_group_id, options_for_select(@restaurant.item_groups.pluck(:name, :id), params[:item_group_id]), prompt: "Select Item Group", class: "form-control") %>
+        <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+        <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+        <%= text_field_tag(:keyword, params[:keyword], class: "form-control", placeholder: "Search...", autocomplete: :off) %>
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+        <%= link_to restaurant_list_path(format: :csv, start_date: params[:start_date], end_date: params[:end_date], keyword: params[:keyword], searched_country_id: params[:searched_country_id], status: params[:status]) do  %>
+        <%= link_to 'Download CSV <i class="fa fa-download"></i>'.html_safe, soh_inventory_restaurant_inventories_path(format: :csv), class: 'btn btn-warning' %>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <% if @inventories.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Article</th>
+                  <th>Over Group</th>
+                  <th>Major Group</th>
+                  <th>Item Group</th>
+                  <th>ACT SOH</th>
+                  <th>Base Unit</th>
+                  <th>Purchase Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @inventories.each do |category, group| %>
+                <tr>
+                  <td><%= group.last.article.try(:id) %></td>
+                  <td><%= group.last.article.try(:name) %></td>
+                  <td><%= group.last.article.try(:over_group).try(:name) %></td>
+                  <td><%= group.last.article.try(:major_group).try(:name) %></td>
+                  <td><%= group.last.article.try(:item_group).try(:name) %></td>
+                  <td><%= group.pluck(:stock).sum %></td>
+                  <td><%= group.last.article.try(:base_unit_name) %></td>
+                  <td><%= number_with_precision(group.last.article.try(:purchase_price), precision: 3) || 0.000 %></td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Inventory available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <center> <%#= will_paginate @inventories ,renderer: BootstrapPagination::Rails %></center><br>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

@@ -1,0 +1,283 @@
+<style type="text/css">
+  .form-control {
+    height: 44px;
+    border-radius: 0px;
+  }
+
+  .input-group-addon {
+    border-radius: 0px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    border-radius: 0px;
+  }
+
+  .panel {
+    border-radius: 0px;
+    opacity: .9
+  }
+
+  .business-login-button, .business-login-button:hover {
+    background-color: #2f4050;
+  }
+</style>
+
+<div class="login-page">
+  <div style="text-align: center;height: 150px;margin-top: 2%;">
+    <%= link_to root_path do %>
+      <img src="/assets/food_club_logo.png" style="height: 100%;"></img>
+    <% end %>
+  </div>
+
+  <div class="container">
+    <div class="panel panel-default" style="margin: 2% auto;width:50%;">
+      <div class="panel-heading text-center" style="padding: 15px;" id="c-heading">Partner Log In</div>
+
+      <div class="panel-body">
+        <%= form_for :admin, url: business_partner_auth_path, html: { id: "login-form", class: "form-horizontal" } do |f| %>
+          <div class="extra-items">
+            <% if flash[:success].present? %>
+              <div class="alert alert-success">
+                <%= flash[:success] %>
+              </div>
+            <% elsif flash[:error].present? %>
+              <div class="alert alert-danger">
+                <%= flash[:error] %>
+              </div>
+            <% end %>
+          </div>
+
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="email" name="email" class="form-control" placeholder="Username or email" required="true" autocomplete="off">
+          </div>
+
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" name="password" class="form-control" placeholder="Password" required="true">
+          </div>
+
+          <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+              <button class="btn btn-success btn-block business-login-button">Log In</button>
+            </div>
+          </div>
+          <br>
+
+          <center> <a href="javascript:;" class="forget_password">Forgot password?</a></center>
+        <% end %>
+
+        <form  id="forgot-form" type="POST" class="form-horizontal" role="form" style="display: none;" >
+          <h3>Let’s find your account</h3>
+
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="email" name="email" id="forgot-email" class="form-control" placeholder="Please enter your email" required="true">
+          </div>
+
+          <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+              <input type="button" class="btn btn-success btn-block business-login-button" id="forgot-password-form" name="submit" value="Submit">
+            </div>
+          </div>
+          <br>
+        </form>
+
+
+        <form  id="otp-form" class="form-horizontal" role="form" style="display: none;">
+          <div class="row" style="margin-left: 15px;margin-bottom: 10px;">
+            <div class="input-group col-lg-11">
+              <label>Please Confirm your OTP that has been sent to your email.</label>
+              <input type="text" Placeholder="Enter 4 Digit - One Time Password" name="otp" id="otp-input" class="form-control" required="true">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input value="submit" class="btn btn-success pull-right col-lg-3" name="submit" id="forgot-otp-form" style="margin-right: 43px;">
+          </div>
+
+          <div class="modal-footer text-left">
+          </div>
+        </form>
+
+        <form  id="recover-form" class="form-horizontal" role="form" style="display: none;">
+          <input type="hidden" name="token" id="token">
+
+          <div class="row" style="margin-left: 15px;margin-bottom: 20px;">
+            <div class="input-group col-lg-11">
+              <label>New Password</label>
+              <input type="password" name="password" id="recover-password" class="form-control" placeholder="password" required="true">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input value="submit" class="btn btn-success pull-right col-lg-3" name="recover" id="forgot-recover-form" style="margin-right: 43px;">
+          </div>
+
+          <div class="modal-footer text-left">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $(".forget_password").on("click",function(){
+  $("#forgot-form").show();
+  $("#login-form").hide();
+  $('#c-heading').text("Password Recovery")
+  })
+
+
+   $("#forgot-password-form").on("click",function(){
+    var ck_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var email = $("#forgot-email").val();
+    if (!ck_email.test(email)){
+      swal("warning","please enter valid email","warning");
+      $("#forgot-email").focus();
+      return false;
+    }else{
+      swal({
+        title: "Wait",
+        text: "Please wait while we process your request",
+        imageUrl: '/assets/rest-loading.gif',
+        showConfirmButton: false
+      });
+      $.ajax({
+        type: "POST",
+        url: '/business/forgot/password',
+        data: {email: email},
+        dataType: "JSON",
+        success:function(result) {
+          // console.log(result);
+          if (result.code==200){
+              swal({
+              title: "success",
+              text: result.message,
+              type: "success",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Ok"
+            },
+             function(isConfirm) {
+              if (isConfirm) {
+                $("#forgot-form").hide();
+                $("#login-form").hide();
+                $("#otp-form").show();
+                $('#c-heading').text("OTP Confirmation")
+              }
+            });
+          }
+          else{
+            swal({
+              title: "warning",
+              text: result.message,
+              type: "error",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Ok"
+            },
+             function(isConfirm) {
+              if (isConfirm) {
+                $("#forgot-form").show();
+                $("#login-form").hide();
+              }
+            });
+          }
+        },
+        error: function() {
+          swal("Error","Something went wrong","Error")
+        }
+      });
+    }
+  })
+
+     $("#forgot-otp-form").on("click",function(){
+     var email = $("#forgot-email").val();
+     var otp = $("#otp-input").val();
+      swal({
+        title: "Wait",
+        text: "Please wait while we process your request",
+        imageUrl: '/assets/rest-loading.gif',
+        showConfirmButton: false
+      });
+      $.ajax({
+        type: "POST",
+        url: '/api/v1/user/otp/verification',
+        data: {email: email,otp: otp},
+        dataType: "JSON",
+        success:function(result){
+          if (result.code==200){
+            $("#token").val(result.reset_password_token);
+            swal({
+              title: "success",
+              text: result.message,
+              type: "success",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Ok"
+            },
+             function(isConfirm) {
+              if (isConfirm) {
+                $("#login-form").hide();
+                $("#otp-form").hide();
+                $("#recover-form").show();
+                $('#c-heading').text("Reset Password")
+              }
+            });
+          }
+          else{
+            $("#login-form").hide();
+            console.log(result)
+            swal("Warning",result.message,"warning");
+          }
+        },
+        error: function() {
+          swal("Error","Something went wrong","Error")
+        }
+      });
+  })
+
+     $("#forgot-recover-form").on("click",function(){
+    var token = $("#token").val();
+    var password = $("#recover-password").val();
+      swal({
+        title: "Wait",
+        text: "Please wait while we process your request",
+        imageUrl: '/assets/rest-loading.gif',
+        showConfirmButton: false
+      });
+      $.ajax({
+        type: "POST",
+        url: '/api/v1/web/user/password/recovery',
+        data: {token: token,new_password: password},
+        dataType: "JSON",
+        success:function(result){
+          // console.log(result);
+          if (result.code==200){
+            swal({
+              title: "success",
+              text: result.message,
+              type: "success",
+              confirmButtonColor: "#3085d6",
+              confirmButtonText: "Ok"
+            },
+             function(isConfirm) {
+              if (isConfirm) {
+                $("#recover-form").hide();
+                $("#login-form").show();
+                $('#c-heading').text("Partner Log In")
+              }
+            });
+          }
+          else{
+            $("#login-form").hide();
+            swal("Warning",result.message,"warning");
+          }
+        },
+        error: function() {
+          swal("Error","Something went wrong","Error")
+        }
+      });
+  })
+</script>

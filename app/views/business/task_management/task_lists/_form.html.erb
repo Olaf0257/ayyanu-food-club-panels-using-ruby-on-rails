@@ -1,0 +1,254 @@
+<%= form_for(@task_list, url: (params[:action] == "edit" ? business_task_management_restaurant_task_list_path : business_task_management_restaurant_task_lists_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+	<%= f.hidden_field :restaurant_id, value: params[:restaurant_id]%>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :country %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.select :country_ids, Country.where(id: @user&.user_detail&.country_ids&.map(&:to_i)).map{|c| [c.name,c.id]}, {:include_hidden => false}, {class: "form-control  select2_branch", style: 'height: 40px!important;', multiple: true, required: true} %>
+		</div>
+  </div>
+
+  <div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :branch %>
+		</div>
+
+		<div class="col-sm-10" id="branch_container">
+			<% if params[:action] == "edit"%>
+				<%= f.select(:location, options_from_collection_for_select(Branch.where(id: @task_list.location), :id, :address, find_task_mgmt_branch_ids(@task_list)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:location, options_from_collection_for_select(Branch.where(id: 0), :id, :address, find_task_mgmt_branch_ids(@task_list)), {include_blank: "Select Location"}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :task_title %>
+		</div>
+
+		<div class="col-sm-10" id="task_type_container">
+			<%= f.select(:task_type_id, options_from_collection_for_select(TaskType.where(id: 0), :id, :name, @task_list.task_type_id), {include_blank: "Select Task Title"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :task_category %>
+		</div>
+
+		<div class="col-sm-10" id="task_category_container">
+			<%#= f.text_field(:task_category_id, required: true, class: "form-control") %>
+			<% if params[:action] == "edit" %>
+				<%= f.select(:task_category_id, options_from_collection_for_select(TaskCategory.where(id: @task_list.task_category_id), :id, :category_name, @task_list.task_category_id), {include_blank: "Select Task Category"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+			<% else %>
+				<%= f.select(:task_category_id, options_from_collection_for_select(TaskCategory.where(id: 0), :id, :name, @task_list.task_category_id), {include_blank: "Select Task Category"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :task_sub_category_id %>
+		</div>
+
+		<div class="col-sm-10" id="task_subcategory_container">
+			<%#= f.text_field(:task_category_id, required: true, class: "form-control") %>
+			<% if params[:action] == "edit" %>
+				<%= f.select(:task_sub_category_id, options_from_collection_for_select(TaskSubCategory.where(id: @task_list.task_sub_category_id), :id, :name, @task_list.task_sub_category_id), {include_blank: "Select Task Sub Category"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+			<% else %>
+				<%= f.select(:task_sub_category_id, options_from_collection_for_select(TaskSubCategory.where(id: 0), :id, :name, @task_list.task_sub_category_id), {include_blank: "Select Task Sub Category"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :task_activity %>
+		</div>
+
+		<!-- <div class="col-sm-10" id="task_activity_container"> -->
+		<div class="col-sm-10">
+			<%#= f.text_field(:task_activity_id, required: true, class: "form-control") %>
+			<%# if params[:action] == "edit" %>
+				<%#= f.select(:task_activity_id, options_from_collection_for_select(TaskActivity.where(id: @task_list.task_activity_id), :id, :name, @task_list.task_activity_id), {include_blank: "Select Task Activity"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+			<%# else %>
+				<%= f.select(:task_activity_id, options_from_collection_for_select(TaskActivity.where(restaurant_id: decode_token(params[:restaurant_id])), :id, :name, @task_list.task_activity_id), {include_blank: "Select Task Activity"}, {class: 'form-control', style: 'height: 40px!important;',required: true}) %>
+			<%# end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :name %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:name, required: true, class: "form-control") %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :time_from %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:time_to, required: true, class: "form-control", id: "datetimepicker_to") %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :time_to %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:time_from, required: true, class: "form-control", id: "datetimepicker_from") %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+		</div>
+
+		<div class="col-sm-10">
+			<div class="col-sm-2">
+				<!-- <%#= f.radio_button(:upload_check, class: "form-control") %>&nbsp; Upload -->
+				<%= f.radio_button :upload_check, true, :value => false %>&nbsp;Upload
+
+			</div>
+			<div class="col-sm-3">
+				<!-- <%#= f.radio_button(:checkbox_check, class: "form-control") %>&nbsp; Checkbox -->
+				<%= f.radio_button :checkbox_check, true, :value => false %>&nbsp;Checkbox
+			</div>
+		</div>
+	</div>
+
+
+	
+	<%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+	<%= f.hidden_field :created_by_id, value: @user.id %>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update Task", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create Task", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+ <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script> -->
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css"> 
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker-standalone.css"> 
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript">
+	// $("#assign_asset_asset_group_id").change(function(){
+	//  var asset_category_id = $("#assign_asset_asset_group_id").val();
+	//  $.ajax({
+	//   type: "GET",
+	//   url: "/business/asset_management/assets/find_asset_category_list",
+	//   data: {asset_category_id: asset_category_id},
+	//   cache: false,
+	//   success: function(data){asset_category
+	//     var asset_categories = data.asset_categories
+	//     var options =  '<option value=""><strong>Add Asset Type</strong></option>'; //create your "title" option
+	//     $(asset_categories).each(function(index, value){ //loop through your elements
+	//             options += '<option value="'+value.id+'">'+value.name+'</option>'; //add the option element as a string
+	//     });
+
+	//     $('#assign_asset_asset_category_id').html(options); 
+	//   }
+	// });
+	// });
+
+	$(".select2_branch").select2();
+
+	$("#task_list_country_ids").select2({
+    	placeholder: "Select Country",
+    	allowClear: true
+	});
+
+	$('#task_list_country_ids').change(function(){
+		var select = $('#task_list_country_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_country_based_branch_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { country_name: selected_options }
+		})
+	})
+
+	$( document ).ready(function() {
+
+		setInterval(function(){ 
+
+			$('#branch').change( function(){
+			location_ids = []
+			$(this).find('option:selected').each(function(){
+			  location_ids.push(this.value);
+			});
+			$.ajax({
+			  type: "GET",
+			  url: "<%= find_branch_based_task_type_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+			  data: { location_ids: location_ids }
+			})
+		})
+		}, 1000);
+
+		<% if params[:action] == "edit" %>
+			location_ids = []
+			$('#branch').find('option:selected').each(function(){
+			  location_ids.push(this.value);
+			});
+			$.ajax({
+			  type: "GET",
+			  url: "<%= find_branch_based_task_type_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+			  data: { location_ids: location_ids, id: "<%= params[:id] %>" }
+			})
+
+			$('#task_category_id, #task_list_task_category_id').change(function(){
+				$.ajax({
+				  type: "GET",
+				  url: "<%= find_task_activity_based_task_category_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+				  data: { task_category_id: $('#task_list_task_category_id option:selected').val() }
+				})
+			})
+		<% end %>
+
+		$('#task_category_id, #task_category_container').change(function(){
+				$.ajax({
+				  type: "GET",
+				  url: "<%= find_task_sub_category_based_task_category_business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %>",
+				  data: { task_category_id: $('#task_category_id option:selected').val() }
+				})
+			})
+
+
+		
+	})
+
+	$('#datetimepicker_to').datetimepicker();
+	$('#datetimepicker_from').datetimepicker();
+
+	$("#task_list_upload_check_true").click(function() {
+		$("#task_list_checkbox_check_true").prop('checked', false);
+
+	})
+
+	$("#task_list_checkbox_check_true").click(function() {
+		$("#task_list_upload_check_true").prop('checked', false);
+	})
+
+</script>
+

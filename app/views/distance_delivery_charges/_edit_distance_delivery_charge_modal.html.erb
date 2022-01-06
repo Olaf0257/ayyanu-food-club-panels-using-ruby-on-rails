@@ -1,0 +1,97 @@
+<div class="modal fade" id="edit_distance_delivery_charge_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Distance wise Delivery Charge</h4>
+        </div>
+
+        <%= form_tag update_charge_distance_delivery_charges_path, html: { class: "form-horizontal" } do %>
+          <%= hidden_field_tag(:delivery_charge_id, "") %>
+
+          <div class="modal-body">
+            <% if is_super_admin?(@admin) %>
+              <div class="row">
+                <div class="col-sm-4">
+                  <p>Country</p>
+                </div>
+
+                <div class="col-sm-8">
+                  <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id), 15), class: "form-control",  style: "height: 40px;") %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <p>Min Distance (km)</p>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:min_distance, "", class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <p>Max Distance (km)</p>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:max_distance, "", class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <% if is_super_admin?(@admin) %>
+                  <p>Charge <span class="currency"></span></p>
+                <% else %>
+                  <p>Charge <span class="currency">(<%= @admin.country.currency_code %>)</span></p>
+                <% end %>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:charge, "", class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <% if is_super_admin?(@admin) %>
+                  <p>Min Order Amount <span class="currency"></span></p>
+                <% else %>
+                  <p>Min Order Amount <span class="currency">(<%= @admin.country.currency_code %>)</span></p>
+                <% end %>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:min_order_amount, "", class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <% if is_super_admin?(@admin) %>
+                  <p>Delivery Service <span class="currency"></span></p>
+                <% else %>
+                  <p>Delivery Service <span class="currency">(<%= @admin.country.currency_code %>)</span></p>
+                <% end %>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:delivery_service, "", class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <%= submit_tag "Submit", class: "btn theme-btn pull-right" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+  </div>
+</div>

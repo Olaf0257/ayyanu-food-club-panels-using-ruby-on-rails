@@ -1,0 +1,23 @@
+<% if @checkout %>
+  var target = $(".target-li");
+  var price = parseFloat(target.find(".total-price").text());
+  var new_price = price - parseFloat("<%= @price %>");
+  target.find(".total-price").text(new_price.toFixed(3));
+  target.removeClass("target-li");
+<% else %>
+  var qty = parseFloat($("#order_item_details_modal .item-count").text());
+
+  if($("#order_item_details_modal .addon-item-checkbox:checked").length > 0) {
+    var addon_prices = 0;
+
+    $("#order_item_details_modal .addon-item-checkbox:checked").each(function () {
+      addon_prices += parseFloat($(this).closest("p").find(".addon-price").text());
+    });
+
+    var total_price = (parseFloat("<%= @price %>") + addon_prices) * qty;
+    $("#order_item_details_modal .total-price").text(total_price.toFixed(3));
+  } else {
+    var total_price = parseFloat("<%= @price %>") * qty;
+    $("#order_item_details_modal .total-price").text(total_price.toFixed(3));
+  }
+<% end %>

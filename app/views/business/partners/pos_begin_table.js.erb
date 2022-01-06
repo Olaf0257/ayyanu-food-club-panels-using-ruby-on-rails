@@ -1,0 +1,11 @@
+$('.no-of-guest').val('');
+<% if !@pos_table.present? %>
+	$('#beginTablePopup').modal('hide');
+	$('#errorMessagePopup').modal('show');
+	$('.tableBusyErrorMessage').text('Table Not Found');
+<% else %>
+	$('#beginTablePopup').modal('hide');
+	$('.no-guest-error').addClass('hide');
+	$('#guestPopupForBeginCheck').modal('show');
+	$('#guestPopupForBeginCheck .selected_table_id').val('<%= encode_token(@pos_table.id) %>')
+<% end %>

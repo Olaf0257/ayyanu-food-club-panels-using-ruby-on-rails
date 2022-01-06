@@ -1,0 +1,21 @@
+<%= select_tag(:location_id, options_from_collection_for_select(@branches, :id, :address, @family_detail&.location), {id: "branch", class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true, name: 'family_detail[location][]'}) %>
+<script type="text/javascript">
+	$("#branch").select2({
+  	placeholder: "Select Branch",
+  	allowClear: true
+	});
+
+	$('#branch').change(function(){
+    var items = [];
+    $('#branch option:selected').each(function(){ items.push($(this).val()); });
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/family_details/reporting_to_list",
+      dataType: 'script',
+      data: {branches: items}
+    });
+
+  })
+
+
+</script>

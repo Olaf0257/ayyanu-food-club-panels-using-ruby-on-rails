@@ -1,0 +1,17 @@
+<div class="modal fade" id="printCheck" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 28%">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Check Preview</h4>
+        </div>
+        <div class="modal-body">
+            <%= render partial: 'check_detail', locals: {pos_check: pos_check}%>
+        </div>
+        <div class="modal-footer" style="clear:both;">
+            <button type="button" class="btn btn-primary" id='printCheckId' onclick="printCheck()">Print Check</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div>

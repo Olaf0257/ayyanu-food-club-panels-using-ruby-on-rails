@@ -1,0 +1,19 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Review Reports") do |sheet|
+  sheet.add_row ["Branch: " + @branch_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Order Id", "Branch", "Area", "User", "Review", "Quantity of Food Rating", "Food Taste Rating", "Value for Money Rating", "Order Packaging Rating", "Order Seal Rating", "Overall Rating", "Time"]
+
+  if @ratings.present?
+    @ratings.each do |rating|
+      sheet.add_row [rating.order_id, (rating.branch.address.presence || "NA"), (rating.order&.area.presence || "NA"), (rating.user.present? ? rating.user.name.present? ? rating.user.name : "N/A" : "N/A"), (rating.review_description.present? ? rating.review_description : "N/A"), (rating.food_quantity_rating.presence || "NA"), (rating.food_taste_rating.presence || "NA"), (rating.value_rating.presence || "NA"), (rating.packaging_rating.presence || "NA"), (rating.seal_rating.presence || "NA"), (rating.rating.presence || "NA"), rating.created_at.strftime("%d %b %Y %l:%M:%S %p")]
+    end
+
+    sheet.add_row ["Average Quantity of Food Rating", @all_ratings.average(:food_quantity_rating).to_f.round(1)]
+    sheet.add_row ["Average Food Taste Rating", @all_ratings.average(:food_taste_rating).to_f.round(1)]
+    sheet.add_row ["Average Value for Money Rating", @all_ratings.average(:value_rating).to_f.round(1)]
+    sheet.add_row ["Average Order Packaging Rating", @all_ratings.average(:packaging_rating).to_f.round(1)]
+    sheet.add_row ["Average Order Seal Rating", @all_ratings.average(:seal_rating).to_f.round(1)]
+    sheet.add_row ["Average Overall Rating", @all_ratings.average(:rating).to_f.round(1)]
+  end
+end

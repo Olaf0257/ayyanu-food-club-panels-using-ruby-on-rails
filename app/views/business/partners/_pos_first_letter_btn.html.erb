@@ -1,0 +1,4 @@
+<div class="blue">ALL</div>
+<% categories.map { |cat| cat.try(:category_title).try(:first).try(:titleize) || cat.try(:item_name).try(:first).try(:titleize) }.uniq.sort.each do |category_name| %>
+	<div class="blue"><%= category_name %></div>
+<% end %>

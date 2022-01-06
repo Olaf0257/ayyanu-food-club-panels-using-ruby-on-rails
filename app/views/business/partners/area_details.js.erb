@@ -1,0 +1,6 @@
+<% if @branches.size.zero? %>
+  swal("Error", "This area is not covered by any branch", "error")
+<% elsif @selected_branch.present? %>
+  $(".manual-order-branch").val("<%= @selected_branch.id %>");
+  $(".manual-order-branch").trigger("change");
+<% end %>

@@ -1,0 +1,94 @@
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Edit Influencer</h2>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Edit Influencer</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_tag influencer_update_path, multipart: true, class: "form-horizontal", autocomplete: "off" do |f| %>
+        <%= hidden_field_tag(:user_id, @user.id) %>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :name, "Name" %>
+            <%= text_field_tag(:name, @user.name, placeholder: "Enter name", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :email %>
+            <%= email_field_tag(:email, @user.email, placeholder: "Enter email", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :contact_no %><br/>
+            <%= hidden_field_tag(:country_code, @user.country_code, id: "country-code") %>
+            <%= text_field_tag(:contact, @user.contact, placeholder: "Enter contact number", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :country_id %>
+            <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id), @user.country_id), prompt: "Select Country", required: true, class: "form-control", style: "height: 34px") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :image %><br/>
+            <img src="<%= @user.image.presence || '/assets/user.png' %>" width="150px" height="120px">
+            <%= file_field_tag(:image, class: "form-control", accept: "image/png, image/jpeg") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <center><%= submit_tag "Update Influencer", class: "btn btn-success btn-sm update-influencer-btn" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        alert(countryCode);
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%= @user.country_code.present? ? @user.country_code : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

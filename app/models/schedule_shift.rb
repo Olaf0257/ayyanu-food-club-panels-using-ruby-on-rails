@@ -1,0 +1,2 @@
+class ScheduleShift < ApplicationRecord
+end

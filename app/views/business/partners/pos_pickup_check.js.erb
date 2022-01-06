@@ -1,0 +1,10 @@
+<% if @pos_checks.present? %>
+    $('.driver-th').removeClass('hide');
+	$('#pickupCheckModalPopup .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: @pos_checks, is_display_driver: true }%>");
+	$('#pickupCheckModalPopup .modal-body .searching').empty().append("<%= j render partial: 'pickup_check_search', locals: { pos_checks: @pos_checks, pickup_check: true }%>");
+	selectSinglePickupCheckRow();
+	$('#pickupCheckModalPopup').modal('show');
+<% else %>
+	$('#errorMessagePickupCheckPopup .errorMessage').text('Check Not Found.');
+	$('#errorMessagePickupCheckPopup').modal('show');	
+<% end %>

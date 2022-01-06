@@ -1,0 +1,80 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Chapters >> Edit</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, business_setup_restaurant_chapters_path(params[:restaurant_id]) , class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Edit New chapter</h3>
+		</div>
+
+		<div class="panel-body">
+			<%= form_for(@chapter, url: business_setup_restaurant_chapter_path(params[:restaurant_id]) , html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :employee %>
+				</div>
+
+				<div class="col-sm-10">
+					<%#= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @chapter.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+					<select class="form-control setheight select2_employee" name="user_ids[]" id="branch" multiple="true">
+		            <% @employees.each do |employee| %>
+		            <option <%if @chapter.users.pluck(:name).include?(employee.name)%> selected <%end%> value="<%= employee.id %>"><%= employee.name %></option>
+		            <% end %>
+		          </select>
+				</div>
+			</div>
+        <div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :manual %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.select(:manual_id, options_from_collection_for_select(Manual.all, :id, :name,@chapter.manual_id), {include_blank: "Select Manual"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+				</div>
+			</div>
+
+			 <div class="row form-group">
+				<div class="col-sm-2">
+					<label>Chapter Title</label>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:chapter_title, required: true, class: "form-control") %>
+				</div>
+			</div>
+
+			 <div class="row form-group">
+				<div class="col-sm-2">
+					<label>Pdf Upload</label>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.file_field(:pdf_document, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<center><%= f.submit "Update chapter", class: "btn btn-success btn-sm" %></center>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+	$(".select2_employee").select2();
+</script>

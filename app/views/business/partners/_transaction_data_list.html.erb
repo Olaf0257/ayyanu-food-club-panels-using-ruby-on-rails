@@ -1,0 +1,21 @@
+<tr id="transaction_data_<%= transaction.id %>" class='transaction_selection parent_transaction' data-transaction-id='<%= transaction.id %>'>
+    <% is_split = is_split rescue nil %>
+    <% if is_split.present? %>
+        <input type='hidden' name='transfer_ids' value=[] class='tranfer_check_list_<%= transaction.id %>' >
+        <input type='hidden' name='shared_ids' value=[] class='share_item_check_list_<%= transaction.id %>' data-share-transaction-id='<%= transaction.id %>'>
+    <% end %>
+    <%= render partial: 'transaction_list', locals: {transaction: transaction, is_split: is_split} %>
+<tr>
+<% if transaction.comments.present? || transaction.kitchen_instructions.present? %>
+    <%= render partial: 'pos_comment', locals: {transaction: transaction} %>
+<% end %>
+<% if transaction.addon_pos_transactions.present? %>
+    <% transaction.addon_pos_transactions.each do |add_on_transaction| %>
+        <tr id="transaction_data_<%= add_on_transaction.id %>" class='transaction_selection <%= "parent_id_#{add_on_transaction.parent_pos_transaction_id}" %> addon_item' data-transaction-id='<%= add_on_transaction.id %>'>
+        <%= render partial: 'transaction_list', locals: {transaction: add_on_transaction, is_split: is_split} %>
+        <tr>
+        <% if add_on_transaction.comments.present? || transaction.kitchen_instructions.present? %>
+            <%= render partial: 'pos_comment', locals: {transaction: add_on_transaction} %>
+        <% end %>
+    <% end %>
+<% end %>

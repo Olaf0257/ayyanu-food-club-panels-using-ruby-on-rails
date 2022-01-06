@@ -1,0 +1,84 @@
+<style>
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>Tax</h2>
+  </div>
+
+  <div class="col-sm-8">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <% if is_super_admin?(@admin) %>
+          <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "All Countries", class: "form-control admin-search-field delivery-charge-search") %>
+        <% end %>
+      <% end %>
+
+      <%= link_to taxes_path(format: :csv, searched_country_id: params[:searched_country_id]) do  %>
+        <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Tax</h5>
+
+          <span class="pull-right">
+            <%= link_to "Add New Tax", new_tax_path, class: "btn btn-xs btn-success", style: "margin-right: 20px;" %>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @taxes.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Tax Name</th>
+                  <th>Tax Percentage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @taxes.each do |tax| %>
+                  <tr>
+                    <td><%= tax.country.name %></td>
+                    <td><%= tax.name %></td>
+                    <td><%= tax.percentage %></td>
+
+                    <td>
+                      <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_tax_path(tax.id), class: "btn btn-xs btn-info" %>
+
+                      <% if is_super_admin?(@admin) %>
+                        <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", tax, method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete?" } %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Tax available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

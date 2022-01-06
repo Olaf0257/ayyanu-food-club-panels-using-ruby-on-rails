@@ -1,0 +1,3 @@
+<label for="user_reporting_to">Designation</label>
+<%= select_tag('designation', options_for_select(find_designations(@designations)), prompt: "Select Designation", class: 'form-control', style: 'height: 40px!important;', name: 'user[user_detail_attributes][designation]', id: "employee_designation" ) %>
+<%#= select_tag('designation', options_for_select(User::ROLES), prompt: "Select Designation", class: 'form-control', style: 'height: 40px!important;', name: 'user[user_detail_attributes][designation]', id: "ddlPassport" ) %>

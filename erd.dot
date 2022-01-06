@@ -1,0 +1,751 @@
+digraph FoodDelivery {
+rankdir = "LR";
+ranksep = "0.5";
+nodesep = "0.4";
+pad = "0.4,0.4";
+margin = "0,0";
+concentrate = "true";
+labelloc = "t";
+fontsize = "13";
+fontname = "Arial Bold";
+splines = "spline";
+node[ shape  =  "Mrecord" , fontsize  =  "10" , fontname  =  "Arial" , margin  =  "0.07,0.05" , penwidth  =  "1.0"];
+edge[ fontname  =  "Arial" , fontsize  =  "7" , dir  =  "both" , arrowsize  =  "0.9" , penwidth  =  "1.0" , labelangle  =  "32" , labeldistance  =  "1.8"];
+rankdir = "TB";
+label = "FoodDelivery domain model\n\n";
+m_AddRequest [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">AddRequest</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="amount">amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="end_year">end_year <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="image">image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_accepted">is_accepted <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="place">place <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="position">position <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="start_year">start_year <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="transaction_id">transaction_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Address [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Address</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="additional_direction">additional_direction <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="address_name">address_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="address_type">address_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="apartment_number">apartment_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="area">area <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="block">block <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="building">building <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="contact">contact <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="country_code">country_code <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="floor">floor <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="fname">fname <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="guest_token">guest_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="landline">landline <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="latitude">latitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="lname">lname <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="longitude">longitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="street">street <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_AdminDoc [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">AdminDoc</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="contract_url">contract_url <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="doc_title">doc_title <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Advertisement [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Advertisement</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="amount">amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="from_date">from_date <font face="Arial Italic" color="grey60">date</font></td></tr>
+  <tr><td align="left" width="130" port="image">image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="place">place <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="position">position <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="status">status <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="to_date">to_date <font face="Arial Italic" color="grey60">date</font></td></tr>
+  <tr><td align="left" width="130" port="transaction_id">transaction_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_AppDetail [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">AppDetail</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="android_current_version">android_current_version <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="android_store_link">android_store_link <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="android_version_force_update">android_version_force_update <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="ios_current_version">ios_current_version <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="ios_store_link">ios_store_link <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="ios_version_force_update">ios_version_force_update <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+</table>
+}>];
+m_Auth [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Auth</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="current_sign_in_at">current_sign_in_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="current_sign_in_ip">current_sign_in_ip <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="encrypted_password">encrypted_password <font face="Arial Italic" color="grey60">string ∗</font></td></tr>
+  <tr><td align="left" width="130" port="last_sign_in_at">last_sign_in_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="last_sign_in_ip">last_sign_in_ip <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="otp">otp <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="remember_created_at">remember_created_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="reset_password_sent_at">reset_password_sent_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="reset_password_token">reset_password_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="role">role <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="sign_in_count">sign_in_count <font face="Arial Italic" color="grey60">integer ∗</font></td></tr>
+</table>
+}>];
+m_Branch [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Branch</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="accept_card">accept_card <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="accept_cash">accept_cash <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="address">address <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="address_ar">address_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="avg_rating">avg_rating <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="cash_on_delivery">cash_on_delivery <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="city">city <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="contact">contact <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="country">country <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="daily_timing">daily_timing <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_charges">delivery_charges <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_time">delivery_time <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="image">image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_busy">is_busy <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_closed">is_closed <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_favorite">is_favorite <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="latitude">latitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="longitude">longitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="min_order_amount">min_order_amount <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="state">state <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="talabat_id">talabat_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="tax_percentage">tax_percentage <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="zipcode">zipcode <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_BranchCategory [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">BranchCategory</font></td></tr>
+</table>
+}>];
+m_BranchCoverageArea [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">BranchCoverageArea</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="accept_card">accept_card <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="accept_cash">accept_cash <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="cash_on_delivery">cash_on_delivery <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="daily_closed_at">daily_closed_at <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="daily_open_at">daily_open_at <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_charges">delivery_charges <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_time">delivery_time <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="foodclub_charges">foodclub_charges <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_busy">is_busy <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_closed">is_closed <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="minimum_amount">minimum_amount <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_BranchKitchenManager [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">BranchKitchenManager</font></td></tr>
+</table>
+}>];
+m_BranchManager [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">BranchManager</font></td></tr>
+</table>
+}>];
+m_BranchTransport [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">BranchTransport</font></td></tr>
+</table>
+}>];
+m_Budget [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Budget</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="amount">amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="end_date">end_date <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="start_date">start_date <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Cart [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Cart</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="guest_token">guest_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_CartItem [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">CartItem</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="discount_amount">discount_amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="quantity">quantity <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="total_item_price">total_item_price <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_CartItemAddon [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">CartItemAddon</font></td></tr>
+</table>
+}>];
+m_Category [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Category</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="color">color <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="icon">icon <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title_ar">title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_City [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">City</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="city">city <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="country">country <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="state">state <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_ClubCategory [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">ClubCategory</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="description_ar">description_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="img_url">img_url <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title_ar">title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_ClubSubCategory [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">ClubSubCategory</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title_ar">title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_CoverageArea [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">CoverageArea</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="area">area <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="area_ar">area_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_CoverageAreaLocation [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">CoverageAreaLocation</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="latitude">latitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="longitude">longitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Favorite [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Favorite</font></td></tr>
+</table>
+}>];
+m_GuestSession [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">GuestSession</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="device_id">device_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="device_type">device_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="guest_token">guest_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Image [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Image</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="url">url <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Iou [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Iou</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="is_received">is_received <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="paid_amount">paid_amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_ItemAddon [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">ItemAddon</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="addon_price">addon_price <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="addon_title">addon_title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="addon_title_ar">addon_title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="approve">approve <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="resion">resion <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_ItemAddonCategory [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">ItemAddonCategory</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="addon_category_name">addon_category_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="addon_category_name_ar">addon_category_name_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="approve">approve <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="max_selected_quantity">max_selected_quantity <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="min_selected_quantity">min_selected_quantity <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="resion">resion <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_MenuCategory [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">MenuCategory</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="approve">approve <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="category_title">category_title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="categroy_title_ar">categroy_title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="resion">resion <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_MenuItem [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">MenuItem</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="approve">approve <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="calorie">calorie <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="is_available">is_available <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="item_description">item_description <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="item_description_ar">item_description_ar <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="item_image">item_image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="item_name">item_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="item_name_ar">item_name_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="item_rating">item_rating <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="price_per_item">price_per_item <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="resion">resion <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_NewRestaurant [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">NewRestaurant</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="bank_account">bank_account <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="bank_name">bank_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="branch_no">branch_no <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="contact_number">contact_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="cpr_number">cpr_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="cr_number">cr_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="cuisine">cuisine <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_status">delivery_status <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="email">email <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_approved">is_approved <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="nationality">nationality <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="owner_name">owner_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="person_name">person_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="reject_reason">reject_reason <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="restaurant_name">restaurant_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="role">role <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="submitted_by">submitted_by <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_NewRestaurantImage [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">NewRestaurantImage</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="doc_type">doc_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="url">url <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Notification [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Notification</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="admin_id">admin_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="message">message <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="notification_type">notification_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="seen_by_admin">seen_by_admin <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="status">status <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+</table>
+}>];
+m_Offer [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Offer</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="discount_percentage">discount_percentage <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="end_date">end_date <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="offer_image">offer_image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="offer_title">offer_title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="offer_type">offer_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="start_date">start_date <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+</table>
+}>];
+m_Order [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Order</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="accepted_at">accepted_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="additional_direction">additional_direction <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="address_type">address_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="apartment_number">apartment_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="area">area <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="block">block <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="building">building <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="contact">contact <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="cooked_at">cooked_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="delivered_at">delivered_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="delivery_charge">delivery_charge <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="floor">floor <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="fname">fname <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_accepted">is_accepted <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_delivered">is_delivered <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_paid">is_paid <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_ready">is_ready <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_settled">is_settled <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="landline">landline <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="latitude">latitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="lname">lname <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="longitude">longitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="note">note <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="order_review">order_review <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="order_type">order_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="payment_mode">payment_mode <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="pickedup">pickedup <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="pickedup_at">pickedup_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="qr_image">qr_image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="review_cancel">review_cancel <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="settled_at">settled_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="street">street <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="sub_total">sub_total <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="tax_amount">tax_amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="total_amount">total_amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="transection_id">transection_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_OrderItem [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">OrderItem</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="discount_amount">discount_amount <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="is_delivered">is_delivered <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="quantity">quantity <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="total_item_price">total_item_price <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_OrderItemAddon [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">OrderItemAddon</font></td></tr>
+</table>
+}>];
+m_OrderReview [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">OrderReview</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="delivery_time_rate">delivery_time_rate <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="order_experience">order_experience <font face="Arial Italic" color="grey60">text</font></td></tr>
+  <tr><td align="left" width="130" port="packing_rate">packing_rate <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="quality_of_food_rate">quality_of_food_rate <font face="Arial Italic" color="grey60">integer</font></td></tr>
+  <tr><td align="left" width="130" port="value_for_money_rate">value_for_money_rate <font face="Arial Italic" color="grey60">integer</font></td></tr>
+</table>
+}>];
+m_Point [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Point</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="expired_date">expired_date <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="point_type">point_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="user_point">user_point <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_Rating [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Rating</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="rating">rating <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="review_description">review_description <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="review_title">review_title <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_RedeemPoint [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">RedeemPoint</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="point">point <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+  <tr><td align="left" width="130" port="remaining_point">remaining_point <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_Referral [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Referral</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="email">email <font face="Arial Italic" color="grey60">string ∗ U</font></td></tr>
+  <tr><td align="left" width="130" port="is_registered">is_registered <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+</table>
+}>];
+m_Restaurant [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Restaurant</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="is_signed">is_signed <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_subscribe">is_subscribe <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="login_id">login_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="logo">logo <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="talabat_id">talabat_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title">title <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="title_ar">title_ar <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_RestaurantDocument [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">RestaurantDocument</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="doc_url">doc_url <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="is_approved">is_approved <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="is_rejected">is_rejected <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="reject_reason">reject_reason <font face="Arial Italic" color="grey60">text</font></td></tr>
+</table>
+}>];
+m_Review [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Review</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="review_for">review_for <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="review_type">review_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_ServerSession [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">ServerSession</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="last_active_at">last_active_at <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="server_token">server_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Servicefee [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Servicefee</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="report_subscribe_fee">report_subscribe_fee <font face="Arial Italic" color="grey60">float (24)</font></td></tr>
+</table>
+}>];
+m_SessionDevice [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">SessionDevice</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="device_id">device_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="device_type">device_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="session_token">session_token <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_SocialAuth [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">SocialAuth</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="provider_id">provider_id <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="provider_type">provider_type <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_Subscription [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Subscription</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="subscribe_date">subscribe_date <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_SuggestRestaurant [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">SuggestRestaurant</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="description">description <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_SuperAdmin [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">SuperAdmin</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="admin_name">admin_name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="email">email <font face="Arial Italic" color="grey60">string U</font></td></tr>
+  <tr><td align="left" width="130" port="image">image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="password_digest">password_digest <font face="Arial Italic" color="grey60">string</font></td></tr>
+</table>
+}>];
+m_User [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">User</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="contact">contact <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="country_code">country_code <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="cpr_number">cpr_number <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="email">email <font face="Arial Italic" color="grey60">string ∗ U</font></td></tr>
+  <tr><td align="left" width="130" port="image">image <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="language">language <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="latitude">latitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="longitude">longitude <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="name">name <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="referral">referral <font face="Arial Italic" color="grey60">string</font></td></tr>
+  <tr><td align="left" width="130" port="status">status <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="user_name">user_name <font face="Arial Italic" color="grey60">string ∗ U</font></td></tr>
+</table>
+}>];
+m_UserClub [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">UserClub</font></td></tr>
+</table>
+}>];
+m_Week [label = <{<table border="0" align="center" cellspacing="0.5" cellpadding="0" width="134">
+  <tr><td align="center" valign="bottom" width="130"><font face="Arial Bold" point-size="11">Week</font></td></tr>
+</table>
+|
+<table border="0" align="left" cellspacing="2" cellpadding="0" width="134">
+  <tr><td align="left" width="130" port="biding_end_date">biding_end_date <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="biding_start_date">biding_start_date <font face="Arial Italic" color="grey60">datetime (0,0)</font></td></tr>
+  <tr><td align="left" width="130" port="end_date">end_date <font face="Arial Italic" color="grey60">date</font></td></tr>
+  <tr><td align="left" width="130" port="is_active">is_active <font face="Arial Italic" color="grey60">boolean (0)</font></td></tr>
+  <tr><td align="left" width="130" port="start_date">start_date <font face="Arial Italic" color="grey60">date</font></td></tr>
+</table>
+}>];
+  m_User -> m_Auth [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Auth -> m_ServerSession [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_AddRequest [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CoverageArea -> m_AddRequest [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Week -> m_AddRequest [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_AddRequest -> m_Advertisement [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_User -> m_Address [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CoverageArea -> m_Address [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_Advertisement [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Advertisement [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_Branch [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Rating [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_BranchCategory [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Category [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_Branch -> m_MenuCategory [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_MenuItem [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "1", constraint = "false"];
+  m_Branch -> m_Cart [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Order [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Point [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_BranchTransport [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_User [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_Branch -> m_BranchManager [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_User [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_Branch -> m_BranchKitchenManager [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_User [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_Branch -> m_Offer [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_Favorite [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_BranchCoverageArea [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Branch -> m_CoverageArea [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_Branch -> m_RedeemPoint [arrowhead = "normal", arrowtail = "none", weight = "1"];
+  m_Branch -> m_Budget [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Category -> m_BranchCategory [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CoverageArea -> m_BranchCoverageArea [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_BranchKitchenManager [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_BranchManager [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_BranchTransport [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Cart [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_CoverageArea -> m_Cart [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Cart -> m_CartItem [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_MenuItem -> m_CartItem [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CartItem -> m_CartItemAddon [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CartItem -> m_ItemAddon [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "1", constraint = "false"];
+  m_ItemAddon -> m_CartItemAddon [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_City -> m_CoverageArea [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_ClubCategory -> m_ClubSubCategory [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_ClubSubCategory -> m_UserClub [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_ClubSubCategory -> m_User [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "2", constraint = "false"];
+  m_CoverageArea -> m_CoverageAreaLocation [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_CoverageArea -> m_SuggestRestaurant [arrowhead = "normal", arrowtail = "none", weight = "1"];
+  m_CoverageArea -> m_NewRestaurant [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Favorite [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_Image [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_Iou [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_User -> m_Iou [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Iou [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_ItemAddonCategory -> m_ItemAddon [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_ItemAddon -> m_OrderItemAddon [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_MenuItem -> m_ItemAddonCategory [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_MenuCategory -> m_MenuItem [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_MenuItem -> m_ItemAddon [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "1", constraint = "false"];
+  m_MenuItem -> m_Offer [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_MenuItem -> m_OrderItem [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_NewRestaurant -> m_NewRestaurantImage [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Notification [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Notification [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_Notification [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_Notification [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_OrderItem [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_Rating [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_User -> m_Order [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Order [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_Point [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_Order -> m_RedeemPoint [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_OrderItem -> m_OrderItemAddon [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_OrderItem -> m_ItemAddon [style = "dotted", arrowhead = "normal", arrowtail = "none", weight = "1", constraint = "false"];
+  m_User -> m_OrderReview [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_OrderReview [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Order -> m_OrderReview [arrowhead = "normal", arrowtail = "none", weight = "1"];
+  m_User -> m_Point [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Rating [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Referral [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_Restaurant [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_SuggestRestaurant [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_Subscription [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_Restaurant -> m_RestaurantDocument [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_ServerSession -> m_SessionDevice [arrowhead = "none", arrowtail = "none", weight = "2"];
+  m_User -> m_SocialAuth [arrowhead = "normal", arrowtail = "none", weight = "2"];
+  m_User -> m_RedeemPoint [arrowhead = "normal", arrowtail = "none", weight = "1"];
+  m_User -> m_UserClub [arrowhead = "normal", arrowtail = "none", weight = "2"];
+}

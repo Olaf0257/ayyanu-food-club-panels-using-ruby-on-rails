@@ -1,0 +1,4 @@
+$('select#branch_ids').html('<%= j options_from_collection_for_select(@branches, :id, :address) %>');
+<% if params[:tax].eql?('true') %>
+  $('select#store_tax_id').html('<%= j options_from_collection_for_select(@taxes, :id, :name_with_percentage) %>');
+<% end %>

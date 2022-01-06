@@ -1,0 +1,40 @@
+<div class="row" style="margin: 10px 30px;">
+  <div class='col-md-12'>
+    <%= link_to business_new_payment_methods_path(params[:restaurant_id]), remote: true,style: 'float: right;' do %>
+        <button class="btn btn-success">Create Payment Method</button>
+    <% end %>
+  </div>
+  <div class="payment-method-form-data hide" style="background-color: white;padding-bottom: 15px;width: 80%;">
+  </div>
+  <table class="table table-striped">
+    <thead class='thead-dark'>
+      <tr>
+        <th>Type</th>
+        <th>Enabled</th>
+        <th>Created By</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @payment_methods.present? %>
+        <% @payment_methods.each do |payment_method| %>
+          <tr class="<%= payment_method.id == 4 ? 'hide' : '' %>">
+            <td><%= payment_method.name %></td>
+            <td><%= check_box_tag '', '', payment_method.is_enabled, style:'pointer-events: none;'%></td>
+            <td><%= [1, 2, 3,4].include?(payment_method.id) ? '' : payment_method.created_by.name %></td>
+            <td><%= set_time_formated(payment_method.created_at) %></td>
+            <td>
+              <% unless [1, 2, 3,4].include?(payment_method.id) %>
+                <%= link_to 'Edit', business_edit_payment_methods_path(params[:restaurant_id], payment_method.id), remote: true, class: 'btn btn-success' %>
+                <%= link_to 'Delete', business_delete_payment_methods_path(params[:restaurant_id], payment_method.id),  method: :delete, class: 'btn btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr style="text-align: center;"><td colspan=4> No Data found!</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

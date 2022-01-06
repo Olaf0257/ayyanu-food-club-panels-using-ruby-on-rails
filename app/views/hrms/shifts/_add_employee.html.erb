@@ -1,0 +1,162 @@
+<style type="text/css">
+  .subject-info-box-1,
+.subject-info-box-2 {
+    float: left;
+    width: 45%;
+}
+.subject-info-box-2 select{
+
+}
+.subject-info-arrows {
+    float: left;
+    width: 10%;
+}
+
+.subject-info-arrows input{
+  width: 70%;
+  margin-bottom: 5px;
+}
+#lstBox1{
+  height: 200px;
+}
+#lstBox2{
+  height: 200px;
+}
+.subject-info-arrows.text-center{
+  margin-top: 5.5%;
+}
+#btnAllRight, #btnRight, #btnLeft, #btnAllLeft{
+  background-color: white;
+  color: black;
+}
+.wrapper.wrapper-content.animated.fadeInRight{
+  padding-bottom: 0%;
+}
+#schedule_employee{
+  margin-top: 2%;
+}
+#add_employee_modal{
+  width: 90%;
+}
+</style>
+<div class="modal fade" id='add_employee_modal' role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width:130%;">
+        <div class="modal-header" style="border-bottom: none;background-color: #1ab394;color: white;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h5 class="modal-title">Add Employee</h5>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+              <div >
+            		<div class="wrapper wrapper-content animated fadeInRight">
+							    <div class="row">
+							    	<!-- <label>Please specify the reason to reject the employee.</label> -->
+						        <%= form_tag(assign_employee_hrms_shifts_path, :method => "post") do %>
+                      <label>Station</label>
+										  <%= text_field_tag(:station,'', class: 'form-control', disabled: true) %>
+                      <label>Shift</label>
+                      <%= text_field_tag(:shift,'', class: 'form-control', disabled: true) %><br/><br/>
+										  <%= hidden_field_tag :user_id, '' %>
+                      <%= hidden_field_tag :restaurant_id, params[:restaurant_id] %>
+                      <%= hidden_field_tag :employee_ids, '' %>
+
+                      <%= hidden_field_tag :shift_id, '' %>
+                      <%= hidden_field_tag :station_id, '' %>
+                      <%= hidden_field_tag :day, '' %>
+
+                      <div class="subject-info-box-1">
+                        <label>Employee List</label>
+                        <select multiple="multiple" id='lstBox1' class="form-control">
+                          <% @employees.each do |employee| %>
+                            <option value="<%= employee.id %>"><%= employee.name %> (<%= employee.user_detail&.designation&.capitalize %>)</option>
+                          <% end %>
+                        </select>
+                      </div>
+                      <div class="subject-info-arrows text-center">
+                        <input type='button' id='btnAllRight' value='>>' class="btn btn-default" /><br />
+                        <input type='button' id='btnRight' value='>' class="btn btn-default" /><br />
+                        <input type='button' id='btnLeft' value='<' class="btn btn-default" /><br />
+                        <input type='button' id='btnAllLeft' value='<<' class="btn btn-default" />
+                      </div>
+                      <div class="subject-info-box-2">
+                        <label>Selected Employee</label>
+                        <select multiple="multiple" id='lstBox2' class="form-control">
+                          <!-- <option value="asp">ASP.NET</option>
+                          <option value="c#">C#</option>
+                          <option value="vb">VB.NET</option>
+                          <option value="java">Java</option>
+                          <option value="php">PHP</option>
+                          <option value="python">Python</option> -->
+                        </select>
+                      </div>
+                      <div class="clearfix"></div><br/>
+                      <!-- <hr></hr> -->
+                      <!-- <a href="#" class="btn btn-secondary" data-dismiss="modal">Close</a> -->
+                      <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+										  <%= submit_tag("Submit", class: 'btn btn-success btn-md pull-right', id: 'schedule_employee') %>
+										<% end %>
+						      </div>
+						    </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    (function () {
+  $("#btnRight").click(function (e) {
+    var selectedOpts = $("#lstBox1 option:selected");
+    // if (selectedOpts.length == 0) {
+    //   alert("Nothing to move.");
+    //   e.preventDefault();
+    // }
+    $("#lstBox2").append($(selectedOpts).clone());
+    $(selectedOpts).remove();
+    e.preventDefault();
+  });
+  $("#btnAllRight").click(function (e) {
+    var selectedOpts = $("#lstBox1 option");
+    // if (selectedOpts.length == 0) {
+    //   alert("Nothing to move.");
+    //   e.preventDefault();
+    // }
+    $("#lstBox2").append($(selectedOpts).clone());
+    $(selectedOpts).remove();
+    e.preventDefault();
+  });
+  $("#btnLeft").click(function (e) {
+    var selectedOpts = $("#lstBox2 option:selected");
+    // if (selectedOpts.length == 0) {
+    //   alert("Nothing to move.");
+    //   e.preventDefault();
+    // }
+    $("#lstBox1").append($(selectedOpts).clone());
+    $(selectedOpts).remove();
+    e.preventDefault();
+  });
+  $("#btnAllLeft").click(function (e) {
+    var selectedOpts = $("#lstBox2 option");
+    // if (selectedOpts.length == 0) {
+    //   alert("Nothing to move.");
+    //   e.preventDefault();
+    // }
+    $("#lstBox1").append($(selectedOpts).clone());
+    $(selectedOpts).remove();
+    e.preventDefault();
+  });
+})(jQuery);
+
+
+$('#schedule_employee').click(function(){
+  employee_ids = []
+  var select_box = $('#lstBox2')[0].options;
+  for (i = 0; i < select_box.length; i++) {
+    employee_ids.push(select_box[i].value)
+  }
+  $('#employee_ids')[0].setAttribute('value', employee_ids)
+  // $('#day').val(this.getAttribute('day'))
+})
+</script>

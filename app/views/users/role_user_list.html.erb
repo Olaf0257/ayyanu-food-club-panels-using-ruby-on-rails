@@ -1,0 +1,133 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .setheight {
+    height: 100% !important;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper bcoverage_area-bottom white-bg page-heading">
+  <div class="col-sm-3">
+    <h2>Role User List</h2>
+  </div>
+
+  <div class="col-sm-9">
+    <br><span class="pull-right">
+      <%= form_for :search, url: user_role_user_list_path, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= select_tag(:searched_role_id, options_for_select(@roles, params[:searched_role_id]), prompt: "Select Role", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by name, email", autocomplete: :off) %>
+          <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+          <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+
+      <%= link_to user_role_user_list_path(format: :csv, start_date: params[:start_date], end_date: params[:end_date], keyword: params[:keyword], searched_country_id: params[:searched_country_id], searched_role_id: params[:searched_role_id]) do  %>
+        <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Role based User List Table</h5>
+
+          <span class="pull-right" style="margin-top: -7px;">
+            <a class="btn btn-sm btn-primary" href="/user/add_role_user"><i class="fa fa-plus-circle"></i> Add New User</a>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @users.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Contact No</th>
+                  <th>Role</th>
+                  <th>Country</th>
+                  <th>Approval status</th>
+                  <th>Reject Reason</th>
+                  <th>Joined On</th>
+                  <th>Approved/Rejected On</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @users.each do |user| %>
+                  <% if @admin.id != user.id %>
+                    <tr id="user-<%= user.id %>">
+                      <td><%= user.id %></td>
+                      <td><%= user.name %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.country_code %>-<%= user.contact %></td>
+                      <td><%= user.role&.role_name %></td>
+                      <td><%= user.country&.name %></td>
+                      <td><%= user.is_rejected == 1 ? "Rejected" : "Approved" %></td>
+                      <td><%= user.is_rejected == 1 ? user.reject_reason : "N/A" %></td>
+                      <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
+                      <td><%= user.approved_at&.strftime("%d/%m/%Y") || user.rejected_at&.strftime("%d/%m/%Y") %></td>
+
+                      <td>
+                        <a class="btn btn-xs btn-info" href="/user/edit_role_user/<%=user.id%>"><i class="fa fa-edit"></i> Edit</a>
+
+                        <% if is_super_admin?(@admin) %>
+                          <a href="javascript:void(0)" class="btn btn-xs btn-danger delete_user" value="<%=user.id%>"> <i class="fa fa-trash" aria-hidden="true"></i> Delete </a>
+                        <% end %>
+
+                        <% if is_super_admin?(@admin) %>
+                          <%= link_to edit_role_user_password_path(user_id: user.id) do %>
+                            <span class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i>Reset Password</span>
+                          <% end %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end%>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No User available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

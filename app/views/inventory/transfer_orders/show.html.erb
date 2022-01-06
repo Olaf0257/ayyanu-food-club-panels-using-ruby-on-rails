@@ -1,0 +1,96 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+   <div class="col-sm-8">
+      <h2>Material Control >> Transfer Order >> Details</h2>
+   </div>
+   <div class="col-sm-4">
+      <span class="pull-right">
+         <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, url_for(:back), class: "btn btn-danger" %></h2>
+      </span>
+   </div>
+</div>
+<br>
+<div class="container">
+   <div class="panel panel-primary">
+      <div class="panel-heading">
+         <h3 class="text-center">Transfer Order Details</h3>
+      </div>
+      <div class="panel-body">
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Source</strong>
+            </div>
+            <div class="col-sm-10">
+               <%= @transfer_order.source %>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Destination</strong>
+            </div>
+            <div class="col-sm-10">
+               <%= @transfer_order.destination %>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Delivery Date</strong>
+            </div>
+            <div class="col-sm-10">
+               <%=set_time_formated(@transfer_order.delivery_date)%>
+            </div>
+         </div>
+
+         <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row white-bg">
+               <div class="col-lg-12">
+                  <div class="ibox float-e-margins">
+                     <h3 class="text-success">Articles List</h3>
+                     <hr style="border: 1px solid;">
+                     <% if @transfer_articles.present? %>
+                     <div class="full-height-scroll">
+                        <div class="table-responsive">
+                           <table class="table table-striped">
+                              <thead>
+                                 <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Unit</th>
+                                    <th>Stock</th>
+                                    <th>Last Price</th>
+                                    <th>Price</th>
+                                    <th>QTY</th>
+                                    <th>Net Amount</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <% @transfer_articles.each do |group| %>
+                                 <tr>
+                                    <td><%=group.id%></td>
+                                    <td><%=group.article.name%></td>
+                                    <td><%= group.article.base_unit_name %> </td>
+                                    <td><%= group.article.inventories.sum(:stock) %></td>
+                                    <td><%= number_with_precision((group.article.inventories.last.receive_article.rate.to_f), precision: 3) || 0.000 %></td>
+                                    <td><%= number_with_precision((group.article.purchase_price.to_f), precision: 3) || 0.000 %></td>
+                                    <td><%= group.quantity %> </td>
+                                    <td><%= number_with_precision((group.try(:net_amount).to_f), precision: 3) || 0.000 %></td>
+                                 </tr>
+                                 <%end%>
+                                 <tr>
+                                    <th colspan="5">Total</th>
+                                    <td><%= number_with_precision((@transfer_articles.joins(:article).sum(:purchase_price).to_f), precision: 3) || 0.000 %></td>
+                                    <td><%= @transfer_articles.sum(:quantity) %></td>
+                                    <td><%= number_with_precision((@transfer_articles.sum(:net_amount).to_f), precision: 3) || 0.000 %></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <%end%>
+                  </div>
+               </div>
+            </div>
+            <br> 
+         </div>
+      </div>
+   </div>
+</div>

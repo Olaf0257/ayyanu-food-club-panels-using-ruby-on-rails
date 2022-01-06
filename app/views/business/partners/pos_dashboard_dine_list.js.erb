@@ -1,0 +1,7 @@
+<% if @pos_checks.present? %>
+    $('.driver-th').addClass('hide');
+	$('#pickupCheckModalPopup .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: @pos_checks, is_display_driver: false }%>");
+	$('#pickupCheckModalPopup .modal-body .searching').empty().append("<%= j render partial: 'pickup_check_search', locals: { pos_checks: @pos_checks, pickup_check: false }%>");
+	selectSinglePickupCheckRow();
+	$('#pickupCheckModalPopup').modal('show');
+<% end %>

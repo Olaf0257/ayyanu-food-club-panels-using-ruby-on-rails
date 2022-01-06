@@ -1,0 +1,33 @@
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :name %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_field(:name, required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :percentage %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.number_field(:percentage, min: 0, max: 100, step: 0.01, required: true, class: "form-control admin-search-field") %>
+  </div>
+</div>
+
+<% if is_super_admin?(@admin) %>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :country_id, "Country" %>
+    </div>
+
+    <div class="col-sm-10">
+      <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id).sort, f.object&.country_id), { prompt: "Select Country" }, { class: "form-control admin-search-field", required: true }) %>
+    </div>
+  </div>
+<% else %>
+  <%= f.hidden_field(:country_id, value: @admin.country_id) %>
+<% end %>

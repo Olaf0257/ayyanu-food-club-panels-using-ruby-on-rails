@@ -1,0 +1,362 @@
+<%#= form_with(url: business_hrms_salaries_path(@salaries), class: 'form-horizontal', local:true)  do |f| %>
+<%= form_for(@salary, url: (params[:id].blank? ? business_hrms_salaries_path : edit_business_hrms_salary_path(@salary).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+     <%= f.label :employee %>
+     <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @salary.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+    </div>
+   
+  </div>
+    <div class=" <%= params[:action] == 'edit' ? '' : 'display-none' %>" id="employee_details_container">
+      <%= render 'employee_details' %>
+    </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Basic Salary(BD)' %>
+      <label for="salary_employee">Basic Salary (BHD)</label>
+      <%= f.number_field :basic_salary, step: :any, class: 'form-control', placeholder: 'Basic Salary', name: 'salary[basic_salary]', required: true, oninput: "validate(this)", oninput: "validate(this)"  %>
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Basic Salary(BD)' %>
+      <label for="salary_employee">Family Visa Charges (BHD)</label>
+      <%= f.number_field :family_visa_charges, step: :any, class: 'form-control', placeholder: 'Family Visa Charges', name: 'salary[family_visa_charges]', required: true, oninput: "validate(this)"  %>
+    </div>
+
+  </div>
+
+   
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label :gosi_percentage %>
+      <label for="salary_employee">Gosi Percentage(4%)</label>
+      <%= f.number_field :gosi_percentage, step: :any, class: 'form-control', placeholder: 'Gosi Percentage', name: 'salary[gosi_percentage]', readonly: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Health Check Charges (BHD)' %>
+      <label for="salary_employee">Health Check Charges (BHD)</label>
+      <%= f.number_field :health_check_charges, step: :any, class: 'form-control', placeholder: 'Health Check Charges', name: 'salary[health_check_charges]', required: true, oninput: "validate(this)"  %>
+    </div>
+  </div>
+
+  <div class="row">
+    
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Hiring Fees Deduction(BD)' %>
+      <label for="salary_employee">Hiring Fees Deduction (BHD)</label>
+      <%= f.number_field :hiring_fees_deduction, step: :any, class: 'form-control', placeholder: 'Hiring Fees Deduction', name: 'salary[hiring_fees_deduction]', required: true, oninput: "validate(this)"  %>
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Housing Allowance (BHD)' %>
+      <label for="salary_employee">Housing Allowance (BHD)</label>
+      <%= f.number_field :housing_allowance, step: :any, class: 'form-control', placeholder: 'Housing Allowance', name: 'salary[housing_allowance]', required: true, oninput: "validate(this)"  %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <%= f.label 'Indemnity Days' %>
+      <%= f.number_field :indemnity_days, class: 'form-control', placeholder: 'Indemnity Days', name: 'salary[indemnity_days]', required: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="salary_employee">LMRA Charges (BHD)</label>
+      <%= f.number_field :lmra_charges, step: :any, class: 'form-control', placeholder: 'LMRA Charges', name: 'salary[lmra_charges]', readonly: true, value: '10'  %>
+    </div>
+  </div>
+  
+
+  <div class="row">
+    
+    <div class="col-xs-6 col-md-6">
+      <label for="salary_employee">Meal Allowance (BHD)</label>
+      <%= f.number_field :meal_allowance, step: :any, class: 'form-control', placeholder: 'Meal', name: 'salary[meal_allowance]', required: true, oninput: "validate(this)"  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Currency' %>
+      <label for="salary_employee">Mobile Allowance (BHD)</label>
+      <%= f.number_field :mobile_allowance, step: :any, class: 'form-control', placeholder: 'Mobile Allowance', name: 'salary[mobile_allowance]', required: true, oninput: "validate(this)"  %>
+    </div>
+  </div>
+
+  <div class="row">
+    
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Currency' %>
+      <label for="salary_employee">Transportation Allowance (BHD)</label>
+      <%= f.number_field :transportation_allowance, step: :any, class: 'form-control', placeholder: 'Transportation Allowance', name: 'salary[transportation_allowance]', required: true, oninput: "validate(this)"  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'Currency' %>
+      <label for="salary_employee">Visa charges (BHD)</label>
+      <%= f.number_field :visa_charges, step: :any, class: 'form-control', placeholder: 'Visa Charges', name: 'salary[visa_charges]', required: true, oninput: "validate(this)"  %>
+    </div>
+  </div>
+
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'salary[restaurant_id]', params[:restaurant_id] %>
+
+  <br>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+  <% if params[:action] == "edit" %>
+    <%= f.submit 'Update Salary', class: 'btn btn-lg btn-primary btn-block' %>
+  <% else %>
+    <%= f.submit 'Add Salary', class: 'btn btn-lg btn-primary btn-block' %>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  // $(".select2_branch").select2();
+
+  // $("#mobilenumber").intlTelInput({
+  //   allowDropdown: true,
+  //   autoHideDialCode: true,
+  //   autoPlaceholder: "on",
+  //   dropdownContainer: "body",
+  //   excludeCountries: [],
+  //   formatOnDisplay: true,
+  //   geoIpLookup: function(callback) {
+  //     $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+  //       var countryCode = (resp && resp.country) ? resp.country : "";
+  //       callback(countryCode);
+  //     });
+  //   },
+  //   hiddenInput: "full_phone",
+  //   initialCountry: "auto",
+  //   nationalMode: true,
+  //   initialCountry: 'bh',
+  //   onlyCountries: [],
+  //   placeholderNumberType: "MOBILE",
+  //   preferredCountries: ['bh'],
+  //   separateDialCode: true,
+  //   utilsScript: "/assets/telinput/utils.js"
+  // });
+
+  // $("#add_employee").on("click",function(){
+  //   var cpr_number= /^\d*$/
+
+  //   if (('<%=params[:type]%>') == 'transporter') {
+  //     var cpr = document.getElementById('cpr_number').value;
+  //   }
+
+  //   var emp_name = document.getElementById('name').value;
+  //   var country_code = $("#mobilenumber").intlTelInput("getSelectedCountryData");
+  //   var file = document.getElementById('add-img-tag').files[0];
+
+  //   if (file !== undefined) {
+  //    var file_type = file.type.split('/').pop().toLowerCase();
+  //    var file_size = file.size;
+  //   }
+
+  //   $("#country-code").val(country_code.dialCode)
+
+  //   if($.trim($('#name').val())==="") {
+  //     swal({
+  //       title: "Please Enter valid Name",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //     $('#name').focus();
+  //     return false;
+  //   }
+
+  //   if (('<%=params[:type]%>') == 'transporter' && cpr.length >= 11) {
+  //     swal({
+  //       title: "Please Enter valid cpr_number",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //     $('#cpr_number').focus();
+  //     return false;
+  //   }
+
+  //   if (emp_name.length >= 41 || emp_name.length <= 0) {
+  //     swal({
+  //       title: "Please Enter valid Name",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //     $('#name').focus();
+  //     return false;
+  //   }
+
+  //   if (('<%=params[:type]%>') == 'transporter' && !(cpr_number.test($('#cpr_number').val()))) {
+  //     swal({
+  //       title: "Please Enter valid cpr_number",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //      $('#cpr_number').focus();
+  //     return false;
+  //   }
+
+  //   if($.trim($('#email').val()) == '' && ('<%=params[:type]%>') == 'manager') {
+  //     swal({
+  //       title: "Please Enter Email",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //     $('#email').focus();
+  //     return false;
+  //   } else if($.trim($('#cpr_number').val()) == '' && ('<%=params[:type]%>') == 'transporter') {
+  //     swal({
+  //       title: "Please Enter cpr number",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //      $('#cpr_number').focus();
+  //     return false;
+  //   } else if($.trim($("#mobilenumber").val())==="") {
+  //     $('#mobilenumber').focus();
+  //     swal("Warning","Please enter phone number","warning")
+  //     return false;
+  //   } else if(!testContact()) {
+  //     $('#mobilenumber').focus();
+  //     swal("Warning","Please enter a valid phone number","warning")
+  //     return false;
+  //   } else if($.trim($('#password').val())==="") {
+  //     $('#password').focus();
+  //     swal("Warning","Please enter password","warning")
+  //     return false;
+  //   } else if($.trim($('#branch').val()) == 'Select Branch' || $.trim($('#branch').val()) == '') {
+  //     swal({
+  //         title: "Please Select Branch",
+  //         type: "warning",
+  //         confirmButtonColor: "#DD6B55",
+  //         confirmButtonText: "Ok",
+  //     }),
+  //      $('#branch').focus();
+  //     return false;
+  //   } else if(file && file_size > 1024000) {
+  //     $('#add-img-tag').focus();
+  //     swal("Warning","Failed to upload an image. The image maximum size is 1MB.","warning")
+  //     return false;
+  //   } else if(file && file_type != "jpeg" && file_type != "jpg" && file_type != "png" ) {
+  //       $('#add-img-tag').focus();
+  //       swal("Warning","Failed to upload an image. Please upload file having extensions .jpeg/.jpg/.png only..","warning")
+  //       return false;
+  //   } else {
+  //     return true;
+  //   }
+  // });
+
+  // var telInput = $("#mobilenumber"),
+  // errorMsg = $("#error-msg"),
+  // validMsg = $("#valid-msg");
+
+  // var reset = function() {
+  //   telInput.removeClass("error");
+  //   errorMsg.addClass("hide");
+  //   validMsg.addClass("hide");
+  // };
+
+  // telInput.blur(function() {
+  //   testContact()
+  // });
+
+  // // on keyup / change flag: reset
+  // telInput.on("keyup change", reset);
+
+  // var testContact = function() {
+  //   reset();
+  //   if ($.trim(telInput.val())) {
+  //     if (telInput.intlTelInput("isValidNumber")) {
+  //       validMsg.addClass("hide");
+  //       errorMsg.removeClass("show");
+  //       return true;
+  //     } else {
+  //       err =  telInput.intlTelInput('getValidationError'),
+  //       message = null;
+
+  //       switch (err) {
+  //         case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+  //           message = 'The country code is not valid';
+  //           break;
+  //         case intlTelInputUtils.validationError.TOO_SHORT:
+  //           message = 'The phone number is too short';
+  //           break;
+
+  //         case intlTelInputUtils.validationError.TOO_LONG:
+  //           message = 'The phone number is too long';
+  //           break;
+
+  //         case intlTelInputUtils.validationError.NOT_A_NUMBER:
+  //           message = 'The value is not a number';
+  //           break;
+  //         default:
+  //           message = 'The phone number is not valid';
+  //         break;
+  //       }
+  //       telInput.addClass("error");
+  //       errorMsg.removeClass("hide");
+  //       errorMsg.addClass("show");
+  //       errorMsg.text(message);
+  //       return false;
+  //     }
+  //   } else {
+  //     return false;
+  //   }
+  // }
+
+  // var readURL = function(event) {
+  //   var componentId = event.target.id
+  //   var getImagePath = URL.createObjectURL(event.target.files[0]);
+  //   $('.'+componentId).attr("src",getImagePath );
+  //   var file = event.target.files[0]
+  // }
+
+  // function myFunction() {
+  //   var checkBox = document.getElementById("myCheck");
+  //   var text = document.getElementById("text");
+  //   if (checkBox.checked == true){
+  //     text.style.display = "block";
+  //   } else {
+  //     text.style.display = "none";
+  //   }
+  // }
+
+  // function myoneFunction() {
+  //   var checkBox = document.getElementById("myCheckone");
+  //   var text = document.getElementById("textone");
+  //   if (checkBox.checked == true){
+  //     text.style.display = "block";
+  //   } else {
+  //     text.style.display = "none";
+  //   }
+  // }
+
+  $('#salary_user_id').change(function(){
+    if(this.value != ""){
+      $('#employee_details_container').removeClass('display-none');
+    }
+    else{
+      $('#employee_details_container').addClass('display-none')
+    }
+    $.ajax({
+      type: "GET",
+      url: "<%= get_user_detail_business_hrms_salaries_path %>",
+      data: {user_id: this.value}
+    });
+  })
+
+  $('#salary_basic_salary').focusout(function(){
+    $('#salary_gosi_percentage').val((parseFloat(this.value) * 4)/100);
+  })
+
+  var validate = function(e) {
+    var t = e.value;
+    e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 4)) : t;
+  }
+</script>

@@ -1,0 +1,375 @@
+<style type="text/css">
+  .mb-2 {
+    margin-bottom: 2%;
+  }
+
+  .private_dock {
+    display: none;
+  }
+
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+  }
+
+  .form-group input[type="radio"] {
+    height: 36px;
+    vertical-align: middle;
+    margin-top: 0;
+  }
+
+  .form-group select {
+    height: 34px !important;
+  }
+
+  .intl-tel-input {
+    width: 100% !important;
+  }
+</style>
+
+<div>
+  <div class="col-sm-12">
+    <h2 class="pull-right">
+
+    <% if @user.auths.first.role == "business" %>
+      <a href="<%= business_branch_coverage_area_path(branch_id: encode_token(@area.branch.id), restaurant_id: params[:restaurant_id]) %>"><button class="btn btn-danger">Back to Coverage Area <i class="fa fa-arrow-right"></i></button></a>
+    <% else %>
+      <a href="<%= business_branch_coverage_area_path(branch_id: encode_token(@area.branch.id)) %>"><button class="btn btn-danger">Back to Coverage Area<i class="fa fa-arrow-right"></i></button></a>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <%= form_for :marina, url: business_edit_branch_coverage_area_path, html: { id: "add-marina-form", class: "form-vertical", multipart: true } do |f| %>
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;">
+          <div class="panel-heading"><center><h3>Update Coverage Area Details</h3></center></div>
+
+          <div class="panel-body">
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Restaurant Name</label>
+                  <input type="text"  name="restaurant_name" class="form-control" value="<%= @branches.first.restaurant.title %>" disabled  >
+                </div>
+
+                <input type="hidden" name="restaurant_id" value="<%= params[:restaurant_id] %>">
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Branch (*Required)</label>
+
+                  <select class="form-control setheight" name="branch">
+                    <%= @branches.each do |b| %>
+                      <option value="<%= @area.branch.id %>" <%= @area.branch.present? ? @area.branch.id == b.id ? 'selected' : 'false' : 'false' %>><%= b.address %></option>
+                    <% end %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Branch Primary Contact Number (*Required)</label>
+                  <input type="hidden"  name="coverage_id" value="<%= @area.id %>" />
+                  <input type="text" name="contact" placeholder="+91 123456-7890" id="user_contact" class="form-control" value="<%= @area.branch.contact %>" placeholder="Contact number" autocomplete="off">
+                  <span id="valid-msg" class="hide">✓ Valid</span>
+                  <span id="error-msg" class="hide">Invalid number</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Max Delivery Time</label>
+                  <select name="max_delivery_time" id="marina_type" class="form-control">
+                    <!-- @area.branch -->
+                    <option value=10 <% if @area.delivery_time == "10" %> selected <% end %>>10 Min</option>
+                    <option value=20 <% if @area.delivery_time == "20" %> selected <% end %>>20 Min</option>
+                    <option value=30 <% if @area.delivery_time == "30" %> selected <% end %>>30 Min</option>
+                    <option value=40 <% if @area.delivery_time == "40" %> selected <% end %>>40 Min</option>
+                    <option value=50 <% if @area.delivery_time == "50" %> selected <% end %>>50 Min</option>
+                    <option value=60 <% if @area.delivery_time == "60" %> selected <% end %>>60 Min</option>
+                    <option value=70 <% if @area.delivery_time == "70" %> selected <% end %>>70 Min</option>
+                    <option value=80 <% if @area.delivery_time == "80" %> selected <% end %>>80 Min</option>
+                    <option value=90 <% if @area.delivery_time == "90" %> selected <% end %>>90 Min</option>
+                    <option value=100 <% if @area.delivery_time == "100" %> selected <% end %>>100 Min</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Minimum Order Amount</label>
+                  <input type="text" autocomplete="off" name="minimum_order_amount" placeholder="Minimum order amount" class="form-control" value="<%= @area.minimum_amount %>" id="minimum_order_amount" <%= 'readonly' if @area.third_party_delivery %> >
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Delivery charge(Enter 0 to make it Free)</label>
+                  <input type="text" autocomplete="off" name="delivery_charges" placeholder="Delivery charges" value="<%= @area.delivery_charges %>"  id="delivery_charges" class="form-control" <%= 'readonly' if @area.third_party_delivery %>>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Cash on Delivery</label><br>
+                  <input type="radio" <% if @area.cash_on_delivery %> checked="checked"<% end %> value="true" name="cash_on_delivery" style="margin-right: 6px;">Yes
+                  <input type="radio" value="false" <% unless @area.cash_on_delivery %> checked="checked"<% end %> name="cash_on_delivery" style="margin-left: 120px;margin-right: 12px;">No<br>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Credit Card Machine </label><br>
+                  <input type="radio" value="true" <% if @area.accept_cash %> checked="checked"<% end %>  name="accept_cash" style="margin-right: 6px;" class="credit-card-machine-yes" <% if @area.third_party_delivery %>disabled<% end %>>Yes
+                  <input type="radio" value="false" <% unless @area.accept_cash %> checked="checked"<% end %> name="accept_cash" style="margin-left: 120px;margin-right: 12px;" class="credit-card-machine-no" <% if @area.third_party_delivery %>disabled<% end %>>No
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Accept Card </label><br>
+                  <input type="radio" value="true" <% if @area.accept_card %> checked="checked"<% end %>  name="accept_card" style="margin-right: 6px;">Yes
+                  <input type="radio" value="false" <% unless @area.accept_card %> checked="checked"<% end %> name="accept_card" style="margin-left: 120px;margin-right: 12px;">No
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Third Party Delivery</label><br>
+                  <input type="radio" value="true" <% if @area.third_party_delivery %> checked="checked"<% end %>  name="third_party_delivery" style="margin-right: 6px;" class="third-paty-delivery-charge-yes">Yes
+                  <input type="radio" value="false" <% unless @area.third_party_delivery %> checked="checked"<% end %> name="third_party_delivery" style="margin-left: 120px;margin-right: 12px;" class="third-paty-delivery-charge-no">No
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group third-paty-delivery-type-option-list <%= 'hide' unless @area.third_party_delivery %>">
+                  <label>Third Party Delivery Charges</label>
+                  <%= select_tag(:third_party_delivery_type, options_for_select(["Chargeable", "Free"], @area.third_party_delivery_type), class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <label> Choose Location </label>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Country</label>
+                  <select class="form-control"  name="country" id="country">
+                    <option value="<%= @branchCoverage.country&.name %>"><%= @branchCoverage.country&.name %></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Area</label>
+
+                  <select class="form-control setheight" name="area" id="area">
+                    <option>Select Area</option>
+                    <%= @areas.each do |b| %>
+                      <option value="<%= b.id %>" <%= @area&.coverage_area_id == b.id ? 'selected' : 'false' %>><%= b.area %></option>
+                    <% end %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Tax Percentage </label>
+                  <input type="text" autocomplete="off" name="tax_percentage" placeholder="Tax percentage" value="5.0"  class="form-control" id="tax_percentage" disabled>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Save </strong> </button>
+          </div><!--panel body-->
+        </div><!--panel-->
+      </div><!--column-->
+    </div><!--row-->
+  <% end %>
+</div> <!--container-->
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link rel="stylesheet" href="/assets/formValidation.min.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script type="text/javascript">
+
+  <% if flash[:success].present? %>
+    swal("success", "<%= flash[:success] %>", "success")
+    <% flash[:success] = nil %>
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning")
+    <% flash[:error] = nil %>
+  <% end %>
+
+  var readURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+  $("#user_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%=@user.country_code.present? ? @user.country_code.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $("#saveBtn").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var amount = /^([0-9]*|\d*\.\d{1}?\d*)$/;
+    var country_code = $("#user_contact").intlTelInput("getSelectedCountryData");
+    var countrycode = "+"+country_code.dialCode
+    var tax_percentage =  /^\d+(\.\d{1,2})?$/
+
+    if(($.trim($('#minimum_order_amount').val())==="") || !amount.test($('#minimum_order_amount').val())) {
+      $('#minimum_order_amount').focus();
+      swal("Warning","Please Enter the valid minimum order amount","warning");
+      return false;
+    } else if ($('#area').val()=="Select Area") {
+      $('#area').focus();
+      swal("Warning","Please Select a Area","warning");
+      return false;
+    } else if (($.trim($('#user_contact').val())==="")) {
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid contact No. for Branch.","warning");
+      return false;
+    } else if(($.trim($('#country').val())==="") || ($.trim($('#country').val())=='Select Country')) {
+      $('#country').focus();
+      swal("Warning","Please Select a Country","warning");
+      return false;
+    } else if(($.trim($('#area').val())==="") || ($.trim($('#area').val())=='Select Area')) {
+      $('#area').focus();
+      swal("Warning","Please Select a Area","warning");
+      return false;
+    } else if(!tax_percentage.test($('#tax_percentage').val())) {
+      $('#tax_percentage').focus();
+      swal("Warning","Please enter valid tax percentage","warning")
+      return false;
+    } else if(($.trim($('#delivery_charges').val())==="") || !amount.test($('#delivery_charges').val())) {
+      $('#delivery_charges').focus();
+      swal("Warning","Please enter valid delivery charges","warning");
+      return false;
+    } else if(!testContact()) {
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid phone number","warning")
+      return false;
+    } else {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+  var telInput = $("#user_contact"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+            break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+</script>

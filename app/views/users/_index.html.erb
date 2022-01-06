@@ -1,0 +1,97 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <% if @users.present? %>
+      <% @users.each do |user| %>
+        <div class="<%= 'col-lg-4' if params[:role].to_s != 'customer' %> col-md-6 col-sm-12">
+          <div class="contact-box" style="min-height: 260px !important;padding-left: 0; padding-right: 0;">
+          <a href="<%= profile_path(encode_token(user.id), is_view_address: params[:action] == 'customers_list', restaurant_id: params[:restaurant_id], selected_user_id: @user&.id) %>", class="<%= 'no-click' if is_call_center_executive?(@admin) && params[:role] == 'business' %>">
+              <div class="col-sm-4">
+                <div class="text-center">
+                  <img alt="image" class="img-circle m-t-xs" src="<%= user.image.presence || "/assets/user.png" %>" style="width:90px;height: 90px;">
+                  <div class="m-t-xs font-bold"><%= user.name %></div>
+                  <div class="m-t-xs font-bold">Joined: <%= user.created_at.strftime("%d/%m/%Y") %></div>
+                </div>
+              </div>
+
+              <div class="col-sm-8">
+                <h3><strong><%= user.name %></strong></h3>
+
+                <p>
+                  <strong>User Name:</strong> <%= user.user_name.presence || "N/A" %>
+
+                  <% if params[:role] == "customer" %>
+                    <% referred_by = Referral.find_by(email: user.email)&.user %>
+
+                    <% if referred_by.present? %>
+                      <br><b>Referred by:</b> <%= referred_by.name %> (<%= referred_by.email %>)
+                    <% end %>
+                  <% end %>
+                </p>
+
+                <address style="word-break: break-all;">
+                  <strong><i class="fa fa-envelope"></i> <%= user.email %></strong><br>
+                  <abbr title="Phone">P:</abbr> <%= user.contact.presence || "Not Available" %>
+                  <br>Country: <b><%= user.country&.name.presence || "NA" %></b>
+
+                  <% if params[:role] == "transporter" && user.delivery_company %>
+                    <br>State: <b><%= user.delivery_company.state&.name || "NA" %></b>
+                    <br>Company: <b><%= user.delivery_company.name %></b>
+                  <% elsif params[:role] == "transporter" %>
+                    <br>Restaurant: <b><%= user.branches.first.restaurant.title %></b>
+                  <% end %>
+                </address>
+
+                <div class="clearfix">
+                  <% unless is_call_center_executive?(@admin) %>
+                    <% if params[:role] == "customer" || params[:action] == 'customers_list' %>
+                      <% if !(params[:action] == 'customers_list')  %>
+                        <a class="label label-success customer-profile-action-btn" href="/bulk/notification?email=<%= user.email %>"> Send Push</a>
+                      <% end %>
+                      <% if !user.influencer && !(params[:action] == 'customers_list') %>
+                        <%= link_to "Mark Influencer", user_mark_influencer_path(user_id: user.id), class: "label label-primary customer-profile-action-btn", data: { confirm: "Are you sure you want to mark User as Influencer?" } %>
+                      <% end %>
+                      <% if user.addresses.present? && params[:action] == 'customers_list' %>
+                        <%= link_to "View Addresses", user_address_list_path(user_id: user.id, is_view_address: true, restaurant_id: params[:restaurant_id], selected_user_id: @user&.id), class: "label label-warning customer-profile-action-btn" %>
+                      <% elsif user.addresses.present? %>
+                        <%= link_to "View Addresses", user_address_list_path(user_id: user.id), class: "label label-warning customer-profile-action-btn" %>
+                      <% end %>
+                      
+                      <% if params[:action] != 'customers_list' %>
+                        <%= link_to "Details", user_point_list_path(user_id: user.id), class: "label label-info customer-profile-action-btn" %>
+                      <% end %>
+                    <% elsif params[:role] == "business" %>
+                      <a class="label label-success" href="/bulk/notification?email=<%= user.email %>" style="font-size: 15px;color:white;padding:5px;"> Send Push</a>
+                    <% elsif params[:role] == "manager" %>
+                      <a class="label label-success" href="/bulk/notification?email=<%= user.email %>" style="font-size: 15px;color:white;padding:5px;"> Send Push</a>
+                    <% elsif params[:role] == "transporter" && (is_super_admin?(@admin) || @admin.role_id == 1) %>
+                      <% if user.status %>
+                        <%= link_to "Log Off", log_off_transporter_path(user_id: user.id), class: "label label-danger", style: "font-size: 15px; color:white; padding:5px;", data: { confirm: "Are you sure you want to Log Off the Transporter?" } %>
+                      <% else %>
+                        <%= link_to "Log In", log_off_transporter_path(user_id: user.id), class: "label label-primary", style: "font-size: 15px; color:white; padding:5px;", data: { confirm: "Are you sure you want to Log In the Transporter?" } %>
+                      <% end %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      <% end %>
+      <div class="col-lg-12">
+        <center> <%= will_paginate @users, renderer: BootstrapPagination::Rails %></center><br>
+      </div>
+    <% else %>
+      <div class="alert alert-danger text-center">No User available yet.</div>
+    <% end %>
+  </div>
+</div>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    $(function () {
+      $(".contact-box").each(function () {
+        animationHover(this, "pulse");
+      });
+    });
+  </script>
+<% end %>

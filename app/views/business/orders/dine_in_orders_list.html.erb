@@ -1,0 +1,232 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+
+<style type="text/css">
+  .bg-white{
+    background-color: white;
+  }
+  .form-group{
+    width: 100% !important;
+  }
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+    width: 100% !important;
+  }
+  .setheight{
+    height:40px !important;
+  }
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important;
+  }
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <h2 style="margin-top:20px;"><b>Dine In Order History</b></h2>
+</div>
+<br>
+<div class="row">
+  <%= form_for :search, url: business_dine_in_orders_list_path(restaurant_id: params[:restaurant_id]), method: :get, html: { class: "form-inline" },authenticity_token: true do |f| %>
+    <div class="col-lg-2 col-md-6">
+      <%= select_tag :per_page, options_for_select([20, 40, 60, 80, 100], params[:per_page].to_i), class: "form-control setheight" %>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:branch, options_for_select(@branches.pluck(:address, :id), params[:branch]), prompt: "All Branches", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:area, options_for_select(@areas.pluck(:area), params[:area]), prompt: "All Areas", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <input type="text" id="datepicker" placeholder="start date" autocomplete="off" style="height: 36px; width: 100%;" name="start_date" value="<%= params[:start_date] %>">
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <input type="text" id="enddatepicker"  placeholder="end date" autocomplete="off" style="height: 36px; width: 100%;" name="end_date" value="<%= params[:end_date] %>">
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <input type="text" name="keyword" class="form-control" value="<%= params[:keyword] %>" placeholder="Search Order Id" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:order_status, options_for_select(Order::STATUSES[0..6], params[:order_status]), prompt: "Select Order Stage", class: "form-control business-search-field") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:order_type, options_for_select(["Dine In", "Takeaway"], params[:order_type]), prompt: "Select Order Type", class: "form-control business-search-field") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:payment_type, options_for_select(Order::PAYMENT_OPTIONS, params[:payment_type]), prompt: "Select Payment Type", class: "form-control business-search-field") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <button type="submit" class="btn btn-danger"> Search </button>
+    </div>
+  <% end %>
+
+  <div class="col-lg-2 col-md-6">
+    <%= link_to business_dine_in_orders_list_path(format: :csv, keyword: params[:keyword], restaurant_id: params[:restaurant_id], branch: params[:branch], area: params[:area], start_date: params[:start_date], end_date: params[:end_date], order_status: params[:order_status], order_type: params[:order_type], payment_type: params[:payment_type]) do  %>
+      <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+    <% end %>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="border:none;">
+          <%if @orders.present?%>
+            <div class="full-height-scroll">
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Order Id</th>
+                        <th>Branch</th>
+                        <th>Customer Name</th>
+                        <th>Customer Mobile</th>
+                        <th>Order Time</th>
+                        <th>Total Amount (<%= @orders.first&.currency_code_en %>)</th>
+                        <th>Payment Type</th>
+                        <th>Order Type</th>
+                        <th>Table No.</th>
+                        <th>Order Stage</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @orders.each do |o| %>
+                        <tr>
+                          <td><%= o.id%></td>
+                          <td><%= o.branch&.address.presence || "NA" %></b></td>
+                          <td><%= o.user.name %></td>
+                          <td><%= o.contact.presence || "NA" %></td>
+                          <td><%= o.created_at.strftime("%B %d %Y %I:%M%p") %></td>
+                          <td><%= number_with_precision(o.total_amount, precision: 3) %></td>
+                          <td><%= o.payment_mode == "online" ? "Online" : o.payment_mode == "COD" ? "CASH" : "CREDIT CARD MACHINE"%></td>
+                          <td><b><%= o.table_number.present? ? "DINE IN" : "TAKEAWAY" %></b></td>
+                          <td><%= o.table_number %></td>
+                          <td><b><%= o.current_status %></b></td>
+
+                          <td>
+                            <a href="<%= business_view_order_path(o.id, restaurant_id: params[:restaurant_id]) %>" class="btn btn-sm btn-danger"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+
+                            <% if !o.is_rejected && !o.is_settled %>
+                              <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", business_edit_dine_in_order_path(order_id: o.id), class: "btn btn-sm btn-primary", remote: true %>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+               </div>
+            </div>
+            <div class="col-lg-12">
+              <center> <%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">Orders not available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @all_orders.present? %>
+    <% currency = @all_orders.first.currency_code_en %>
+
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="ibox-content bg-white">
+          <h3 class="text-center">Summary</h3>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td><b>Total Orders</b></td>
+                <td><%= @all_orders.size %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Order Amount</b></td>
+                <td><%= number_with_precision(@all_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Cash Orders</b></td>
+                <td><%= @all_orders.cash_orders.size %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Cash Orders Amount</b></td>
+                <td><%= number_with_precision(@all_orders.cash_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Online Orders</b></td>
+                <td><%= @all_orders.online_orders.size %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Online Orders Amount</b></td>
+                <td><%= number_with_precision(@all_orders.online_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Credit Card Machine Orders</b></td>
+                <td><%= @all_orders.credit_card_machine_orders.size %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Credit Card Machine Orders Amount</b></td>
+                <td><%= number_with_precision(@all_orders.credit_card_machine_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#datepicker").datepicker({
+    format: "yyyy-mm-dd"
+  });
+
+  $("#enddatepicker").datepicker({
+    format: "yyyy-mm-dd"
+  });
+</script>

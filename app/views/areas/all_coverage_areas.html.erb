@@ -1,0 +1,154 @@
+<style type="text/css">
+  .setheight {
+    height: 100% !important;
+  }
+
+  .form-group {
+    width: 100% !important;
+  }
+
+  .area-upload-form {
+    display: inline;
+  }
+
+  .area-upload-link {
+    display: inline !important;
+    width: 40%;
+  }
+</style>
+
+<div class="row wrapper bcoverage_area-bottom white-bg page-heading">
+  <div class="col-sm-12" style="height: 4%;">
+    <div class="col-sm-2">
+      <h2>Coverage Area List</h2>
+    </div>
+
+    <div class="col-sm-8" style="padding-top: 20px;">
+      <span class="">
+        <%= form_for :search, url:all_coverage_areas_path, method: :get, html: { class: "form-inline" } do |f| %>
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "All Countries", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= select_tag(:searched_zone_id, options_for_select(@searchable_zones, params[:searched_zone_id]), prompt: "All Zones", class: "form-control admin-search-field") %>
+          <%= select_tag(:status, options_for_select(CoverageArea::STATUS_TYPES, params[:status]), prompt: "All Areas", class: "form-control admin-search-field") %>
+          <input type="text" class="form-control" name="keyword" value="<%= params[:keyword] %>" placeholder="Search Name" autocomplete="off">
+          <input type="text" class="form-control" name="searched_city" value="<%= params[:searched_city] %>" placeholder="Search City" autocomplete="off">
+          <button type="submit" class="btn btn-danger">Search</button>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="col-sm-2">
+      <h2 class="pull-right">
+        <%= link_to all_coverage_areas_path(format: :csv, searched_country_id: params[:searched_country_id], searched_zone_id: params[:searched_zone_id], keyword: params[:keyword], status: params[:status], searched_city: params[:searched_city]) do %>
+          <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+        <% end %>
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="row wrapper bcoverage_area-bottom white-bg page-heading">
+  <div class="col-sm-5">
+    <h2>
+      <%= link_to download_coverage_area_format_path(format: :csv) do %>
+        <button class="btn btn-sm btn-primary" title="Download CSV">Download Area Upload Format <i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+
+  <div class="col-sm-7">
+    <h2 class="pull-right">
+      <%= form_tag upload_coverage_areas_path, multipart: true, class: "area-upload-form" do %>
+        <%= file_field_tag :file, required: true, class: "form-control area-upload-link", accept: [".csv"] %>
+        <%= submit_tag "Upload Areas(.csv format)", class: "btn btn-sm btn-danger" %>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox-title">
+        <h5><%= page_entries_info @coverage_areas %></h5>
+
+        <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+          <a href="" class="btn btn-primary btn-xs addcoveragearea" data-target="#add-category-modal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Coverage Area</a>
+        </span>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="border:none;">
+          <% if @coverage_areas.present? %>
+            <div class="full-height-scroll">
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>S.no</th>
+                        <th>Name(English)</th>
+                        <th>Name(Arabic)</th>
+                        <th>City</th>
+                        <th>Zone</th>
+                        <th>Country</th>
+                        <th>Location</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% @coverage_areas.each do |o| %>
+                        <tr id="order-<%= o.id %>">
+                          <td><p><%= o.id %></p></td>
+                          <td><%= o.area %></td>
+                          <td><%= o.area_ar %></td>
+                          <td><%= o.city&.city %></td>
+                          <td><%= o.zone&.name %></td>
+                          <td><%= o.country&.name %> </td>
+                          <td><%= o.location %> </td>
+                          <td><%= o.latitude %> </td>
+                          <td><%= o.longitude %> </td>
+                          <td><%= o.status.capitalize %></td>
+
+                          <td>
+                            <%= link_to change_coverage_area_path(area_id: o.id) do %>
+                              <span class="btn btn-primary btn-sm"><i class="fa fa-edit" aria-hidden="true" >Edit Coverage Area</i></span>
+                            <% end %>
+
+                            <% if is_super_admin?(@admin) %>
+                              <span class="btn btn-danger btn-sm delete_coverage_area" value="<%= o.id %>"><i class="fa fa-trash" aria-hidden="true"></i>Delete</span>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+               </div>
+            </div>
+
+            <div class="col-lg-12">
+              <center><%= will_paginate @coverage_areas, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">Area not available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "add_coverage_area_modal" %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

@@ -1,0 +1,15 @@
+wb = xlsx_package.workbook
+currency = @restaurant.currency_code_en
+
+wb.add_worksheet(name: "Todays Report") do |sheet|
+  sheet.add_row ["Branch: " + @branch_name, "Delivery Type: " + @delivery_type, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Branch Address", "Cash Orders Count", "Cash Orders Amount (#{currency})", "Online Orders Count", "Online Orders Amount (#{currency})", "Total Orders Count", "Total Orders Amount (#{currency})"]
+
+  if @data.present?
+    @data.each do |b|
+      sheet.add_row [b[:address], b[:cash_orders_count], b[:cash_orders_amount].to_s, b[:online_orders_count], b[:online_orders_amount].to_s, b[:total_orders_count], b[:total_orders_amount].to_s]
+    end
+
+    sheet.add_row ["TOTAL", @data.sum { |d| d[:cash_orders_count].to_i }, number_with_precision(@data.sum { |d| d[:cash_orders_amount].to_f }, precision: 3), @data.sum { |d| d[:online_orders_count].to_i }, number_with_precision(@data.sum { |d| d[:online_orders_amount].to_f }, precision: 3),@data.sum { |d| d[:total_orders_count].to_i }, number_with_precision(@data.sum { |d| d[:total_orders_amount].to_f }, precision: 3)]
+  end
+end

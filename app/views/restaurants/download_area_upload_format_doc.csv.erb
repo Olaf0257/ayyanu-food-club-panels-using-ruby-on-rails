@@ -1,0 +1,3 @@
+<%headers = ['Area Name','Minimum Amount','Delivery Charges','Delivery Time','Daily Opening Time (8AM / 8PM)','Daily Closing Time (8AM / 8PM)','Cash On Delivery (Yes / No)','Accept Cash (Yes / No)','Accept Card (Yes / No)']%> <%= CSV.generate_line headers %><%@areas.each do |area| -%> <%= CSV.generate_line([area[:area],area[:minimum_amount],area[:delivery_charges],area[:delivery_time],area[:daily_open_at],area[:daily_closed_at],area[:cash_on_delivery],area[:accept_cash],area[:accept_card]])-%> <%end%>
+
+ 

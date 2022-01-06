@@ -1,0 +1,9 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Area Order Report") do |sheet| 
+	  sheet.add_row ['ID','Area','Total Order Count','Total Earrings'] 
+	  if @area_wise.present?
+			@area_wise.each do |area| 
+			sheet.add_row [area[:id],area[:area],area[:total_order],area[:total_amount]] 
+			end
+		end 
+	end

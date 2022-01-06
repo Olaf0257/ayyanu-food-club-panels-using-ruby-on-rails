@@ -1,0 +1,67 @@
+<div class="modal fade" id="order_item_details_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><%= @item.item_name %> Choices</h4>
+      </div>
+
+      <%= form_tag customer_add_items_to_cart_path, remote: true do %>
+        <%= hidden_field_tag(:order_item_id, @item.id) %>
+        <%= hidden_field_tag(:order_area_id, @area_id) %>
+        <%= hidden_field_tag(:order_branch_id, @branch_id) %>
+        <%= hidden_field_tag(:order_user_id, current_user&.id) %>
+        <%= hidden_field_tag(:guest_token, session[:guest_token]) %>
+
+        <div class="modal-body">
+          <section class="item-info">
+            <div class="row">
+              <div class="col-sm-9">
+                <p>
+                  <span class="item-desc"><%= @item.item_name %></span>
+                  <span class="<%= 'hide' if @item.restricted_quantity %>"><i class="fa fa-minus decrement-item-count" data-id="<%= @item.id %>"></i></span>
+                  <span class="item-count">1</span>
+                  <span class="<%= 'hide' if @item.restricted_quantity %>"><i class="fa fa-plus increment-item-count" data-id="<%= @item.id %>"></i></span>
+                </p>
+              </div>
+
+              <div class="col-sm-3">
+                <p><b>Price</b>: <span class="total-price"><%= number_with_precision(@price, precision: 3) %></span> <%= @item.currency_code_en %></p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12">
+                <%= text_field_tag(:special_request, "", class: "form-control", placeholder: "Enter your special request here...", autocomplete: :off) %>
+              </div>
+            </div>
+          </section>
+
+          <section class="addon-item-info">
+            <div class="row">
+              <% @addons.each do |addon_category| %>
+                <div class="addon-category-list" data-min="<%= addon_category['min_selected_quantity'] %>" data-max="<%= addon_category['max_selected_quantity'] %>">
+                  <p class="addon-category-name"><b><%= addon_category["addon_category_name"] %></b> <span class="min-max">Select <%= addon_category["min_selected_quantity"] %> - <%= addon_category["max_selected_quantity"] %> Addon Items</span></p>
+
+                  <% addon_category[:addon_items].each do |addon_item| %>
+                    <p>
+                      <%= check_box_tag "addon_item_id[]", addon_item["id"], false, class: "addon-item-checkbox", data: { id: addon_item["id"], item: @item.id } %>
+                      <%= addon_item["addon_title"] %> (<span class="addon-price"><%= ItemAddon.find(addon_item["id"]).effective_price(@item.offer_percent(@branch_id)) %></span>)
+                    </p>
+                  <% end %>
+
+                  <p class="min-max-error text-danger"></p>
+                </div>
+              <% end %>
+            </div>
+          </section>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success add-to-cart-btn">Add to Cart</button>
+          <button type="button" class="btn btn-danger modal-close-btn" data-dismiss="modal">Close</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

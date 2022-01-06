@@ -1,0 +1,600 @@
+<style type="text/css">
+  .mb-2{
+  margin-bottom:2%;
+  }
+  .private_dock{
+  display: none;
+  }
+  .iradio_square-green.checked {
+  background-position: -168px 0;
+  }
+  .intl-tel-input {
+  width: 100% !important;
+  }
+  .form-group select{
+  height: 34px !important;
+  }
+  #map_canvas {
+    height: 100%;
+  }
+  @media print {
+    html, body {
+      height: auto;
+    }
+    #map_canvas {
+      height: 650px;
+    }
+  }
+
+  .report-checkbox {
+    height: 16px;
+    width: 16px;
+  }
+</style>
+<div class="container">
+  <%=form_for :marina,url: update_restaurant_branch_info_path() ,:html=>{id: "add-marina-form",:class=>"form-vertical",:multipart => true} do |f|%>
+  <div class="row setup-content" id="step-1">
+    <div class="col-lg-12">
+      <div class="panel panel-default" style="margin-bottom:5%;">
+        <div class="panel-heading">
+          <center>
+            <h3>Update Branch & Details</h3>
+          </center>
+        </div>
+        <div class="panel-body">
+          <div class="row mb-2">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Restaurant Name</label>
+                <input type="text"  name="restaurant_name" class="form-control" value="<%=@branch.restaurant.title%>" disabled  >
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Branch Primary Contact Number (*Required)</label>
+                <input type="hidden"  name="branch_id" value="<%=@branch.id%>" />
+                <input type="hidden" name="restaurant_id" value="<%=params[:restaurant_id]%>">
+                <input type="text" name="contact" placeholder="041234567" id="user_contact" class="form-control" value="<%=@branch.contact%>">
+                <span id="valid-msg" class="hide">✓ Valid</span>
+              <span id="error-msg" class="hide">Invalid number</span>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Branch Call Center Number</label>
+                <%= text_field_tag(:call_center_number, @branch.call_center_number, class: "form-control", id: "call_center", autocomplete: :off) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <% if is_super_admin?(@admin) || @admin.role_id == 1 %>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Branch Subscription Fee</label>
+                  <%= select_tag(:branch_fee_id, options_for_select(@branch_slots, @branch.branch_subscription_id), class: "form-control") %>
+                </div>
+              </div>
+
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Report Subscription Fee</label>
+                  <%= select_tag(:report_fee_id, options_for_select(@report_slots, @branch.report_subscription_id), class: "form-control") %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Show report</label><br>
+                <%= hidden_field_tag 'report', '0' %>
+                <%= check_box_tag "report", '1', @branch.report, class: "report-checkbox" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Fixed Charge (%)</label>
+                <%= number_field_tag(:fixed_charge_percentage, @branch.fixed_charge_percentage, class: "form-control", autocomplete: :off, min: 0, step: 0.01) %>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Fixed Charge Capping (<%= @branch.currency_code_en %>)</label>
+                <%= number_field_tag(:max_fixed_charge, @branch.max_fixed_charge, class: "form-control", autocomplete: :off, min: 0, step: 0.001) %>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="row mb-2 branch-timing-row">
+            <div class="col-sm-12 text-center">
+              <label>BRANCH TIMINGS</label>
+            </div>
+
+            <% BranchTiming::DAY_NAMES.each do |day, day_name| %>
+              <hr>
+
+              <% timings = @branch.branch_timings.where(day: day).order(:opening_time) %>
+
+              <div class="day-row">
+                <% if timings.present? %>
+                  <% timings.each_with_index do |timing, i| %>
+                    <div class="row mb-2 timing-row" id="<%= day %>">
+                      <div class="col-sm-2">
+                        <label class="pull-right">
+                          <% if i.zero? %>
+                            <%= day_name %>
+                            <br>Open <%= check_box_tag "open_#{day}", "1", true, class: "open-branch-checkbox" %>
+                          <% else %>
+                            <span class="text-danger remove-branch-timing pull-right"><i class="fa fa-trash"></i> Remove</span>
+                          <% end %>
+                        </label>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <%= select_tag("opening_time_#{day}_#{i + 1}", options_for_select(BranchTiming::TIME_LIST, timing.opening_time), prompt: "Select Opening Time", class: "form-control branch-opening-time", style: "height: 34px;") %>
+                      </div>
+
+                      <div class="col-sm-4">
+                        <%= select_tag("closing_time_#{day}_#{i + 1}", options_for_select(BranchTiming::TIME_LIST, timing.closing_time), prompt: "Select Closing Time", class: "form-control branch-closing-time", style: "height: 34px;") %>
+                      </div>
+
+                      <div class="col-sm-2">
+                        <%= link_to "Add Hours", "#", class: "add-branch-hours" %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>
+                  <div class="row mb-2 timing-row" id="<%= day %>">
+                    <div class="col-sm-2">
+                      <label class="pull-right">
+                        <%= day_name %>
+                        <br>Open <%= check_box_tag "open_#{day}", "1", false, class: "open-branch-checkbox" %>
+                      </label>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <%= select_tag("opening_time_#{day}_1", options_for_select(BranchTiming::TIME_LIST), prompt: "Select Opening Time", class: "form-control branch-opening-time hide", style: "height: 34px;") %>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <%= select_tag("closing_time_#{day}_1", options_for_select(BranchTiming::TIME_LIST), prompt: "Select Closing Time", class: "form-control branch-closing-time hide", style: "height: 34px;") %>
+                    </div>
+
+                    <div class="col-sm-2">
+                      <%= link_to "Add Hours", "#", class: "add-branch-hours hide" %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+          <hr>
+
+          <div class="row">
+            <div class="col-lg-12">
+              <label> Choose Location </label>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Country</label>
+                <%= select_tag(:country, options_for_select(Country.all.pluck(:name), @branch.country), prompt: "All Countries", class: "form-control", id: 'country') %>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label>Area</label>
+                <select class="form-control setheight" name="area" id="area">
+                  <option>Select Area</option>
+                  <%=@areas.each do |b|%>
+                  <option value="<%=b.id%>" <%= @branch.city.present? ? @branch.city == b.area ? 'selected' : 'false' : 'false' %>><%=b.area%></option>
+
+                  <%end%>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="form-group">
+                <label> Tax Percentage </label>
+                <input type="text" name="tax_percentage" placeholder="tax percentage" value="<%=@branch.tax_percentage > 0 ? @branch.tax_percentage : "5" %>"  class="form-control" id="tax_percentage" disabled>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-4">
+              <label>Branch Address (*Required)</label>
+            </div>
+
+            <div class="col-lg-6">
+              <input id="address" name="address" type="textbox" value="<%= @branch.address %>" onselect="codeAddress()" class="form-control">
+              <input type="hidden" name="latitude" id="latitude" value="<%= @branch.latitude %>">
+              <input type="hidden" name="longitude" id="longitude" value="<%= @branch.longitude %>">
+            </div>
+          </div>
+
+          <div class="row" style="width: 100%; height: 400px;overflow: hidden;position: relative;top: 5px;">
+            <div id="map_canvas"></div>
+          </div>
+          <br>
+          <!--row-->
+          <div class="row">
+            <div class="col-lg-4">
+              <h4>Upload Branch Image (Optional)</h4>
+              <a href='javascript:;'>
+              <img src="<%=@branch.image? ? "#{@branch[:image]}" : "/assets/logo-upload.png"%>" class="img-tag add-img-tag" width="85%" height="100vh" >
+              <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+              <br><br>
+              <label class="file">
+              <input type="file" id='add-img-tag' name="branch_image" onchange='readURL(event)' aria-label="File browser example">
+              <span class="file-custom"></span>
+              </label>
+              </a>
+              <p style="margin-top:-10px;"><b>Image size :</b> 300X300</p>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Save </strong> </button>
+        </div>
+        <!--panel-body-->
+      </div>
+      <!--panel-->
+    </div>
+    <!--column-->
+  </div>
+
+  <%end%>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=
+AIzaSyACAG0hdhzYNaX80y68Fsn2D5-jQnSGm-Q&libraries=places"></script>
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link rel="stylesheet" href="/assets/formValidation.min.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+  $(document).ready(function () {
+    $("select#country").on("change", function() {
+      $.ajax({
+        url:  "<%= restaurant_filter_coverage_areas_by_country_path(restaurant_id: @brand.id)%>",
+        type: "GET",
+        data: { country_name: $("select#country").val() }
+      });
+    });
+  });
+
+    var readURL = function(event){
+      var componentId = event.target.id
+      var getImagePath = URL.createObjectURL(event.target.files[0]);
+      $('.'+componentId).attr("src",getImagePath );
+      $('#update-'+componentId).val(componentId);
+    }
+
+    var readImageURL = function(event){
+      var componentId = event.target.id
+      // console.log(componentId)
+      var getImagePath = URL.createObjectURL(event.target.files[0]);
+      $('.'+componentId).attr("src",getImagePath );
+    }
+
+    var readmapURL = function(event){
+      var componentId = event.target.id
+      // console.log(componentId)
+      var getImagePath = URL.createObjectURL(event.target.files[0]);
+      $('.'+componentId).attr("src",getImagePath );
+      $('#map-'+componentId).val(componentId)
+    }
+      $("#user_contact").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "full_phone",
+      initialCountry: "auto",
+      nationalMode: true,
+      initialCountry:'<%=@user.present? ? @user.country_code.present? ? @user.country_code.split('+')[1] : '' : '' %>',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      preferredCountries: ['bh'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+
+    });
+
+    $("#call_center").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "full_phone_call_center",
+      initialCountry: "auto",
+      nationalMode: true,
+      initialCountry: 'bh',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      preferredCountries: ['bh'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+    });
+
+    var callCenterNumber = /^[0-9 ]+$/;
+
+    $("#add-marina-form").on("submit",function(){
+      var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+      var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+      var country_code = $("#user_contact").intlTelInput("getSelectedCountryData");
+      console.log(country_code)
+      var countrycode = "+"+country_code.dialCode
+      var tax_percentage =  /^\d+(\.\d{1,2})?$/
+
+      var flag = true;
+
+      $(".branch-opening-time:visible").each(function () {
+        if($(this).val() == "") {
+          $(this).focus();
+          console.log("a")
+          swal("Warning", "Please select branch opening time", "warning")
+          flag = false;
+          return
+        }
+      });
+
+      if (flag == true) {
+        $(".branch-closing-time:visible").each(function () {
+          if($(this).val() == "") {
+            $(this).focus();
+            swal("Warning", "Please select branch closing time", "warning")
+            flag = false;
+            return
+          } else if (($(this).val() != "00:00") && ($(this).val() < $(this).closest(".timing-row").find(".branch-opening-time").val())) {
+            $(this).focus();
+            swal("Warning", "Closing Time should be greater than Opening Time", "warning")
+            flag = false;
+            return
+          }
+        });
+      }
+
+      if (flag == true) {
+        if(($.trim($('#address').val())==="") || $('#address').val().length>100){
+          $('#address').focus();
+          swal("Warning","Please enter the address","warning");
+          return false;
+        }else if($.trim($('#user_contact').val())===""){
+          $('#user_contact').focus();
+          swal("Warning","Please enter a valid contact No. for Branch.","warning");
+          return false;
+        } else if(($.trim($('#country').val())==="") || ($.trim($('#country').val())=='Select Country')){
+          $('#country').focus();
+          swal("Warning","Please Select a Country","warning");
+          return false;
+        }
+        else if(($.trim($('#area').val())==="") || ($.trim($('#area').val())=='Select Area')){
+          $('#area').focus();
+          swal("Warning","Please Select a Area","warning");
+          return false;
+        }else if(!tax_percentage.test($('#tax_percentage').val())){
+          $('#tax_percentage').focus();
+          swal("Warning","Please enter valid tax percentage","warning")
+          return false;
+        }
+        else if(!testContact()) {
+        $('#user_contact').focus();
+        swal("Warning","Please enter a valid phone number","warning")
+        return false;
+      } else if(!callCenterNumber.test($("#call_center").val())) {
+        $('#call_center_number').focus();
+        swal("Warning","Please enter a valid call center number","warning")
+        return false;
+      }
+        else{
+            swal({
+            html:true,
+            title: "Please wait...",
+            text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+            showConfirmButton: false
+          });
+          return true
+        }
+      } else {
+        return false;
+      }
+    });
+
+
+  var telInput = $("#user_contact"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+
+
+    var placeSearch, autocomplete;
+
+       autocomplete = new google.maps.places.Autocomplete( (document.getElementById('address')),{ types: []});
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+          var place = autocomplete.getPlace();
+          codeAddress();
+
+       });
+
+       function geolocate() {
+       if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(function(position) {
+           var geolocation = new google.maps.LatLng(
+             position.coords.latitude, position.coords.longitude);
+           autocomplete.setBounds(new google.maps.LatLngBounds(geolocation,
+             geolocation));
+           console.log(autocomplete)
+         });
+       }
+       }
+
+
+    var geocoder;
+    var map;
+    var marker;
+    var infowindow = new google.maps.InfoWindow({
+      size: new google.maps.Size(150, 50)
+    });
+
+
+
+    function initialize() {
+      geocoder = new google.maps.Geocoder();
+      var addressLat = document.getElementById('latitude').value;
+      var addressLong = document.getElementById('longitude').value;
+      codeAddress();
+      var latlng = new google.maps.LatLng(addressLat,addressLong);
+      var mapOptions = {
+        zoom: 15,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      }
+      map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+      google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
+      });
+    }
+
+    function geocodePosition(pos) {
+      geocoder.geocode({
+        latLng: pos
+      }, function(responses) {
+        if (responses && responses.length > 0) {
+          marker.formatted_address = responses[0].formatted_address;
+        } else {
+          marker.formatted_address = 'Cannot determine address at this location.';
+        }
+        infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+        infowindow.open(map, marker);
+      });
+    }
+
+    function codeAddress() {
+      var address = document.getElementById("address").value;
+      geocoder.geocode({
+        "address": address
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(results[0].geometry.location);
+          if (marker) {
+            marker.setMap(null);
+            if (infowindow) infowindow.close();
+          }
+          marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            position: results[0].geometry.location
+          });
+          google.maps.event.addListener(marker, "dragend", function() {
+            geocodePosition(marker.getPosition());
+            document.getElementById("address").value= marker.formatted_address
+            var addressLat = document.getElementById("latitude").value= marker.getPosition().toUrlValue(6).split(',')[0];
+            var addressLong = document.getElementById("longitude").value= marker.getPosition().toUrlValue(6).split(',')[1];
+            setTimeout(function(){google.maps.event.trigger(marker, 'click'); }, 300);
+          });
+          google.maps.event.addListener(marker, "click", function() {
+            var addressLat = document.getElementById("latitude").value= marker.getPosition().toUrlValue(6).split(',')[0];
+            var addressLong = document.getElementById("longitude").value= marker.getPosition().toUrlValue(6).split(',')[1];
+
+            if (marker.formatted_address) {
+              document.getElementById("address").value= marker.formatted_address
+              infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+            } else {
+              document.getElementById("address").value= address
+              infowindow.setContent(address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+            }
+            infowindow.open(map, marker);
+          });
+          google.maps.event.trigger(marker, "click");
+        }
+      });
+    }
+
+    google.maps.event.addDomListener(window, "load", initialize);
+</script>

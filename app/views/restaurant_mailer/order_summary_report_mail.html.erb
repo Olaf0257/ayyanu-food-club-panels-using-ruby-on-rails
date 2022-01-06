@@ -1,0 +1,473 @@
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.8;
+    background: #f1f1f1;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .email-container {
+    max-width: 700px;
+    border-radius: 0px 0px 5px 5px;
+    color: #ffff;
+  }
+
+  .email-header {
+    padding: 3em;
+    background: white;
+  }
+
+  .email-content{
+    padding: 2.5em;
+    background: #2f4050;
+    min-height: 220px;
+  }
+
+  .content-header .subheading{
+    display: inline-block;
+    padding: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .content-header h2{
+    margin: 10px 0px 20px 0px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .content-main p{
+    font-size: 12px;
+  }
+
+  .content-main table{
+    padding: 15px 0px;
+    width: 100%;
+  }
+
+  .value{
+    width: 50%;
+    text-align: center;
+  }
+
+  .email-footer {
+    font-size: 12px;
+    line-height: 15px;
+    background: #546575;
+    padding: 1.5em 2.5em;
+    text-align: left;
+    border-radius: 0px 0px 5px 5px;
+  }
+
+  table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #ffffff;
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  .total-row {
+    font-weight: 600;
+  }
+</style>
+
+<div class="container">
+  <center>
+    <div class="email-container">
+      <div class="email-header">
+        <figure>
+          <img src="https://ik.imagekit.io/sodhemlpr/admin/fc-logo-740e35ae18bd8ef009b002e07e4e3dc0ffffd6566540380411608b48256c6a38_jUGif7F06g.png" class="img-fluid" style="height:150px;">
+        </figure>
+      </div>
+
+      <div class="email-content">
+        <div class="content-header">
+          <span class="subheading">Hello <%= @restaurant.user.name %></span>
+          <hr>
+          <h2>Food Club Order Summary Report</h2>
+          <span style="color:#e3e3e3; font-size:15px; font-weight:500;">Please find the Detailed Report below. </span>
+        </div>
+
+        <div class="content-main">
+          <h3 style="font-size: 20px">Sales Report Summary</h3>
+
+          <table>
+            <tr>
+              <td>Restaurant</td>
+              <td class="value"><%= @restaurant.title %></td>
+            </tr>
+
+            <tr>
+              <td>Branch</td>
+              <td class="value"><%= @branch.address %></td>
+            </tr>
+
+            <tr>
+              <td>Currency</td>
+              <td class="value"><%= @restaurant.currency_code_en %></td>
+            </tr>
+
+            <tr>
+              <td>Report Dates</td>
+              <td class="value"><%= Date.yesterday.beginning_of_month.strftime("%d/%m/%Y") + " - " + Date.yesterday.end_of_month.strftime("%d/%m/%Y") %></td>
+            </tr>
+          </table>
+        </div>
+
+        <% ["Breakfast", "Lunch", "Dinner"].each do |meal_type| %>
+          <div class="content-main">
+            <br><h3 style="font-size: 18px">Order Details (<%= meal_type %>)</h3>
+
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Order Details</th>
+                  <th>Food Club Delivery</th>
+                  <th>Restaurant Delivery</th>
+                  <th>Total Orders</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Cash Orders</td>
+                  <td><%= @orders.cash_orders.where(third_party_delivery: true).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.cash_orders.where(third_party_delivery: false).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.cash_orders.select { |o| o.meal_type == meal_type }.size %></td>
+                </tr>
+
+                <tr>
+                  <td>Debit Card Orders</td>
+                  <td><%= @orders.online_orders.where(card_type: "Debit").where(third_party_delivery: true).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.online_orders.where(card_type: "Debit").where(third_party_delivery: false).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.online_orders.where(card_type: "Debit").select { |o| o.meal_type == meal_type }.size %></td>
+                </tr>
+
+                <tr>
+                  <td>Credit Card Orders</td>
+                  <td><%= @orders.online_orders.where(card_type: "Credit").where(third_party_delivery: true).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.online_orders.where(card_type: "Credit").where(third_party_delivery: false).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.online_orders.where(card_type: "Credit").select { |o| o.meal_type == meal_type }.size %></td>
+                </tr>
+
+                <tr class="total-row">
+                  <td>Total Orders</td>
+                  <td><%= @orders.where(third_party_delivery: true).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.where(third_party_delivery: false).select { |o| o.meal_type == meal_type }.size %></td>
+                  <td><%= @orders.select { |o| o.meal_type == meal_type }.size %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Food Club Delivery</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Payment Methods</th>
+                <th>Orders</th>
+                <th>Order Amount</th>
+                <th>Discount</th>
+                <th>Delivery Charges</th>
+                <th>Total Sale</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Cash Orders</td>
+                <td><%= @orders.where(third_party_delivery: true).cash_orders.size %></td>
+                <td><%= total_amount = number_with_precision(@orders.where(third_party_delivery: true).cash_orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: true).cash_orders.map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: true).cash_orders.map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f - total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Debit Card Orders</td>
+                <td><%= @orders.where(third_party_delivery: true).online_orders.where(card_type: "Debit").size %></td>
+                <td><%= total_amount = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Debit").map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Debit").map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Debit").map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f - total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Credit Card Orders</td>
+                <td><%= @orders.where(third_party_delivery: true).online_orders.where(card_type: "Credit").size %></td>
+                <td><%= total_amount = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Credit").map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Credit").map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: true).online_orders.where(card_type: "Credit").map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f - total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr class="total-row">
+                <td>Total Orders</td>
+                <td><%= @orders.where(third_party_delivery: true).size %></td>
+                <td><%= total_amount = number_with_precision(@orders.where(third_party_delivery: true).map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: true).map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: true).map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f - total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Restaurant Delivery</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Payment Methods</th>
+                <th>Orders</th>
+                <th>Order Amount</th>
+                <th>Discount</th>
+                <th>Delivery Charges</th>
+                <th>Total Sale</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Cash Orders</td>
+                <td><%= @orders.where(third_party_delivery: false).cash_orders.size %></td>
+                <td><%= total_amount = number_with_precision((@orders.where(third_party_delivery: false).cash_orders.map(&:total_amount).map(&:to_f).sum - @orders.where(third_party_delivery: false).cash_orders.map(&:delivery_charge).map(&:to_f).sum), precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: false).cash_orders.map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: false).cash_orders.map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f + total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Debit Card Orders</td>
+                <td><%= @orders.where(third_party_delivery: false).online_orders.where(card_type: "Debit").size %></td>
+                <td><%= total_amount = number_with_precision((@orders.where(third_party_delivery: false).online_orders.where(card_type: "Debit").map(&:total_amount).map(&:to_f).sum - @orders.where(third_party_delivery: false).online_orders.where(card_type: "Debit").map(&:delivery_charge).map(&:to_f).sum), precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: false).online_orders.where(card_type: "Debit").map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: false).online_orders.where(card_type: "Debit").map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f + total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Credit Card Orders</td>
+                <td><%= @orders.where(third_party_delivery: false).online_orders.where(card_type: "Credit").size %></td>
+                <td><%= total_amount = number_with_precision((@orders.where(third_party_delivery: false).online_orders.where(card_type: "Credit").map(&:total_amount).map(&:to_f).sum - @orders.where(third_party_delivery: false).online_orders.where(card_type: "Credit").map(&:delivery_charge).map(&:to_f).sum), precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: false).online_orders.where(card_type: "Credit").map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: false).online_orders.where(card_type: "Credit").map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f + total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr class="total-row">
+                <td>Total Orders</td>
+                <td><%= @orders.where(third_party_delivery: false).size %></td>
+                <td><%= total_amount = number_with_precision((@orders.where(third_party_delivery: false).map(&:total_amount).map(&:to_f).sum - @orders.where(third_party_delivery: false).map(&:delivery_charge).map(&:to_f).sum), precision: 3) %></td>
+                <td><%= total_discount = number_with_precision(@orders.where(third_party_delivery: false).map(&:used_point).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= total_delivery_charge = number_with_precision(@orders.where(third_party_delivery: false).map(&:delivery_charge).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision((total_amount.to_f + total_delivery_charge.to_f), precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Refund Details</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order Type</th>
+                <th>Food Club Delivery</th>
+                <th>Restaurant Delivery</th>
+                <th>Total Refunded Orders</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Cash Orders</td>
+                <td><%= @refund_orders.cash_orders.where(third_party_delivery: true).size %></td>
+                <td><%= @refund_orders.cash_orders.where(third_party_delivery: false).size %></td>
+                <td><%= @refund_orders.cash_orders.size %></td>
+              </tr>
+
+              <tr>
+                <td>Debit Card Orders</td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Debit").where(third_party_delivery: true).size %></td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Debit").where(third_party_delivery: false).size %></td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Debit").size %></td>
+              </tr>
+
+              <tr>
+                <td>Credit Card Orders</td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Credit").where(third_party_delivery: true).size %></td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Credit").where(third_party_delivery: false).size %></td>
+                <td><%= @refund_orders.online_orders.where(card_type: "Credit").size %></td>
+              </tr>
+
+              <tr class="total-row">
+                <td>Grand Total Refunds</td>
+                <td><%= @refund_orders.where(third_party_delivery: true).size %></td>
+                <td><%= @refund_orders.where(third_party_delivery: false).size %></td>
+                <td><%= @refund_orders.size %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Sales Summary</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order Type</th>
+                <th>Food Club Delivery</th>
+                <th>Restaurant Delivery</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Cash Orders</td>
+                <td><%= @orders.cash_orders.where(third_party_delivery: true).size %></td>
+                <td><%= @orders.cash_orders.where(third_party_delivery: false).size %></td>
+                <td><%= number_with_precision(@orders.cash_orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Debit Card Orders</td>
+                <td><%= @orders.online_orders.where(card_type: "Debit").where(third_party_delivery: true).size %></td>
+                <td><%= @orders.online_orders.where(card_type: "Debit").where(third_party_delivery: false).size %></td>
+                <td><%= number_with_precision(@orders.online_orders.where(card_type: "Debit").map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Credit Card Orders</td>
+                <td><%= @orders.online_orders.where(card_type: "Credit").where(third_party_delivery: true).size %></td>
+                <td><%= @orders.online_orders.where(card_type: "Credit").where(third_party_delivery: false).size %></td>
+                <td><%= number_with_precision(@orders.online_orders.where(card_type: "Credit").map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+
+              <tr class="total-row">
+                <td>Total</td>
+                <td><%= @orders.where(third_party_delivery: true).size %></td>
+                <td><%= @orders.where(third_party_delivery: false).size %></td>
+                <td><%= number_with_precision(@orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Discount Summary</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Detail</th>
+                <th>Total Orders Amount</th>
+                <th>Total Cashback Points</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Cash Back Points(1 Point = 1 <%= @restaurant.currency_code_en %>)</td>
+                <td><%= number_with_precision(@orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision(Point.credited.where(order_id: @orders.pluck(:id)).sum(:user_point), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Discount</td>
+                <td><%= number_with_precision(@orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision(OrderItem.where(order_id: @orders.pluck(:id)).sum(:discount_amount), precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Summary Details</h3>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Detail</th>
+                <th>Charges Paid (<%= @restaurant.currency_code_en %>)</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Credit Card Charges</td>
+                <td><%= number_with_precision(@orders.online_orders.where(card_type: "Credit").map(&:card_charge).sum, precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Debit Card Charges</td>
+                <td><%= number_with_precision(@orders.online_orders.where(card_type: "Debit").map(&:card_charge).sum, precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Food Club Delivery Charges</td>
+                <td><%= number_with_precision(@orders.where(third_party_delivery: true).sum(:delivery_charge), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Food Club Delivery Charges (VAT)</td>
+                <td><%= number_with_precision((@orders.where(third_party_delivery: true).sum(:delivery_charge) * 0.05.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Restaurant Delivery Charges</td>
+                <td>0.000</td>
+              </tr>
+
+              <tr>
+                <td>Restaurant Delivery Charges (VAT)</td>
+                <td>0.000</td>
+              </tr>
+
+              <tr>
+                <td>Food Club Fixed Charges</td>
+                <td><%= number_with_precision(@orders.sum(:fixed_fc_charge), precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td>Food Club Fixed Charges (VAT)</td>
+                <td><%= number_with_precision((@orders.sum(:fixed_fc_charge) * 0.05.to_f), precision: 3) %></td>
+              </tr>
+
+              <tr class="total-row">
+                <td>Total Amount</td>
+                <td><%= number_with_precision((@orders.online_orders.where(card_type: "Credit").map(&:card_charge).sum + @orders.online_orders.where(card_type: "Debit").map(&:card_charge).sum + @orders.where(third_party_delivery: true).sum(:delivery_charge) + (@orders.where(third_party_delivery: true).sum(:delivery_charge) * 0.05.to_f) + @orders.sum(:fixed_fc_charge) + (@orders.sum(:fixed_fc_charge) * 0.05.to_f)), precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="email-footer">
+        <p>
+          ©2020 Food Club
+          <br>
+          <small style="font-size: 11px;">Bahrain</small>
+        </p>
+      </div>
+    </div>
+  </center>
+</div>

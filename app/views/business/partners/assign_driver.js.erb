@@ -1,0 +1,11 @@
+<% if @check.present? %>
+    $('#driver_details').modal('hide');
+    <% if params[:driver_id].present? %>
+    	$('#payment-tab').click();
+		toastr.success("Driver added successfully");
+	<% else %>
+		toastr.error("Driver not found");
+	<% end %>
+<% else %>
+	toastr.error("Check not found");
+<% end %>

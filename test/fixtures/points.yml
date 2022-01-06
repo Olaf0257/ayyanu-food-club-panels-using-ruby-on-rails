@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  order: one
+  branch: one
+  user_point: 1.5
+
+two:
+  user: two
+  order: two
+  branch: two
+  user_point: 1.5

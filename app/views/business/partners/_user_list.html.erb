@@ -1,0 +1,9 @@
+<% if @users.present? %>
+  <% @users.order(:name).each do |user| %>
+    <p>
+      <%= radio_button_tag "searched_user_id", user.id, false, class: "user-radio" %> <img src="<%= user.image.present? ? user.image : '/assets/user.png' %>" style="height:30px; width:35px;"> <%= user.name %>
+    </p>
+  <% end %>
+<% else %>
+  <p>No User Found</p>
+<% end %>

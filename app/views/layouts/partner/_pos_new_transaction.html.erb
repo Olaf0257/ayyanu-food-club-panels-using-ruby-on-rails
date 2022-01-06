@@ -1,0 +1,152 @@
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu <%= @pos_check.check_status.eql?('closed') ? 'closed_check' : '' %>" id="side-menu">
+
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+      <li class="displayNavigation">
+        <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Dashboard</span></a>
+      </li>
+
+<!--       <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i><span class="nav-label">Order Screen</span></a>
+      </li>
+ -->
+
+      <li class="displayNavigation validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) ? 'pending_transaction' : '' %>" data-element-id = 'begin_check'>
+        <%= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-target': "#orderTypeOption", class: "beginCheckSidemenu noMenu #{@pos_check.present? && !@pos_check.pos_transactions.present? && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : ''}" do %>
+          <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Begin Check</span>
+        <% end %>
+      </li>
+
+      <li class="displayNavigation pickupCheckClick validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) ? 'pending_transaction' : '' %>" data-element-id = 'pickup_check' data-branch-id="<%= @pos_check&.branch_id %>">
+          <a href="javascript:void(0)" class="noMenu <%= @pos_check.present? && !@pos_check.pos_transactions.present? && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : '' %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Pickup Check</span></a>
+      </li>
+
+      <li class="displayNavigation beginCheckSideMenuButtonClick validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) ? 'pending_transaction' : '' %>" data-element-id ='begin_table'>
+          <a href="javascript:void(0);" class="noMenu <%= @pos_check.present? && !@pos_check.pos_transactions.present? && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : '' %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Begin Table</span></a>
+      </li>
+
+      <li class="displayNavigation validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) ? 'pending_transaction' : '' %>" data-element-id='pickup_table'>
+        <%= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-target': "#pickupTablePopup", class: "noMenu #{@pos_check.present? && !@pos_check.pos_transactions.present? && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : ''}" do %>
+          <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Pickup Table</span>
+        <% end %>
+      </li>
+
+      <li class="displayNavigation coverNavigation">
+          <a href="javascript:void(0)"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Cover</span></a>
+      </li>
+
+      <li class="displayNavigation">
+        <%= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-target': "#seatNumber", class: "#{@pos_check.present? && !@pos_check.order_type_id.eql?(1)  ? 'disabled' : ''}" do %>
+          <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Seat</span>
+        <% end %>
+      </li>
+
+<!--       <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Take Out</span></a>
+      </li> -->
+
+<!--       <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Enter</span></a>
+      </li> -->
+
+      <%#= link_to business_clear_pos_transaction_path(params[:restaurant_id], table_id: params[:table]), method: :delete, remote: true do %>
+      <li class="displayNavigation">
+        <%= link_to 'javascript:void(0)', class: 'clearNumeberpadSelection' do %>
+          <i class="fa fa-money" aria-hidden="true"></i><span class="nav-label">Clear</span>
+        <% end %>
+      </li>
+
+<!--       <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Save Check</span></a>
+      </li>
+ -->
+ <!--      <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Pick</span></a>
+      </li> -->
+<!-- 
+      <li class="displayNavigation">
+          <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Print Check</span></a>
+      </li>
+ -->
+      <li class="displayNavigation voidSelection">
+          <a href="javascript:void(0)"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Void</span></a>
+      </li>
+
+      <li class="displayNavigation cancelSelection">
+          <%= link_to 'javascript:void(0)' do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Cancel</span>
+          <% end %>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+.disabled {
+  pointer-events: none;
+  background: grey;
+}
+.closed_check li:nth-child(10), .closed_check li:nth-child(9), .closed_check li:nth-child(11) {
+  pointer-events: auto !important;
+  background-color: white !important;
+}
+
+.closed_check li{
+    pointer-events: none;
+    background-color: grey;
+  }
+  .reopen_check {
+    pointer-events: none;
+    background-color: grey;
+    color: white !important;
+  }
+  .delivery_type{
+    pointer-events: none;
+    background-color: grey !important;
+    color: white !important
+  }
+</style>

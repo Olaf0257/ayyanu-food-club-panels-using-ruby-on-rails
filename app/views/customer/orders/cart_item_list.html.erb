@@ -1,0 +1,190 @@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACAG0hdhzYNaX80y68Fsn2D5-jQnSGm-Q&libraries=places"></script>
+
+<div class="container customer-checkout-container">
+  <% if @cart_data.present? %>
+    <% currency = @total_price[:currency_code_en] %>
+
+    <div>
+      <h3 class="pull-left">PLACE ORDER</h3>
+
+      <% if @user&.cart&.branch_id && @user&.cart&.coverage_area_id && params[:user_id].blank? %>
+        <h3 class="pull-right"><%= link_to '<i class="fa fa-arrow-circle-right"></i>'.html_safe + " BACK TO EDIT", customer_restaurant_details_path(encode_token(@user.cart.branch_id), area_id: encode_token(@user.cart.coverage_area_id)), class: "btn btn-default btn-sm" %></h3>
+      <% end %>
+    </div>
+
+    <%= hidden_field_tag(:user_id, @user&.id) %>
+    <%= hidden_field_tag(:redeem, @my_points.present?) %>
+    <%= hidden_field_tag(:tapToken, "") %>
+    <%= hidden_field_tag(:coupon_code, params[:coupon_code]) %>
+
+    <div class="cart-item-list">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ITEM</th>
+            <th>QTY</th>
+            <th>ADDONS</th>
+            <th>SPECIAL REQ.</th>
+            <th>TOTAL PRICE (INCL. VAT)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @cart_data.each do |data| %>
+            <tr>
+              <td><%= data["item_name"] %></td>
+              <td><%= data["quantity"] %></td>
+              <td><%= data["item_addons"].map { |i| i["addon_title"] }.join(", ") %></td>
+              <td><%= data["description"] %></td>
+              <td><%= data["total_price"] %> <%= currency %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <div class="address-container">
+      <% if @user %>
+        <h4>Select Delivery Address</h4>
+
+        <% if @addresses.present? %>
+          <% @addresses.each do |address| %>
+            <p>
+              <% if @user && @user.email.include?("@foodclube.com") %>
+                <%= link_to " Edit Address", customer_new_guest_address_path, class: "btn btn-xs btn-primary edit-guest-address-btn", remote: true, data: { id: address.id } %><br>
+              <% end %>
+
+              <%= radio_button_tag "address_id", address.id, (params[:address_id].present? ? (address.id == params[:address_id].to_i) : true), class: "address-selection" %> <%= address.address_name %> (<%= (address.country_code.presence || "NA") + "-" + (address.contact.presence || "NA") %>)
+            </p>
+          <% end %>
+        <% else %>
+          <p>Go to My Account section and add your Address for this Delivery Area.</p>
+        <% end %>
+      <% else %>
+        <h4>Delivery Address</h4>
+        <p><%= link_to "Add Address", customer_new_guest_address_path, class: "btn btn-sm btn-primary new-guest-address-btn", remote: true %></p>
+      <% end %>
+
+      <p><b>Delivery Request:</b></p>
+      <%= text_field_tag(:delivery_request, params[:note].to_s.squish, class: "form-control", placeholder: "Enter delivery request here...") %>
+    </div>
+
+    <% if @user && !@user.email.include?("@foodclube.com") %>
+      <hr>
+      <h4>Coupon Code</h4>
+
+      <div class="coupon-code-container row">
+        <div class="col-sm-6">
+          <%= text_field_tag(:coupon_code_input, params[:coupon_code], placeholder: "Enter coupon code (if any)", class: "form-control", autocomplete: :off) %>
+
+          <% if @total_price[:coupon_discount].present? %>
+            <br><b><span class="text-danger coupon-discount"><%= @total_price[:coupon_discount] %>% Discount Applied!</b></span>
+          <% end %>
+        </div>
+
+        <div class="col-sm-6">
+          <span class="btn btn-sm btn-info validate-coupon-code">APPLY</span>
+        </div>
+      </div>
+    <% end %>
+
+    <hr>
+
+    <div class="points-container">
+      <h4>Payment Mode</h4>
+
+      <% if @user_points.to_i > 1 %>
+        <p><%= check_box_tag "points", 1, @my_points.present?, class: "my-points-radio" %> My Points (Available Points: <%= @total_price[:total_point].to_f.round(3) %>)</p>
+      <% end %>
+
+      <% if !@call_center_user && @total_price[:cash_on_delivery] %>
+        <p><%= radio_button_tag "payment", 2, true, class: "cash-radio" %> Cash</p>
+      <% end %>
+
+      <% if @total_price[:accept_card] %>
+        <p><%= radio_button_tag "payment", 2, (@call_center_user.present? || params[:user_id].present?), class: "online-radio" %> Card</p>
+      <% end %>
+
+      <%= render "card_details" %>
+    </div>
+
+    <hr>
+
+    <div class="price-list">
+      <h4>Price Breakup</h4>
+
+      <table class="table">
+        <tbody>
+          <tr>
+            <td colspan="4">Base Price</td>
+            <td><%= number_with_precision(@total_price[:sub_total], precision: 3) %> <%= currency %></td>
+          </tr>
+
+          <tr>
+            <td colspan="4">Points Redeemed</td>
+            <td><%= @total_price[:used_point] %></td>
+          </tr>
+
+          <% unless @total_price[:fc_delivery] %>
+            <tr>
+              <td colspan="4">Delivery</td>
+              <td><%= number_with_precision(@total_price[:delivery_charges], precision: 3) %> <%= currency %></td>
+            </tr>
+          <% end %>
+
+          <% @total_price[:taxes].each do |tax_data| %>
+            <tr>
+              <td colspan="4"><%= tax_data["tax_name"] %> (<%= tax_data["tax_percentage"] %> %)</td>
+              <td><%= number_with_precision(tax_data["tax_amount"], precision: 3) %> <%= currency %></td>
+            </tr>
+          <% end %>
+
+          <% if @total_price[:fc_delivery] %>
+            <tr>
+              <td colspan="4">Service Charge</td>
+              <td><%= number_with_precision(@total_price[:delivery_charges], precision: 3) %> <%= currency %></td>
+            </tr>
+          <% end %>
+
+          <tr>
+            <td colspan="4">Total Payable</td>
+            <td><span class="chargeable-amount"><%= number_with_precision(@total_price[:total_price], precision: 3) %></span> <%= currency %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row">
+      <% if @addresses.blank? %>
+        <h4 class="text-center">No Delivery Address Found for <%= @user&.cart&.coverage_area&.area || @coverage_area&.area || "this Area" %>. Please Add.</h4>
+      <% elsif @total_price[:sub_total].to_f < @total_price[:min_order_amount].to_f  %>
+        <h4 class="text-center">Minimum Order Amount is <%= number_with_precision(@total_price[:min_order_amount], precision: 3) %> <%= currency %>. Add More Items to Cart to Place Order.</h4>
+      <% elsif @call_center_user.present? && @total_price[:total_price].positive? %>
+        <button class="btn btn-success mail-order-payment-link-btn">MAIL PAYMENT LINK</btn>
+      <% elsif @total_price[:cash_on_delivery] || @total_price[:accept_card] %>
+        <button class="btn btn-primary place-order-btn">PLACE ORDER</btn>
+      <% end %>
+    </div>
+  <% else %>
+    <h4 class="text-center">Your Cart is empty</h4>
+  <% end %>
+</div>
+
+<% if @addresses.blank? %>
+  <%= render "new_guest_address_modal" %>
+<% end %>
+
+<% if @addresses.present? && @user && @user.email.include?("@foodclube.com") %>
+  <link rel="stylesheet" href="/assets/intlTelInput.css">
+  <script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<% end %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

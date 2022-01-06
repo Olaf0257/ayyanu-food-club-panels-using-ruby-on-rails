@@ -1,0 +1,250 @@
+<div class="panel-body">
+  <%stage =document_upload.stage%>
+  <%= form_for(document_upload, url: update_document_upload_business_setup_document_stage_path(document_upload, restaurant_id: params[:restaurant_id]),:remote => true, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+  <div class="col-md-7">
+    <div class="row form-group">
+      <div style="margin-bottom: 15px" class="col-lg-8">
+        <!-- <a href='javascript:;'> -->
+          <!-- <img src="<%#= @document_upload.image.url || '/assets/ic_placeholder.png' %>" class="img-tag edit-img-tag" width="60%"> -->
+          <!-- <label class="file"> -->
+            <!-- <input type="file" id='edit-img-tag' name="document_upload[image]" onchange='readURL(event)' aria-label="File browser example"> -->
+            <%#= f.file_field :image, class: "form-control",onchange: 'readURL(event)',id:'edit-img-tag','aria-label':"File browser example" %>
+            <!-- <span class="file-custom"></span> -->
+          <!-- </label> -->
+        <!-- </a> -->
+        <!-- <p style="margin-top:-10px;"><b>Image size:</b> 500X500</p> -->
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-2">
+        <%= f.label :name %>
+      </div>
+      <div class="col-sm-10">
+        <%=stage.name%>
+      </div>
+    </div>
+    <% if stage.enabled %>
+      <% if stage.vendor_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Vendor Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :vendor_id, Vendor.all.map{|c| c.user&.first_name}, {promt: "Select Vendor"}, {class: "form-control", disabled: true} %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.date.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Date</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.date_field :date, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.depositor_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Depositor Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :depositor_number, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.account_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :account_name, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.account_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :account_number, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.note.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Notes</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_area :note, class: "form-control" , disabled: true%>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.serial_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Serial Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :serial_number, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.employee_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Empolyee Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :emplyee_id, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.vendor_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Vendor Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :vendor_number, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.card_types.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Card Type</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :card_type_id, CardType.all.map{|c| [c.name,c.id]}, {promt: "Select CardType"}, {class: "form-control", disabled: true} %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.exchange_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Exchange Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :exchange_name, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.amounts.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Amount</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :exchange_name, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.deduction_type.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Amount</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :deduction_type, class: "form-control", disabled: true %>
+        </div>
+      </div>
+      <%end%>
+    <% end %>
+    <input type="hidden" id="request_some_column" name="stage" value="<%=stage.id%>" />
+    <div class="row form-group" id="DivIdToPrint">
+      <!-- <img class="barcode-container" src="<%= document_upload.barcode_url.html_safe %>" /> -->
+      <div class="col-md-8" style="border: 1px solid;padding: 3%;padding-left: 0;" >
+        <div class="col-md-6 col-md-6" id="qr_code_container">
+          <%= document_upload.barcode_url.html_safe %>
+          <p style="width: 285px;">Scan Serial# <%= find_scan_serial(document_upload) %></p>
+        </div>
+        <div class="col-md-6 col-md-6">
+          <p><%= document_upload.stage.name %></p>
+          <p><%= document_upload.created_at.strftime("%B") + "_" + document_upload.created_at.strftime("%Y") %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="text-align: right;padding-right: 0;">
+      <!-- <a href="#" class="btn btn-info" id="print_qr_code" onclick="printDiv()">Print</a> -->
+      <!-- <a href="#" class="btn btn-info" id="print_qr_code" onclick="printJS('DivIdToPrint', 'html')">Print</a> -->
+
+      <%#= f.submit "Book", class: "btn btn-success" %>
+    </div>
+  </div>
+  <div class="col-md-5" style="min-height: 200px;border: 1px solid black;">
+    <a href="<%= document_upload.image %>" target="_blank">
+      <img class="edit-img-tag" src="<%= document_upload.image %>"  style="width: 100%;" alt="Image Preview" />
+    </a>
+  </div>
+  <p style="    text-align: right;
+    margin-right: 5%;">Doc: <%= find_scan_serial(document_upload) %></p>
+  <% end %>
+</div>
+<link rel="stylesheet" type="text/css" href="https://printjs-4de6.kxcdn.com/print.min.css">
+<script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+
+
+<style type="text/css">
+  svg {
+  height: 120px;
+  width: 120px;
+  }
+  .qr-code-container {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  }
+  .qr-code-image {
+  margin: 70px 30px 40px 30px;
+  }
+
+
+  @media print {
+    .col-md-6{
+      width: 50%;
+    }
+    #qr_code_container svg{
+      width: 500px !important;
+    }
+    #DivIdToPrint{
+      display: flex;
+    }
+
+    svg {
+        width: 200px !important;
+        height: 200px !important;
+    }
+}
+
+</style>
+
+<script type="text/javascript">
+  // $('#print_qr_code').click(function(){
+  //   $('#print_qr_code_container').print();
+  // })
+
+  function printDiv() 
+{
+
+  var divToPrint=document.getElementById('DivIdToPrint');
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+
+}
+</script>

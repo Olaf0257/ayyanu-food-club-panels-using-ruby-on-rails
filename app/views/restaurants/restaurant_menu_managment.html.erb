@@ -1,0 +1,20 @@
+<style type="text/css">
+  .timer {
+    font-size: 20px;
+    text-align: center;
+    background: #ccc;
+  }
+</style>
+
+<div id="auto_update">
+  <%= render partial: "restaurant_menu_managment", locals: { :@restaurant => @restaurant, :@status => @status, :@data => @data, :@menu_category => @menu_category, :@menu_item => @menu_item, :@addon_category => @addon_category, :@addon_item => @addon_item } %>
+  <%= render "reject_item_modal" %>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

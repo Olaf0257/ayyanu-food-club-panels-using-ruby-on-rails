@@ -1,0 +1,84 @@
+<% selected_user = @selected_user || @user %>
+<div class="sidenav">
+  <% check_pending = params[:check].present? && ['reopened_pending' , 'pending'].include?(PosCheck.find_by(id: decode_token(params[:check]))&.check_status) %>
+
+  <%= link_to dashboard_business_enterprises_path(restaurant_id: params[:restaurant_id]), class: "validated_field #{check_pending ? 'pending_transaction' : ''} #{(params[:controller] == 'business/enterprises' ? 'active-link' : '')} sidebar", 'data-element-id': 'pos_dashboard' do %>
+    <img alt="image" class="image-responsive sidebar-images" src="/assets/finance.png"/>
+  <% end %>
+
+  <% if selected_user.auth_role == "business" %>
+    <%= link_to business_partner_dashboard_path(restaurant_id: encode_token(selected_user.restaurants.first.id), fc_panel: true), class: "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{(params['action'] != 'pos_new_transaction' && params['action'] != 'pos_dashboard' && params['action'] != 'resturant_branch' && params['action'] != 'restaurant' && params['action'] != 'document_list' && params[:action] != 'customers_list' && params[:action] != 'profile' && params[:action] != 'address_list' && params[:action] != 'kds_menu' && !params[:controller].eql?('business/catering_schedules') ? 'active-link' : '')}", 'data-element-id': 'pos_partner_dashboard' do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/fc_panel.png"/>
+    <% end %>
+  <% elsif selected_user.auth_role == "manager" %>
+    <%= link_to business_manager_dashboard_path, class: "active-link" do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/ic_manager.png"/>
+    <% end %>
+  <% elsif selected_user.auth_role == "kitchen_manager" %>
+    <%= link_to business_kitchen_manager_dashboard_path(restaurant_id: encode_token(selected_user.branch_kitchen_managers.first.branch.restaurant.id)), class: "active-link" do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/ic_kitchen.png"/>
+    <% end %>
+  <% elsif selected_user.auth_role == "delivery_company" %>
+    <%= link_to delivery_company_dashboard_path, class: "active-link" do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/favicon.png"/>
+    <% end %>
+  <% elsif selected_user.influencer %>
+    <%= link_to influencer_dashboard_path, class: "active-link" do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/favicon.png"/>
+    <% end %>
+  <% end %>
+
+  
+  
+  <% if selected_user.auth_role == "business" %>
+    <%= link_to business_partner_pos_dashboard_terminal_path(restaurant_id: params[:restaurant_id], branch_selected: true), class: "validated_field #{check_pending ? 'pending_transaction' : ''} #{(params['action'] == 'pos_new_transaction' || params['action'] == 'pos_dashboard' || (params[:controller].eql?('business/catering_schedules') && params[:action].eql?('index')) ? 'active-link' : '')} sidebar", 'data-element-id': 'pos_dashboard' do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/pos_management.png"/>
+    <% end %>
+  <% end %>
+
+  <!-- Task list navigator -->
+  <% unless @user.auth_role == "business" %>
+    <%= link_to business_tasks_list_path, class: "active-link" do %>
+      <!-- <img alt="image" class="image-responsive sidebar-images" src="/assets/task.png"/> -->
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/expo.png"/>
+    <% end %>
+  <% end %>
+  
+  <!-- <a href="#" class='<%#= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_3'><img alt="image" class="image-responsive sidebar-images" src="/assets/hrms.png"/></a> -->
+  <% if selected_user.auth_role == "business" %>
+    <a href="<%= business_kds_path(restaurant_id: params[:restaurant_id]) %>" class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller].include?('kds') ? 'active-link' : ''}" %>' data-element-id='pos_side_bar_5'><img alt="image" class="image-responsive sidebar-images" src="/assets/kds.png"/></a>
+
+      <a href="<%= dashboard_inventory_restaurant_purchase_orders_path(restaurant_id: params[:restaurant_id]) %>", class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller].include?('inventory') ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/pos_order_taking.png"/></a>
+
+    <%= link_to dashboard_business_hrms_employees_path(restaurant_id: encode_token(selected_user.restaurants.first.id)), class: "validated_field #{check_pending ? 'pending_transaction' : ''} #{(params[:controller] == 'business/hrms/employees' || params[:controller] == 'hrms/shifts' ? 'active-link' : '')} sidebar", 'data-element-id': 'pos_dashboard' do %>
+        <img alt="image" class="image-responsive sidebar-images" src="/assets/hrms.png"/>
+      <% end %>
+    <a href="<%= dashboard_business_task_management_restaurant_assign_tasks_path(restaurant_id: params[:restaurant_id])%>" class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller].include?('assign_tasks') ? 'active-link' : ''}" %>'data-element-id='pos_side_bar_5'>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/expo.png"/>
+    </a>
+
+
+    <a href="<%=business_setup_restaurant_chapters_path(restaurant_id: encode_token(selected_user.restaurants.first.id))%>", class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:contoller] == 'business/setup/document_stages' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/authentication.png"></a>
+
+
+      <a href="<%=document_upload_list_business_setup_document_stages_path(restaurant_id: encode_token(selected_user.restaurants.first.id))%>", class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:contoller] == 'business/setup/document_stages' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/document_stage.jpeg"></a>
+
+    
+
+        <a href="<%= dashboard_business_task_reports_task_percentages_path(restaurant_id: params[:restaurant_id]) %>", class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller] == "business/task_reports/task_percentages" ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/reports.png"/></a>
+    <!-- <a href="#" class='<%#= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_4'><img alt="image" class="image-responsive sidebar-images" src="/assets/kds.png"/></a> -->
+    <%# debugger %>
+
+
+    <!-- <a href="#" class='<%#= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_6'><img alt="image" class="image-responsive sidebar-images" src="/assets/materia_managements.png"/></a> -->
+
+    <a href="<%= business_resturant_branch_path(restaurant_id: params[:restaurant_id]) %>", class='<%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:action] == 'resturant_branch' || params[:action] == 'restaurant' || params[:action] == 'document_list' || params[:action] == 'customers_list' || params[:action] == 'profile' || params[:action] == 'address_list' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/master_conf.png"/></a>
+    </a>
+    
+   
+     
+     
+
+  <a href="#" class='<%= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_2'><img alt="image" class="image-responsive sidebar-images" src="/assets/crm.png"/></a>
+  <% end %>
+</div>

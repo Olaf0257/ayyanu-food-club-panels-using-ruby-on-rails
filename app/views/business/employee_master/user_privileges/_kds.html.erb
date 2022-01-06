@@ -1,0 +1,22 @@
+<div class="col-md-12">
+	<label>KDS:</label>
+</div>
+
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.kds.include?("Add KDS") %>
+			<input type="checkbox"  name="kds[add_kds]" value="Add KDS" checked="">
+		<%else%>
+			<input type="checkbox"  name="kds[add_kds]" value="Add KDS">
+		<%end%>
+		<label class="label_color">Add KDS</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.kds.include?("KDS List") %>
+			<input type="checkbox"  name="kds[kds_list]"  value="KDS List" checked="">
+		<%else%>
+			<input type="checkbox"  name="kds[kds_list]"  value="KDS List">
+		<%end%>
+		<label class="label_color">KDS List</label>
+	</div>
+</div>

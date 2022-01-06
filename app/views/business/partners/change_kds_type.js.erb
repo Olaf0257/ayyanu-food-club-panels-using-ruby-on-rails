@@ -1,0 +1,11 @@
+<% if @pos_check.present? %>
+	$('.active_kds').removeClass('Station');
+	$('.active_kds').removeClass('Expo');
+	$('.active_kds').removeClass('Runner');
+	$('.active_kds').removeClass('Customer');
+	$('.active_kds').removeClass('Manager');
+	$('.active_kds').addClass('hide <%= @pos_check.kds_type %>');
+	toastr.success("KDS moved successfully");
+<% else %>
+	toastr.error("Pos Check not found");
+<% end %>

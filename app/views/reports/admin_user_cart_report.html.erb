@@ -1,0 +1,108 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .form-inline {
+    display: inline !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-2">
+    <h2>User Carts</h2>
+  </div>
+
+  <div class="col-sm-10">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <%= select_tag(:country_id, options_for_select(@countries, params[:country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+        <%= select_tag(:restaurant_id, options_for_select(@restaurants, params[:restaurant_id]), prompt: "Select Restaurant", class: "form-control admin-search-field") %>
+        <%= select_tag(:area_id, options_for_select(@areas, params[:area_id]), prompt: "Select Area", class: "form-control admin-search-field") %>
+        <%= text_field_tag(:start_date, params[:start_date], autocomplete: :off, class: "form-control admin-search-field", placeholder: "start date", id: "start_datepicker") %>
+        <%= text_field_tag(:end_date, params[:end_date], autocomplete: :off, class: "form-control admin-search-field", placeholder: "end date", id: "end_datepicker") %>
+        <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search User,Branch", autocomplete: :off) %>
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+
+      <%= link_to admin_user_cart_report_path(format: :csv, restaurant_id: params[:restaurant_id], area_id: params[:area_id], start_date: params[:start_date], end_date: params[:end_date], keyword: params[:keyword], country_id: params[:country_id]) do  %>
+        <button class="btn btn-warning" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= page_entries_info @carts %></h5>
+
+          <% if @all_carts.present? %>
+            <h5 class="pull-right"><%= link_to "Bulk Push", user_cart_push_notification_path(cart_ids: @all_carts.pluck(:id), bulk: true), class: "btn btn-xs btn-success", remote: true %></h5>
+          <% end %>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @carts.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>User</th>
+                  <th>Restaurant</th>
+                  <th>Branch</th>
+                  <th>Area</th>
+                  <th>Item Count</th>
+                  <th>Total Price</th>
+                  <th>Last Updated</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @carts.each do |cart| %>
+                  <tr>
+                    <td><%= cart.branch&.restaurant&.country&.name %></td>
+                    <td><%= cart.user&.name %></td>
+                    <td><%= cart.branch&.restaurant&.title %></td>
+                    <td><%= cart.branch&.address %></td>
+                    <td><%= cart.coverage_area&.area %></td>
+                    <td><%= cart.cart_items.size %></td>
+                    <td><%= number_with_precision(cart.cart_items.map(&:total_price).sum.to_f.round(3), precision: 3) %> <%= cart.branch&.currency_code_en.to_s %></td>
+                    <td><%= cart.updated_at.strftime("%d/%m/%Y %l:%M%p") %></td>
+                    <td><%= link_to "Send Push", user_cart_push_notification_path(cart_ids: cart.id), class: "btn btn-xs btn-success", remote: true %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div>
+              <center><%= will_paginate @carts, renderer: BootstrapPagination::Rails %></center>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">No carts available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "dd/mm/yyyy" });
+  $("#end_datepicker").datepicker({ format: "dd/mm/yyyy" });
+</script>

@@ -1,0 +1,21 @@
+<%= form_for(@reimbersment, url: (params[:action] == "edit" ? business_employee_master_reimbersment_path : business_employee_master_reimbersments_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :name %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:name, required: true, class: "form-control") %>
+		</div>
+	</div>
+
+	<%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update New Reimbursement Type", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create New Reimbursement Type", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>

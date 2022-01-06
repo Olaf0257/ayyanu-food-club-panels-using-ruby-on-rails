@@ -1,0 +1,38 @@
+<%if key=="add"%>
+	var menu_category = document.getElementById("all-menu_category")
+	
+	// menu_category.className = 'inline';
+	// menu_category
+	// var count=menu_category.childElementCount;
+	// console.log(count);
+
+	// var div = document.createElement("div");
+	// // var divEle = document.getElementById(menu_category-<%=menu_category.id%>)
+	// var label = document.createElement("label");
+	// // var labelEle = document.getElementById(<%=menu_category.id%>-menu_category_title)
+	// var node = document.createTextNode(<%=menu_category.category_title%>);
+	// // label.appendChild(label);
+	// // div.appendChild(label);
+	// var a = document.createElement("a");
+	// var aEle = document.getElementById("all-menu_category")
+	// var i = document.createElement("i");
+	// var iEle = document.getElementById("all-menu_category")
+	// para.appendChild(node);
+	// menu_category.appendChild(div)
+
+
+	// var ele = menu_category.appendChild(count+1)
+	// console.log(ele)
+	// ele.id = "menu_category-<%=menu_category.id%>"
+	// menu_category.appendChild('<div id="menu_category-<%=menu_category.id%>" class="inline"> <label class="badge badge-success" id="<%=menu_category.id%>-menu_category_title"> <%=menu_category.category_title%>  <a style="color: white;" onclick="edit_menu_category(<%=menu_category.id%>)"><i class="fa fa-pencil"></i></a> </label></div>');
+
+    var menu_cat = document.getElementById("menu_cat")
+    menu_cat.innerHTML='<div id="menu_category-<%=menu_category.id%>" class="inline"> <label class="badge badge-success" id="<%=menu_category.id%>-menu_category_title"> <%=menu_category.category_title%>  <a style="color: white;" onclick="edit_menu_category(<%=menu_category.id%>)"><i class="fa fa-pencil"></i></a> </label></div>'
+  swal("Success", "Menu Category has been added successfully.", "success");
+  $('#add-content').modal('hide');
+<%else%>
+  swal("Exist", "Menu Category has been already exists.", "error");
+  $('#add-content').modal('hide');
+<%end%>
+
+

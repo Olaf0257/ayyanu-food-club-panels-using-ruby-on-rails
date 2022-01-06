@@ -1,0 +1,29 @@
+<div class="modal fade" id="cuisine_restaurants_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Restaurants under <%= @category.title %> Cuisine</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <ul>
+            <% @restaurants.each do |restaurant| %>
+              <div class="col-sm-6">
+                <li><%= restaurant.title %></li>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to category_restaurant_list_path(format: :csv, category_id: params[:category_id]) do %>
+          <button style="float:left" class="btn btn-warning csv-button" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+        <% end %>
+
+        <button type="button" class="btn btn-danger zone-area-modal-close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

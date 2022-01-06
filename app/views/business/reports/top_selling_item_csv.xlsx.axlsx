@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Top Items") do |sheet|
+  sheet.add_row ["Branch: " + @branch_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Item Name", "Amount (#{@restaurant.currency_code_en})", "Total Order", "Total Order Amount (#{@restaurant.currency_code_en.to_s})", "% Order"]
+
+  if @data.present?
+    @data.each do |report|
+      sheet.add_row [report[:item_name], report[:price_per_item].to_s, report[:totalItemCount], number_with_precision((report[:price_per_item].to_f * report[:totalItemCount].to_i), precision: 3), report[:percentage]]
+    end
+
+    sheet.add_row ["TOTAL", number_with_precision(@items.sum { |i| i[:price_per_item].to_f }, precision: 3), @items.sum { |i| i[:totalItemCount].to_i }, number_with_precision(@items.sum { |i| i[:price_per_item].to_f * i[:totalItemCount].to_i }, precision: 3)]
+  end
+end

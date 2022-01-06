@@ -1,0 +1,19 @@
+$('#customerAddressDetails tbody').empty();
+<% if params[:modal_id] == "beginCheckByNamePopupCheckId" %>
+	$('#customerAddressDetails').removeClass('d-none')
+	$('#check_order_type').addClass('d-none');
+<% else %>
+	$('#customerAddressDetails').addClass('d-none')
+	$('#check_order_type').removeClass('d-none');
+<% end %>
+$("#customerDetails").addClass('d-none');
+$('#minimum_amount_data').addClass('d-none')
+$('.customer_back_btn').removeClass('d-none');
+<% if @addresses.present? %>
+	<% @addresses.each do |address| %>
+		$('#customerAddressDetails tbody').append("<%= j render partial: 'customer_address_data', locals: { address: address, modal_id: params[:modal_id] } %>");
+	<% end %>
+<% else %>
+	$('#customerAddressDetails tbody').append("<tr><td colspan='11' style='text-align:center;'>No address found.</td></tr>");
+<% end %>
+beginCheckByNamePopup();

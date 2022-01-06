@@ -1,0 +1,20 @@
+<div class="row" id="<%= @count %>">
+  <div class="col-sm-3 manual-order-category-list">
+    <%= select_tag(:category_id, options_for_select(@categories.to_a), prompt: "Select Category", class: "form-control business-search-field manual-order-menu-category", required: true) %>
+  </div>
+
+  <div class="col-sm-3 manual-order-item-list">
+  </div>
+
+  <div class="col-sm-2 manual-order-item-quantity">
+  </div>
+
+  <div class="col-sm-3 manual-order-addon-list-wrapper">
+    <span class="manual-order-addon-list"></span>
+  </div>
+
+  <div class="col-sm-1">
+    <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-manual-order-item hide" %>
+    <%= link_to "Remove", "#", class: "btn btn-xs btn-danger remove-manual-order-item" %>
+  </div>
+</div>

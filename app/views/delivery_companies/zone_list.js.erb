@@ -1,0 +1,8 @@
+$(".delivery-company-zone-list").html("").addClass("hide")
+
+<% if @zones.present? %>
+  $(".delivery-company-zone-list").removeClass("hide");
+  $(".delivery-company-zone-list").html('<%= escape_javascript select_tag(:zone_ids, options_for_select(@zones), class: "form-control select2_zone", style: "height: 34px", multiple: true) %>')
+<% end %>
+
+$(".select2_zone").select2();

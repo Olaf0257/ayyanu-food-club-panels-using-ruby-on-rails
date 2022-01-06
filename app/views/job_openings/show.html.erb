@@ -1,0 +1,177 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+<style type="text/css">
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height:40px !important;
+  }
+
+  .branch-select-div {
+    height: 70px;
+  }
+  .display-none{
+    display: none;
+  }
+   .show-detail-back-btn{
+    margin-right: 1%;
+    margin-top: 1.5%;
+    padding-bottom: %;
+    padding: 8px 65px 8px;
+    outline: none !important;
+  }
+  .color-style{
+    color: #676a6c;
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+  }
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="wrapper wrapper-content animated fadeInRight color-style">
+  <div class="row">
+    <br>
+
+    <div class="container" style="margin-top: 5%;
+    margin-bottom: 2%;">
+      <div class="col-xs-12 well well-sm bg-white">
+      <h3 class="text-center"> <%= @job_position.title %> Position</h3>
+      <hr>
+      <%= form_for(@job_opening, url: (job_openings_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>First Name<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.text_field(:first_name, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>Last Name<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.text_field(:last_name, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>Email<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.email_field(:email, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>Phone<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%#= f.number_field(:phone_number, required: true, class: "form-control") %>
+            <!-- <input type="hidden" name="country_code" id="country-code" class="form-control form-group" placeholder="Country code"> -->
+            <%= f.hidden_field :country_code, value: '+973', id: 'country_code' %>
+            <%= f.telephone_field :phone_number, class: 'form-control', required: true, id: 'mobilenumber'  %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <%#= f.label :country %>
+            <label>Current Country<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.select :country_id, Country.all.map{|c| [c.name,c.id]}, {include_blank: "Select Country"}, {class: "form-control", style: 'height: 40px!important;', required: true} %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>Total Experience(months)<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.number_field(:total_experience, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-2">
+            <label>Upload Resume(PDF, JPEG, DOC)<span class="text-danger">*</span></label>
+          </div>
+
+          <div class="col-sm-10">
+            <%= f.file_field(:resume_file, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <%= hidden_field_tag "job_opening[job_position_id]", params[:id] %>
+
+
+        <div class="row form-group">
+          <center><%= f.submit "Apply Now", class: "btn btn-success btn-sm", style: 'color: white;padding: 1%;', id: 'submit_form'%></center>
+        </div>
+      <% end %>
+    </div>
+    </div>
+    <%= render "welcome/footer" %>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+
+  $("#mobilenumber,#user_user_detail_attributes_emergency_contact_number").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $('#submit_form').click(function(){
+    $('#country_code').val($('.selected-dial-code').text())
+
+  })
+
+</script>

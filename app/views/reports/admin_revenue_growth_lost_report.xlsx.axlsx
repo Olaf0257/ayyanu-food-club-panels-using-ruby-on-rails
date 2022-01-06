@@ -1,0 +1,9 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Top Items ") do |sheet| 
+	  sheet.add_row ['ID','Branch Address','Current Month Orders','Last Month Orders','Current Month Earrings','Last Month Earrings','%','status'] 
+	  if @reports.present?
+			@reports.each do |report| 
+			sheet.add_row [report[:id],report[:address],report[:current_month_order],report[:last_month_order],report[:total_revenue_current_month],report[:total_revenue_last_month],report[:percentage],report[:status]] 
+			end
+		end 
+	end

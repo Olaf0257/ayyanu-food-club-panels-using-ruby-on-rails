@@ -1,0 +1,6 @@
+$('.menu-category-text').text('MENU ITEMS');
+$('.back-menu-item').removeClass('hide');
+$('.pos-transaction').empty().append("<%= j render partial: 'menu_item_lists', locals: { menu_items: @menu_items, pos_table_id: params[:pos_table_id] }%>");
+$('.first-letter-list').empty().append("<%= j render partial: 'pos_first_letter_btn', locals: { categories: @menu_items }%>")
+selectSingleText();
+update_qty();

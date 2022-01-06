@@ -1,0 +1,165 @@
+<style type="text/css">
+  .icons {
+    font-size: 76px;
+  }
+  .text-data {
+    font-size: 20px;
+  }
+  .divData {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+    width: 6%;
+  }
+  .currency_quantity_input{
+    width: 50%;
+    margin: auto;
+    display: block;
+    margin-top: 5%;
+    display: none;
+  }
+  #discrepancy_container{
+    display: none;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-2">
+    <h2 class="font-bold ">Cash Spot Check</h2>
+  </div>
+
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="padding-top: 2%;">
+          <div class="container">
+            <div class="col-xs-12">
+              <div class="col-xs-4">
+                <%= select_tag('employee_id', options_from_collection_for_select(@employees, 'id', 'name'), prompt: "Select Employee", class: 'form-control', style: 'height: 40px!important;', name: 'family_detail[employee_id]', id: "family_detail_employee_id" ) %><br/><br/>
+
+                <p><b>Total Amount:  <span id="total_amount"></span></b></p><br/>
+                <p><b>Total Cash Count: <span id="total_cash_count"></span></b></p><br/>
+
+                <div id="discrepancy_container">
+                  <p style="display: flex;"><b>Violation</b>&nbsp;&nbsp; <input required="required" class="form-control" type="text" name="kds[name]" id="kds_name"></p><br/>
+                  <p style="display: flex;"><b>Type</b>&nbsp;&nbsp; <input required="required" class="form-control" type="text" name="kds[name]" id="kds_name"></p><br/>
+                  <p style="display: flex;"><b>Date Of Discrepancy</b>&nbsp;&nbsp; <input required="required" class="form-control" type="text" name="kds[name]" id="kds_name"></p><br/><br/><br/>
+                </div>
+
+                <input type="submit" name="commit" value="Ok" class="btn btn-primary" style="color: #fff;background-color: #007bff;border-color: #007bff;width: 100%;padding: 1%;" id="violation_submit"><br/><br/><br/>
+
+                <p style="display: flex;"><input type="submit" name="commit" value="Print Form" class="btn btn-primary" style="color: #fff;background-color: #007bff;border-color: #007bff;"></p><br/>
+              </div>
+              <div class="col-xs-8">
+                <div class="menu">
+                  <div class="row pos-transaction" style="margin: auto;margin-left: 2%;">
+                    <% @cash_types.each do |cash_type|%>
+                      <div class="col-xs-4">
+                        <!-- <a data-remote="true" href="/business/partner/pos_menu_items/5?pos_table_id=86"> -->
+                          <div class="card" style="display: inline-block;
+                            height: 60px;
+                            width: 32%;
+                            padding-bottom: 15px;
+                            border-radius: 5px;
+                            text-align: center;
+                            vertical-align: middle;height: 87px; width: 95%;background: #ccc;">
+                            <div class="card-body">
+                              <p style="color: black;top: 15px;position: relative;text-align: center;"><%= cash_type.amount %> <%= cash_type.pos_cash_type %>
+                              </p>
+                              <div class="">
+                                <p style="color: black;top: 15px;position: relative;text-align: center;font-size: 40px;" class="currency_quantity" id="currency_quantity_<%= cash_type.id %>" id_value="<%= cash_type.id %>">
+                                  <i class="fa fa-minus minus_icon" aria-hidden="true" style="font-size: 20px;vertical-align: middle;" id_value="<%= cash_type.id %>"></i>
+                                  <span id="span_quantity_<%= cash_type.id %>" class="span_quantity_class" conversion_rate="<%= cash_type.converted_amount %>" cash_type_id="<%= cash_type.id %>">0</span> 
+                                  <i class="fa fa-plus plus_icon" aria-hidden="true" style="font-size: 20px;vertical-align: middle;" id_value="<%= cash_type.id %>"></i>
+
+                                </p>
+                                <p style="color: black;top: 15px;position: relative;text-align: center;font-size: 40px;" class="currency_quantity_input" id="<%= cash_type.id %>">
+                                  <input type="text" class="form-control currency-input" style="text-align: center;" id_value="<%= cash_type.id %>" id="input_id_value_<%= cash_type.id %>" >
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        <!-- </a> -->
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div><br/>
+             <!--  <div class="col-xs-12" style="margin-top: 6%;text-align: center;">
+                <input type="submit" name="commit" value="Ok" class="btn btn-primary" style="color: #fff;background-color: #007bff;border-color: #007bff;width: 27%;padding: 1%;"> -->
+                <!-- <input type="submit" name="commit" value="Cancel" class="btn btn-primary" style="color: #fff;background-color: #007bff;border-color: #007bff;width: 27%;padding: 1%;"> -->
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('.span_quantity_class').click(function(){
+    $(this).parent().hide();
+    var id = this.parentElement.children[1].getAttribute('id');
+    var record_id = $(this).parent()[0].getAttribute('id_value');
+    $("#"+record_id).show();
+    $("#"+record_id).focus();
+
+  })
+
+  $('.currency-input').keyup(function(e){
+    if(e.keyCode == 13){
+      var parent_id = $(this).parent()[0].getAttribute("id");
+      $("#"+parent_id).hide();
+      var id = this.parentElement.parentElement.children[0].children[1].getAttribute('id');
+      var container_id = this.parentElement.parentElement.children[0].getAttribute('id');
+      $("#"+id).text(this.value);
+      $("#"+container_id).show();
+      calculate_amount_and_cash_count();
+    }
+  })
+
+  $('.plus_icon').click(function(){
+    var record_id = this.getAttribute('id_value');
+    var value = parseFloat($('#span_quantity_'+record_id).text());
+    $('#span_quantity_'+record_id).text(value + 1);
+    $('#input_id_value_'+record_id).val(value + 1);
+    calculate_amount_and_cash_count();
+  })
+
+  $('.minus_icon').click(function(){
+    var record_id = this.getAttribute('id_value');
+    var value = parseFloat($('#span_quantity_'+record_id).text());
+    if(value > 0){
+      $('#span_quantity_'+record_id).text(value - 1);
+      $('#input_id_value_'+record_id).val(value - 1);
+      calculate_amount_and_cash_count();
+    }
+  })
+
+  function calculate_amount_and_cash_count(){
+    var sum = 0
+    var total_amount = 0
+    $.each($('.span_quantity_class'), function( index, value ) {
+      sum = sum + parseInt(value.textContent)
+      total_amount = total_amount + (parseFloat(this.getAttribute('conversion_rate')) * parseInt(value.textContent))
+
+    });
+    $('#total_cash_count').text(sum);
+    $('#total_amount').text(total_amount);
+  }
+
+  $('#violation_submit').click(function(){
+    debugger
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/assign_assets/department_designation",
+      dataType: 'script',
+      data: { user_id: $('#family_detail_employee_id').val(), total_amount: $('#total_amount').text(), total_cash: $('#total_cash_count').text() }
+    });
+  })
+</script>

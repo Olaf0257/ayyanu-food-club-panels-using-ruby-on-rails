@@ -1,0 +1,31 @@
+<div class="qr-code-image">
+    <%= @document_upload.barcode_url.html_safe %>
+  </div>
+
+  <style>
+  @page {
+    margin: 7mm 5mm 4mm 5mm;
+  }
+
+  svg {
+    height: 270px;
+    width: 270px;
+  }
+
+  .qr-code-container {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+  }
+
+  .qr-code-image {
+    margin: 70px 30px 40px 30px;
+  }
+
+  h2, p {
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,73 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Privileges</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Privilege" href="<%= new_business_employee_master_restaurant_user_privilege_path(@restaurant_id) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @privileges.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Country</th>
+                  <th>Branch</th>
+                  <th>Designation</th>
+                  <th>Modules</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @privileges.each do |privilege| %>
+                <tr id="trans-<%=privilege.id %>">
+                  <td><%=privilege.id%></td>
+                  <td><%=Country.where(id: privilege.country_ids).pluck(:name).join(",")%></td>
+                  <td><%=Branch.where(id: privilege.branch_ids).pluck(:address).join(",")%></td>
+                  <td><%=Designation.where(id: privilege.designation_ids).pluck(:name).join(",")%></td>
+                  <td><%=privilege.assign_privileges.keys.join(",")%></td>
+                  <td><%=User.find_by(id: privilege.created_by_id)&.name%></td>
+                  <td><%=privilege.created_at.to_date%></td>
+                  <td>
+                    <%## unless ["Manager", "Transporter", "Kitchen Manager"].include?(privilege.name) %>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit Privilege'.html_safe, edit_business_employee_master_restaurant_user_privilege_path(@restaurant_id,privilege), class: 'btn btn-warning btn-sm' %>
+                      <%#= link_to '<i class="fa fa-pencil"></i> Edit Privilege'.html_safe, '#', class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove Privilege'.html_safe, business_employee_master_restaurant_user_privilege_path(@restaurant_id,privilege), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                      <%#= link_to '<i class="fa fa-remove"></i> Remove Privilege'.html_safe, "#", method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    <%# end %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Privilage available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

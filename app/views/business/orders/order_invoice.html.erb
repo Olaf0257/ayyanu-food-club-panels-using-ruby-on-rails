@@ -1,0 +1,421 @@
+<style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+    width: 320;
+    height: 1000;
+  }
+
+  * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  .page {
+    padding: 1cm;
+    margin: 1cm auto;
+    border: 1px #D3D3D3 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .subpage {
+    padding: 1cm;
+    border: 5px red solid;
+    height: 256mm;
+    outline: 2cm #FFEAEA solid;
+  }
+
+  .order-table td{
+    padding: 5px 60px 5px 0px;
+    font-size: 14px;
+    color: #000;
+  }
+
+  .order-table tr td:last-of-type{
+    font-weight: bold;
+    color: #000;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  @media print {
+    .page {
+      margin: 0;
+      border: initial;
+      border-radius: initial;
+      width: initial;
+      min-height: initial;
+      box-shadow: initial;
+      background: initial;
+      page-break-after: always;
+    }
+  }
+
+  .t-u {
+    text-transform: uppercase;
+  }
+
+  td {
+    color: #000;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Invoice</h2>
+  </div>
+
+  <% if @invoice["is_accepted"] == false && @invoice["is_rejected"] == false && @invoice["pickedup"] == false && @invoice["is_delivered"] == false && @invoice["is_ready"] == false && @order.is_cancelled == false %>
+    <a class="btn btn-sm pull-right btn-danger addclube " id="<%= @invoice["id"] %>" attr-status="" data-target="#add-item-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false" style="font-size: 13px; margin-top: 22px; color: white;"><i aria-hidden="true"></i> Decline Order</a>
+    <a class="btn btn-sm pull-right" onclick="accept_order(<%= @invoice["id"] %>, 'accept' )" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true" class="fa fa-print"></i> Accept Order / Print Invoice</a>
+  <% else %>
+    <a href="#" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" onclick="printpage()" class="btn btn-primary pull-right"><i class="fa fa-print"></i> Print Invoice </a>
+  <% end %>
+</div>
+
+<div class="container">
+  <div class="row page p-0" id="print_page">
+    <div class="col-lg-12">
+      <div class="wrapper wrapper-content animated fadeInRight">
+        <center>
+          <% if @order.is_cancelled %>
+            <h3 style="color:red;">Cancelled</h3>
+            <h5 style="color:red;">Cancelled by : <%= @order.cancel_request_by&.upcase.to_s %></h5>
+            <h5 style="color:red;">Cancellation Reason : <%= @order.cancellation_reason %></h5>
+          <% elsif (@order.is_rejected==true and @order.cancel_reason.present?)%>
+            <h3 style="color:red;">Rejected</h3>
+            <h5 style="color:red;">Reject Reason : <%=@order.is_rejected ==true ? @order.cancel_reason: "" %></h5>
+          <%end%>
+        </center>
+
+        <div class="ibox-content p-0">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h2 class="text-center" style="margin-top:20px;"><b>FOOD CLUB<br>TAX INVOICE</b></h2>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3 class="pull-left" style="padding-left: 30px;">VAT NO: 220000078400002</h3>
+                </div>
+                <div class="col-sm-6">
+                  <h3 class="pull-right" style="padding-right: 30px;">5720, LAGOON, AMWAJ, BAHRAIN</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr style="margin-top:0px;">
+
+          <div class="row">
+            <div class="col-xs-6">
+              <div>
+                <table class="order-table">
+                  <tr class="t-u">
+                    <td>Order Id : </td>
+                    <td>&nbsp;<%= @invoice["id"] %></td>
+                  </tr>
+
+                  <tr class="t-u">
+                    <td>Restaurant Name : </td>
+                    <td>&nbsp;<%= @invoice[:branch]["restaurant_name"] %></td>
+                  </tr>
+
+                  <tr class="t-u">
+                    <td>Order Received At : </td>
+                    <td>&nbsp;<%= (@invoice["created_at"]).strftime("%m/%d/%Y at %I:%M%p") %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <div class="col-xs-6">
+              <div>
+                <table class="order-table">
+                  <tr class="t-u">
+                    <td>Customer Name : </td>
+                    <td>&nbsp;<%= @order.user.name.present? ? @order.user.name : "N/A" %></td>
+                  </tr>
+
+                  <tr class="t-u">
+                    <td>Mobile : </td>
+                    <td>&nbsp;<%= @order.contact %></td>
+                  </tr>
+
+                  <tr class="t-u">
+                    <td>Payment Type : </td>
+                    <td>&nbsp;<%= @order.payment_mode == "COD" ? "Cash" : @order.payment_mode == "online" ? "Online" : "CREDIT CARD MACHINE" %></td>
+                  </tr>
+
+                  <tr class="t-u" >
+                    <td>Delivery Request : </td>
+                    <td>&nbsp;<%= @order.note.present? ? @order.note : "N/A" %></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <h4 class="t-u" style="font-size: 18px; color: #000; padding-top: 10px;"><strong>Delivery Address:</strong></h4>
+          </div>
+
+          <div class="col-xs-6">
+            <div>
+              <table class="order-table">
+                <tr class="t-u">
+                  <td>Property Type : </td>
+                  <td><%= @order.address_type %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td>Block : </td>
+                  <td><%= @order.block %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td>Road Number : </td>
+                  <td><%= @order.street %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td>Additional Direction : </td>
+                  <td><%= @order.additional_direction %></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-xs-6">
+            <div>
+              <table class="order-table t-u">
+                <tr class="t-u">
+                  <td>Area : </td>
+                  <td><%= @order.area %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td>Building : </td>
+                  <td><%= @order.building %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td>Floor : </td>
+                  <td><%= @order.floor %></td>
+                </tr>
+
+                <tr class="t-u">
+                  <td><%= @order.address_type %> No</td>
+                  <td><%= @order.apartment_number %></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <div class="container">
+          <div class="m-t">
+            <table class="table invoice-table table-striped">
+              <thead>
+                <tr class="t-u">
+                  <th>Qty</th>
+                  <th>Item List</th>
+                  <th>Unit Price (BD)</th>
+                  <th>Discount (BD)</th>
+                  <th>Total Price (BD)</th>
+                </tr>
+              </thead>
+
+              <tbody class="t-u">
+                <% @invoice["order_items"].each do |item| %>
+                  <tr>
+                    <td><strong><%=item["quantity"]%></strong></td>
+
+                    <td>
+                      <div>
+                        <strong>
+                          <%= item["menu_item"]["item_name"] %>
+                        </strong>
+                      </div>
+
+                      <small>
+                        <% if item["item_addons"].present? %>
+                          <% item["item_addons"].each do |addon| %>
+                            <%= addon["addon_title"] %>: <%= number_with_precision(addon["addon_price"], precision: 3) %> BD,
+                          <% end %>
+                        <% end %>
+                      </small>
+
+                      <% if item["description"].present? %>
+                        <small>
+                          (<%=item["description"]%>)
+                        </small>
+                      <% end %>
+                    </td>
+
+                    <td><%= (number_with_precision((item["price_per_item"].to_f), precision: 3) || 0.000) %></td>
+                    <td><%= (number_with_precision((item["discount_amount"].to_f), precision: 3) || 0.000) %></td>
+                    <td><%= (number_with_precision((item["total_item_price"].to_f) || 0.000)) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <% currency_code = @order.currency_code_en %>
+
+        <table class="table invoice-total">
+          <tbody>
+            <tr>
+              <td><strong class="t-u">Base Price</strong></td>
+              <td><%= (number_with_precision((@order.sub_total.to_f), precision: 3) || 0.000) %> <%= currency_code %></td>
+            </tr>
+
+            <tr>
+              <td><strong class="t-u">Points Redeemed</strong></td>
+              <td><%= @order.is_redeem == true ? @order.used_point.to_f.round(3) : 0.0 %></td>
+            </tr>
+
+            <% unless @order.dine_in %>
+              <% if !@order.third_party_delivery || @order.changed_delivery %>
+                <tr>
+                  <td><strong class="t-u">Delivery</strong></td>
+                  <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+                </tr>
+              <% end %>
+            <% end %>
+
+            <% if @order.order_taxes.present? %>
+              <% @order.order_taxes.each do |tax| %>
+                <tr>
+                  <td><strong class="t-u"><%= tax.name %> (<%= tax.percentage %>%)</strong></td>
+                  <td><%= number_with_precision(tax.amount, precision: 3) %> <%= currency_code %></td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td><strong class="t-u">VAT (<%= @order.tax_percentage || @order.branch.tax_percentage %>%)</strong></td>
+                <td><%= (number_with_precision(@order.tax_amount.present? ? @order.tax_amount : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+              </tr>
+            <% end %>
+
+            <% if @order.third_party_delivery && !@order.changed_delivery && !@order.dine_in %>
+              <tr>
+                <td><strong class="t-u">Service Charge</strong></td>
+                <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+              </tr>
+            <% end %>
+
+            <tr>
+              <td><strong class="t-u">Total Payable (<%= currency_code %>)</strong></td>
+              <td style="font-weight: bold;"><%= (number_with_precision(@order.total_amount, precision: 3) || 0.000) %> <%= currency_code %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div class="modal fade" id="add-item-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center><div id="showimage"></div></center>
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Order Cancel Reason</h4>
+      </div>
+
+      <%= form_for :order, url: business_order_cancel_path, html: { multipart: true } do |f| %>
+        <div class="modal-body">
+          <form action="#" class="form-horizontal" method="post" data-remote="true">
+            <input type="hidden" name="order_id" id="order_id"  value="">
+            <input type="hidden" name="restaurant_id" id="order_id"  value="<%=params[:restaurant_id]%>">
+
+            <div class="row" style="margin-bottom:10px;">
+              <p>Cancel Reason</p>
+              <input type="text"  name="cancel_resion" id="cancel_resion"  placeholder="Cancel Reason" required="true" class="form-control" autocomplete="off">
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn theme-btn pull-right" value="Submit" id="add_sub_club">
+            </div>
+          </form>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function accept_order(order_id,status){
+    $.ajax({
+      type: "POST",
+      url: "/business/order/action",
+      data: {
+        order_id: order_id,
+        action_for: status
+      },
+      dataType: "JSON",
+      success: function(data){
+        if (data.code == 200) {
+          var printContents = document.getElementById("print_page").innerHTML;
+          var originalContents = document.body.innerHTML;
+          document.body.innerHTML = printContents;
+          window.print();
+          document.body.innerHTML = originalContents;
+          swal({
+            title: "Message",
+            text: data.message,
+            type: "success",
+            showCancelButton: false,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: false
+          },
+
+          function(isConfirm){
+            if (isConfirm,data) {
+              window.location.href = "/business/order/<%=params[:restaurant_id]%>/"+ data.order.id
+            }
+          });
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  function printpage() {
+    var printContents = document.getElementById("print_page").innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  }
+
+  $(document).ready(function() {
+    $(document).on("click", ".addclube", function(event) {
+      $('#add-item-modal').modal({backdrop: "static", keyboard: false});
+      $('#add-item-modal').modal("show");
+      var id = $(this).attr("id");
+      $("#order_id").val(id)
+    });
+  });
+</script>

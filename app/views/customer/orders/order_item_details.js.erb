@@ -1,0 +1,3 @@
+$("#order_item_details_modal").remove();
+$(".sec-box").append("<%= escape_javascript render(partial: 'order_item_details_modal') %>");
+$("#order_item_details_modal").modal("show");

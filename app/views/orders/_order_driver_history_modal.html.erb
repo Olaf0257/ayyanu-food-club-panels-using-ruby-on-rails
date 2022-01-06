@@ -1,0 +1,42 @@
+<div class="modal fade" id="order_driver_history_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Order #<%= @order.id %> Driver History</h4>
+      </div>
+
+      <div class="modal-body user-point-detail-container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Driver</th>
+              <th>CPR</th>
+              <th>Assigned at</th>
+              <th>Accepted at</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @drivers.each do |driver| %>
+              <tr>
+                <td><%= driver.transporter.name %></td>
+                <td><%= driver.transporter.cpr_number %></td>
+                <td><%= driver.driver_assigned_at.strftime("%d/%m/%Y %l:%M:%S %p") %></td>
+                <td><%= driver.driver_accepted_at&.strftime("%d/%m/%Y %l:%M:%S %p") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to order_transporter_history_path(format: :csv, order_id: @order.id) do %>
+          <button style="float:left" class="btn btn-warning csv-button" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+        <% end %>
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Driver Review Reports") do |sheet|
+  sheet.add_row ["Branch: " + @branch_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Order Id", "Branch", "Area", "Driver", "Review", "Delivery Time", "Clean Uniform", "Polite", "Keeping Distance", "Wearing Mask", "Overall Rating", "Time"]
+
+  if @ratings.present?
+    @ratings.each do |rating|
+      sheet.add_row [rating.order_id, (rating.branch.address.presence || "NA"), (rating.order&.area.presence || "NA"), (rating.order&.transporter&.name || "NA"), (rating.driver_comments.present? ? rating.driver_comments : "N/A"), (rating.delivery_time_rating.presence || "NA"), (rating.clean_uniform_rating.presence || "NA"), (rating.polite_rating.presence || "NA"), (rating.distance_rating.presence || "NA"), (rating.mask_rating.presence || "NA"), (rating.driver_rating.presence || "NA"), rating.created_at.strftime("%d %b %Y %l:%M:%S %p")]
+    end
+
+    sheet.add_row ["Average Delivery Time Rating", @all_ratings.average(:delivery_time_rating).to_f.round(1)]
+    sheet.add_row ["Average Clean Uniform Rating", @all_ratings.average(:clean_uniform_rating).to_f.round(1)]
+    sheet.add_row ["Average Polite Rating", @all_ratings.average(:polite_rating).to_f.round(1)]
+    sheet.add_row ["Average Keeping Distance Rating", @all_ratings.average(:distance_rating).to_f.round(1)]
+    sheet.add_row ["Average Wearing Mask Rating", @all_ratings.average(:mask_rating).to_f.round(1)]
+    sheet.add_row ["Average Overall Rating", @all_ratings.average(:driver_rating).to_f.round(1)]
+  end
+end

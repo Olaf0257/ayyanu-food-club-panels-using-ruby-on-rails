@@ -1,0 +1,72 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Family Details</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%= new_business_hrms_family_detail_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @family_details.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Country</th>
+                  <th>Location</th>
+                  <th>Employee name</th>
+                  <th>Relative name</th>
+                  <th>Mobile Number</th>
+                  <th>Relation</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @family_details.each do |family_detail| %>
+                    <td><%= family_detail.id %></td>
+                    <td><%= Country.where(id: family_detail&.country_ids)&.map(&:name)&.join(",") %></td>
+                    <td><%= Branch.where(id: family_detail.location)&.map(&:address)&.join(",") %></td>
+                    <td><%= family_detail.employee.name %></td>
+                    <td><%= family_detail.name %></td>
+                    <td><%= family_detail.country_code %> <%= family_detail.contact %></td>
+                    <td><%= family_detail.relation %></td>
+                    <td><%= created_by(family_detail) %></td>
+                    <td><%= family_detail.created_at %></td>
+                    <td>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit Family'.html_safe, edit_business_hrms_family_detail_path(family_detail, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove Family'.html_safe, business_hrms_family_detail_path(family_detail, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Family Details List available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

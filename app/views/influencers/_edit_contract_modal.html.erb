@@ -1,0 +1,31 @@
+<div class="modal fade" id="edit_contract_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Contract</h4>
+      </div>
+
+      <div class="modal-body">
+        <%= form_tag influencer_update_contract_path, authenticity_token: true do |f| %>
+          <%= hidden_field_tag(:edit_contract_id, "") %>
+
+          <div class="row form-group">
+            <%= label_tag :start_date %>
+            <%= date_field_tag(:edit_start_date, "", class: "form-control contract-date", required: true) %>
+          </div>
+
+          <div class="row form-group">
+            <%= label_tag :end_date %>
+            <%= date_field_tag(:edit_end_date, "", class: "form-control contract-date", required: true) %>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn theme-btn pull-right" value="Update" id="update_contract">
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

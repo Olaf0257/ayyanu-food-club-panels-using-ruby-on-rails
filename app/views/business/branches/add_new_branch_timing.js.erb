@@ -1,0 +1,2 @@
+$(".target-row").find(".timing-row:last").after('<%= escape_javascript render(partial: 'new_timing_row', locals: { count: @count, day: @day }) %>');
+$(".target-row").removeClass("target-row");

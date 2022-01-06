@@ -1,0 +1,97 @@
+<style type="text/css">
+  .setheight{
+    height:100% !important;
+  }
+  .form-group{
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-lg-5 col-md-12">
+      <h2>Revenue Growth / Losnue</h2>
+    </div>
+    <div class="col-lg-7 col-md-12">
+      <div class="">
+        <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+          <div class="col-lg-3">
+            <div class="form-group">
+              <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i),
+           :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight"%>
+            </div>
+          </div>  
+          <%=form_for :search,method: :get,:html=>{:class=>"form-inline"} do |f|%>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <select class="form-control setheight" name="branch" style="width: 100%;">
+                  <option value="">Select Branch</option>
+                  <%=@branches.each do |b|%>
+                    <option value="<%=b.id%>" <%=@branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.address%></option>
+                  <%end%>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <button type="submit" class="btn btn-danger"> Search </button>
+            </div>            
+          <%end%>
+        </span> 
+      </div>  
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+        <input type="hidden"  name="top_item_data" value="<%=@reports%>">
+        <span class="pull-right" style="margin-top: -5px; margin-left:5px;"><!-- <a class="btn btn-success btn-sm" href="<%#=business_revenue_growth_csv_path(format: :csv,items_data: @reports)%>"><strong>CSV</strong></a> --> <a href="<%=admin_revenue_growth_lost_report_path(format: :xlsx,items_data: @reports) %>" class="btn btn-success btn-sm"><strong>Xlsx</strong></a></span>
+          <span class="pull-right"><%#= page_entries_info @items %></span>
+          <h5>Revenue Growth / Lost Revenue</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @reports.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Branch Address</th>
+                  <th>Current Month Orders</th>
+                  <th>Last Month Orders</th>                 
+                  <th>Current Month Earrings</th>
+                  <th>Last Month Earrings</th>
+                  <th>%</th>
+                  <th>Status</th>                
+                </tr>
+              </thead>
+              <tbody>
+                <%@reports.each do |b|%>
+                  <tr id="card-<%=b[:id]%>">
+                    <td><%=b[:id]%></td>
+                    <td><%=b[:address]%></td>
+                    <td><%=b[:current_month_order]%></td>
+                    <td><%=b[:last_month_order]%></td> 
+                    <td><%=b[:total_revenue_current_month]%> BD</td> 
+                    <td><%=b[:total_revenue_last_month]%> BD</i> </a>
+                    <td><%=b[:percentage]%> % <%if b[:percentage] < "0" %>  <i class="fa fa-arrow-down" style="font-size:18px;color:red;margin-left: 3px;"></i> <%else%>  <i class="fa fa-arrow-up" style="font-size:18px;color:green;margin-left: 3px;"></i> <%end%></td>
+                    <td><%=b[:status]%></td>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No reports available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%#= will_paginate @reports ,renderer: BootstrapPagination::Rails %></center><br>
+       </div> 
+      </div>
+    </div>
+  </div>
+</div>

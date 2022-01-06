@@ -1,0 +1,106 @@
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style>
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-3">
+    <h2 style="margin-top:20px;"><b>Rejected Offers List</b></h2>
+  </div>
+
+  <div class="col-sm-9">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <%= select_tag(:ad_type, options_for_select(["list", "banner"], params[:ad_type]), class: "form-control admin-search-field") %>
+        <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+        <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+        <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search Restaurant, Branch", autocomplete: :off) %>
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+
+      <%= link_to rejected_advertisement_path(format: :csv, ad_type: params[:ad_type], start_date: params[:start_date], end_date: params[:end_date], keyword: params[:keyword]) do %>
+        <button class="btn btn-sm btn-warning csv-button" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+<br><br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Rejected Offers Table</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @reject_list.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Place Type</th>
+                  <th>Position</th>
+                  <th>Title</th>
+                  <th>Restaurant</th>
+                  <th>Branch</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Amount</th>
+                  <th>Created On</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @reject_list.each do |offer| %>
+                  <tr id="offer-<%= offer.id %>">
+                    <td><%= offer.id %></td>
+                    <td><%= offer.place %></td>
+                    <td><%= offer.position %></td>
+                    <td><%= offer.title %></td>
+                    <td><%= offer.branch.restaurant.title %></td>
+                    <td><%= offer.branch.address %></td>
+                    <td><%= offer.week.start_date.strftime("%A, %d %B %Y") %></td>
+                    <td><%= offer.week.end_date.strftime("%A, %d %B %Y") %></td>
+                    <td><%= offer.amount %> <%= offer.branch.currency_code_en %></td>
+                    <td><%= offer.created_at.strftime("%d/%m/%Y") %> </td>
+                    <td><%= offer.is_reject ? '<label class="label label-danger">Reject</label>'.html_safe : '<label class="label label-default">Pending</label>'.html_safe%></td>
+                    <td>
+                      <a href="<%= offer_show_path(encode_token(offer.id)) %>" class="btn btn-xs btn-success" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No offers available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+          <center><%= will_paginate @reject_list, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

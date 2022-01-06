@@ -1,0 +1,4 @@
+$("#order_location_modal").remove();
+$("body").append("<%= escape_javascript render(partial: 'order_location_modal') %>");
+$("#order_location_modal").modal("show");
+InitializeOrderLocationMap();

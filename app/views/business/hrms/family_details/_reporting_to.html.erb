@@ -1,0 +1,2 @@
+<label for="family_detail_employee"> Employee </label>
+<%= select_tag('employee_id', options_from_collection_for_select(@managers.flatten, 'id', 'name'), prompt: "Select Employee", class: 'form-control', style: 'height: 40px!important;', name: 'family_detail[employee_id]', id: "family_detail_employee_id" ) %>

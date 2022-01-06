@@ -1,0 +1,6 @@
+<% if @errors.present? %>
+  swal("Error", "<%= @errors %>", "error");
+<% else %>
+  swal("Success", "Bank Detail Successfully Added!", "success")
+  window.location = "/restaurant/list"
+<% end %>

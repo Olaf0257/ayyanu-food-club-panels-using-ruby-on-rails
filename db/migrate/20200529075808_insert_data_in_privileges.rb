@@ -1,0 +1,28 @@
+class InsertDataInPrivileges < ActiveRecord::Migration[5.1]
+  def self.up
+    Privilege.create(:privilege_name=>'Create User')
+    Privilege.create(:privilege_name=>'Approval')
+    Privilege.create(:privilege_name=>'All Restaurant')
+    Privilege.create(:privilege_name=>'Requested Restaurant')
+    Privilege.create(:privilege_name=>'Rejected Restaurant')
+    Privilege.create(:privilege_name=>'Name Change Approval')
+    Privilege.create(:privilege_name=>'Cuisine')
+    Privilege.create(:privilege_name=>'Business owners')
+    Privilege.create(:privilege_name=>'Manager')
+    Privilege.create(:privilege_name=>'Customers')
+    Privilege.create(:privilege_name=>'Transporter')
+    Privilege.create(:privilege_name=>'Orders')
+    Privilege.create(:privilege_name=>'Advertisement List')
+    Privilege.create(:privilege_name=>'New Ads')
+    Privilege.create(:privilege_name=>'Rejected Ads List')
+    Privilege.create(:privilege_name=>'Club')
+    Privilege.create(:privilege_name=>'Coverage Areas')
+    Privilege.create(:privilege_name=>'Report Subscription')
+    Privilege.create(:privilege_name=>'Branch Subscription')
+    Privilege.create(:privilege_name=>'Transaction Details')
+    Privilege.create(:privilege_name=>'App Settings')
+    Privilege.create(:privilege_name=>'Documents')
+    Privilege.create(:privilege_name=>'Notifications')
+    Privilege.create(:privilege_name=>'Contacts')
+  end
+end

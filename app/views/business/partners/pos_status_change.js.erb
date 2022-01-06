@@ -1,0 +1,57 @@
+<% if @pos_check.present? && (@pos_check.pos_table.present? || (!@pos_check.pos_table.present? && params[:selected_status].to_i > 1)) %>
+	$('.displayCheckNo').removeClass('hide');
+	$('.displayCheckType').text("<%= @pos_check.order_type.name.upcase %>");
+	$('#check_order_type_id').val("<%= @pos_check.order_type_id %>");
+	<% @pos_check.pos_transactions.each do |transaction| %>
+		$('#transaction_data_<%= transaction.id %>').empty().append("<%= j render partial: 'transaction_list', locals: { transaction: transaction }%>");
+	<% end %>
+	<% if @pos_check&.order_type&.name.eql?('Catering') %>
+		$('#schedule_categoring').removeClass('hide');
+	<% else %>
+		$('#schedule_categoring').addClass('hide');
+	<% end %>
+	<% if @pos_check.order_type_id == 1 %>
+		$('.displayTbl').removeClass('hide');
+        <% pos_count = tableCount(@pos_check&.pos_table, @pos_check) %>
+		<% if @pos_check&.pos_table.present? %>
+			$('.displayTbl').empty().append('TBL <%= @pos_check&.pos_table&.pos_table_no %><%= pos_count ? "/#{pos_count}" : "" %>');
+		<% end %>
+		$("[data-target='#seatNumber']").removeClass('disabled');
+	<% else %>
+		$('.displayTbl').addClass('hide');
+		$("[data-target='#seatNumber']").addClass('disabled');
+	<% end %>
+	$('.validated_field').addClass('pending_transaction');
+<% elsif @pos_check.present? && !@pos_check.pos_table.present? %>
+	$('#bindDineInTablePopup').modal('show');
+<% else %>
+	toastr.error('<%= @error.present? ? @error : "Check not found."%>');
+<% end %>
+
+<% if @pos_check.order_type&.name&.titleize&.upcase.eql?('DELIVERY') %>
+	$('.delivery_restriction').addClass('delivery_type');
+<% else %>
+	$('.delivery_restriction').removeClass('delivery_type');
+<% end %>
+
+<% if @pos_check.present? && (@pos_check.order_type_id.eql?(2) || @pos_check.order_type_id.eql?(3) || @pos_check.order_type_id.eql?(4)) && !@pos_check.address_id.present? %>
+	$('.bindCustomerWithCheck').click();
+<% end %>
+
+<% if @pos_check.present? && !@pos_check.reload.pos_transactions.present? %>
+	$('.noMenu').addClass('disabled');
+<% else %>
+	$('.noMenu').removeClass('disabled');
+<% end %>
+
+<% if @pos_check.present? && @pos_check.order_type_id.eql?(2) && @pos_check.pos_transactions.present? && @pos_check.check_status == "saved" %>
+	$('#food_listing').addClass('disabled');
+<% else %>
+	$('#food_listing').removeClass('disabled');
+<% end %>
+
+voidSelection();
+tableRowSelection();
+addOnItemRightSideSelect();
+addOnTransaction();
+editSeatNumber();

@@ -1,0 +1,106 @@
+<style type="text/css">
+  .back-btn {
+    position: relative;
+    bottom: 7px;
+  }
+
+  .form-inline {
+    position: relative;
+    bottom: 10px;
+  }
+</style>
+
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Menu Items under <b><%= @category.category_title %></b></h5>
+          <h5 class="pull-right"><%= link_to 'Back <i class="fa fa-arrow-right"></i>'.html_safe, admin_branch_menu_items_path(encode_token(@category.branch_id), encode_token(@restaurant_id)), class: "btn btn-primary btn-sm back-btn" %></h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 animated fadeInRight">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <span class="pull-right">
+            <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+              <div class="form-group">
+                <%= text_field_tag(:keyword, params[:keyword], class: "form-control", placeholder: "Search by Name", autocomplete: :off) %>
+              </div>
+
+              <button type="submit" class="btn btn-info" style="margin-bottom: 0">Search</button>
+            <% end %>
+          </span>
+
+          <h5>Menu Items List</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @items.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Item Name(Eng)</th>
+                  <th>Item Name(Ar)</th>
+                  <th>Item Description(Eng)</th>
+                  <th>Item Description(Ar)</th>
+                  <th>Price Per Item</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @items.each do |item| %>
+                  <tr>
+                    <td><%= item.id %></td>
+                    <td><img src="<%= item.item_image.presence || '/assets/ic_placeholder.png' %>" width="60" height="60""></td>
+                    <td><%= item.item_name %></td>
+                    <td><%= item.item_name_ar.presence || "N/A" %></td>
+                    <td><%= item.item_description.presence || "N/A" %></td>
+                    <td><%= item.item_description_ar.presence || "N/A" %></td>
+                    <td><%= number_with_precision(item.price_per_item, precision: 3) %></td>
+
+                    <td>
+                      <% if (item.approve == false and item.is_rejected == false) %>
+                        <span class="label label-info"> Pending</span>
+                      <% elsif (item.approve == true) %>
+                        <span class="label label-success"> Approved</span>
+                      <% elsif (item.is_rejected == true) %>
+                        <span class="label label-danger"> Rejected</span>
+                      <% end %>
+                    </td>
+
+                    <td>
+                      <%= link_to update_menu_item_path(encode_token(item.id), encode_token(item.menu_category.branch_id)) do %>
+                        <span class="btn btn-xs btn-primary"><i class="fa fa-edit" aria-hidden="true">Edit</i></span>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <%end%>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Items available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+          <center> <%= will_paginate @items, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

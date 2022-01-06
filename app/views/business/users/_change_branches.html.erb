@@ -1,0 +1,56 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<div class="modal fade" id="update-manager-branch" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="padding-bottom: none !important;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><center>Change Branches for <%= @manager.name %></center></h4>
+      </div>
+
+      <div class="modal-body">
+        <%= form_tag "update_branches", authenticity_token: true do %>
+          <div class="row">
+            <%= hidden_field_tag(:manager_id, @manager.id) %>
+            <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+
+            <div class="col-xs-2">
+              <%= label_tag :branches %>
+            </div>
+
+            <div class="col-xs-10 multi-branch-select-div">
+              <%= select_tag(:branch_id, options_for_select(@branches.pluck(:address, :id), @manager.branch_managers.pluck(:branch_id)), class: "form-control select2_branch set-height", multiple: true, required: true) %>
+            </div>
+          </div>
+
+          <%= submit_tag "Update", name: "update_manager_branch", class: "btn btn-primary btn-md pull-right" %>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #update-manager-branch .select2 {
+    width: 100% !important;
+  }
+
+  #update-manager-branch .select2-selection {
+    height: 60px !important;
+  }
+
+  .select2-container {
+    z-index: 2500 !important;
+  }
+
+  #update-manager-branch .select2 {
+    margin-bottom: 10px;
+  }
+</style>
+
+<script src="/assets/select2.full.min.js"></script>
+
+<script>
+  $(".select2_branch").select2();
+</script>

@@ -1,0 +1,94 @@
+<% if !@itemId.present? || @itemId == @menu_item.id %>
+	<% if !@canCountinue.include?(false) %>
+		if ($('#transaction_data_<%= @pos_transaction.id %>').length > 0)
+		{
+			$('#transaction_data_<%= @pos_transaction.id %>').empty();
+		}
+		else{
+			$('#pos_transactions_list').append("<tr id='transaction_data_<%= @pos_transaction.id %>' class='transaction_selection' data-transaction-id='<%= @pos_transaction.id %>'></tr>");
+		}
+	<% end %>
+
+	<% if @updated_item.present? %>
+		<% @updated_item.each do |pos| %>
+			$("#transaction_data_"+"<%= pos.id %>"+" td:first").text("<%= pos.qty %>");
+			$("#transaction_data_"+"<%= pos.id %>"+" td:nth-child(3)").text("<%= number_with_precision(pos.total_amount, precision: 3) %>");
+		<% end %>
+	<% end %>
+
+	<% if @deleted_item.present? %>
+		<% @deleted_item.each do |pos_id| %>
+			$("#transaction_data_"+"<%= pos_id %>").remove();
+		<% end %>
+	<% end %>
+
+	$('.comment-form').addClass('hide');
+	<% category_hash = getCategoryWithCountHash(@pos_transaction.id ? @pos_transaction : @pos_table_transactions.last) %>
+	$('.addon-categories').empty().append("<%= j render partial: 'right_section_addon_categories', locals: { addon_categories: @addon_categories, category_hash: category_hash, pos_transaction: @pos_transaction.id ? @pos_transaction : @pos_table_transactions.last } %>");
+	$('.pos-addon-items').empty();
+	if($('.comment-form .category-heading').length === 0) {
+		$('.comment-form').prepend('<span class="category-heading" style="background-color: white;display: block;text-align: center;padding: 6px;font-size: 16px;color: black;">Comments</span>');
+	}
+	<% if @addon_menu.present? %>
+		$('#addOnPOPUP').modal('show');
+		$('.addon-categories').removeClass('hide').addClass('category-addon-width');
+		// $('.first-letter-list').addClass('first-letter-width');
+		$('.pos-addon-items').removeClass('hide');
+		$('.pos-addon-items').append("<%= j render partial: 'addon_items', locals: { addon_menu: @addon_menu, pos_transaction_id: (@pos_transaction.id || @pos_table_transactions.last.id)  } %>");
+		
+		var categoryId = "<%= category_hash.keys.first %>";
+
+		$('.add-on-card').addClass('hide');
+	    $("."+categoryId).removeClass('hide');
+
+		if($('.pos-addon-items .category-heading').length === 0) {
+			$('.pos-addon-items').prepend('<span class="category-heading" style="background-color: white;display: block;text-align: center;padding: 6px;font-size: 16px;color: black;">All Categories</span>');
+		}
+		var displayed_text = 'Select '+$('.add-on-item.active-menuon').attr('data-category-min-qty')+' of '+$('.add-on-item.active-menuon').attr('data-category-max-qty')+' '+$('.addon-categories .active-menuon').text().trim()+' Current Count: <span class="menuitem_addon_count"></span>';
+	    $('.pos-addon-items .category-heading').html(displayed_text);
+		$('.menuitem_addon_count').text(0);
+	<% else %>
+		$('.addon-categories').addClass('hide').removeClass('category-addon-width');
+		// $('.first-letter-list').removeClass('first-letter-width');
+	<% end %>
+	$('#selected_menu_item_id').val("<%= @menu_item.id %>");
+	$('#addon_item_count').val("<%= @addon_count || 0 %>");
+	$('.addon-categories .active-menuon').attr('data-current-count', 0);
+	$('#transaction_data_<%= @pos_transaction.id %>').addClass('selected_transaction');
+	<% if !@canCountinue.include?(false) %>
+		if($('.menuitem_addon_count') && $('.menuitem_addon_count').length > 0) {
+			var rightSideData = "<%= @pos_transaction.itemable.try(:item_addon_categories).try(:first).try(:id) %>";
+			var count = rightSideData ? parseInt($("[data-category="+rightSideData+"]").attr('data-current-count')) : '0';		
+			$('.menuitem_addon_count').text(0);
+			$('.add-on-item').attr('data-current-count', 0);
+		}
+		$('#transaction_data_<%= @pos_transaction.id %>').append("<%= j render partial: 'transaction_list', locals: { transaction: @pos_transaction }%>");
+		// var sub_total = parseFloat($('#pos_total').text().replace('BHD', '')) + parseFloat('<%= @additional_amount %>');
+		// $('#pos_total').empty().append(sub_total.toFixed(3) + 'BHD');
+		// $('#remain_payment_amount').val(sub_total.toFixed(3));
+		// var taxable_amount = (sub_total * parseFloat($("#tax_percentage").val())/100);
+		// $('#tax_amount').empty().append(taxable_amount.toFixed(3) + 'BHD');
+		// $('#pos_sub_total').empty().append((sub_total - taxable_amount).toFixed(3) + 'BHD');
+		// $('#selected_menu_item').val('<%= @pos_transaction.id %>');
+		$('#pos_total').empty().append('<%= number_with_precision(@total_amount, precision: 3) %>BHD');
+		$('#remain_payment_amount').val('<%= number_with_precision(@sub_total, precision: 3) %>');
+		$('#discount_amount').empty().append('<%= number_with_precision(@discount, precision: 3)%>BHD');
+		$('#tax_amount').empty().append('<%= number_with_precision(@tax_amount, precision: 3)%>BHD');
+		$('#pos_sub_total').empty().append('<%= number_with_precision(@sub_total, precision: 3) %>BHD');
+	<% end %>
+	$('.qty_selection').removeClass('selected_qty');
+	$('#selected_qty').val('');
+	$('.numberpadDisplaySelection, .quickPaynumberpadDisplaySelection').text('');
+	$('.transaction_selection').removeClass('selected_transaction')
+	$('#transaction_data_<%= @pos_transaction.id %>').addClass('selected_transaction');
+	$('#selected_menu_item').val($('#transaction_data_<%= @pos_transaction.id %>').data('transaction-id'));
+<% else %>
+	toastr.error("Please add addon for "+" <%= @itemName %> ");
+<% end %>
+$('.validated_field').addClass('pending_transaction');
+$('.noMenu').removeClass('disabled');
+voidSelection();
+tableRowSelection();
+addOnItemRightSideSelect();
+addOnTransaction();
+editSeatNumber();

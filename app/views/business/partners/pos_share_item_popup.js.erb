@@ -1,0 +1,9 @@
+$('#shareItemCheckModalPopup .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: @pos_checks, is_display_driver: false }%>");
+$('.share_item_selected_check_id').val("<%= @selected_check_id.id %>")
+$('.share_item_selected_transaction_id').val("<%= @pos_transaction.id %>");
+$('.transaction-name').text("<%= @pos_transaction.item_name %>");
+$('.transaction-amount').text("<%= number_with_precision(@pos_transaction.total_amount, :precision => 3) %> BHD");
+selectSinglePickupCheckRow();
+selectedShareItem();
+$('#shareItemCheckModalPopup').modal('show');
+splitCheck();

@@ -1,0 +1,9 @@
+<%= select_tag(:branch_ids, options_from_collection_for_select(@branches, :id, :address), {id: "user_privilege_branch_ids", class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true, name: 'user_privilege[branch_ids][]'}) %>
+
+
+<script type="text/javascript">
+	$("#user_privilege_branch_ids").select2({
+    	placeholder: "Select Branch",
+    	allowClear: true
+	});
+</script>

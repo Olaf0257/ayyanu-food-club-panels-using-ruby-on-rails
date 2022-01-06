@@ -1,0 +1,118 @@
+<style type="text/css">
+   .bg-white{
+   background-color: white;
+   }
+   .form-group{
+      width: 100%;
+      margin-bottom: 15px !important;
+   }
+   .form-control { 
+   margin-bottom: 10px !important;
+   height: 40px;
+   }
+   .setheight{
+   height:40px !important;
+   }
+   .clients-list .tab-pane {
+   position: relative;
+   max-height: 300px !important; 
+   }
+</style>
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+   <div class="col-lg-4 col-md-12">
+      <h2 style="margin-top:20px;"><b>Top 10 Selling Items</b></h2>
+   </div>
+   <div class="col-lg-8 col-md-12" style="margin-top:15px;">
+    <div class="row">
+    <%=form_for :search,url: admin_top_selling_item_report_path,method: :get,:html=>{:class=>"form-inline"},:authenticity_token=> true do |f|%>
+      <div class="col-lg-3 col-md-6">
+         <div class="form-group">
+            <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i), :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight", :style=>"width: 100%;"%>
+         </div>
+      </div>
+      
+      <!-- <div class="col-lg-10"> -->
+         <div class="col-lg-5 col-md-6">
+            <div class="form-group">
+              <select class="form-control setheight" name="branch" style="width: 100%"> 
+               <!--   <option value="">Select Branch</option> -->
+                  <%=@branches.each do |b|%>
+                  <option value="<%=b.id%>" <%=@branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.address%></option>
+                  <%end%>
+               </select> 
+            </div> 
+         </div>         
+         <!-- </div> -->
+         <div class="col-lg-4 col-md-6" >
+            <input type="submit" value="Submit"  class="btn btn-danger " >
+         </div>
+      </div>  
+      <%end%> 
+   </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="ibox float-e-margins">
+            <div class="ibox-title">
+               <input type="hidden"  name="top_item_data" value="<%=@reports%>">
+               <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+                  <!-- <a class="btn btn-success btn-sm" href="<%#=business_revenue_growth_csv_path(format: :csv,items_data: @reports)%>"><strong>CSV</strong></a> --> <a href="<%=admin_top_selling_item_path(format: :xlsx,items_data: @items,restaurant_id:@restaurant.id) %>" class="btn btn-success btn-sm"><strong>Xlsx</strong></a>
+               </span>
+               <span class="pull-right"><%#= page_entries_info @items %></span>
+               <h5>Top Selling Items</h5>
+            </div>
+            <div class="ibox-content table-responsive">
+               <% if @items.present? %>
+               <table class="table table-bordered">
+                  <thead>
+                     <tr>
+                        <th>Sno</th>
+                        <th>Item Name</th>
+                        <th>Amount</th>
+                        <th>Rating</th>
+                        <th>Total Order</th>
+                        <th>% Order</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <%@items.each do |o|%>
+                     <tr id="order-<%=o[:id]%>">
+                        <td>
+                           <p ><%=o[:id]%></p>
+                        </td>
+                        <td>
+                           <p ><%=o[:item_name]%></p>
+                        </td>
+                        <td>
+                           <p ><%=o[:price_per_item]%></p>
+                        </td>
+                        <td>
+                           <p><%=o[:item_rating]%></p>
+                        </td>
+                        <td>
+                           <p><%=o[:totalItemCount]%></p>
+                        </td>
+                        <td>
+                           <p><%=o[:percentage]%>%</p>
+                        </td>
+                     </tr>
+                     <%end%>     
+                  </tbody>
+               </table>
+               <%else%>
+               <center>
+                  <div class="alert alert-danger">No reports available yet.</div>
+               </center>
+               <%end%>
+            </div>
+            <div class="col-lg-12">
+               <center> </center>
+               <br>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+

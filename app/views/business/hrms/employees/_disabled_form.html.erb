@@ -1,0 +1,690 @@
+<%= form_for(@employee, url: (params[:id].blank? ? business_hrms_employees_path : edit_business_hrms_employee_path(@employee).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+  <div class="row">
+    <div class="col-xs-7 col-md-7">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control', placeholder: 'Enter name', name: 'user[name]', disabled: true  %>
+    </div>
+
+    <div class="col-xs-5 col-md-5">
+      <input type="hidden" name="country_code" id="country-code" class="form-control form-group" placeholder="Country code">
+      <%= f.label :Mobile_Number %>
+      <%= f.telephone_field :contact, class: 'form-control', placeholder: 'Mobile number', id: 'mobilenumber', name: 'user[contact]', disabled: true  %>
+      <span id="valid-msg" class="hide">✓ Valid</span>
+      <span id="error-msg" class="hide">Invalid number</span>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control', placeholder: 'Email', name: 'user[email]', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :dob %>
+      <%= f.date_field :dob, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Date of birth', name: 'user[dob]', disabled: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label 'Cpr / Identity' %>
+      <%= f.text_field :cpr_number, class: 'form-control', placeholder: 'CPR/Identity number', value: @employee.cpr_number, disabled: true %>
+    </div>
+
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label 'CPR/Identity Expiry' %>
+      <label for="cpr_number_expiry">CPR/identity Expiry</label>
+      <%= f.date_field :cpr_number_expiry, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'CPR/Identity Expiry', value:@employee.cpr_number_expiry, disabled: true %>
+    </div>
+  </div>
+
+  <%= f.fields_for :user_detail do |builder| %>
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <%= f.label :department %>
+          <%= builder.select(:department_id, options_from_collection_for_select(Department.all, :id, :name, @employee.user_detail.department_id), {include_blank: "Select Department"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+        </div>
+        <div class="col-xs-6 col-md-6" id="designation_container">
+          <%= f.label :designation %>
+          <%= select_tag('designation', options_for_select(find_designations(@employee.user_detail.department.designations), @employee.user_detail.designation), prompt: "Select Designation", class: 'form-control', style: 'height: 40px!important;', name: 'user[user_detail_attributes][designation]', id: "employee_designation", disabled: true ) %>
+        </div>
+    </div>
+
+
+  <% end %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6" >
+      <%= f.label :vehicle_type, id: 'vehicle_type_lable', style: "#{@employee.user_detail&.department&.name == 'Transportation' ? 'display: block' : 'display: none'}" %>
+      <%= f.select(:vehicle_type, options_for_select(User::VEHICLE_TYPE), {include_blank: "Select Vehicle Type (If Driver)"}, {class: 'form-control', style: "height: 40px!important; #{@employee.user_detail&.department&.name == 'Transportation' ? 'display: block' : 'display: none'}", disabled: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label 'Password' %>
+      <%= password_field_tag :password, '', class: 'form-control', placeholder: 'Password', disabled: true, value: '**********'%>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :gender %>
+      <%= f.select(:gender, options_for_select(Employee::GENDER,@employee.gender), {include_blank: "Select Gender", :selected => 'user[gender]'}, {class: 'form-control', style: 'height: 40px', disabled: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :status %>
+      <%= f.select(:status, options_for_select(User::STATUS, @employee.user_detail&.status), {include_blank: "Select Status"}, {class: 'form-control', style: 'height: 40px!important;', required: true, disabled: true}) %>
+    </div>
+  </div>
+
+  <%#= f.fields_for 'user_detail_attributes' do |builder| %>
+  <%= f.fields_for :user_detail do |builder| %>
+    <div class="row">
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :employement_type %>
+        <%= builder.select(:employement_type, options_for_select(Employee::EMPLOYEMENT_TYPE,@employee.user_detail.employement_type), {include_blank: "Select Employment Type"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :spouse_name %>
+        <%= builder.text_field :spouse_name, class: 'form-control', placeholder: 'Spouse Name', disabled: true%>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :probation_period %>
+        <%= builder.number_field :probation_period, class: 'form-control', placeholder: 'Probation Period', disabled: true  %>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :confirmation_date %>
+        <%= builder.date_field :confirmation_date, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Confirmation Date', disabled: true %>
+      </div>
+    </div>
+
+    <div class="row">
+     <!--  <div class="col-xs-6 col-md-6">
+        <%#= f.label :pan_number %>
+        <%#= builder.text_field :pan_number, class: 'form-control', placeholder: 'Pan Number', disabled: true  %>
+      </div> -->
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :emergency_contact_name %>
+        <%= builder.text_field :emergency_contact_name, class: 'form-control', placeholder: 'Emergency Contact Name', disabled: true %>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :father_name %>
+        <%= builder.text_field :father_name, class: 'form-control', placeholder: 'Fathers Name', disabled: true %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :emergency_contact_number %>
+        <%= builder.text_field :emergency_contact_number, class: 'form-control', placeholder: 'Emergency Contact Number', disabled: true  %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-12 branch-select-div" id="">
+        <%= f.label :country %>
+        <%= builder.select(:country_ids, options_from_collection_for_select(Country.all, :id, :name, @employee.user_detail&.country_ids), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true, disabled: true}) %>
+      </div>
+      <div class="col-xs-12 col-md-12 branch-select-div" style="height: 90px;">
+        <%= f.label :location %>
+        <%= builder.select(:location, options_from_collection_for_select(find_locations_based_country(@employee,params[:restaurant_id]), :id, :address, find_location_employee(@employee)), {:include_hidden => false}, {id: "branch", class: 'form-control setheight  select2_branch', style: 'height: 40px!important;', multiple: true , required: true, disabled: true, style: 'height: 57px!important;'}) %>
+          
+      </div>
+
+
+      
+    </div>
+
+    <div class="row">
+      <!-- <div class="col-xs-6 col-md-6">
+        <%#= f.label :grade %>
+        <%#= builder.text_field :grade, class: 'form-control', placeholder: 'grade', disabled: true%>
+      </div> -->
+      <div class="col-xs-6 col-md-6" id="reporting_to_container">
+        <%= f.label :reporting_to %>
+        <%#= builder.text_field :reporting_to, class: 'form-control', placeholder: 'Reporting to' %>
+        <%= builder.select(:reporting_to, options_from_collection_for_select(reporting_to_list(@employee.user_detail.location).flatten, 'id', 'name', @employee.user_detail.reporting_to), {include_blank: "Select Reporting to"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+      </div>
+       <div class="col-xs-6 col-md-6">
+      <%= f.label :payment_mode %>
+      <%= builder.select(:payment_mode, options_for_select(User::PAYMENT_MODE), {include_blank: "Payment Mode"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+    </div>
+    </div>
+
+  <%= f.fields_for :employee_payment_detail do |builder_payment| %>
+      <div class="row payment-detail-container">
+        <div class="col-xs-6 col-md-6">
+          <%= builder_payment.label :bank_name %>
+          <%= builder_payment.select(:bank_id,  options_from_collection_for_select(Bank.all, :id, :name), {include_blank: "Bank Name"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <%= builder_payment.label :account_type %>
+          <%= builder_payment.select(:account_type, options_from_collection_for_select(AccountType.all, :id, :name), {include_blank: "Select Account Type"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+        </div>
+      </div>
+      <div class="row payment-detail-container">
+        <div class="col-xs-6 col-md-6">
+          <%= builder_payment.label :ifsc_code %>
+          <%= builder_payment.text_field :ifsc_code, class: 'form-control', placeholder: 'IFSC/Swift Code/IBAN', disabled: true%>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <%= builder_payment.label :account_number %>
+          <%= builder_payment.text_field :account_number, class: 'form-control', placeholder: 'Account Number', disabled: true%>
+        </div>
+      </div>
+  <% end %>
+
+  <div class="row payment-detail-container-dd">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :dd_payable_at %>
+      <%= builder.select(:dd_payable_at, options_from_collection_for_select(Bank.all, :id, :name), {include_blank: "Select Account Type"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+    </div>
+    <!-- <div class="col-xs-6 col-md-6">
+      <%#= f.label :dd_branch_name %>
+      <%#= builder.text_field :dd_branch_name, class: 'form-control', placeholder: 'DD branch name' %>
+    </div> -->
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :total_experience %>
+      <%= builder.text_field :total_experience, class: 'form-control', placeholder: 'Total Experience', disabled: true%>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :last_employer %>
+      <%= builder.text_field :last_epmloyer, class: 'form-control', placeholder: 'Last Employer', disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :contract_expiry_date %>
+      <%= builder.date_field :contract_expiry_date, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Contract Expiry Date', disabled: true%>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :number_of_annual_leaves %>
+      <%= builder.text_field :number_of_annual_leaves, class: 'form-control', placeholder: 'No. of annual Leaves', disabled: true%>
+    </div>
+  </div>
+
+  
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :employee_weekdays %>
+      <%= builder.text_field :employee_weekdays, class: 'form-control', placeholder: 'Employee Weekdays', disabled: true%>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :current_address %>
+      <%= builder.text_field :current_address, class: 'form-control', placeholder: 'Current Address', disabled: true%>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :passport_number %>
+      <%= builder.text_field :passport_number, class: 'form-control', placeholder: 'Passport Number', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :passport_expiry %>
+      <%= builder.date_field :passport_expiry, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date",  placeholder: 'Passport Expiry', disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :vaccine_date %>
+      <%= builder.date_field :vaccine_date, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Vaccine date', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :booster_dose_date %>
+      <%= builder.date_field :booster_dose_date, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Booster dose date', disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :visa_number %>
+      <%= builder.text_field :visa_number, class: 'form-control', placeholder: 'Visa Number', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :visa_expiry %>
+      <%= builder.date_field :visa_expiry, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Visa Expiry', disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :notice_period_days %>
+      <%= builder.text_field :notice_period_days, class: 'form-control', placeholder: 'Notice Period Days', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :vacation_date %>
+      <%= builder.date_field :vacation_date, class: 'form-control', type: "text", onfocus:"(this.type='date')", onblur:"(this.type='text')", id:"date", placeholder: 'Vacation date', disabled: true %>
+    </div>
+  </div>
+
+  <% if @employee.user_detail.include_pf %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= f.label :include_pf %>
+        <%= builder.check_box  :include_pf, placeholder: 'Include PF', onclick: "myFunction()", id: "myCheck", disabled: true  %>
+      </div>
+    </div>
+  <% end %>
+    <div class="row" , id= "text", style="display: <%= @employee.user_detail.include_pf.blank? ? 'none' : 'block' %>">
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :pf_number %>
+        <%= builder.text_field :pf_number, class: 'form-control', placeholder: 'PF Number', disabled: true %>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :uan_number %>
+        <%= builder.text_field :uan_number, class: 'form-control', placeholder: 'UAN Number', disabled: true %>
+      </div>
+      <div class="col-xs-6 col-md-6">
+        <%= f.label :pf_excess_contribution %>
+        <%= builder.text_field :pf_excess_contribution, class: 'form-control', placeholder: 'PF Excess Contribution', disabled: true %>
+      </div>
+    </div>
+
+    <% if @employee.user_detail.include_esi %>
+      <div class="row">
+        <div class="col-xs-6 col-md-6">
+          <%= f.label :include_esi %>
+          <%= builder.check_box :include_esi, placeholder: 'Include ESI', onclick: "myoneFunction()", id: "myCheckone", disabled: true %>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          
+        </div>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= builder.text_field :uan_number, class: 'form-control', placeholder: 'UAN Number', disabled: true, id: "textone", style: "display: #{ @employee.user_detail.include_esi.blank? ? 'none' : 'block' }"  %>
+      </div>
+    </div>
+  <br/>
+  <%= builder.hidden_field :created_by_id, value: @user.id %>
+  <%= hidden_field_tag :restaurant_id, encode_token(@user.restaurants.first.id) %>
+  <% end %>
+  <br>
+  <%#= f.submit 'Add Employee', class: 'btn btn-lg btn-primary btn-block' %>
+<% end %>
+
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $(".select2_branch").select2();
+  $("#user_user_detail_attributes_country_ids").select2({
+      placeholder: "Select Country",
+      allowClear: true
+  });
+
+   $("#branch").select2({
+      placeholder: "Select Branch",
+      allowClear: true
+  });
+  
+
+
+  $('#user_user_detail_attributes_country_ids').change(function(){
+    var select = $('#user_user_detail_attributes_country_ids option:selected')
+    var selected_options = []
+    for (var i = 0; i < select.length; i++){
+      selected_options.push(select[i].text)
+    }
+    $.ajax({
+      type: "GET",
+      url: "<%= find_country_based_branch_business_hrms_employees_path(restaurant_id: params[:restaurant_id]) %>",
+      data: { country_name: selected_options }
+    });
+  });
+
+  $("#mobilenumber,#user_user_detail_attributes_emergency_contact_number").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $("#add_employee").on("click",function(){
+    var cpr_number= /^\d*$/
+
+    if (('<%=params[:type]%>') == 'transporter') {
+      var cpr = document.getElementById('cpr_number').value;
+    }
+
+    var emp_name = document.getElementById('name').value;
+    var country_code = $("#mobilenumber").intlTelInput("getSelectedCountryData");
+    var file = document.getElementById('add-img-tag').files[0];
+
+    if (file !== undefined) {
+     var file_type = file.type.split('/').pop().toLowerCase();
+     var file_size = file.size;
+    }
+
+    $("#country-code").val(country_code.dialCode)
+
+    if($.trim($('#name').val())==="") {
+      swal({
+        title: "Please Enter valid Name",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+      $('#name').focus();
+      return false;
+    }
+
+    if (('<%=params[:type]%>') == 'transporter' && cpr.length >= 11) {
+      swal({
+        title: "Please Enter valid cpr_number",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+      $('#cpr_number').focus();
+      return false;
+    }
+
+    if (emp_name.length >= 41 || emp_name.length <= 0) {
+      swal({
+        title: "Please Enter valid Name",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+      $('#name').focus();
+      return false;
+    }
+
+    if (('<%=params[:type]%>') == 'transporter' && !(cpr_number.test($('#cpr_number').val()))) {
+      swal({
+        title: "Please Enter valid cpr_number",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+       $('#cpr_number').focus();
+      return false;
+    }
+
+    if($.trim($('#email').val()) == '' && ('<%=params[:type]%>') == 'manager') {
+      swal({
+        title: "Please Enter Email",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+      $('#email').focus();
+      return false;
+    } else if($.trim($('#cpr_number').val()) == '' && ('<%=params[:type]%>') == 'transporter') {
+      swal({
+        title: "Please Enter cpr number",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+       $('#cpr_number').focus();
+      return false;
+    } else if($.trim($("#mobilenumber").val())==="") {
+      $('#mobilenumber').focus();
+      swal("Warning","Please enter phone number","warning")
+      return false;
+    } else if(!testContact()) {
+      $('#mobilenumber').focus();
+      swal("Warning","Please enter a valid phone number","warning")
+      return false;
+    } else if($.trim($('#password').val())==="") {
+      $('#password').focus();
+      swal("Warning","Please enter password","warning")
+      return false;
+    } else if($.trim($('#branch').val()) == 'Select Branch' || $.trim($('#branch').val()) == '') {
+      swal({
+          title: "Please Select Branch",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+       $('#branch').focus();
+      return false;
+    } else if(file && file_size > 1024000) {
+      $('#add-img-tag').focus();
+      swal("Warning","Failed to upload an image. The image maximum size is 1MB.","warning")
+      return false;
+    } else if(file && file_type != "jpeg" && file_type != "jpg" && file_type != "png" ) {
+        $('#add-img-tag').focus();
+        swal("Warning","Failed to upload an image. Please upload file having extensions .jpeg/.jpg/.png only..","warning")
+        return false;
+    } else {
+      return true;
+    }
+  });
+
+  var telInput = $("#mobilenumber"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function() {
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  var readURL = function(event) {
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    var file = event.target.files[0]
+  }
+
+  function myFunction() {
+    var checkBox = document.getElementById("myCheck");
+    var text = document.getElementById("text");
+    if (checkBox.checked == true){
+      text.style.display = "block";
+    } else {
+      text.style.display = "none";
+    }
+  }
+
+  function myoneFunction() {
+    var checkBox = document.getElementById("myCheckone");
+    var text = document.getElementById("textone");
+    if (checkBox.checked == true){
+      text.style.display = "block";
+    } else {
+      text.style.display = "none";
+    }
+  }
+
+
+  $('#branch').change(function(){
+    var items = [];
+     $('#branch')[0].setAttribute('name','user[user_detail_attributes][location][]')
+    $('#branch option:selected').each(function(){ items.push($(this).val()); });
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/employees/reporting_to_list",
+      dataType: 'script',
+      data: {branches: items}
+    });
+
+  })
+
+  $('#user_user_detail_attributes_department_id').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/employees/department_designation",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+
+  })
+  // if($('#user_user_detail_attributes_department_id').val() != ""){
+  //   $.ajax({
+  //     type: "GET",
+  //     url: "/business/hrms/employees/department_designation",
+  //     dataType: 'script',
+  //     data: {id: $('#user_user_detail_attributes_department_id').val()}
+  //   });
+  //   setTimeout(function(){ $('#ddlPassport').val($('#designation_container').attr('value')); }, 3000);
+  // }
+
+  // script for payment mode drop down when bank transfer & demand draft is selected / 
+  $('#user_user_detail_attributes_payment_mode').change(function(){
+    if ($("#user_user_detail_attributes_payment_mode option:selected").text() == "Bank Transfer") {
+      $(".payment-detail-container").show();
+      $('#user_employee_payment_detail_attributes_ifsc_code')[0].setAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_bank_id')[0].setAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_account_type')[0].setAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_account_number')[0].setAttribute('required', 'true')
+    } else {
+      $(".payment-detail-container").hide();
+      $('#user_employee_payment_detail_attributes_ifsc_code')[0].removeAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_bank_id')[0].removeAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_account_type')[0].removeAttribute('required', 'true')
+      $('#user_employee_payment_detail_attributes_account_number')[0].removeAttribute('required', 'true')
+    }
+    if ($("#user_user_detail_attributes_payment_mode option:selected").text() == "Demand Draft") {
+      $(".payment-detail-container-dd").show();
+      $('#user_user_detail_attributes_dd_payable_at')[0].setAttribute('required', 'true')
+    } else {
+      $(".payment-detail-container-dd").hide();
+      $('#user_user_detail_attributes_dd_payable_at')[0].removeAttribute('required', 'true')
+    }
+  })
+
+   <% if @employee.user_detail&.payment_mode == 'bank transfer'%>
+    $(".payment-detail-container").show();
+   <% end %>
+
+   <% if @employee.user_detail&.payment_mode == 'demand draft' %>
+     $(".payment-detail-container-dd").show();
+   <% end %>
+  
+  // script for designation drop down when transporter selected / 
+  // src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"
+  $(function () {
+    $("#user_user_detail_attributes_department_id").change(function () {
+      if ($("#user_user_detail_attributes_department_id option:selected").text() == "Transportation") {
+          $("#user_vehicle_type").show();
+          $('#user_user_detail_attributes_vehicle_type').show();
+          if($('#user_user_detail_attributes_vehicle_type').length != 0){
+            $('#user_user_detail_attributes_vehicle_type')[0].setAttribute('required', 'true')
+          }
+          else{
+            $('#user_vehicle_type')[0].setAttribute('required', 'true')
+          }
+          $('#vehicle_type_lable').show();
+      } else {
+          $('#user_user_detail_attributes_vehicle_type').hide();
+          $("#user_vehicle_type").hide();
+
+          if($('#user_user_detail_attributes_vehicle_type').length != 0){
+            $('#user_user_detail_attributes_vehicle_type')[0].removeAttribute('required', 'true')
+          }
+          else{
+            $('#user_vehicle_type')[0].setAttribute('required', 'true')
+          }
+          $('#vehicle_type_lable').hide();
+      }
+    });
+  });
+
+$( document ).ready(function() {
+  <% if @employee.user_detail&.department&.name != "Manager" %>
+    $('#location_multiple_select').addClass('location-display-none')
+    $('#location_single_select').removeClass('location-display-none')
+  <% end %>
+})
+
+// $('#single_select_branch').change(function(){
+//   if($('#user_user_detail_attributes_reporting_to').length > 0){
+//     if(this.value != ""){
+//       $('#user_user_detail_attributes_reporting_to')[0].setAttribute('required', 'true');
+//     }
+//     else{
+//       $('#user_user_detail_attributes_reporting_to')[0].removeAttribute('required', 'true');
+//     }
+//   }
+// })
+
+$('#user_user_detail_attributes_department_id').change(function(){
+    if($('option:selected', $(this)).text() == "Manager"){
+      $('#location_multiple_select').removeClass('location-display-none')
+      $('#location_single_select').addClass('location-display-none')
+    }
+    else{
+      $('#location_multiple_select').addClass('location-display-none')
+      $('#location_single_select').removeClass('location-display-none')
+    }
+  })
+</script>

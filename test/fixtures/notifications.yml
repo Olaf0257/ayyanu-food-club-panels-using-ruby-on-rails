@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  message: MyString
+  notification_type: MyString
+  status: false
+  user: one
+  receiver_id: MyString
+  order: one
+  admin_id: MyString
+  seen_by_admin: false
+
+two:
+  message: MyString
+  notification_type: MyString
+  status: false
+  user: two
+  receiver_id: MyString
+  order: two
+  admin_id: MyString
+  seen_by_admin: false

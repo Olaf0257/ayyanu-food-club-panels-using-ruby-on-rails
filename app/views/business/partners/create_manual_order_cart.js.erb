@@ -1,0 +1,4 @@
+$("#manual_order_cart_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'manual_order_cart_modal') %>");
+$("#manual_order_cart_modal").modal({ backdrop: "static", keyboard: false })
+$("#manual_order_cart_modal").modal("show");

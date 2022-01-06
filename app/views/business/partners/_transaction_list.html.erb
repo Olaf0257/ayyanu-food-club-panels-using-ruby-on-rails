@@ -1,0 +1,26 @@
+<td><%= check_guest_type(transaction.qty) %></td>
+<td><%= "#{transaction.itemable_type.eql?('ItemAddon') ? '<span style="padding-left: 13px;">-</span>' : ''} #{transaction.item_name}".html_safe %></td>
+<td><%= number_with_precision(transaction.total_amount, precision: 3) %></td>
+<td class='seat_no_column'>
+    <% if transaction.itemable_type.eql?('ItemAddon') || (transaction.pos_check_id.present? && !transaction.pos_check.order_type_id.eql?(1))  %>
+        -
+    <% else %>
+        <div class='saved_seat_no' data-transaction-id='<%= transaction.id %>'>
+            <span class="transaction_seat_no"><%= transaction.seat_no %></span>
+            <% if (!is_split.present? rescue true)  %>
+                <span style='z-index:10000000;cursor:pointer;' class='edit-icon'><i class="fa fa-pencil"></i></span>
+            <% end %>
+        </div>
+        <% if (!is_split.present? rescue true)  %>
+            <div class='seat_no_edit hide' style: 'z-index: 11100000' data-transaction-id='<%= transaction.id %>'>
+                <%= form_for transaction, url: business_update_seat_no_path(transaction_id: transaction.id), method: :post, remote: true do |f| %>
+                    <%= f.text_field  'seat_no', value: transaction.seat_no, style: 'width: 30px;' %>
+                    <%= button_tag(type: 'submit', class: "", id: 'validForm') do %>
+                        <span><i class="fa fa-check" aria-hidden="true"></i></span>
+                    <% end %>
+                    <button type='reset' class='cancel_transaction'><i class="fa fa-times" aria-hidden="true"></i></button>
+                <% end %>
+            </div>
+        <% end %>
+    <% end %>
+</td>

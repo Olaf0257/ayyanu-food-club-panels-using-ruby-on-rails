@@ -1,0 +1,110 @@
+<style type="text/css">
+  .timer {
+    font-size: 2.5em;
+    padding: 10px;
+    text-align: center;
+    margin: 0 auto;
+    background: #ccc;
+  }
+</style>
+
+<div id="auto_update">
+  <%= render partial: "dashboard", locals: { :@active_orders_count => @active_orders_count, :@delivered_orders_count => @delivered_orders_count, @cancelled_orders_count => @cancelled_orders_count, :@idle_drivers_count => @idle_drivers_count, :@on_the_way_drivers_count => @on_the_way_drivers_count, :@offline_drivers_count => @offline_drivers_count } %>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Statistics</h5>
+
+        <div class="ibox-tools">
+          <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+          <a class="close-link"><i class="fa fa-times"></i></a>
+        </div>
+      </div>
+
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-lg-4"></div>
+
+          <div class="col-lg-2">
+            <a href="<%= delivery_company_dashboard_path(keyword: 'day') %>" class="btn btn-xs btn-default btn-block">Day</a>
+          </div>
+
+          <div class="col-lg-2">
+            <a href="<%= delivery_company_dashboard_path(keyword: 'week') %>" class="btn btn-xs btn-success btn-block">Week</a>
+          </div>
+
+          <div class="col-lg-2">
+            <a href="<%= delivery_company_dashboard_path(keyword: 'month') %>" class="btn btn-xs btn-warning btn-block">Month</a>
+          </div>
+
+          <div class="col-lg-2">
+            <a href="<%= delivery_company_dashboard_path(keyword: 'year') %>" class="btn btn-xs btn-danger btn-block">Year</a>
+          </div>
+        </div>
+
+        <div id="morris-line-chart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<script type="text/javascript">
+  var earningGraphData = []
+
+  var earningGraphData = []
+
+  <% if @keyword == "day" %>
+    "<%= @earningGraphData.each do |d| %>"
+      earningGraphData.push({ hours: '<%= d["y"] %>', a:'<%= d["a"] %>', b:'<%= d["b"] %>' })
+    "<% end %>"
+  <% else %>
+    "<%= @earningGraphData.each do |d| %>"
+      earningGraphData.push({ y: '<%= d["y"] %>', a:'<%= d["a"] %>', b:'<%= d["b"] %>' })
+    "<% end %>"
+  <% end %>
+
+  $(function() {
+    <% if @keyword == "month" %>
+      var incomedate = ''
+
+      $.each(earningGraphData,function (ID,item) {
+        d = item.y.split("-");
+        incomedate = d[1] + "-" + d[2] + "-" + d[0]
+        item.y = incomedate
+      });
+    <% end %>
+
+    Morris.Line({
+      element: 'morris-line-chart',
+      data: earningGraphData,
+      parseTime: false,
+      xkey: <% if @keyword=='day' %> 'hours' <% else %> 'y' <% end %>,
+      ykeys: ['a','b'],
+      labels: ['Total Earning','Total Orders'],
+      hideHover: 'auto',
+      resize: true,
+      barColors: ['#1ab394','#107ac4'],
+    });
+  });
+
+  function refresh() {
+    location.reload();
+
+    $.ajax({
+      url: "/business/partner/dashboard/<%= params[:restaurant_id] %>?agex=true?",
+      type: 'GET',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      dataType: "script",
+      success: function(response) {
+      }
+    });
+  };
+</script>

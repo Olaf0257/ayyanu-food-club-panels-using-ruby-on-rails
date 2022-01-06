@@ -1,0 +1,101 @@
+<div class="col-md-12">
+	<label>MC:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Dashboard") %>
+			<input type="checkbox"  name="mc[dashboard]" value="Dashboard" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[dashboard]" value="Dashboard">
+		<%end%>
+		<label class="label_color">Dashboard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Purchase Order") %>
+			<input type="checkbox"  name="mc[purchase_order]" value="Purchase Order" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[purchase_order]" value="Purchase Order">
+		<%end%>
+		<label class="label_color">Purchase Order</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Book Order") %>
+			<input type="checkbox"  name="mc[book_order]" value="Book Order" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[book_order]" value="Book Order">
+		<%end%>
+		<label class="label_color">Book Order</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("With PO") %>
+			<input type="checkbox"  name="mc[without_po]" value="With PO" checked>
+		<%else%>
+			<input type="checkbox"  name="mc[without_po]" value="With PO">
+		<%end%>
+		<label class="label_color">With PO</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Cancel Invoice") %>
+			<input type="checkbox"  name="mc[cancel_invoice]" value="Cancel Invoice" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[cancel_invoice]" value="Cancel Invoice">
+		<%end%>
+		<label class="label_color">Cancel Invoice</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Issue Request") %>
+			<input type="checkbox"  name="mc[issue_request]" value="Issue Request" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[issue_request]" value="Issue Request">
+		<%end%>
+		<label class="label_color">Issue Request</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Transfer") %>
+			<input type="checkbox"  name="mc[transfer]" value="Transfer" checked>
+		<%else%>
+			<input type="checkbox"  name="mc[transfer]" value="Transfer">
+		<%end%>
+		<label class="label_color">Transfer</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Inventory") %>
+			<input type="checkbox"  name="mc[inventory]" value="Inventory" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[inventory]" value="Inventory">
+		<%end%>
+		<label class="label_color">Inventory</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Receipe") %>
+			<input type="checkbox"  name="mc[recipe]" value="Receipe" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[recipe]" value="Receipe">
+		<%end%>
+		<label class="label_color">Receipe</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Search Receipe") %>
+			<input type="checkbox"  name="mc[search_receipe]" value="Search Receipe" checked>
+		<%else%>
+			<input type="checkbox"  name="mc[search_receipe]" value="Search Receipe">
+		<%end%>
+		<label class="label_color">Search Receipe</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Production Tool") %>
+			<input type="checkbox"  name="mc[production_tool]" value="Production Tool" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[production_tool]" value="Production Tool">
+		<%end%>
+		<label class="label_color">Production Tool</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.mc.include?("Yield Management") %>
+			<input type="checkbox"  name="mc[yield_managment]" value="Yield Management" checked="">
+		<%else%>
+			<input type="checkbox"  name="mc[yield_managment]" value="Yield Management">
+		<%end%>
+		<label class="label_color">Yield Management</label>
+	</div>
+</div>

@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="//www.w3.org/TR/REC-html40">
+
+  <Styles>
+    <Style ss:ID="head-column">
+    <ss:Font ss:Bold="1"/>
+    </Style>
+  </Styles>
+
+  <Worksheet ss:Name="Menu Categories">
+    <Table>
+      <Row>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Category Title</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Category Title (Arabic)</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Category Priority</Data></Cell>
+      </Row>
+
+      <% @menu_categories.each do |cat| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= cat.category_title %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= cat.categroy_title_ar %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= cat.category_priority %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+
+  <Worksheet ss:Name="Menu Addon Categories">
+    <Table>
+      <Row>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Category Name</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Category Name (Arabic)</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Min Selected Qty</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Max Selected Qty</Data></Cell>
+      </Row>
+
+      <% @addon_categories.each do |cat| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= cat.addon_category_name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= cat.addon_category_name_ar %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= cat.min_selected_quantity %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= cat.max_selected_quantity %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+
+  <Worksheet ss:Name="Menu Items">
+    <Table>
+      <Row>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Note: To upload image, Vist The Link: <%= menu_item_image_upload_url %>, Upload The Image and Copy Paste Url Into Image Column.</Data></Cell>
+      </Row>
+
+      <Row>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Name</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Description</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Name (Arabic)</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Description (Arabic)</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Menu Category</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Price</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Calorie</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Is Available</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Addon Categories</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Image</Data></Cell>
+      </Row>
+
+      <% @menu_items.each do |item| %>
+        <Row>
+          <Cell><Data ss:Type="String"><%= item.item_name %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.item_description %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.item_name_ar %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.item_description_ar %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.menu_category.category_title %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.price_per_item %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.calorie %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.is_available == true ? "Available" : "Not Available" %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.item_addon_categories.pluck(:addon_category_name).join(", ") %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= item.item_image %></Data></Cell>
+        </Row>
+      <% end %>
+    </Table>
+  </Worksheet>
+
+  <Worksheet ss:Name="Menu Addon Items">
+    <Table>
+      <Row>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Title</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Title (Arabic)</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Price</Data></Cell>
+        <Cell ss:StyleID="head-column"><Data ss:Type="String">Item Addon Category</Data></Cell>
+      </Row>
+
+      <% @item_cat_addons.each do |cat| %>
+        <% cat.item_addons.each do |addon| %>
+          <Row>
+            <Cell><Data ss:Type="String"><%= addon.addon_title %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= addon.addon_title_ar %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= addon.addon_price %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= addon.item_addon_category.addon_category_name %></Data></Cell>
+          </Row>
+        <% end %>
+      <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

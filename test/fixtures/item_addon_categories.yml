@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  addon_category_name: MyString
+  min_selected_quantity: MyString
+  max_selected_quantity: MyString
+  menu_item: one
+
+two:
+  addon_category_name: MyString
+  min_selected_quantity: MyString
+  max_selected_quantity: MyString
+  menu_item: two

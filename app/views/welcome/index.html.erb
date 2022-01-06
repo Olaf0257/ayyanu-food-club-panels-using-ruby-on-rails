@@ -1,0 +1,161 @@
+<div class="container-fluid home-page-banner">
+  <h1 class="text-center">Order and win-win</h1>
+
+  <div class="all-items">
+    <div class="search col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+      <%= form_tag customer_restaurants_list_path, method: :get do %>
+        <%= text_field_tag(:search, "", placeholder: "Enter Delivery Area", class: "search-location", id: "coverage_area", autocomplete: :off, required: true) %>
+
+        <div class="icon-btn">
+          <div class="cross-icon">
+            <i class="fa fa-crosshairs show-delivery-map"></i>
+          </div>
+
+          <div class="s-m-btn">
+            <button class="search-meal-btn btn-link">Show Restaurants</button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render "delivery_area_modal" %>
+</div>
+
+<div class="container">
+  <h1 class="text-center working-header">How it works</h1>
+
+  <div class="home-page-image-container">
+    <%= image_tag("home_page1.png") %>
+    <%= image_tag("home_page2.png") %>
+    <%= image_tag("home_page3.png") %>
+  </div>
+</div>
+
+<div class="container-fluid home-page-cuisine">
+  <h1 class="text-center working-header">From the menu</h1>
+
+  <div class="container-fluid">
+    <div class="carousel slide" id="myCarousel">
+      <div class="carousel-inner">
+        <% @categories.each_with_index do |category, i| %>
+          <div class="item <%= 'active' if i.zero? %>">
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+              <div class="carousel-container<%= (i+1) % 6 %> carousel-imgs">
+                <div class="carousel-images text-center">
+                  <% category_path = category.color == "true" ? customer_party_points_list_path : customer_restaurants_list_path(cuisine_id: encode_token(category.id)) %>
+
+                  <%= link_to category_path do %>
+                    <img src="<%= category.icon %>" class="img-responsive">
+                    <h5 class="category-title"><%= category.title %></h5>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+        <i class="glyphicon glyphicon-circle-arrow-left"></i>
+      </a>
+
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">
+        <i class="glyphicon glyphicon-circle-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid home-page-download-links">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-7">
+        <h1>Get rewarded for supporting your favourite restaurant</h1>
+        <p class="description-text">Order the meal, choose delivery time, view past purchases and place your order quickly and easily. Download our app to manage your account conviniently.</p>
+
+        <p class="app-links">
+          <%= link_to "https://play.google.com/store/apps/details?id=com.hexagon.foodclubapp&hl=en", target: "_blank" do %>
+            <%= image_tag("google_play_store.png", class: "img-responsive") %>
+          <% end %>
+
+          <%= link_to "https://apps.apple.com/us/app/food-club-join-the-club/id1490578414", target: "_blank" do %>
+            <%= image_tag("ios.png", class: "img-responsive") %>
+          <% end %>
+        </p>
+      </div>
+
+      <div class="col-xs-5">
+        <%= image_tag("app_screenshot.png", class: "app-screenshot img-responsive") %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "footer" %>
+
+<style>
+  <% if mobile_device? %>
+    .dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu {
+      margin-top: 0;
+    }
+  <% end %>
+</style>
+
+<script>
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% elsif flash[:warning].present? %>
+    swal("<%= flash[:warning] %>")
+  <% end %>
+
+  var areas = <%= raw @areas.pluck(:area).sort %>;
+  autocomplete_area(document.getElementById("coverage_area"), areas);
+
+  window.intercomSettings = {
+    app_id: "fu20x5ee"
+  };
+
+  (function () {
+    var w = window;
+    var ic = w.Intercom;
+
+    if (typeof ic === "function") {
+      ic("reattach_activator");
+      ic("update", w.intercomSettings);
+    } else {
+      var d = document;
+      var i = function () {
+        i.c(arguments);
+      };
+      i.q = [];
+      i.c = function (args) {
+        i.q.push(args);
+      };
+      w.Intercom = i;
+      var l = function () {
+        var s = d.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://widget.intercom.io/widget/fu20x5ee";
+        var x = d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      };
+      if (w.attachEvent) {
+        w.attachEvent("onload", l);
+      } else {
+        w.addEventListener("load", l, false);
+      }
+    }
+  })();
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition)
+  }
+</script>

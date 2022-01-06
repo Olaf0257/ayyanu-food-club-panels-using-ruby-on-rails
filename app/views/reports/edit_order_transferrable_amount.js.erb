@@ -1,0 +1,3 @@
+$("#edit_order_amount_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'edit_order_amount_modal') %>");
+$("#edit_order_amount_modal").modal("show");

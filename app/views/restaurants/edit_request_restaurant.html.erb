@@ -1,0 +1,256 @@
+<style type="text/css">
+  .mb-2{
+    margin-bottom:2%;
+  }
+  .private_dock{
+    display: none;
+  }
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+
+}
+</style>
+
+<div class="container">
+  <%#= render :partial=>'admin_steps'%>
+  <%=form_for :marina,url: update_request_restaurant_path,:html=>{id: "add-marina-form",:class=>"form-horizontal",:multipart => true} do |f|%>
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;">
+          <div class="panel-heading"><center><h3>Restaurant & Details</h3></center></div>
+          <div class="panel-body">
+            <div class="row mb-2">
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Restaurant Name</label>
+                <input type="text"  name="restaurant_name"  id="restaurant_name" class="form-control" value="<%=@req_restaurant.restaurant_name%>" placeholder="Restaurant name" autocomplete="off">
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Owner Name</label>
+               <input type="text"  name="owner_name"  id="owner_name" class="form-control" value="<%=@req_restaurant.owner_name%>" placeholder="Owner name" autocomplete="off">
+              </div>
+               <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Email</label>
+                <input type="email"  name="email" id="email" class="form-control" value="<%=@req_restaurant.email%>" placeholder="Email" autocomplete="off">
+              </div>
+            </div>
+            <div class="row mb-2">
+
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>CPR Number</label>
+                <input type="text"  name="cpr_number" id="cpr_number" class="form-control" value="<%=@req_restaurant.cpr_number%>" placeholder="CRP number" autocomplete="off">
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Retaurant Id</label>
+               <input type="text"  name="restaurant_id" id="cr_number" class="form-control" value="<%=@req_restaurant.restaurant_id.present? ? @req_restaurant.restaurant_id : ''%>" placeholder="restaurant id" autocomplete="off">
+              </div>
+              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Branch No </label>
+               <input type="text"  name="branch_no" id="branch_no" class="form-control" value="<%=@req_restaurant.branch_no%>" placeholder="Branch no" autocomplete="off">
+              </div>
+            </div>
+            <input type="hidden" name="req_restaurant_id" id="req_restaurant_id" value="<%=@req_restaurant.id%>">
+            <div class="row mb-2">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <label>Contact Number</label><br>
+               <input type="tel" name="contact_number" id="contact_number" class="form-control" value="<%=@req_restaurant.contact_number%>" placeholder="Contact number" autocomplete="off">
+              </div>
+            </div>
+<!--
+            <div class="row">
+              <div class="col-lg-2">
+                <h4>Upload Branch Image (Optional)</h4>
+                  <a href='javascript:;'>
+                    <img src="/assets/logo-upload.png" class="img-tag add-img-tag" width="85%" height="100vh" onmouseover="showXbutton(this);" onmouseout="hideXbutton(this);">
+                    <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                    <input type="file" id='add-img-tag'  style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;height: 100%;width: 100%;' name="branch_image" onchange='readURL(event)'><hr>
+                  </a>
+              </div>
+            </div>
+           -->
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Update</strong> </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link rel="stylesheet" href="/assets/formValidation.min.css">
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UNzzgG2Ng8uQduSSO_nlspaP31orqRc&libraries=places&sensor=false"></script>
+
+<script type="text/javascript">
+
+
+
+  var readURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+
+
+  $('#marina_type').on('change', function(){
+    if($(this).val() == 'private'){
+      $(".private_dock").css("display","block")
+    }
+    else{
+      $(".private_dock").css("display","none")
+    }
+  });
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+
+
+
+
+  $('#email-error').hide()
+  var ownerEmailErrorMessage=""
+  function validateOwnerEmailAddress(){
+    $('#email-error').hide()
+    enteredEmail = $('#email').val()
+    isValidEm = validateEmail(enteredEmail)
+    console.log(isValidEm)
+    if(isValidEm){
+      if (isExistingEmail(enteredEmail)){
+        ownerEmailErrorMessage = "Email has already been taken! Please try another email."
+        $('#email-error').show()
+        return false;
+      }else{
+        return true;
+      }
+    }else{
+      ownerEmailErrorMessage = "Please enter a correct Owner Email!"
+      return false;
+    }
+  }
+
+  var isExistingEmail = function(newEmail){
+    var jqXHR =  $.ajax({
+      async: false,
+      type: "POST",
+      url: '/api/v1/user/email',
+      data: {email: newEmail},
+      dataType: "JSON",
+      success:function(result){
+      },
+      error: function() {
+      }
+    });
+    var jsonResponse = JSON.parse(jqXHR.responseText);
+    return jsonResponse.code==208;
+  }
+
+  function validateEmail(reqEmail) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(reqEmail);
+  }
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+        console.log(latlng)
+        $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+  $("#contact_number").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%=@req_restaurant.contact_number.present? ? @req_restaurant.contact_number.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+
+  $("#saveBtn").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var number = /^[0-9]{1,9}$/
+    var branch_no = /^\d{1,2}$/
+    // var contact = /\\(?\d{3}\\)?([\-\s\.])?\d{3}\1?\d{4}/
+    var country_code = $("#contact_number").intlTelInput("getSelectedCountryData");
+    var countrycode = "+"+country_code.dialCode
+    if($.trim($('#restaurant_name').val()) == ""){
+      $('#restaurant_name').focus();
+      swal("Warning","Please enter the restaurant name","warning");
+      return false;
+    }else if(!name.test($('#owner_name').val())){
+      $('#owner_name').focus();
+      swal("Warning","Please enter a valid owner name","warning");
+      return false;
+    }else if($.trim($('#contact_number').val())==''){
+       $('#contact_number').focus();
+      swal("Warning","Please enter a valid contact No.","warning");
+      return false;
+    }
+    else if(($.trim($('#email').val())==="")){
+      $('#email').focus();
+      swal("Warning","Please Enter the email","warning");
+      return false;
+    }else if(!number.test($('#cpr_number').val())){
+      $('#cpr_number').focus();
+      swal("Warning","Please enter valid cpr number","warning");
+      return false;
+    }else if(!branch_no.test($('#branch_no').val())){
+      $('#branch_no').focus();
+      swal("Warning","Please enter valid branch no","warning");
+      return false;
+    }
+    else{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true;
+    }
+  });
+</script>

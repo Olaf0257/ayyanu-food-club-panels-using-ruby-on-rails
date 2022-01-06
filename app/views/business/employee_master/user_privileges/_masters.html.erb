@@ -1,0 +1,454 @@
+<div class="col-md-12">
+	<label>MASTERS:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Reason Codes") %>
+			<input type="checkbox"  name="masters[reason_codes]" value="Reason Codes" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[reason_codes]" value="Reason Codes">
+		<%end%>
+		<label class="label_color">Reason Codes</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Preparation Type") %>
+			<input type="checkbox"  name="masters[preparation_type]" value="Preparation Type" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[preparation_type]" value="Preparation Type">
+		<%end%>
+		<label class="label_color">Preparation Type</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Production Items") %>
+			<input type="checkbox"  name="masters[production_items]" value="Production Items" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[production_items]" value="Production Items">
+		<%end%>
+		<label class="label_color">Production Items</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Schedule Shift") %>
+			<input type="checkbox"  name="masters[schedule_shift]" value="Schedule Shift" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[schedule_shift]" value="Schedule Shift">
+		<%end%>
+		<label class="label_color">Schedule Shift</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Assign Shift") %>
+			<input type="checkbox"  name="masters[assign_shift]" value="Assign Shift" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[assign_shift]" value="Assign Shift">
+		<%end%>
+		<label class="label_color">Assign Shift</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Add Shift") %>
+			<input type="checkbox"  name="masters[add_shift]" value="Add Shift" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[add_shift]" value="Add Shift">
+		<%end%>
+		<label class="label_color">Add Shift</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Add Stations") %>
+			<input type="checkbox"  name="masters[add_stations]" value=">Add Stations" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[add_stations]" value=">Add Stations">
+		<%end%>
+		<label class="label_color">Add Stations</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Branch Info") %>
+			<input type="checkbox"  name="masters[branch_info]" value="Branch Info" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[branch_info]" value="Branch Info">
+		<%end%>
+		<label class="label_color">Branch Info</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Over Group") %>
+			<input type="checkbox"  name="masters[over_group]" value="Over Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[over_group]" value="Over Group">
+		<%end%>
+		<label class="label_color">Over Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Major Group") %>
+			<input type="checkbox"  name="masters[major_group]" value="Major Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[major_group]" value="Major Group">
+		<%end%>
+		<label class="label_color">Major Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Item Group") %>
+			<input type="checkbox"  name="masters[item_group]" value="Item Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[item_group]" value="Item Group">
+		<%end%>
+		<label class="label_color">Item Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Receipe Group") %>
+			<input type="checkbox"  name="masters[receipe_group]" value="Receipe Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[receipe_group]" value="Receipe Group">
+		<%end%>
+		<label class="label_color">Receipe Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Production Group") %>
+			<input type="checkbox"  name="masters[production_group]" value="Production Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[production_group]" value="Production Group">
+		<%end%>
+		<label class="label_color">Production Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Combo meal Group") %>
+			<input type="checkbox"  name="masters[combo_meal_group]" value="Combo meal Group" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[combo_meal_group]" value="Combo meal Group">
+		<%end%>
+		<label class="label_color">Combo meal Group</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Combo Meal") %>
+			<input type="checkbox"  name="masters[combo_meal]" value="Combo Meal" checked=""> 
+		<%else%>
+			<input type="checkbox"  name="masters[combo_meal]" value="Combo Meal">
+		<%end%>
+		<label class="label_color">Combo Meal</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Store Type") %>
+			<input type="checkbox"  name="masters[store_type]" value="Store Type" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[store_type]" value="Store Type">
+		<%end%>
+		<label class="label_color">Store Type</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Cost Center / Store") %>
+			<input type="checkbox"  name="masters[cost_center_/_store]" value="Cost Center / Store" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[cost_center_/_store]" value="Cost Center / Store">
+		<%end%>
+		<label class="label_color">Cost Center / Store</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Units") %>
+			<input type="checkbox"  name="masters[units]" value="Units" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[units]" value="Units">
+		<%end%>
+		<label class="label_color">Units</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Article") %>
+			<input type="checkbox"  name="masters[article]" value="Article" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[article]" value="Article">
+		<%end%>
+		<label class="label_color">Article</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Stages") %>
+			<input type="checkbox"  name="masters[stages]" value="Stages"  checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[stages]" value="Stages">
+		<%end%>
+		<label class="label_color">Stages</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Privileges") %>
+			<input type="checkbox"  name="masters[privileges]" value="Privileges" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[privileges]" value="Privileges">
+		<%end%>
+		<label class="label_color">Privileges</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Department") %>
+			<input type="checkbox"  name="masters[department]" value="Department" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[department]" value="Department">
+		<%end%>
+		<label class="label_color">Department</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Designation") %>
+			<input type="checkbox"  name="masters[designation]" value="Designation" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[designation]" value="Designation">
+		<%end%>
+		<label class="label_color">Designation</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Salary Master") %>
+			<input type="checkbox"  name="masters[salary_master]" value="Salary Master" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[salary_master]" value="Salary Master">
+		<%end%>
+		<label class="label_color">Salary Master</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Prepare Letter") %>
+			<input type="checkbox"  name="masters[prepare_letter]" value="Prepare Letter">
+		<%else%>
+			<input type="checkbox"  name="masters[prepare_letter]" value="Prepare Letter">
+		<%end%>
+		<label class="label_color">Prepare Letter</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Reimbursement Types") %>
+			<input type="checkbox"  name="masters[reimbursement_types]" value="Reimbursement Types" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[reimbursement_types]" value="Reimbursement Types">
+		<%end%>
+		<label class="label_color">Reimbursement Types</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Loan Types") %>
+			<input type="checkbox"  name="masters[loan_types]" value="Loan Types" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[loan_types]" value="Loan Types">
+		<%end%>
+		<label class="label_color">Loan Types</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("KDS Color Setting") %>
+			<input type="checkbox"  name="masters[kds_color_setting]" value="KDS Color Setting" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[kds_color_setting]" value="KDS Color Setting">
+		<%end%>
+		<label class="label_color">KDS Color Setting</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Void Reasons") %>
+			<input type="checkbox"  name="masters[void_reasons]" value="Void Reasons" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[void_reasons]" value="Void Reasons">
+		<%end%>
+		<label class="label_color">Void Reasons</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Table Configuration") %>
+			<input type="checkbox"  name="masters[table_configuration]" value="Table Configuration" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[table_configuration]" value="Table Configuration">
+		<%end%>
+		<label class="label_color">Table Configuration</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Manage Advertisement") %>
+			<input type="checkbox"  name="masters[manage_advertisement]" value="Manage Advertisement" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[manage_advertisement]" value="Manage Advertisement">
+		<%end%>
+		<label class="label_color">Manage Advertisement</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Pending / Rejected ADS") %>
+			<input type="checkbox"  name="masters[pending_/_rejected_ads]" value="Pending / Rejected ADS" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[pending_/_rejected_ads]" value="Pending / Rejected ADS">
+		<%end%>
+		<label class="label_color">Pending / Rejected ADS</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Sweet Deals") %>
+			<input type="checkbox"  name="masters[sweet_deals]" value="Sweet Deals" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[sweet_deals]" value="Sweet Deals">
+		<%end%>
+		<label class="label_color">Sweet Deals</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Add Task") %>
+			<input type="checkbox"  name="masters[add_task]" value="Add Task" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[add_task]" value="Add Task">
+		<%end%>
+		<label class="label_color">Add Task</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Task Activity") %>
+			<input type="checkbox"  name="masters[task_activity]" value="Task Activity" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[task_activity]" value="Task Activity">
+		<%end%>
+		<label class="label_color">Task Activity</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Task Sub Category") %>
+			<input type="checkbox"  name="masters[task_sub_category]" value="Task Sub Category" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[task_sub_category]" value="Task Sub Category">
+		<%end%>
+		<label class="label_color">Task Sub Category</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Task Category") %>
+			<input type="checkbox"  name="masters[task_category]" value="Task Category" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[task_category]" value="Task Category">
+		<%end%>
+		<label class="label_color">Task Category</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Task Title") %>
+			<input type="checkbox"  name="masters[task_title]" value="Task Title" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[task_title]" value="Task Title">
+		<%end%>
+		<label class="label_color">Task Title</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Add Asset") %>
+			<input type="checkbox"  name="masters[add_asset]" value="Add Asset" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[add_asset]" value="Add Asset">
+		<%end%>
+		<label class="label_color">Add Asset</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Asset Category") %>
+			<input type="checkbox"  name="masters[asset_category]" value="Asset Category" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[asset_category]" value="Asset Category">
+		<%end%>
+		<label class="label_color">Asset Category</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Asset Type") %>
+			<input type="checkbox"  name="masters[asset_type]" value="Asset Type" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[asset_type]" value="Asset Type">
+		<%end%>
+		<label class="label_color">Asset Type</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Brands") %>
+			<input type="checkbox"  name="masters[brands]" value="Brands" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[brands]" value="Brands">
+		<%end%>
+		<label class="label_color">Brands</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Password Settings") %>
+			<input type="checkbox"  name="masters[password_settings]" value="Password Settings" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[password_settings]" value="Password Settings">
+		<%end%>
+		<label class="label_color">Password Settings</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Card Types") %>
+			<input type="checkbox"  name="masters[card_types]" value="Card Types" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[card_types]" value="Card Types">
+		<%end%>
+		<label class="label_color">Card Types</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Banks") %>
+			<input type="checkbox"  name="masters[banks]" value="Banks" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[banks]" value="Banks">
+		<%end%>
+		<label class="label_color">Banks</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Vendors") %>
+			<input type="checkbox"  name="masters[vendors]" value="Vendors" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[vendors]" value="Vendors">
+		<%end%>
+		<label class="label_color">Vendors</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Manuals") %>
+			<input type="checkbox"  name="masters[manuals]" value="Manuals" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[manuals]" value="Manuals">
+		<%end%>
+		<label class="label_color">Manuals</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Order Type Parameters") %>
+			<input type="checkbox"  name="masters[order_type_parameters]" value="Order Type Parameters" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[order_type_parameters]" value="Order Type Parameters">
+		<%end%>
+		<label class="label_color">Order Type Parameters</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Currency Type") %>
+			<input type="checkbox"  name="masters[currency_type]" value="Currency Type" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[currency_type]" value="Currency Type">
+		<%end%>
+		<label class="label_color">Currency Type</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Reminder Setup") %>
+			<input type="checkbox"  name="masters[reminder_setup]" value="Reminder Setup" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[reminder_setup]" value="Reminder Setup">
+		<%end%>
+		<label class="label_color">Reminder Setup</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("New Customer") %>
+			<input type="checkbox"  name="masters[new_customer]" value="New Customer" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[new_customer]" value="New Customer">
+		<%end%>
+		<label class="label_color">New Customer</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Download Template") %>
+			<input type="checkbox"  name="masters[download_template]" value="Download Template" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[download_template]" value="Download Template">
+		<%end%>
+		<label class="label_color">Download Template</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Upload Bulk Customer") %>
+			<input type="checkbox"  name="masters[upload_bulk_customer]" value="Upload Bulk Customer" checked>
+		<%else%>
+			<input type="checkbox"  name="masters[upload_bulk_customer]" value="Upload Bulk Customer">
+		<%end%>
+		<label class="label_color">Upload Bulk Customer</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Customer List") %>
+			<input type="checkbox"  name="masters[customer_list]" value="Customer List" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[customer_list]" value="Customer List">
+		<%end%>
+		<label class="label_color">Customer List</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Account Type") %>
+			<input type="checkbox"  name="masters[account_type]" value="Account Type" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[account_type]" value="Account Type">
+		<%end%>
+		<label class="label_color">Account Type</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.masters.include?("Account Category") %>
+			<input type="checkbox"  name="masters[account_category]" value="Account Category" checked="">
+		<%else%>
+			<input type="checkbox"  name="masters[account_category]" value="Account Category">
+		<%end%>
+		<label class="label_color">Account Category</label>
+	</div>
+
+</div>

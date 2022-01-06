@@ -1,0 +1,425 @@
+<% privilage = check_user_privillage(@user) %>
+<% user_privilages = privilage.assign_privileges %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <div class="dropdown profile-element">
+        <li class="partner-nav-header">
+          <h3 class="block m-l-lg"><strong class="font-bold"><%= link_to "POS", business_partner_pos_dashboard_path(restaurant_id: params[:restaurant_id]) %></strong></h3>
+        </li>
+      </div>
+
+      <% unless user_privilages["POS"]&.include?("New Transaction").blank? %>
+        <li class="displayNavigation openDashboardNewTransactipnPopup">
+            <a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">New Transaction</span></a>
+        </li>
+      <% end %>
+
+      <% unless user_privilages["POS"]&.include?("Begin Check By Name").blank? %>
+        <li class="displayNavigation beginCheckByName">
+            <a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Begin Check By Name</span></a>
+        </li>
+      <% end %>
+
+      <% unless user_privilages["POS"]&.include?("Pickup Check").blank? %>
+        <li class="displayNavigation pickupCheckClick" data-branch-id="<%= @branch&.id %>">
+            <a href="javascript:void(0)"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Pickup Check</span></a>
+        </li>
+      <% end %>
+
+      <% unless user_privilages["POS"]&.include?("Void").blank? %>
+        <li class="displayNavigation">
+            <a href="#"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Void</span></a>
+        </li>
+      <% end %>
+
+      <% unless user_privilages["POS"]&.include?("Cancel").blank? %>
+        <li class="displayNavigation">
+            <a href="<%= business_partner_logout_path %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Cancel</span></a>
+        </li>
+      <% end %>
+      <% unless user_privilages["POS"]&.include?("Functions").blank? %>
+        <li class="displayNavigation">
+          <%#= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-table-url': business_begin_check_path(params[:restaurant_id], table_id: 'no_table', is_dashboard: true, branch_id: @branch&.id), class: "dropdown-item pos_begin_check" do %>
+          <%= link_to business_partner_pos_new_check_path(branch_id: @branch&.id) do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Functions</span>
+          <% end %>
+          <%# end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
+
+<div id="orderTypeOptionDashboard" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <h4 style="font-weight: 600;margin-top: 10px;" class="tableBusyErrorMessage">
+          Please Select Order Type:
+        </h4>
+        <%= select_tag(:orderType, options_for_select(OrderType.where(is_enabled: true).where.not(id: 1).pluck(:name, :id)), id: 'selected_order_types', style: "padding: 12px;margin-bottom: 17px;width: 100%;") %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button createNewTransaction" data-dismiss="modal" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button" style="width: 50%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="orderTypeOptionBeginCheck" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <h5>Minimun Order Value: <span class="minimum_amount_value"></span> BHD</h5>
+        <h4 style="font-weight: 600;margin-top: 10px;" class="tableBusyErrorMessage">
+          Please Select Order Type:
+        </h4>
+        <input type="hidden" name="selected_user_id" class="selected_user_id">
+        <input type="hidden" name="selected_address_id" class="selected_address_id">
+        <input type="hidden" name="selected_branch_id" class="selected_branch_id" value="<%= @branch&.id %>">
+        <%= select_tag(:orderType, options_for_select(OrderType.where(is_enabled: true).where.not(id: 1).pluck(:name, :id)), id: "selected_order_type_begin_check", style: "padding: 12px;margin-bottom: 17px;width: 100%;") %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary beginCheckByNameOrderTypeBtn form-button" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button back-btn-in-order-type-selection" style="width: 50%;">Back
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="beginCheckByNamePopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="top: 10%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn btn-success customer_back_btn d-none" style="float: left;">Back</button>
+        <input type="text" class="form-control customer_search_box" style="width: 60%;float: left;margin-right: 10px;" placeholder="Enter customer mobile number">
+        <button class="btn btn-success customer_search_btn">Ok</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="width: 100%;height: 400px;overflow-y: scroll;background-color: white;">
+          <input type="hidden" class="next_page_no">
+          <input type="hidden" class="restaurant_id" value='<%= params[:restaurant_id] %>'>
+          <input type="hidden" class="customer_id" value=''>
+          <input type="hidden" class="address_id" value=''>
+          <table class="table" id="customerDetails">
+            <thead>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile no</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <table class="table d-none" id="customerAddressDetails">
+            <thead>
+              <th>Country</th>
+              <th>Area</th>
+              <th>Address Name</th>
+              <th>Address Type</th>
+              <th>Block</th>
+              <th>Road No</th>
+              <th>Building</th>
+              <th>Floor</th>
+              <th>Villa/ Apartment/ Office No</th>
+              <th>Contact</th>
+              <th>Landline</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <div id='minimum_amount_data' class='d-none'>
+            <h2 style="text-align: center;"> Minimum Order Amount: <span id='minimum_amount'></span> BHD</h2>
+            <button type="button" class="btn btn-primary form-button selectCheckOrderType" style="width: 28%;margin-left: 37%;margin-top: 5%;">Ok
+            </button>
+          </div>
+          <div id='check_order_type' class='d-none'>
+            <h2 style="text-align: center;"> Please Select Order Type:</h2>
+            <%= select_tag(:order_type, options_for_select(OrderType.where(is_enabled: true).where.not(id: 1).pluck(:name, :id)), id: "check_order_types", class: "form-control", style: "width: 25%;height: auto;align-items: center;display: block;margin-left: 36%;margin-top: 2%;") %>
+            <button type="button" class="btn btn-primary form-button orderTypeSelectionBeginCheckByName" style="width: 28%;margin-left: 35%;margin-top: 5%;">Ok
+            </button>
+          </div>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success new_customer_btn" style="float: left;display: flex;">New Customer</button>
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newCustomerPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 100%;height: 66%;top: 20%;overflow-y: scroll;">
+    <div class="modal-content" style="max-width: 100%;">
+      <div class="modal-header">
+        <button class="btn btn-md btn-success back-in-address-form" style="float: left;">Back</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <span style="font-size: 20px;
+    font-weight: 700;
+    width: 28%;
+    display: block;
+    margin: auto;;">New Customer</span>
+      </div>
+      <div class="modal-body">
+        <%= form_tag business_create_new_customer_begin_check_path, autocomplete: :off, remote: true do %>
+          <%= hidden_field_tag(:branch_id, @branch&.id) %>
+          <input type="hidden" id="restaurant_id" value='<%= params[:restaurant_id] %>'>
+          <%= hidden_field_tag(:address_id, '', class: 'newCutomerFormAddressId') %>
+          <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:user_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Email: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= email_field_tag(:user_email, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <h3 class="text-center">Address Details</h3>
+
+            <div class="row hide">
+              <div class="form-group">
+                <label class="col-sm-5">Address:</label>
+
+                <div class="col-sm-7 user-address-list">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Area: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7 manual-order-area-list">
+                  <%= select_tag(:area_id, options_for_select(@areas.to_a), prompt: "Select Area", class: "form-control business-search-field area-selection-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Type: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), prompt: "Select Address Type", class: "form-control business-search-field address-type-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Block: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Road No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Building: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Floor:</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:floor, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row villa-text">
+              <div class="form-group">
+                <label class="col-sm-5">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Additional Directions (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Mobile: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Landline Number (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group text-center">
+                <%= submit_tag "Save Details", class: "btn btn-md btn-success", data: { disable_with: "Saving..." } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="errorMessagePickupCheckPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <h4 style="font-weight: 600;font-size: 20px;text-align: center;display: block;height: 195px;padding-top: 20%;" class="errorMessage">Check Is Not Found In This Table.</h4>
+      </div>
+      <div class="modal-footer" style="margin: auto;float: left;width: 100%;display: flex;">
+        <button type="button" class="btn btn-primary form-button" style="margin: auto" data-dismiss="modal">Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

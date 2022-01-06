@@ -1,0 +1,51 @@
+<div class="container-fluid post-list">
+  <div class="container">
+
+    <div class="post-search-block">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control post-keyword", placeholder: "Enter Search Query", autocomplete: :off) %>
+          <%= hidden_field_tag(:user_role, params[:user_role]) %>
+          <%= hidden_field_tag(:category_id, params[:category_id]) %>
+        </div>
+
+        <button type="submit" class="btn btn-info post-search-submit">Search</button>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-3 post-block">
+        <h5>CATEGORIES</h5>
+        <ul>
+          <li><%= link_to "All", list_posts_path(category_id: nil, user_role: params[:user_role]) %></li>
+
+          <% @categories.each do |category| %>
+            <li><%= link_to category.name, list_posts_path(category_id: category.id, user_role: params[:user_role]) %></li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="col-sm-9">
+        <% if @posts.present? %>
+          <% if params[:category_id].present? %>
+            <h3><%= PostCategory.find(params[:category_id]).name %></h3>
+          <% else %>
+            <h3>All</h3>
+          <% end %>
+
+          <% @posts.each_with_index do |post, i| %>
+            <div class="post-block">
+              <h5><%= i + 1 %>. <%= post.title %></h5>
+              <p><%= post.body.to_s.gsub(/\n/, '<br/>').html_safe %></p>
+            </div>
+            <hr>
+          <% end %>
+        <% else %>
+          <div class="post-block">
+            <center><b>No match found.</b></center><hr>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

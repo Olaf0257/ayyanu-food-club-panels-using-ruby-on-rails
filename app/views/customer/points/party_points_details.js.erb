@@ -1,0 +1,3 @@
+$("#party_point_detail_modal").remove();
+$(".tab-content").append("<%= escape_javascript render(partial: 'party_point_detail_modal') %>");
+$("#party_point_detail_modal").modal("show");

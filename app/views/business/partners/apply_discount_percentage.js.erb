@@ -1,0 +1,27 @@
+<% if @error.present? %>
+	toastr.error('<%= @error%>');
+<% elsif @discount_percent.present? %>
+	$('.discountData a button').removeClass('selected_discount');
+	$('.discountData a').find('.discount_<%= @pos_check.offer_id %>').addClass('selected_discount')
+	<% if !ActiveModel::Type::Boolean.new.cast(params[:is_quick_pay]) %>
+		$('#discount_row').removeClass('hide');
+		$('#discountPerText').text('(<%= @offer.discount_percentage.to_f == 0.0 ? @offer.offer_title : (@offer.discount_percentage.to_s + "%") %>)')
+		$('#discount_amount').text('<%= number_with_precision(@discount_percent.round(3), precision: 3) %>BHD');
+		// var total = parseFloat($('#pos_total').text().replace('BHD', ''));
+		// var payable = total - <%= @discount_percent.round(3) %>
+		var remainAmount = parseFloat("<%= number_with_precision(@amount.round(3), precision: 3) %>");
+		$('#remain_payment_amount').val(remainAmount.toFixed(3));
+		$('#pos_total').text('<%= number_with_precision(@amount.round(3), precision: 3) %>BHD');
+	<% end %>
+	<% if params[:is_quick_pay] == 'true' %>
+	    $('.discountAmount, .partialAmount').removeClass('hide');
+    	var remainAmount = parseFloat("<%= number_with_precision(@amount.round(3), precision: 3) %>");
+		$('#remain_payment_amount').val(Math.abs(remainAmount).toFixed(3));
+		$('.partialAmount').text("Remaining Amount: "+ Math.abs(remainAmount).toFixed(3)+" BHD");
+		$('.discountAmount').text('Discount: <%= number_with_precision(@discount_percent.round(3), precision: 3) %>BHD');
+		toastr.success("Discount applied Successfully");
+		if (remainAmount === 0.0){
+			$('#quickPayCheckPayment').modal('hide')
+		}
+	<% end %>
+<% end %>

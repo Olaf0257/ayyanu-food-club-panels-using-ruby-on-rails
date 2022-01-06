@@ -1,0 +1,455 @@
+<style type="text/css">
+select{
+  height: 100% !important;
+}
+.service {
+    margin-right: 0px;
+    margin-left:  0px;
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+<a href="<%=business_branch_menu_items_path(encode_token(@menu_category.branch.id),restaurant_id:params[:restaurant_id])%>" class="pull-right" style="margin-top: 2%;"><button class="btn btn-danger">Back to Menu<i class="fa fa-arrow-right"></i> </button></a>
+  <div class="col-lg-10">
+    <h2>Edit Menu Category</h2>
+  </div>
+  <div class="col-lg-10">
+      <ol class="breadcrumb">
+        <li>
+          <a href="<%=business_restaurant_path(restaurant_id:params[:restaurant_id])%>">Restaurant</a>
+        </li>
+        <li>
+           <a href="<%=business_resturant_branch_path(restaurant_id:params[:restaurant_id])%>">Branch</a>
+        </li>
+        <li>
+            <a href="<%=business_branch_menu_items_path(encode_token(@menu_category.branch.id),restaurant_id:params[:restaurant_id])%>">Menu Items</a>
+        </li>
+          <li class="active">
+              <strong>Edit Menu Category</strong>
+          </li>
+      </ol>
+    </div>
+</div>
+<br><br>
+<div class="container">
+  <%=form_for :versions,url: business_branch_menu_category_update_path(restaurant_id:params[:restaurant_id]),:html=>{:multipart=>true,id: "versions_form"} do |f|%>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <center>
+          <h3 style="color: white;">Edit Menu Category</h3>
+        </center>
+      </div>
+      <div class="panel-body">
+        <div class="form-check">
+          <input type="hidden" name='include_in_pos' id="include_in_pos" value="<%= @menu_category.include_in_pos %>">
+          <input class="form-check-input" type="checkbox" <%if @menu_category.include_in_pos %> checked <%end%> id="include_in_pos_checkbox">
+          <label class="form-check-label" style="padding-left: 20px;" for="include_in_pos_checkbox">
+            Include In POS
+          </label>
+          <input type="hidden" name='include_in_app' id="include_in_app" value="<%= @menu_category.include_in_app %>">
+          <input class="form-check-input" type="checkbox" <%if @menu_category.include_in_app %> checked <%end%> id="include_in_app_checkbox">
+          <label class="form-check-label" style="padding-left: 20px;" for="include_in_app_checkbox">
+            Include In App
+          </label>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12" style="margin-top:15px !important;">
+            <label class="control-label">Category Title (English)</label> <input class="form-control mb-0" id="play_store_link" name="category_title" placeholder="Category title (english)" type="text" value="<%=@menu_category.category_title%>" autocomplete="off">
+              <input type="hidden"  name="category_id" value="<%=@menu_category.id%>">
+              <input type="hidden"  name="branch_id" value="<%=@menu_category.branch.id%>">
+              <input type="hidden"  name="restaurant_id" value="<%=params[:restaurant_id]%>">
+
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <div class="col-sm-12" style="">
+            <label class="control-label">Category Title (Arabic)</label> <input class="form-control mb-0" id="app_store_link" name="category_title_ar" placeholder="Category title (arabic)" type="text" value="<%=@menu_category.categroy_title_ar%>" autocomplete="off">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-12" style="">
+            <label class="control-label">Category Priority</label>
+            <input class="form-control mb-0" name="category_priority" placeholder="Category Priority" type="number" min="1" max="100" value="<%=@menu_category.category_priority%>" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <label>Is Available</label>
+
+            <select class="form-control" required="true" name="available" style="height: 40px;">
+              <option <% if @menu_category.available == true %> selected <% end %>value="true">Available</option>
+              <option <% if @menu_category.available == false %> selected <% end %>value="false">Not available</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <label class="control-label">Stations</label>
+              <%= select_tag(:station_ids, options_for_select(Station.where(branch: @menu_category.branch).pluck(:name, :id), @menu_category.station_ids), class: "form-control", style: "height: 40px;", multiple: true) %>
+            </div>
+          </div>
+
+        <div class="form-group">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input type="text" id="datepicker" style="height: 36px;width: 100%;" name="start_date" value="<%= @menu_category.start_date %>">
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>End Date</label>
+              <input type="text" id="datepicker2" style="height: 36px;width: 100%;" name="end_date" value="<%= @menu_category.end_date %>">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Start Time</label>
+              <select class="form-control" name="start_time" >
+                <option value="12:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="12:00 AM"%> selected <%end%>>12:00 AM</option>
+                <option value="12:15 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="12:15 AM"%> selected <%end%>>12:15 AM</option>
+                <option value="12:30 AM" <%if   @menu_category.start_time&.strftime("%I:%M %p") =="12:30 AM"%> selected <%end%>>12:30 AM</option>
+                <option value="12:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="12:45 AM"%> selected <%end%>>12:45 AM</option>
+                <option value="01:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="01:00 AM"%> selected <%end%>>01:00 AM</option>
+                <option value="01:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="01:15 AM"%> selected <%end%>>01:15 AM</option>
+                <option value="01:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="01:30 AM"%> selected <%end%>>01:30 AM</option>
+                <option value="01:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="01:45 AM"%> selected <%end%>>01:45 AM</option>
+                <option value="02:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="02:00 AM"%> selected <%end%>>02:00 AM</option>
+                <option value="02:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="02:15 AM"%> selected <%end%>>02:15 AM</option>
+                <option value="02:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="02:30 AM"%> selected <%end%>>02:30 AM</option>
+                <option value="02:45AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="02:45 AM"%> selected <%end%>>02:45 AM</option>
+                <option value="03:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="03:00 AM"%> selected <%end%>>03:00 AM</option>
+                <option value="03:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="03:15 AM"%> selected <%end%>>03:15 AM</option>
+                <option value="03:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="03:30 AM"%> selected <%end%>>03:30 AM</option>
+                <option value="03:45 AM" <%if@menu_category.start_time&.strftime("%I:%M %p") =="03:45 AM"%> selected <%end%>>03:45 AM</option>
+                <option value="04:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p")=="04:00 AM"%> selected <%end%>>04:00 AM</option>
+                <option value="04:15 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="04:15 AM"%> selected <%end%>>04:15 AM</option>
+                <option value="04:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="04:30 AM"%> selected <%end%>>04:30 AM</option>
+                <option value="04:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="04:45 AM"%> selected <%end%>>04:45 AM</option>
+                <option value="05:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="05:00 AM"%> selected <%end%>>05:00 AM</option>
+                <option value="05:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="05:15 AM"%> selected <%end%>>05:15 AM</option>
+                <option value="05:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="05:30 AM"%> selected <%end%>>05:30 AM</option>
+                <option value="05:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="05:45 AM"%> selected <%end%>>05:45 AM</option>
+                <option value="06:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="06:00 AM"%> selected <%end%>>06:00 AM</option>
+                <option value="06:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="06:15 AM"%> selected <%end%>>06:15 AM</option>
+                <option value="06:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="06:30 AM"%> selected <%end%>>06:30 AM</option>
+                <option value="06:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="06:45 AM"%> selected <%end%>>06:45 AM</option>
+                <option value="07:00 AM" <%if   @menu_category.start_time&.strftime("%I:%M %p") =="07:00 AM"%> selected <%end%>>07:00 AM</option>
+                <option value="07:15 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="07:15 AM"%> selected <%end%>>07:15 AM</option>
+                <option value="07:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="07:30 AM"%> selected <%end%>>07:30 AM</option>
+                <option value="07:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="07:45 AM"%> selected <%end%>>07:45 AM</option>
+                <option value="08:00 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:00 AM"%> selected <%end%>>08:00 AM</option>
+                <option value="08:15 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:15 AM"%> selected <%end%>>08:15 AM</option>
+                <option value="08:30 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:30 AM"%> selected <%end%>>08:30 AM</option>
+                <option value="08:45 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:45 AM"%> selected <%end%>>08:45 AM</option>
+                <option value="09:00 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="09:00 AM"%> selected <%end%>>09:00 AM</option>
+                <option value="09:15 AM" <%if   @menu_category.start_time&.strftime("%I:%M %p") =="09:15 AM"%> selected <%end%>>09:15 AM</option>
+                <option value="09:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="09:30 AM"%> selected <%end%>>09:30 AM</option>
+                <option value="09:45AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="09:45 AM"%> selected <%end%>>09:45 AM</option>
+                <option value="10:00 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="10:00 AM"%> selected <%end%>>10:00 AM</option>
+                <option value="10:15 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="10:15 AM"%> selected <%end%>>10:15 AM</option>
+                <option value="10:30 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="10:30 AM"%> selected <%end%>>10:30 AM</option>
+                <option value="10:45 AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="10:45 AM"%> selected <%end%>>10:45 AM</option>
+                <option value="11:00 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:00 AM"%> selected <%end%>>11:00 AM</option>
+                <option value="11:15AM" <%if @menu_category.start_time&.strftime("%I:%M %p") =="11:15 AM"%> selected <%end%>>11:15 AM</option>
+                <option value="11:30 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:30 AM"%> selected <%end%>>11:30 AM</option>
+                <option value="11:45 AM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:45 AM"%> selected <%end%>>11:45 AM</option>
+                <option value="12:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="12:00 PM"%> selected <%end%>>12:00 PM</option>
+                <option value="12:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="12:15 PM"%> selected <%end%>>12:15 PM</option>
+                <option value="12:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="12:30 PM"%> selected <%end%>>12:30 PM</option>
+                <option value="12:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="12:45 PM"%> selected <%end%>>12:45 PM</option>
+                <option value="01:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="01:00 PM"%> selected <%end%>>01:00 PM</option>
+                <option value="01:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="01:15 PM"%> selected <%end%>>01:15 PM</option>
+                <option value="01:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="01:30 PM"%> selected <%end%>>01:30 PM</option>
+                <option value="01:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="01:45 PM"%> selected <%end%>>01:45 PM</option>
+                <option value="02:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="02:00 PM"%> selected <%end%>>02:00 PM</option>
+                <option value="02:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="02:15 PM"%> selected <%end%>>02:15 PM</option>
+                <option value="02:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="02:30 PM"%> selected <%end%>>02:30 PM</option>
+                <option value="02:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="02:45 PM"%> selected <%end%>>02:45 PM</option>
+                <option value="03:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="03:00 PM"%> selected <%end%>>03:00 PM</option>
+                <option value="03:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="03:15 PM"%> selected <%end%>>03:15 PM</option>
+                <option value="03:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="03:30 PM"%> selected <%end%>>03:30 PM</option>
+                <option value="03:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="03:45 PM"%> selected <%end%>>03:45 PM</option>
+                <option value="04:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="04:00 PM"%> selected <%end%>>04:00 PM</option>
+                <option value="04:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="04:15 PM"%> selected <%end%>>04:15 PM</option>
+                <option value="04:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="04:30 PM"%> selected <%end%>>04:30 PM</option>
+                <option value="04:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="04:45 PM"%> selected <%end%>>04:45 PM</option>
+                <option value="05:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="05:00 PM"%> selected <%end%>>05:00 PM</option>
+                <option value="05:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="05:15 PM"%> selected <%end%>>05:15 PM</option>
+                <option value="05:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="05:30 PM"%> selected <%end%>>05:30 PM</option>
+                <option value="05:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="05:45 PM"%> selected <%end%>>05:45 PM</option>
+                <option value="06:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="06:00 PM"%> selected <%end%>>06:00 PM</option>
+                <option value="06:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="06:15 PM"%> selected <%end%>>06:15 PM</option>
+                <option value="06:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="06:30 PM"%> selected <%end%>>06:30 PM</option>
+                <option value="06:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="06:45 PM"%> selected <%end%>>06:45 PM</option>
+                <option value="07:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="07:00 PM"%> selected <%end%>>07:00 PM</option>
+                <option value="07:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="07:15 PM"%> selected <%end%>>07:15 PM</option>
+                <option value="07:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="07:30 PM"%> selected <%end%>>07:30 PM</option>
+                <option value="07:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="07:45 PM"%> selected <%end%>>07:45 PM</option>
+                <option value="08:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:00 PM"%> selected <%end%>>08:00 PM</option>
+                <option value="08:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:15 PM"%> selected <%end%>>08:15 PM</option>
+                <option value="08:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:30 PM"%> selected <%end%>>08:30 PM</option>
+                <option value="08:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="08:45 PM"%> selected <%end%>>08:45 PM</option>
+                <option value="09:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="09:00 PM"%> selected <%end%>>09:00 PM</option>
+                <option value="09:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="09:15 PM"%> selected <%end%>>09:15 PM</option>
+                <option value="09:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="09:30 PM"%> selected <%end%>>09:30 PM</option>
+                <option value="09:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="09:45 PM"%> selected <%end%>>09:45 PM</option>
+                <option value="10:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="10:00 PM"%> selected <%end%>>10:00 PM</option>
+                <option value="10:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="10:15 PM"%> selected <%end%>>10:15 PM</option>
+                <option value="10:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="10:30 PM"%> selected <%end%>>10:30 PM</option>
+                <option value="10:45 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="10:45 PM"%> selected <%end%>>10:45 PM</option>
+                <option value="11:00 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:00 PM"%> selected <%end%>>11:00 PM</option>
+                <option value="11:15 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:15 PM"%> selected <%end%>>11:15 PM</option>
+                <option value="11:30 PM" <%if  @menu_category.start_time&.strftime("%I:%M %p") =="11:30 PM"%> selected <%end%>>11:30 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>End Time</label>
+              <select class="form-control" name="end_time" >
+                <option value="12:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:00 AM"%> selected <%end%>>12:00 AM</option>
+                <option value="12:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:15 AM"%> selected <%end%>>12:15 AM</option>
+                <option value="12:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:30 AM"%> selected <%end%>>12:30 AM</option>
+                <option value="12:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:45 AM"%> selected <%end%>>12:45 AM</option>
+                <option value="01:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:00 AM"%> selected <%end%>>01:00 AM</option>
+                <option value="01:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:15 AM"%> selected <%end%>>01:15 AM</option>
+                <option value="01:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:30 AM"%> selected <%end%>>01:30 AM</option>
+                <option value="01:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:45 AM"%> selected <%end%>>01:45 AM</option>
+                <option value="02:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:00 AM"%> selected <%end%>>02:00 AM</option>
+                <option value="02:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:15 AM"%> selected <%end%>>02:15 AM</option>
+                <option value="02:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:30 AM"%> selected <%end%>>02:30 AM</option>
+                <option value="02:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:45 AM"%> selected <%end%>>02:45 AM</option>
+                <option value="03:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:00 AM"%> selected <%end%>>03:00 AM</option>
+                <option value="03:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:15 AM"%> selected <%end%>>03:15 AM</option>
+                <option value="03:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:30 AM"%> selected <%end%>>03:30 AM</option>
+                <option value="03:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:45 AM"%> selected <%end%>>03:45 AM</option>
+                <option value="04:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:00 AM"%> selected <%end%>>04:00 AM</option>
+                <option value="04:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:15 AM"%> selected <%end%>>04:15 AM</option>
+                <option value="04:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:30 AM"%> selected <%end%>>04:30 AM</option>
+                <option value="04:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:45 AM"%> selected <%end%>>04:45 AM</option>
+                <option value="05:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:00 AM"%> selected <%end%>>05:00 AM</option>
+                <option value="05:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:15 AM"%> selected <%end%>>05:15 AM</option>
+                <option value="05:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:30 AM"%> selected <%end%>>05:30 AM</option>
+                <option value="05:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:45 AM"%> selected <%end%>>05:45 AM</option>
+                <option value="06:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:00 AM"%> selected <%end%>>06:00 AM</option>
+                <option value="06:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:15 AM"%> selected <%end%>>06:15 AM</option>
+                <option value="06:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:30 AM"%> selected <%end%>>06:30 AM</option>
+                <option value="06:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:45 AM"%> selected <%end%>>06:45 AM</option>
+                <option value="07:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:00 AM"%> selected <%end%>>07:00 AM</option>
+                <option value="07:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:15 AM"%> selected <%end%>>07:15 AM</option>
+                <option value="07:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:30 AM"%> selected <%end%>>07:30 AM</option>
+                <option value="07:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:45 AM"%> selected <%end%>>07:45 AM</option>
+                <option value="08:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:00 AM"%> selected <%end%>>08:00 AM</option>
+                <option value="08:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:15 AM"%> selected <%end%>>08:15 AM</option>
+                <option value="08:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:30 AM"%> selected <%end%>>08:30 AM</option>
+                <option value="08:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:45 AM"%> selected <%end%>>08:45 AM</option>
+                <option value="09:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:00 AM"%> selected <%end%>>09:00 AM</option>
+                <option value="09:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:15 AM"%> selected <%end%>>09:15 AM</option>
+                <option value="09:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:30 AM"%> selected <%end%>>09:30 AM</option>
+                <option value="09:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:45 AM"%> selected <%end%>>09:45 AM</option>
+                <option value="10:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:00 AM"%> selected <%end%>>10:00 AM</option>
+                <option value="10:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:15 AM"%> selected <%end%>>10:15 AM</option>
+                <option value="10:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:30 AM"%> selected <%end%>>10:30 AM</option>
+                <option value="10:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:45 AM"%> selected <%end%>>10:45 AM</option>
+                <option value="11:00 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:00 AM"%> selected <%end%>>11:00 AM</option>
+                <option value="11:15 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:15 AM"%> selected <%end%>>11:15 AM</option>
+                <option value="11:30 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:30 AM"%> selected <%end%>>11:30 AM</option>
+                <option value="11:45 AM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:45 AM"%> selected <%end%>>11:45 AM</option>
+                <option value="12:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:00 PM"%> selected <%end%>>12:00 PM</option>
+                <option value="12:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:15 PM"%> selected <%end%>>12:15 PM</option>
+                <option value="12:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:30 PM"%> selected <%end%>>12:30 PM</option>
+                <option value="12:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="12:45 PM"%> selected <%end%>>12:45 PM</option>
+                <option value="01:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:00 PM"%> selected <%end%>>01:00 PM</option>
+                <option value="01:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:15 PM"%> selected <%end%>>01:15 PM</option>
+                <option value="01:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:30 PM"%> selected <%end%>>01:30 PM</option>
+                <option value="01:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="01:45 PM"%> selected <%end%>>01:45 PM</option>
+                <option value="02:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:00 PM"%> selected <%end%>>02:00 PM</option>
+                <option value="02:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:15 PM"%> selected <%end%>>02:15 PM</option>
+                <option value="02:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:30 PM"%> selected <%end%>>02:30 PM</option>
+                <option value="02:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="02:45 PM"%> selected <%end%>>02:45 PM</option>
+                <option value="03:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:00 PM"%> selected <%end%>>03:00 PM</option>
+                <option value="03:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:15 PM"%> selected <%end%>>03:15 PM</option>
+                <option value="03:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:30 PM"%> selected <%end%>>03:30 PM</option>
+                <option value="03:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="03:45 PM"%> selected <%end%>>03:45 PM</option>
+                <option value="04:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:00 PM"%> selected <%end%>>04:00 PM</option>
+                <option value="04:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:15 PM"%> selected <%end%>>04:15 PM</option>
+                <option value="04:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:30 PM"%> selected <%end%>>04:30 PM</option>
+                <option value="04:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="04:45 PM"%> selected <%end%>>04:45 PM</option>
+                <option value="05:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:00 PM"%> selected <%end%>>05:00 PM</option>
+                <option value="05:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:15 PM"%> selected <%end%>>05:15 PM</option>
+                <option value="05:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:30 PM"%> selected <%end%>>05:30 PM</option>
+                <option value="05:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="05:45 PM"%> selected <%end%>>05:45 PM</option>
+                <option value="06:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:00 PM"%> selected <%end%>>06:00 PM</option>
+                <option value="06:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:15 PM"%> selected <%end%>>06:15 PM</option>
+                <option value="06:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:30 PM"%> selected <%end%>>06:30 PM</option>
+                <option value="06:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="06:45 PM"%> selected <%end%>>06:45 PM</option>
+                <option value="07:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:00 PM"%> selected <%end%>>07:00 PM</option>
+                <option value="07:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:15 PM"%> selected <%end%>>07:15 PM</option>
+                <option value="07:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:30 PM"%> selected <%end%>>07:30 PM</option>
+                <option value="07:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="07:45 PM"%> selected <%end%>>07:45 PM</option>
+                <option value="08:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:00 PM"%> selected <%end%>>08:00 PM</option>
+                <option value="08:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:15 PM"%> selected <%end%>>08:15 PM</option>
+                <option value="08:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:30 PM"%> selected <%end%>>08:30 PM</option>
+                <option value="08:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="08:45 PM"%> selected <%end%>>08:45 PM</option>
+                <option value="09:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:00 PM"%> selected <%end%>>09:00 PM</option>
+                <option value="09:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:15 PM"%> selected <%end%>>09:15 PM</option>
+                <option value="09:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:30 PM"%> selected <%end%>>09:30 PM</option>
+                <option value="09:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="09:45 PM"%> selected <%end%>>09:45 PM</option>
+                <option value="10:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:00 PM"%> selected <%end%>>10:00 PM</option>
+                <option value="10:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:15 PM"%> selected <%end%>>10:15 PM</option>
+                <option value="10:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:30 PM"%> selected <%end%>>10:30 PM</option>
+                <option value="10:45 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="10:45 PM"%> selected <%end%>>10:45 PM</option>
+                <option value="11:00 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:00 PM"%> selected <%end%>>11:00 PM</option>
+                <option value="11:15 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:15 PM"%> selected <%end%>>11:15 PM</option>
+                <option value="11:30 PM" <%if @menu_category.end_time&.strftime("%I:%M %p") =="11:30 PM"%> selected <%end%>>11:30 PM</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <br>
+            <button class="btn btn-primary btn-border pull-right">Save Menu Category </button>
+            <a href="#" class="btn btn-danger btn-border pull-right" style="margin-right: 10px;" onclick="delete_menu_category(<%=@menu_category.id%>)">Delete Menu Category </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/assets/bootstrap-toggle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="/assets/jquery.metisMenu.js"></script>
+<script src="/assets/jquery.slimscroll.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+
+  $("#versions_form").submit(function(){
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var start_time = $.trim($('#datetimepicker3').val())
+    var end_time = $.trim($('#datetimepicker2').val())
+    var start_date = $.trim($('#datepicker').val())
+    var end_date = $.trim($('#datepicker2').val())
+
+    if($('#play_store_link').val().length >= 41 || $('#play_store_link').val().length <= 0 || $.trim($('#play_store_link').val())===""){
+      swal({
+          title: "Please enter valid title(English)",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+      $('#play_store_link').focus();
+      return false;
+    }
+    else if ($('#app_store_link').val().length >= 41 || $('#app_store_link').val().length <= 0 || $.trim($('#app_store_link').val())===""){
+      swal({
+          title: "Please enter valid title(Arabic)",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+      $('#app_store_link').focus();
+      return false;
+    } else if($.trim($('#datepicker').val())===""){
+      swal("warning","Please Select Start Date","warning");
+      $('#datepicker').focus();
+      return false;
+    } else if(start_date > end_date){
+      swal("warning","Please Select valid date","warning");
+      $('#datepicker').focus();
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  function delete_menu_category(no){
+  swal({
+     title: "Are you sure?",
+     text: "Do you want to delete this menu category",
+     type: "warning",
+     showCancelButton: true,
+     confirmButtonColor: "#DD6B55",
+     confirmButtonText: "Yes, Delete it!",
+     cancelButtonText: "No, cancel plz!",
+     closeOnConfirm: false,
+     closeOnCancel: false
+   },
+   function(isConfirm){
+     if (isConfirm) {
+       $.ajax({
+         type: "GET",
+         url: '/remove/menu/category/'+no+'',
+         dataType: "JSON",
+         success:function(data) {
+            if (data.code==200){
+              swal("Deleted!", "menu category has been deleted.", "success");
+              window.location.href ='/business/restaurant/branch/'+''+"<%=encode_token(@menu_category.branch.id)%>"+'/'+"<%=params[:restaurant_id]%>";
+            }
+          },
+          error: function() {
+           swal("Error","Something went wrong","Error")
+          }
+       });
+
+     }else {
+       swal("Cancelled", "No change in menu category", "error");
+     }
+   });
+  };
+
+  $(function (){
+    $("#station_ids").select2({
+      placeholder: "Select Station",
+      allowClear: true
+    });
+    $('#datetimepicker3').datetimepicker({
+      format: 'LT'
+    });
+  });
+  $(function () {
+    $('#datetimepicker2').datetimepicker({
+    format: 'LT'
+    });
+  });
+
+  $(function(){
+    var opened = false;
+    var dp = $('#datepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+    });
+  });
+
+   $(function(){
+    var opened = false;
+    var dp = $('#datepicker2').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+    });
+  });
+</script>

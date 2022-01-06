@@ -1,0 +1,324 @@
+<style type="text/css">
+select{
+  height: 100% !important;
+}
+.service {
+    margin-right: 0px;
+    margin-left:  0px;
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Application Setting</h2>
+  </div>
+</div>
+<br><br>
+
+
+<div class="GridLex-col-9_sm-4_xs-12_xss-12">
+
+  <div class="GridLex-col-9_sm-4_xs-12_xss-12">
+    <div class="col-lg-6 col-md-6 mb-30" data-match-height="confirm" style="">
+      <div class="metro-box-wrapper equal-height">
+        <%=form_for :settings,url: app_service_amount_path,:html=>{id: "settings_form"} do |f|%>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center>
+              <h3 style="color: white;">Service Amount</h3>
+            </center>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <div class="col-sm-12" style="margin-top:15px !important;">
+                <label class="control-label">Set Direct Customer Point (%)
+                </label>
+                <input type="text" class="form-control mb-0 " id="service_amount" name="direct_point_percentage" placeholder="Direct point percentage" value="<%=@serviceAmount.present? ? @serviceAmount.direct_point_percentage : "" %>" autocomplete="off">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12" style="margin-top:15px !important;">
+                <label class="control-label">Set Referrals Customer Point (%)
+                </label>
+                <input type="text" class="form-control mb-0 " id="service_amount" name="refferal_point_percentage" placeholder="Refferal point percentage" value="<%=@serviceAmount.present? ? @serviceAmount.refferal_point_percentage : "" %>" autocomplete="off">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <br>
+                <button class="btn btn-primary btn-border pull-right btn-block" id="set_percentage" type="submit">Set Report Service Amount
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6 mb-30" data-match-height="confirm" style="">
+    <div class="metro-box-wrapper equal-height">
+      <%=form_for :versions,url: update_settings_path,:html=>{:multipart=>true,id: "versions_form"} do |f|%>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center>
+              <h3 style="color: white;">Set Customer Application versions</h3>
+              <small>This section will affect all app users.</small>
+              <input name="app_type" type="hidden" value="customer" >
+            </center>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <div class="col-sm-12" style="margin-top:15px !important;">
+                <label class="control-label">Android Play Store url</label>
+                <input class="form-control mb-0" id="play_store_link" name="play_store_link" placeholder="Play store url" type="text" value="<%=@customerappdetail.android_store_link.present? ? @customerappdetail.android_store_link : ''%>" autocomplete="off">
+              </div>
+              <!-- app_type -->
+              <div class="row service">
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Android Latest Version</label>
+                  <input class="form-control mb-0" id="android_version" name="android_version" placeholder="Latest version" type="text" value="<%=@customerappdetail.android_current_version%>" autocomplete="off">
+                </div>
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Update Type</label>
+                  <select class="form-control" name="android_update_type" id="version_type">
+                    <option value="false" <%if@customerappdetail.android_version_force_update == false%> selected <%end%>>Normal</option>
+                    <option value="true" <%if@customerappdetail.android_version_force_update == true%> selected <%end%>>Force</option>
+                  </select><br>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12" style="">
+                <label class="control-label">iOS App Store url</label>
+                <input class="form-control mb-0" id="app_store_link" name="app_store_link" placeholder="App store url" type="text" value="<%=@customerappdetail.ios_store_link.present? ? @customerappdetail.ios_store_link : ''%>" autocomplete="off">
+              </div>
+              <div class="row service">
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">iOS Latest Version</label>
+                  <input class="form-control mb-0" id="ios_version" name="ios_version" placeholder="Latest version" type="text" value="<%=@customerappdetail.ios_current_version.present? ? @customerappdetail.ios_current_version : ''%>" autocomplete="off">
+                </div>
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Update Type</label>
+                  <select class="form-control" name="ios_update_type" id="ios_version_type">
+                    <option value="false" <%if@customerappdetail.ios_version_force_update == false%> selected <%end%>>Normal</option>
+                    <option value="true" <%if@customerappdetail.ios_version_force_update == true%> selected <%end%>>Force</option>
+                  </select><br>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <br>
+                <button class="btn btn-primary btn-border pull-right" id="set_versions" type="submit">Set Versions</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+
+</div>
+</div>
+<div class="row">
+  <div class="col-lg-6 col-md-6 mb-30" data-match-height="confirm" style="">
+      <div class="metro-box-wrapper equal-height">
+        <%=form_for :versions,url: update_settings_path,:html=>{:multipart=>true,id: "versions_form"} do |f|%>
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <center>
+                <h3 style="color: white;">Set Business Application versions</h3>
+                <small>This section will affect all app users.</small>
+                <input name="app_type" type="hidden" value="business" >
+              </center>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <div class="col-sm-12" style="margin-top:15px !important;">
+                  <label class="control-label">Android Play Store url</label>
+                  <input class="form-control mb-0" id="play_store_link" name="play_store_link" placeholder="Play store url" type="text" value="<%=@businessappdetail.android_store_link.present? ? @businessappdetail.android_store_link : ''%>" autocomplete="off">
+                </div>
+                <div class="row service">
+                  <div class="col-sm-6" style="margin-top:15px !important;">
+                    <label class="control-label">Android Latest Version</label>
+                    <input class="form-control mb-0" id="android_version" name="android_version" placeholder="Latest version" type="text" value="<%=@businessappdetail.android_current_version.present? ? @businessappdetail.android_current_version : ''%>" autocomplete="off">
+                  </div>
+                  <div class="col-sm-6" style="margin-top:15px !important;">
+                    <label class="control-label">Update Type</label>
+                    <select class="form-control" name="android_update_type" id="version_type">
+                      <option value="false" <%if@customerappdetail.android_version_force_update == false%> selected <%end%>>Normal</option>
+                      <option value="true" <%if@customerappdetail.android_version_force_update == true%> selected <%end%>>Force</option>
+                    </select><br>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12" style="">
+                  <label class="control-label">iOS App Store url</label>
+                  <input class="form-control mb-0" id="app_store_link" name="app_store_link" placeholder="App store url" type="text" value="<%=@businessappdetail.ios_store_link.present? ? @businessappdetail.ios_store_link : ''%>" autocomplete="off">
+                </div>
+                <div class="row service">
+                  <div class="col-sm-6" style="margin-top:15px !important;">
+                    <label class="control-label">iOS Latest Version</label>
+                    <input class="form-control mb-0" id="ios_version" name="ios_version" placeholder="Latest version" type="text" value="<%=@businessappdetail.ios_current_version.present? ? @businessappdetail.ios_current_version : ''%>" autocomplete="off">
+                  </div>
+                  <div class="col-sm-6" style="margin-top:15px !important;">
+                    <label class="control-label">Update Type</label>
+                    <select class="form-control" name="ios_update_type" id="ios_version_type">
+                      <option value="false" <%if@customerappdetail.ios_version_force_update == false%> selected <%end%>>Normal</option>
+                      <option value="true" <%if@customerappdetail.ios_version_force_update == true%> selected <%end%>>Force</option>
+                    </select><br>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <br>
+                  <button class="btn btn-primary btn-border pull-right" id="set_versions" type="submit">Set Versions</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <%end%>
+      </div>
+  </div>
+ <div class="col-lg-6 col-md-6 mb-30" data-match-height="confirm" style="">
+    <div class="metro-box-wrapper equal-height">
+      <%=form_for :versions,url: update_settings_path,:html=>{:multipart=>true,id: "versions_form"} do |f|%>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <center>
+              <h3 style="color: white;">Set Driver Application versions</h3>
+              <small>This section will affect all app users.</small>
+              <input name="app_type" type="hidden" value="driver" >
+            </center>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <div class="col-sm-12" style="margin-top:15px !important;">
+                <label class="control-label">Android Play Store url</label>
+                <input class="form-control mb-0" id="play_store_link" name="play_store_link" placeholder="Play store url" type="text" value="<%=@driverappdetail.android_store_link.present? ? @driverappdetail.android_store_link  : ''%>" autocomplete="off">
+              </div>
+              <div class="row service">
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Android Latest Version</label>
+                  <input class="form-control mb-0" id="android_version" name="android_version" placeholder="Latest version" type="text" value="<%=@driverappdetail.android_current_version.present? ? @driverappdetail.android_current_version : ''%>" autocomplete="off">
+                </div>
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Update Type</label>
+                  <select class="form-control" name="android_update_type" id="version_type">
+                    <option value="false" <%if@driverappdetail.android_version_force_update == false%> selected <%end%>>Normal</option>
+                    <option value="true" <%if@driverappdetail.android_version_force_update == true%> selected <%end%>>Force</option>
+                  </select><br>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12" style="">
+                <label class="control-label">iOS App Store url</label>
+                <input class="form-control mb-0" id="app_store_link" name="app_store_link" placeholder="App store url" type="text" value="<%=@driverappdetail.ios_store_link.present? ? @driverappdetail.ios_store_link : ''%>" autocomplete="off">
+              </div>
+              <div class="row service">
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">iOS Latest Version</label>
+                  <input class="form-control mb-0" id="ios_version" name="ios_version" placeholder="Latest version" type="text" value="<%=@driverappdetail.ios_current_version.present? ? @driverappdetail.ios_current_version : ''%>" autocomplete="off">
+                </div>
+                <div class="col-sm-6" style="margin-top:15px !important;">
+                  <label class="control-label">Update Type</label>
+                  <%p @driverappdetail%>
+                  <select class="form-control" name="ios_update_type" id="ios_version_type">
+                    <option value="false" <%if @driverappdetail.ios_version_force_update == false%> selected <%end%>>Normal</option>
+                    <option value="true" <%if @driverappdetail.ios_version_force_update == true%> selected <%end%>>Force</option>
+                  </select><br>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <br>
+                <button class="btn btn-primary btn-border pull-right" id="set_versions" type="submit">Set Versions</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+
+  $('#settings_form').submit(function()
+  {
+      var number= /^([0-9]*|\d*\.\d{1}?\d*)$/
+      if($('#service_amount').val().length ==0 || $('#service_amount').val().length >=8)
+      {
+        $('#service_amount').focus();
+        swal("Warning","Please enter valid amount!","warning");
+        return false;
+      }
+      else if($.trim($('#service_amount').val())==="")
+      {
+        $('#service_amount').focus();
+        swal("Warning","Service amount cant't be blank!","warning");
+        return false;
+      }
+      else if(!number.test($('#service_amount').val()))
+      {
+          $('#service_amount').focus();
+        swal("Warning","Please enter valid service amount!","warning");
+        return false;
+      }
+      else
+      {
+        return true;
+      }
+  });
+
+
+  $('.priceFloat').keypress(function(event) {
+    if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+      event.preventDefault();
+    }else{
+      var num = parseFloat(this.value, 10),
+          min = 0,
+          max = 100;
+
+      if (isNaN(num)) {
+          this.value = "";
+          return;
+      }
+      if(num>=10){
+        event.preventDefault();
+      }
+    }
+  });
+  $('#versions_form').on("submit",function(){
+    if($('#play_store_link').val().trim()==""){
+      $('#play_store_link').focus();
+      swal("Warning","Play Store url must be present!","warning")
+      return false;
+    }else if($('#app_store_link').val().trim()==""){
+      $('#app_store_link').focus();
+      swal("Warning","App Store url must be present!","warning")
+      return false;
+    }else if($('#android_version').val().trim()==""){
+      $('#android_version').focus();
+      swal("Warning","Android version must be present!","warning")
+      return false;
+    }else if($('#ios_version').val().trim()==""){
+      $('#ios_version').focus();
+      swal("Warning","iOS version must be present!","warning")
+      return false;
+    }
+  })
+
+</script>

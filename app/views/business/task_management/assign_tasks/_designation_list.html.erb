@@ -1,0 +1,15 @@
+<%= select_tag(:designation_ids, options_from_collection_for_select(@designations, :id, :name), {id: 'assign_task_designation_ids', class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true, name: 'assign_task[designation_ids][]'}) %>
+<script type="text/javascript">
+	$("#assign_task_designation_ids").select2({
+  	placeholder: "Select Designation",
+  	allowClear: true
+	});
+	$('#assign_task_designation_ids').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "<%= find_employee_based_designation_business_task_management_restaurant_assign_tasks_path(restaurant_id: params[:restaurant_id]) %>",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  });
+</script>

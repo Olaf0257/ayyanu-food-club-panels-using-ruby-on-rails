@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-5">
+    <h2 style="margin-top:20px;"><b>Add Transporter</b></h2>
+  </div>
+
+  <div class="col-xs-7">
+    <h2 style="margin-top:20px;"><a href="<%= delivery_company_transporters_path %>"><button class="btn btn-danger pull-right">Back <i class="fa fa-arrow-right"></i> </button></a></h2>
+  </div>
+</div><br>
+
+<div class="wrapper wrapper-content animated fadeInRight new-delivery-transporter">
+  <div class="row">
+    <br>
+
+    <div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-2 well well-sm bg-white">
+      <h3 class="text-center"> Add Transporter</h3>
+      <hr>
+
+      <%= form_tag :delivery_company_add_transporters, class: "form-horizontal", id: "main-form", multipart: true do %>
+        <div class="row">
+          <div class="col-xs-7 col-md-7">
+            <%= text_field_tag(:firstname, "", placeholder: "Enter name", class: "form-control", id: "name", autocomplete: :off) %>
+          </div>
+
+          <div class="col-xs-5 col-md-5">
+            <%= hidden_field_tag(:country_code, "", id: "country-code") %>
+            <input type="tel" id="delivery_transporter_mobile_number" placeholder="Mobile number" required="true" name="contact" class="form-control" autocomplete="off">
+            <span id="valid-msg" class="hide">✓ Valid</span>
+            <span id="error-msg" class="hide">Invalid number</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-2">
+            <%= label_tag :zones, "Zones: ", class: "pull-right" %>
+          </div>
+
+          <div class="col-xs-10">
+            <%= select_tag("zone_ids[]", options_for_select(@zones), class: "select2_zone form-control", multiple: true) %>
+          </div>
+        </div><br>
+
+        <div class="row">
+          <div class="col-xs-12 col-md-12">
+            <%= text_field_tag(:cpr_number, "", placeholder: "Enter cpr number", class: "form-control", id: "cpr_number", autocomplete: :off) %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 col-md-6">
+            <%= select_tag(:vehicle_type, options_for_select(User::VEHICLE_TYPE), prompt: "Select Vehicle Type", required: true, id: "vehicle_type", class: "form-control setheight") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 col-md-12">
+            <%= password_field_tag(:password, "", placeholder: "Password", class: "form-control", id: "password") %>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <a href='javascript:;'>
+              <img src="/assets/add_user.png" class="img-tag add-img-tag" style="height:15vh;">
+              <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+              <label class="file">
+                <input type="file" id='add-img-tag' name="image" onchange='readURL(event)' aria-label="File browser example">
+                <span class="file-custom"></span>
+              </label>
+            </a>
+            <p style="margin-top: -10px;"><b>Image size :</b> 300X300 </p>
+          </div>
+        </div>
+
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="add_delivery_trasnporter">Add Transporter</button>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $(".select2_zone").select2();
+
+  var readURL = function(event) {
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    var file = event.target.files[0]
+  }
+</script>

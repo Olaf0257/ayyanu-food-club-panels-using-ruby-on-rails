@@ -1,0 +1,87 @@
+<% if @user.auth_role == "business" %>
+  <%= render "business/partners/disabled_side_navbar" %>
+<% else %>
+  <% selected_user = @selected_user || @user %>
+  <% privilage = check_user_privillage(selected_user) %>
+  <% user_privilages = privilage.assign_privileges %>
+
+  <div class="sidenav">
+    <% check_pending = params[:check].present? && ['reopened_pending' , 'pending'].include?(PosCheck.find_by(id: decode_token(params[:check]))&.check_status) %>
+
+    <%= link_to dashboard_business_enterprises_path(enterprise: true, restaurant_id: params[:restaurant_id]), class: "validated_field #{check_pending ? 'pending_transaction' : ''} #{(params[:controller] == 'business/enterprises' ? 'active-link' : '')} sidebar", 'data-element-id': 'pos_dashboard' do %>
+      <img alt="image" class="image-responsive sidebar-images" src="/assets/enterprise.png"/>
+    <% end %>
+
+    <% if selected_user.auth_role == "business" %>
+      <%= link_to "#", class: "select_brand validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{(params['action'] != 'pos_new_transaction' && params['action'] != 'pos_dashboard' && params['action'] != 'resturant_branch' && params['action'] != 'restaurant' && params['action'] != 'document_list' && params[:action] != 'customers_list' && params[:action] != 'profile' && params[:action] != 'address_list' && params[:controller] != 'business/enterprises' ? 'active-link' : '')}", 'data-element-id': 'pos_partner_dashboard' do %>
+        <img alt="image" class="image-responsive sidebar-images" src="/assets/fc_panel.png.png"/>
+      <% end %>
+    <% elsif selected_user.auth_role == "manager" %>
+      <% unless user_privilages["FC"].blank? %>
+        <%= link_to '#', class: "active-link select_brand" do %>
+          <img alt="image" class="image-responsive sidebar-images" src="/assets/foodclub.png"/>
+        <% end %>
+      <% end %>
+    <% elsif selected_user.auth_role == "kitchen_manager" %>
+      <% unless user_privilages["FC"].blank? %>
+        <%= link_to '#', class: "active-link select_brand" do %>
+          <img alt="image" class="image-responsive sidebar-images" src="/assets/ic_kitchen.png"/>
+        <% end %>
+      <% end %>
+    <% elsif selected_user.auth_role == "delivery_company" %>
+      <% unless user_privilages["FC"].blank? %>
+        <%= link_to '#', class: "active-link select_brand" do %>
+          <img alt="image" class="image-responsive sidebar-images" src="/assets/favicon.png"/>
+        <% end %>
+      <% end %>
+    <% elsif selected_user.influencer %>
+      <% unless user_privilages["FC"].blank? %>
+        <%= link_to '#', class: "active-link select_brand" do %>
+          <img alt="image" class="image-responsive sidebar-images" src="/assets/favicon.png"/>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% unless (user_privilages["POS"].blank? && user_privilages["POS ORDER TRACKING"].blank? && user_privilages["POS OTHER PAGES"])%>
+      <%= link_to '#', class: "validated_field #{check_pending ? 'pending_transaction' : ''} #{(params['action'] == 'pos_new_transaction' || params['action'] == 'pos_dashboard' ? 'active-link' : '')} sidebar select_brand", 'data-element-id': 'pos_dashboard' do %>
+        <img alt="image" class="image-responsive sidebar-images" src="/assets/pos.png"/>
+      <% end %>
+    <% end %>
+    <% unless user_privilages["KDS"].blank? %>
+      <a href="#" class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller].include?('kds') ? 'active-link' : ''}" %>' data-element-id='pos_side_bar_5'><img alt="image" class="image-responsive sidebar-images" src="/assets/kds.png"/></a>
+    <% end %>
+    <% unless user_privilages["reports"].blank? %>
+      <a href="#" class='select_brand <%= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_4'><img alt="image" class="image-responsive sidebar-images" src="/assets/kds_new.png"/></a>
+    <% end %>
+    <% unless user_privilages["MC"].blank? %>
+      <a href="#", class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller].include?('inventory') ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/pos_order_taking.png"/></a>
+    <% end %>
+    <% unless user_privilages["HRMS"].blank? %>
+      <%= link_to "#", class: "select_brand validated_field #{check_pending ? 'pending_transaction' : ''} #{(params[:controller] == 'business/hrms/employees' || params[:controller] == 'hrms/shifts' ? 'active-link' : '')} sidebar", 'data-element-id': 'pos_dashboard' do %>
+        <img alt="image" class="image-responsive sidebar-images" src="/assets/hrms_new.png"/>
+      <% end %>
+    <% end %>
+    <%# unless user_privilages["TASK MANAGEMENT"].blank? %>
+      <%= link_to "#", class: "active-link select_brand" do %>
+        <img alt="image" class="image-responsive sidebar-images" src="/assets/assign_task.png"/>
+      <% end %>
+    <%# end %>
+    <% unless user_privilages["TRAINING"].blank? %>
+      <a href="#", class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:contoller] == 'business/setup/document_stages' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/authentication.png"></a>
+    <% end %>
+    <% unless user_privilages["DOCUMENT_SCAN"].blank? %>
+      <a href="#", class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:contoller] == 'business/setup/document_stages' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/document_stage.jpeg"></a>
+    <% end %>
+    <% unless user_privilages["REPORTS"].blank? %>
+      <a href="#", class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:controller] == "business/task_reports/task_percentages" ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/reports.png"/></a>
+    <% end %>
+    <% unless user_privilages["MASTERS"].blank? %>
+      <a href="#", class='select_brand <%= "validated_field #{check_pending ? 'pending_transaction' : ''} sidebar #{params[:action] == 'resturant_branch' || params[:action] == 'restaurant' || params[:action] == 'document_list' || params[:action] == 'customers_list' || params[:action] == 'profile' || params[:action] == 'address_list' ? 'active-link' : ''}" %>' data-element-id='pos_master'><img alt="image" class="image-responsive sidebar-images" src="/assets/masters.png"/></a>
+    <% end %>
+    <a href="#" class='select_brand <%= "disabled-link-img validated_field #{check_pending ? 'pending_transaction' : ''} sidebar-disable" %>' data-element-id='pos_side_bar_2'><img alt="image" class="image-responsive sidebar-images" src="/assets/settings.png"/></a>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $('.select_brand').click(function(){
+    swal("Warning", "Please select brand!")
+  })
+</script>

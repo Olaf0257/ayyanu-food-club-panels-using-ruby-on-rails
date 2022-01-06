@@ -1,0 +1,62 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Add New District</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, districts_path, class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Add New District</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_for @district, html: { class: "form-horizontal", autocomplete: "off" } do |f| %>
+        <div class="row form-group">
+          <% if is_super_admin?(@admin) %>
+            <div class="col-sm-6">
+              <%= label_tag :country_id %>
+              <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id)), prompt: "Select Country", required: true, class: "form-control district-country-select", style: "height: 34px") %>
+            </div>
+          <% end %>
+
+          <div class="col-sm-6">
+            <%= label_tag :state %>
+
+            <% if is_super_admin?(@admin) %>
+              <span class="district-state-list hide"></span>
+            <% else %>
+              <%= select_tag(:state, options_for_select(@states), class: "form-control", style: "height: 34px") %>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :name %>
+            <%= f.text_field(:name, placeholder: "Enter name", class: "form-control", required: true) %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <center><%= f.submit "Create District", class: "btn btn-success btn-sm" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

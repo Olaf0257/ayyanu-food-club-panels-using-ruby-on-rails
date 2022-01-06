@@ -1,0 +1,8 @@
+---
+production:
+  url: <%= ENV['REDIS_URL'] %>
+:queues:
+  - critical
+  - moderate
+  - default
+:dynamic: true

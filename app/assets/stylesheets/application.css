@@ -1,0 +1,92 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require publicapp/agency.min.css
+ *= require publicapp/scss/agency.scss
+ *= require sweetalert2
+ *= require home.scss
+ *= require sitemap.scss
+ *= require customer_restaurant.scss
+ *= require payment.scss
+ *= require_self
+ */
+
+ .post-list {
+   background-color: #ffffff;
+   min-height: 100vh;
+   color: #171717;
+ }
+
+.selected_transaction, .selected_pickup, .selected_driver {
+  background-color: #4c79f6 !important;
+  color: white;
+}
+
+
+
+ .post-block {
+   margin-top: 15px;
+   clear: both;
+ }
+
+ .post-block ul li {
+   display: block;
+   border-bottom: 1px dotted black;
+ }
+
+ .post-search-block {
+   float: right;
+   margin-bottom: 30px;
+   margin-top: 30px;
+ }
+
+ .post-keyword {
+  width: 400px !important;
+  margin-right: 20px;
+}
+
+.web-footer1 {
+  color: #000000;
+  background-color: #f3f3f3;
+  padding: 5px 0;
+}
+
+#map_canvas {
+  height: 100% !important;
+}
+
+div.pac-container {
+  z-index: 99999 !important;
+}
+
+.suggested-item-header {
+  padding-left: 15px;
+}
+
+.dine-in-order-table-textbox {
+  border: 1px solid black !important;
+  margin: 10px;
+  width: 90%;
+}
+
+.dine-in-payment-options {
+  margin: 10px;
+  width: 90%;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.dine-in-payment-options p {
+  color: #000000;
+  display: block;
+}

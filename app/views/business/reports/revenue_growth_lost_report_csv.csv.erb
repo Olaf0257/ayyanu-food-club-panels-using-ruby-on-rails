@@ -1,0 +1,4 @@
+<%headers = ['Branch Address','Current Month Orders','Last Month Orders','Current Month Earrings(BD)','Last Month Earrings(BD)', '%','Status']%> <%= CSV.generate_line headers %>
+ <%@data.each do |report| -%> <%= CSV.generate_line([report[:address],report[:current_month_order],report[:last_month_order],report[:total_revenue_current_month],report[:total_revenue_last_month],report[:percentage],report[:status]])-%> <%end%>
+
+ 

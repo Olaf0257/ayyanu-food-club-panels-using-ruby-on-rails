@@ -1,0 +1,33 @@
+<div class="tab-pane fade" id="dashboard">
+  <div class="dashboard-wrapper brd-rd5">
+    <div class="dashboard-title">
+      <h4 itemprop="headline">JOIN THE CLUBS NOW</h4>
+    </div>
+
+    <% @clubs.each do |club| %>
+      <h4 itemprop="headline"><%= club.title %></h4>
+
+      <div class="restaurants-list">
+        <div class="featured-restaurant-box style3 brd-rd5 wow fadeInUp" data-wow-delay="0.2s">
+          <div class="featured-restaurant-thumb"><a href="#" title="" itemprop="url" class="no-click">
+            <%= image_tag(club.img_url) %>
+          </a></div>
+
+          <div class="featured-restaurant-info">
+          <h5 itemprop="headline"><a href="#" title="" itemprop="url" class="no-click"><%= club.description %></a></h5>
+
+            <div class="club-sub-category-section">
+              <% club.club_sub_categories.each do |category| %>
+                <br>
+
+                <label data-id="<%= category.id %>" data-user="<%= @user.id %>">
+                  <%= check_box_tag 'category_id', '1', @user.user_clubs.find_by(club_sub_category_id: category.id).present?, class: "club-sub-category-checkbox" %> <%= category.title %>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

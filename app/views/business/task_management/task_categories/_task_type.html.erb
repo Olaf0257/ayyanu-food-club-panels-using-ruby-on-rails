@@ -1,0 +1,1 @@
+<%= select_tag(:task_type_id, options_from_collection_for_select(@task_types, :id, :name, @asset_type&.task_type_id), {class: 'form-control', style: 'height: 40px!important;', required: true, include_blank: "Select Task Type", name: 'task_category[task_type_id]'}) %>

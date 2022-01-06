@@ -1,0 +1,36 @@
+<div style="padding: 10px;padding: 10px;margin-top: 2%;">
+  <div style="border: 2px solid black;min-height: 750px;margin-bottom: 2%;padding: 2%;">
+    <% unless @pos_tables.blank? %>
+      <div class="row">
+        <% @pos_tables.includes(:pos_checks).each do |pos_table| %>
+          <div class="col-md-4">
+            <div class='pos_table_list'>
+            <% pos_table.update table_status: pos_table.pos_checks.where(order_type_id: 1).pluck(:check_status).include?('saved') ? 1 : 0  %>
+              <% check_id = pos_table.pos_checks.where(order_type_id: 1,check_status: 1) %>
+              <% if check_id.count > 1 %>
+                <%= link_to 'javascript:void(0);' , class: 'open_table_selection', data: { restaurant_id: encode_token(@branch.restaurant_id), table_id: encode_token(pos_table.id) } do %>
+                  <%= image_tag "#{pos_table.no_of_chair}_table", style: 'width: 100px; height: 100px;padding: 0px'  %>
+                  <p style="color: black;font-size: 18px;padding: 14px;padding-left: 0px;">Table No <%= pos_table.pos_table_no %></p>
+                <% end %>
+              <% else %>
+                <%= link_to pos_table.table_status.eql?('running') ?
+                    business_partner_pos_new_transaction_path(restaurant_id: encode_token(@branch.restaurant_id), :table => encode_token(pos_table.id), check: check_id.last&.id.present? ? encode_token(check_id.last&.id) : '') :
+                    'javascript:void(0);' , class: "#{pos_table.table_status.eql?('running') ? '' : 'pos_table_btn'} #{pos_table.table_status}", 'data-table-status': "#{pos_table.table_status}", data: { restaurant_id: encode_token(@branch.restaurant_id), table_id: encode_token(pos_table.id) } do %>
+                  <%= image_tag "#{pos_table.no_of_chair}_table", style: 'width: 100px; height: 100px;padding: 0px' rescue nil%>
+                  <p style="color: black;font-size: 18px;padding: 14px;padding-left: 0px;">Table No <%= pos_table.pos_table_no %></p>
+                <% end %>
+              <% end %>
+              <div class="dropdown-menu dropdown-menu-sm context-menu">
+                <%= link_to "Begin Check", 'javascript:void(0)', 'data-toggle': "modal",  'data-table-url': business_begin_check_path(params[:restaurant_id], table_id: encode_token(pos_table.id), is_dashboard: true), class: "dropdown-item pos_begin_check" %>
+                <% pos_table.pos_checks.where(check_status: 'saved', order_type_id: 1, is_new_merged: false).each do |pos_check|%>
+                  <%= link_to "Pickup Table(Check ##{pos_check.check_id})", business_partner_pos_new_transaction_path(restaurant_id: encode_token(@branch.restaurant_id), table: encode_token(pos_table.id), check: encode_token(pos_check.id)), class: "dropdown-item" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<%= javascript_include_tag "business/partners"%>

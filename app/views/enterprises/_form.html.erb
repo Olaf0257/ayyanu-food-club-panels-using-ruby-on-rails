@@ -1,0 +1,444 @@
+<%= form_for(@enterprise, url: (params[:action] == "edit" ? enterprise_path : enterprises_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+      <div  class="row form-group">
+        <div  class="col-sm-12">
+          <div  class="form-field">
+            <h2 class="heading">Please Enter The Enterprise Information</h2>
+          </div>
+        </div>
+
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field" style="margin-top: 7px">
+            <label class="label_name">Enterprise Name<span  style="color: #ef4a0b">*</span> :</label>
+            <%= f.text_field(:enterprise_name, required: true, class: "form-control", placeholder: "Enterprise Name", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label  class="label_name">Country <span  style="color: #ef4a0b">*</span> :</label>
+            <%= f.select :country_id, Country.all.map{|c| [c.name,c.id]}, {:include_blank => "Select Country"}, {class: "form-control  select2_branch", style: 'border: 3px solid #686464;color: #fff;background: #2a2b2f;height: 45px;', required: true} %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-field">
+            <h2 class="heading">Address</h2>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Area <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <%= f.select :coverage_area_id, '', {:include_hidden => false, :prompt => 'Select Area'}, {class: "form-control  select2_branch", style: 'border: 3px solid #686464;color: #fff;background: #2a2b2f;height: 45px;', required: true} %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Block<span  style="color: #ef4a0b">*</span> :</label>
+            <!-- <input type="text" class="form-control"  placeholder="Enterprise Name" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+            <%= f.text_field(:block, required: true, class: "form-control", placeholder: "Block", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Road Number <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <!-- <input  type="text" class="form-control" placeholder="Road Number" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+              <%= f.text_field(:road_number, required: true, class: "form-control", placeholder: "Road Number", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Building<span  style="color: #ef4a0b">*</span> :</label>
+            <!-- <input type="text" class="form-control"  placeholder="Building" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+            <%= f.text_field(:building, required: true, class: "form-control", placeholder: "Building", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Unit Number <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <%= f.text_field(:unit_number, required: true, class: "form-control", placeholder: "Unit Number", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Floor<span  style="color: #ef4a0b">*</span> :</label>
+            <!-- <input type="text" class="form-control"  placeholder="Floor" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+            <%= f.text_field(:floor, required: true, class: "form-control", placeholder: "Floor", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-field">
+            <h2 class="heading">Please Enter The Owner Information</h2>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Name <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <!-- <input  type="text" placeholder="Name" class="form-control"  style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+              <%= f.text_field(:owner_name, required: true, class: "form-control", placeholder: "Name", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Nationality<span  style="color: #ef4a0b">*</span> :</label>
+            <%= f.select :nationality, Country.all.map{|c| [c.name,c.id]}, {:include_hidden => false, :prompt => 'Select Nationality'}, {class: "form-control  select2_branch", style: 'border: 3px solid #686464;color: #fff;background: #2a2b2f;height: 45px;', required: true} %>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Email <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <%= f.text_field(:email, required: true, class: "form-control", placeholder: "Email", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">CPR Number<span  style="color: #ef4a0b">*</span> :</label>
+            <!-- <input type="text" class="form-control"  placeholder="CPR Number" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+            <%= f.text_field(:cpr_number, required: true, class: "form-control", placeholder: "CPR Number", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Mobile Number <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <input type="hidden" name="country_code" id="country-code" class="form-control form-group" placeholder="Country code">
+              <%= f.text_field(:contact_number, required: true, class: "form-control", placeholder: "Mobile Number", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Food Club Representative<span  style="color: #ef4a0b">*</span> :</label>
+            <input type="text" class="form-control"  placeholder="Food Club Representative" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-field">
+            <h2 class="heading">Submitted By</h2>
+          </div>
+        </div>
+      </div>
+      <div  class="row form-group">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Name <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <!-- <input  type="text" class="form-control" placeholder="Name of Person Submitting The Request" style="background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;"> -->
+              <%= f.text_field(:person_name, required: true, class: "form-control", placeholder: "Name Of Person Submitting The Request", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <label class="label_name">Role<span  style="color: #ef4a0b">*</span> :</label>
+            <%= f.select :role, [['Owner', 'business'],['Other', 'other']], {:include_blank => "Select Role"}, {class: "form-control  select2_branch", style: 'border: 3px solid #686464;color: #fff;background: #2a2b2f;height: 45px;', required: true} %>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group other_info">
+        <div class="col-sm-6">
+          <div class="form-field">
+            <label class="label_name">Email <span  style="color: #ef4a0b">*</span> :</label>
+            <div class="">
+              <%= f.text_field(:other_user_email, class: "form-control", placeholder: "Email", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-field">
+            <label class="label_name">Designation <span  style="color: #ef4a0b">*</span> :</label>
+            <%= f.text_field(:other_user_role, class: "form-control", placeholder: "Role", style: "background: #2a2b2f !important; height: 48px; line-height: 40px; color: white;padding: 10px; box-sizing: border-box;") %>
+          </div>
+        </div>
+      </div>
+      <div  class="row">
+        <div  class="col-sm-3">
+          <div  class="form-field">
+            <div  class="image-upload">
+              <label  class="label_name" style="text-align:center;">Attach CR <span  style="color: #ef4a0b">*</span> :</label>
+              <%#= image_tag "/assets/images/test12.png", id: "upload-image" , style: "cursor:pointer;width: 200px;height: 60px;" , class: "asdasd"%>
+              <%= image_tag("test12.png" ,id: "upload-image" , style: "cursor:pointer;width: 200px;height: 60px;" )%>
+              <br ><br >
+              <p class="upload_paragraph" style="color:white;word-break: break-all;line-height: 18px;font-size: 14px;">
+              </p>
+              <br >
+              <input  class="form-control" id="upload-input" name="imageUrl" type="file">
+            </div>
+          </div>
+        </div>
+        <div  class="col-sm-3">
+          <div  class="form-field">
+            <div  class="image-upload">
+              <label class="label_name" style="text-align:center;">Attach CPR  <span  style="color: #ef4a0b">*</span> :</label>
+              <%= image_tag("test12.png" ,id: "upload-image2" , style: "cursor:pointer;width: 200px;height: 60px;" )%>
+              <br ><br >
+              <p class="upload_paragraph1" style="color:white;word-break: break-all;line-height: 18px;font-size: 14px;">
+              </p>
+              <br >
+              <input  class="form-control" id="upload-input2" name="imageUrl1" type="file">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  class="row">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <re-captcha  sitekey="6LcbbocUAAAAALd18Z6JLgufr5OyP6i7eD8kJpe9" id="ngrecaptcha-0">
+              <div style="width: 304px; height: 78px;">
+                <div><iframe title="reCAPTCHA" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LcbbocUAAAAALd18Z6JLgufr5OyP6i7eD8kJpe9&amp;co=aHR0cHM6Ly9iYWNrZW5kLmZvb2RjbHViYXBwLmNvbTo0NDM.&amp;hl=en&amp;v=kcXVPRWG7fMILHmzon0--fD3&amp;size=normal&amp;cb=gz85o1f410ox" width="304" height="78" role="presentation" name="a-1232vwih0fg" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox"></iframe></div>
+                <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+              </div>
+              <iframe style="display: none;"></iframe>
+            </re-captcha>
+          </div>
+        </div>
+      </div>
+      <div  class="row">
+        <div  class="col-sm-6">
+          <div  class="form-field">
+            <input  class="form-control" style="background:#ef4a0b;cursor: pointer;font-weight:bold;border:none;height: 51px;color: white;" type="submit" value="SUBMIT" id="saveBtn">
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+<script type="text/javascript">
+  $('#enterprise_country_id').on('change', function() {
+    $.ajax({
+      type: "GET",
+      url: "/enterprise/get_states",
+      data: {country_id: this.value},
+      success: function(data) {},
+      error: function(data) {}
+    });
+  });
+</script>
+
+<link rel="stylesheet" href="/assets/formValidation.min.css">
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UNzzgG2Ng8uQduSSO_nlspaP31orqRc&libraries=places&sensor=false"></script>
+
+
+<script type="text/javascript">
+
+
+  var email_check = false
+  var readURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    // console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+
+
+  $('#marina_type').on('change', function(){
+    if($(this).val() == 'private'){
+      $(".private_dock").css("display","block")
+    }
+    else{
+      $(".private_dock").css("display","none")
+    }
+  });
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+
+    // functionality to hide and show others info
+    $('.other_info').hide();
+    $('#enterprise_role').on('change', function() {
+      if ($('#enterprise_role').val() == "other") {
+        $('.other_info').show();
+        $('#enterprise_other_user_email')[0].setAttribute('required', true);
+        $('#enterprise_other_user_role')[0].setAttribute('required', true);
+      }else{
+        $('.other_info').hide();
+        $('#enterprise_other_user_email')[0].removeAttribute('required', true);
+        $('#enterprise_other_user_role')[0].removeAttribute('required', true);
+      }
+    });
+  });
+
+
+
+
+  $('#email-error').hide()
+  var ownerEmailErrorMessage=""
+  function validateOwnerEmailAddress(){
+    $('#email-error').hide()
+    enteredEmail = $('#enterprise_email').val()
+    isValidEm = validateEmail(enteredEmail)
+    console.log(isValidEm)
+    if(isValidEm){
+      if (isExistingEmail(enteredEmail)){
+        email_check_failed = true
+        swal("Warning","Email already exist!","warning");
+        return false;
+      }else{
+        email_check_failed = false
+        return true;
+      }
+    }else{
+      ownerEmailErrorMessage = "Please enter a correct Owner Email!"
+      return false;
+    }
+  }
+
+  var isExistingEmail = function(newEmail){
+    var jqXHR =  $.ajax({
+      async: false,
+      type: "GET",
+      url: '/check_email_exist',
+      data: {email: newEmail},
+      dataType: "JSON",
+      success:function(result){
+      },
+      error: function() {
+      }
+    });
+    var jsonResponse = JSON.parse(jqXHR.responseText);
+    return jsonResponse.code==208;
+  }
+
+  function validateEmail(reqEmail) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(reqEmail);
+  }
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+        console.log(latlng)
+        $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+  // $("#enterprise_contact_number").intlTelInput({
+  //   allowDropdown: true,
+  //   autoHideDialCode: true,
+  //   autoPlaceholder: "on",
+  //   dropdownContainer: "body",
+  //   excludeCountries: [],
+  //   formatOnDisplay: true,
+  //   geoIpLookup: function(callback) {
+  //     $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+  //       var countryCode = (resp && resp.country) ? resp.country : "";
+  //       callback(countryCode);
+  //     });
+  //   },
+  //   hiddenInput: "full_phone",
+  //   initialCountry: "auto",
+  //   nationalMode: true,
+  //   initialCountry: '<%=@admin.class.find(@admin.id)[:country_id].present? ? @admin.class.find(@admin.id)[:country_code] : 'bh' %>',
+  //   onlyCountries: [],
+  //   placeholderNumberType: "MOBILE",
+  //   preferredCountries: ['bh'],
+  //   separateDialCode: true,
+  //   utilsScript: "/assets/telinput/utils.js"
+  // });
+
+
+  $("#saveBtn").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var number = /^[0-9]{1,9}$/
+    var branch_no = /^\d{1,2}$/
+    // var contact = /\\(?\d{3}\\)?([\-\s\.])?\d{3}\1?\d{4}/
+    var country_code = $("#contact_number").intlTelInput("getSelectedCountryData");
+    var countrycode = "+"+country_code.dialCode
+    if($.trim($('#enterprise_enterprise_name').val()) == ""){
+      $('#enterprise_enterprise_name').focus();
+      swal("Warning","Please enter the enterprise name","warning");
+      return false;
+    }else if(!name.test($('#enterprise_owner_name').val())){
+      $('#enterprise_owner_name').focus();
+      swal("Warning","Please enter a valid owner name","warning");
+      return false;
+    }else if($.trim($('#enterprise_contact_number').val())==''){
+       $('#enterprise_contact_number').focus();
+      swal("Warning","Please enter a valid contact No.","warning");
+      return false;
+    }
+    else if(($.trim($('#enterprise_email').val())==="")){
+      $('#enterprise_email').focus();
+      swal("Warning","Please Enter the email","warning");
+      return false;
+    }else if(!number.test($('#enterprise_cpr_number').val())){
+      $('#enterprise_cpr_number').focus();
+      swal("Warning","Please enter valid cpr number","warning");
+      return false;
+    }
+    else if(email_check_failed){
+      swal("Warning","Email already exist!","warning");
+      return false;
+    }
+    else{
+      // swal({
+      //   html:true,
+      //   title: "Please wait...",
+      //   text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+      //   showConfirmButton: false
+      // });
+      // return true;
+    }
+  });
+
+  $("#enterprise_email").focusout(function() {
+    validateOwnerEmailAddress()
+  })
+</script>

@@ -1,0 +1,154 @@
+<style type="text/css">
+  select {
+    height: 100% !important;
+  }
+
+  .service {
+    margin-right: 0px;
+    margin-left:  0px;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <a href="<%= request.referer %>" class="pull-right" style="margin-top:2%;"><button class="btn btn-success btn-sm">Back to Menu <i class="fa fa-arrow-right"></i></button></a>
+
+  <div class="col-lg-10">
+    <h2>Edit AddOn Category</h2>
+  </div>
+
+  <div class="col-lg-10">
+    <ol class="breadcrumb">
+      <li><a href="<%= restaurant_details_path(encode_token(@branch.restaurant.id)) %>">Restaurant</a></li>
+      <li><a href="<%= branch_show_path(encode_token(@branch.restaurant.id)) %>">Branch</a></li>
+      <li><a href="<%= admin_branch_menu_items_path(encode_token(@branch.id)) %>">Menu Item</a></li>
+      <li class="active"><strong>Edit AddOn Category</strong></li>
+    </ol>
+  </div>
+</div>
+
+<br><br>
+
+<div class="container"">
+  <%= form_for :versions, url: update_addon_category_path, html: { multipart: true, id: "add_addon_category_content_form" } do |f|%>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <center><h3 style="color: white;">Edit Addon Category</h3></center>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-group">
+          <div class="col-sm-12" style="margin-top:15px !important;">
+            <label class="control-label">Category Title (English)</label> <input class="form-control mb-0" id="addon_category_name" name="addon_category_name" placeholder="Category title (english)" value="<%= @category.addon_category_name %>" type="text" autocomplete="off">
+            <input type="hidden"  name="branch_id" value="<%= @branch.id %>">
+            <input type="hidden"  name="category_id" value="<%= @category.id %>">
+          </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+          <div class="col-sm-12" style="">
+            <label class="control-label">Category Title (Arabic)</label> <input class="form-control mb-0" id="addon_category_name_ar" value="<%= @category.addon_category_name_ar %>" name="addon_category_name_ar" placeholder="Category title (arabic)" type="text" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12" style="">
+            <label>Min Selected Quantity</label>
+            <input type="number" name="min_selected_quantity" id="min_selected_quantity" class="form-control" value="<%= @category.min_selected_quantity %>" required="true" placeholder="0" min="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12" style="">
+            <label>Max Selected Quantity</label>
+            <input type="number" name="max_selected_quantity" id="max_selected_quantity" value="<%= @category.max_selected_quantity %>" class="form-control" required="true" placeholder="0" min="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <label>Is Available</label>
+
+            <select class="form-control" required="true" name="available" style="height: 40px;">
+              <option <% if @category.available == true %> selected <% end %>value="true">Available</option>
+              <option <% if @category.available == false %> selected <% end %>value="false">Not available</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-12">
+            <br>
+            <div class="col-lg-6">
+              <a href="#" class="btn btn-danger btn-border" onclick="delete_addon_category(<%= @category.id %>)">Delete Addon Category</a>
+            </div>
+
+            <div class="col-lg-6">
+              <button class="btn btn-primary btn-border pull-right" id="">Edit Addon Category </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#add_addon_category_content_form").submit(function(){
+    if($('#addon_category_name').val().length >= 41 || $('#addon_category_name').val().length <=0 ) {
+      $('#addon_category_name').focus();
+      swal("Warning","Please enter valid english title","warning");
+      return false;
+    } else if ($('#addon_category_name_ar').val().length >= 41 || $('#addon_category_name_ar').val().length <= 0 ) {
+       $('#addon_category_name_ar').focus();
+      swal("Warning","Please enter valid arabic title","warning");
+      return false;
+    } else if($('#min_selected_quantity').val() > $('#max_selected_quantity').val()) {
+      $('#min_selected_quantity').focus();
+      swal("Warning","max_selected_quantity should be greater than min_selected_quantity","warning");
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  function delete_addon_category(no) {
+    swal({
+      title: "Are you sure?",
+      text: "Do you want to Delete this Category?",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "No, cancel plz!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function(isConfirm) {
+      if (isConfirm) {
+        $.ajax({
+          type: "GET",
+          url: "/business/remove/menu/addon/category/" + no,
+          dataType: "JSON",
+          success:function(data) {
+            if (data.code == 200) {
+              swal("Deleted!", "Item Addon Category has been deleted.", "success");
+              window.location.href = "<%= admin_branch_menu_items_path(encode_token(@category.branch_id)) %>";
+            }
+          },
+          error: function() {
+            swal("Error", "Something went wrong", "Error");
+          }
+        });
+      } else {
+        swal("Cancelled", "No change in menu category", "error");
+      }
+    });
+  };
+</script>

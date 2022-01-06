@@ -1,0 +1,9 @@
+<% if transaction.comments.present? %>
+<tr class='comment_heading_<%= transaction.id %>'><td></td><td colspan="3" style="padding-left: 15px;">Comments**</td></tr>
+<tr class='comment_<%= transaction.id %>'><td></td><td colspan="3" style="padding-left: 15px;" class='comment_text'><%= transaction.comments %></td></tr>
+<% end %>
+
+<% if transaction.kitchen_instructions.present? %>
+<tr class='comment_heading_<%= transaction.id %>'><td></td><td colspan="3" style="padding-left: 15px;">Kitchen Instructions**</td></tr>
+<tr class='comment_<%= transaction.id %>'><td></td><td colspan="3" style="padding-left: 15px;" class='kitchen_text'><%= transaction.kitchen_instructions %> | <%= transaction.duration %></td></tr>
+<% end %>

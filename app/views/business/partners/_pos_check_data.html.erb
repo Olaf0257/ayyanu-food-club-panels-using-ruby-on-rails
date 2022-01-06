@@ -1,0 +1,40 @@
+<tr data-check-id="<%= pos_check.id %>">
+	<td><%= pos_check&.branch&.address %></td>
+	<td><%= pos_check&.check_id %></td>
+	<td><%= pos_check&.order_type&.name %></td>
+	<td><%= pos_check&.user&.name %></td>
+	<td>
+		<% @discount = 0.0 %>
+	    <% payment = pos_check.pos_payments.find_by payment_method_id: 4 %>
+		<% if payment.present? %>
+			<%= number_with_precision(payment.paid_amount, precision: 3) %><%= payment.currency_type.present? ? payment.currency_type.currency : 'BHD' %>
+		<% else %>
+			<% if pos_check.offer.present? && pos_check.offer.menu_item_id.present? %>
+	            <% addons = ItemAddon.where(item_addon_category_id: pos_check.offer.menu_item.item_addon_categories.pluck(:id))  %>
+	            <% total_ind_amount = pos_check.pos_transactions.where(
+	            '(itemable_type = ? && itemable_id = ?) || (itemable_type = ? && itemable_id IN (?))', 
+	            "MenuItem", pos_check&.offer&.menu_item_id, "ItemAddon", addons.pluck(:id) )&.pluck(:total_amount)&.sum.to_f %>
+	        <% else %>
+	            <% total_ind_amount = 0.0 %>
+	        <% end %>
+	        <% tax_amount = taxonlyamount(@tax, pos_check.pos_transactions.pluck(:total_amount).sum)%>
+	        <% offer_text = pos_check.offer.present? ? pos_check.offer.discount_percentage.to_f == 0.0 ? pos_check.offer.offer_title : pos_check.offer.discount_percentage.to_s + "%"  : nil %>
+	        <% discount_per = pos_check.offer.present? ? pos_check.offer.discount_percentage.to_f == 0.0 && pos_check.offer.offer_title.eql?('Buy 1 Get 1 Free') ? 50 : pos_check.offer.discount_percentage.to_f : 0.0 %>
+        	<% transaction_total = pos_check.pos_transactions.pluck(:total_amount).sum.to_f %>
+         	<% individual_tax = pos_check&.offer&.offer_type.eql?('individual')  ? taxonlyamount(@tax, total_ind_amount) : 0.0 %>
+        	<% @discount = 
+            	pos_check.offer_id.present? ? pos_check.offer.offer_type.eql?('individual') ? ((pos_check.is_full_discount ? total_ind_amount : (total_ind_amount - individual_tax.to_f))  * discount_per / 100) : pos_check.pos_transactions.length > 0 ? ((pos_check.is_full_discount ? transaction_total : (transaction_total - tax_amount.to_f)) * (discount_per) / 100) : 0 : 0 %>
+            <%= number_with_precision(@discount, precision: 3) %>BHD
+		<% end %>
+	</td>
+	<td>
+		<% if pos_check.pos_table.present? && pos_check.order_type_id.eql?(1) %>
+			<% pos_count = tableCount(pos_check.pos_table, pos_check) %>
+			<%= pos_check.pos_table.pos_table_no %><%= pos_count ? "/#{pos_count}" : ''%>
+		<% end %>
+	</td>
+	<td><span class="before_tax_amt"><%= number_with_precision(before_tax_amount(tax, pos_check.pos_transactions.pluck(:total_amount).sum), precision: 3) %></span>BHD</td>
+	<td><span class="tax_amt"><%= number_with_precision(taxonlyamount(@tax, pos_check.pos_transactions.pluck(:total_amount).sum), precision: 3) %></span>BHD</td>
+	<td><span class="after_tax_amt"><%= number_with_precision((pos_check.pos_transactions.pluck(:total_amount).sum - pos_check.pos_payments.pluck(:paid_amount).sum - @discount), precision: 3) %></span>BHD</td>
+	<td width=""><%= link_to 'Print', business_print_check_path(pos_check&.pos_table_id, pos_check&.id), method: :post, remote: true, class: 'btn btn-success print-quick' %>&nbsp; <%= link_to 'Pay', 'javascript:void(0)', class: 'btn btn-success pay-quick-btn' %></td>
+</tr>

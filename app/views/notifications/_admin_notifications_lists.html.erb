@@ -1,0 +1,52 @@
+<li>
+  <div class="col-lg-12 col-sm-12 col-md-12">
+    <center><a href="<%= notification_list_path %>"> All Notifications</a></center>
+  </div>
+</li>
+
+<br><br>
+
+<% if admin_unseen_notifications.present? %>
+  <% admin_unseen_notifications.each do |r| %>
+    <% if r.restaurant_id.present? || r.delivery_company_id.present? %>
+      <div>
+        <% if (r.notification_type == "menu_item_update" or r.notification_type == "add_menu_item") %>
+          <a href="<%= restaurant_menu_managment_path(restaurant_id: encode_token(r.restaurant_id), status: "menu_item") %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a> <span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "menu_category_update" or r.notification_type == "add_menu_category")%>
+          <a href="<%= restaurant_menu_managment_path(restaurant_id: encode_token(r.restaurant_id), status: "menu_category") %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type =="add_addon_item" or r.notification_type == "update_addon_item")%>
+          <a href="<%= restaurant_menu_managment_path(restaurant_id: encode_token(r.restaurant_id), status: "addon_item") %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a> <span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "add_addon_category" or r.notification_type == "update_addon_category") %>
+          <a href="<%= restaurant_menu_managment_path(restaurant_id: encode_token(r.restaurant_id), status: "addon_category")%>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "restaurant_branch") %>
+          <a href="<%= branch_show_path(id: encode_token(r.restaurant_id)) %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "restaurant_name_change") %>
+          <a href="<%= restaurant_pending_update_request_path %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "settle_delivery_company_amount") %>
+          <a href="<%= settle_amount_list_delivery_company_path(r.delivery_company_id) %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "order_cancelled") %>
+          <a href="<%= order_refund_list_path %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif ["order_created", "driver_order_pending", "late_order"].include?(r.notification_type) %>
+          <a href="<%= order_list_path %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% elsif (r.notification_type == "offer_created") %>
+          <a href="<%= admin_offers_path %>"><i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %></a><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% else %>
+          <i class="fa fa-bell" aria-hidden="true"></i> <%= r.message %><span class="pull-right text-muted small"><%= time_ago_in_words(r.created_at).gsub('about','') + ' ago' %></span>
+        <% end %>
+      </div>
+      <hr>
+    <% end %>
+  <% end %>
+<% else %>
+  <div class="alert alert-default text-center">No new notification is there.</div>
+<% end %>
+
+<li class="divider"></li>
+<li>
+  <div class="text-center link-block">
+    <a href="<%=notification_list_path%>">
+      <strong>See All Notifications</strong>
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+</li>

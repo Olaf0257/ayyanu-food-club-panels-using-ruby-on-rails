@@ -1,0 +1,73 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Shift List</h2>
+  </div>
+</div>
+<%#= render "master/common_filters", path: master_restaurant_stations_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Shift" href="<%= new_hrms_restaurant_shift_path %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @shifts.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Shift Name</th>
+                  <!-- <th>Day</th> -->
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @shifts.each do |shift| %>
+                <tr>
+                  <td><%=shift.id%></td>
+                  <td><%=shift.name%></td>
+                  <!-- <td><%#= shift.day %> </td> -->
+                  <td><%= shift.start_time %> </td>
+                  <td><%= shift.end_time %> </td>
+                  <td><%=set_time_formated(shift.created_at)%></td>
+                  <td><%=shift.user&.name%></td>
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Shift'.html_safe, edit_hrms_restaurant_shift_path(shift, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Shift'.html_safe, hrms_restaurant_shift_path(shift, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Station available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <center> <%#= will_paginate @stations ,renderer: BootstrapPagination::Rails %></center><br>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

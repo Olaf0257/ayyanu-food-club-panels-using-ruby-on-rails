@@ -1,0 +1,157 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .setheight {
+    height:100% !important;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+
+  .csv-button {
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<% currency = @all_orders.first&.currency_code_en.to_s %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-md-2">
+      <h2>Points Settlement</h2>
+    </div>
+
+    <div class="col-md-10">
+      <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+        <%= form_for :search, method: :get, html: { class: "form-inline pull-right" } do |f| %>
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:country_id, options_for_select(@countries.to_a, params[:country_id]), prompt: "All Countries", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= select_tag(:restaurant_id, options_for_select(@restaurants.to_a, params[:restaurant_id]), prompt: "All Restaurants", class: "form-control admin-search-field") %>
+          <%= select_tag(:order_type, options_for_select(Order::ORDER_TYPE, params[:order_type]), prompt: "Select Order Type", class: "form-control admin-search-field") %>
+          <input type="text" class="form-control admin-search-field" name="keyword" value="<%= params[:keyword] %>" placeholder="ID,Branch,Customer" autocomplete="off">
+          <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "start date", id: "start_datepicker") %>
+          <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "end date", id: "end_datepicker") %>
+
+          <button type="submit" class="btn btn-danger"> Search </button>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= page_entries_info @orders %></h5>
+
+          <div>
+            <%= link_to admin_points_redeemed_report_path(format: :csv, keyword: params[:keyword], country_id: params[:country_id], restaurant_id: params[:restaurant_id], start_date: params[:start_date], end_date: params[:end_date], order_type: params[:order_type]) do %>
+              <button class="btn btn-xs btn-success csv-button pull-right" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Branch Address</th>
+                  <th>Order Type</th>
+                  <th>Total Amount (<%= currency %>)</th>
+                  <th>Customer Name</th>
+                  <th>Credit Points</th>
+                  <th>Debit Points</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @orders.each do |order| %>
+                  <tr>
+                    <td><%= order.id %></td>
+                    <td><%= order.branch.restaurant.title %></td>
+                    <td><%= order.branch.address %></td>
+                    <td><%= order.order_type =="prepaid" ? "Online" : order.order_type =="postpaid" ? "Cash on delivery" : "Credit Card Machine" %></td>
+                    <td><%= order.total_amount %></td>
+                    <td><%= order.user ? order.user.name : order.cart.user.name %></td>
+                    <td><%= number_with_precision(order.total_credit_points, precision: 3) %></td>
+                    <td><%= number_with_precision(order.total_debit_points, precision: 3) %></td>
+                    <td><%= link_to '<i class="fa fa-eye"></i>'.html_safe + " View", order_path(encode_token(order.id)), class: "btn btn-xs btn-primary" %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No orders available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+         <center><%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @all_orders.present? %>
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="ibox-content bg-white">
+          <h3 class="text-center">Summary</h3>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td><b>Total Orders</b></td>
+                <td><%= @all_orders.reload.size %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Order Amount</b></td>
+                <td><%= number_with_precision(@all_orders.reload.map(&:total_amount).map(&:to_f).sum, precision: 3) %> <%= currency %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Credit Points</b></td>
+                <td><%= number_with_precision(@all_orders.reload.map(&:total_credit_points).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+
+              <tr>
+                <td><b>Total Debit Points</b></td>
+                <td><%= number_with_precision(@all_orders.reload.map(&:total_debit_points).map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

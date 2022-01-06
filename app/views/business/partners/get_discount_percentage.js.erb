@@ -1,0 +1,9 @@
+<% if @offers.present? %>
+	$('.paymentMethodList').addClass('hide');
+	$('.discountList').removeClass('hide');
+	$('.discountData').empty();
+	<% @offers.each do |offer|%>
+		<% data = offer&.offer_type.eql?('individual') ? "#{offer&.menu_item&.item_name}(I)" : 'All' %>
+		$('.discountData').append("<a href='<%= business_apply_discount_percentage_path(branch_id: params[:branch_id], pos_check_id: params[:pos_check_id], offer_id: offer.id, is_quick_pay: params[:is_quick_pay] || false) %>' data-remote=true><button class='discount_img discount_<%= offer.id %> <%= offer.id == @pos_check.offer_id ? 'selected_discount' : '' %>'><%= offer.discount_percentage.to_f == 0.0 ? offer.offer_title : (offer.discount_percentage + '%') %><br><span><%= data %></span></button></a>");
+	<% end %>
+<% end %>

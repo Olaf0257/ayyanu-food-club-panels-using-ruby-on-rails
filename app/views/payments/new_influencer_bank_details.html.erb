@@ -1,0 +1,198 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Add Bank Details for <%= @user.name %> (<%= @user.email %>)</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, influencer_list_path, class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Add Bank Details</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_tag add_influencer_bank_details_path, multipart: true, class: "form-horizontal", autocomplete: "off", remote: true do %>
+        <%= hidden_field_tag(:user_id, encode_token(@user.id)) %>
+
+        <div class="row form-group">
+          <div class="col-sm-12">
+            <%= label_tag :legal_name, "Legal Name" %>
+            <%= text_field_tag(:legal_name, "", placeholder: "Enter Legal Name", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <hr>
+
+        <h3 class="text-center">INDIVIDUAL BANK DETAILS</h3>
+
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <%= label_tag :iban, "Bank Account Number (IBAN)" %>
+            <%= text_field_tag(:iban, "", placeholder: "Enter Bank Account Number", required: true, class: "form-control", minlength: 10) %>
+          </div>
+
+          <div class="col-sm-4">
+            <%= label_tag :account_number, "Account Number" %>
+            <%= text_field_tag(:account_number, "", placeholder: "Enter Account Number", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-4">
+            <%= label_tag :beneficiary_address, "Beneficiary Address" %>
+            <%= text_field_tag(:beneficiary_address, "", placeholder: "Enter Beneficiary Address", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :bank_address, "Bank Address" %>
+            <%= text_field_tag(:bank_address, "", placeholder: "Enter Bank Address", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :swift_code, "Swift Code" %>
+            <%= text_field_tag(:swift_code, "", placeholder: "Enter Swift Code", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <hr>
+
+        <h3 class="text-center">CIVIL ID</h3>
+
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <%= label_tag :civil_id, "Civil ID (jpg, jpeg, png)" %>
+            <%= file_field_tag(:civil_id, required: true, class: "form-control", accept: "image/png, image/jpeg") %>
+          </div>
+
+          <div class="col-sm-4">
+            <%= label_tag :civil_id_number, "Civil ID Number" %>
+            <%= text_field_tag(:civil_id_number, "", placeholder: "Enter civil id number", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-4">
+            <%= label_tag :civil_id_issuing_country, "Issuing Country" %>
+            <%= select_tag(:civil_id_issuing_country, options_for_select(Country.pluck(:name)), prompt: "Select Country", required: true, class: "form-control", style: "height: 35px;") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-4">
+            <%= label_tag :civil_id_issuing_date, "Issuing Date" %>
+            <%= date_field_tag(:civil_id_issuing_date, "", class: "form-control contract-date", required: true) %>
+          </div>
+
+          <div class="col-sm-4">
+            <%= label_tag :civil_id_expiry_date, "Expiry Date" %>
+            <%= date_field_tag(:civil_id_expiry_date, "", class: "form-control contract-date", required: true) %>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row form-group">
+          <h3 class="text-center">CONTACT PERSON NAME</h3>
+
+          <div class="col-sm-3">
+            <%= label_tag :contact_person_title, "Title" %>
+            <%= select_tag(:contact_person_title, options_for_select(["Mr", "Mrs", "Miss"]), required: true, class: "form-control", style: "height: 35px;") %>
+          </div>
+
+          <div class="col-sm-3">
+            <%= label_tag :contact_person_first, "First Name" %>
+            <%= text_field_tag(:contact_person_first, "", placeholder: "Enter first name", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-3">
+            <%= label_tag :contact_person_middle, "Middle Name" %>
+            <%= text_field_tag(:contact_person_middle, "", placeholder: "Enter middle name", class: "form-control") %>
+          </div>
+
+          <div class="col-sm-3">
+            <%= label_tag :contact_person_last, "Last Name" %>
+            <%= text_field_tag(:contact_person_last, "", placeholder: "Enter last name", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row form-group">
+          <h3 class="text-center">CONTACT PERSON INFO</h3>
+
+          <div class="col-sm-6">
+            <%= label_tag :contact_person_email, "Email" %>
+            <%= email_field_tag(:contact_person_email, "", placeholder: "Enter email", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :contact, "Mobile Number" %><br>
+            <%= text_field_tag(:contact, "", placeholder: "Enter mobile number", required: true, class: "form-control", id: "user_contact", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row form-group">
+          <h3 class="text-center">BRAND DETAILS</h3>
+
+          <div class="col-sm-6">
+            <%= label_tag :brand_name, "Name" %>
+            <%= text_field_tag(:brand_name, "", placeholder: "Enter brand name", required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= label_tag :sector %>
+            <%= text_field_tag(:sector, "", placeholder: "Enter brand sector", required: true, class: "form-control") %>
+          </div>
+        </div>
+
+
+        <div class="row form-group">
+          <center><%= submit_tag "Add Bank Details", class: "btn btn-success btn-sm bank-detail-submit-btn", data: { confirm: "Are you sure?" } %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#user_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%= @admin.class.find(@admin.id)[:country_id].present? ? @admin.class.find(@admin.id)[:country_code] : 'bh' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

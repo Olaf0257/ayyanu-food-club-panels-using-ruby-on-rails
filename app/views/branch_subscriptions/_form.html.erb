@@ -1,0 +1,23 @@
+<div class="row form-group">
+  <div class="col-sm-2">
+    <% if f.object.persisted? %>
+      <%= f.label :fee, "Fee (#{f.object&.country&.currency_code})" %>
+    <% else %>
+      <%= f.label :fee %>
+    <% end %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.number_field(:fee, placeholder: "Enter Fee", required: true, class: "form-control admin-search-field", min: 0, step: 0.001) %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :country_id, "Country" %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id).sort, f.object&.country_id), { prompt: "Select Country" }, { class: "form-control admin-search-field", required: true }) %>
+  </div>
+</div>

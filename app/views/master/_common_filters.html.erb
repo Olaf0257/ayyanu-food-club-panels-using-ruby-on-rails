@@ -1,0 +1,26 @@
+<div class="row wrapper">
+  <div class="row">
+    <%= form_for :search, url: path, method: :get, html: { class: "form-inline" }, authenticity_token: true do |f| %>
+    <div class="form-group">
+      <%= select_tag :per_page, options_for_select([20, 40, 60, 80, 100], params[:per_page].to_i), class: "form-control setheight" %>
+    </div>
+    <% if @countries.present? %>
+      <%= f.select(:country, options_for_select(current_restaurant.branch_countries.pluck(:name, :id)), { prompt: "Select Country" }, { class: "form-control" }) %>
+    <% end %>
+    <% if @branches.present? %>
+      <div class="form-group">
+        <%= select_tag(:branch, options_for_select(@branches.pluck(:address, :id), params[:branch]), prompt: "All Branches", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    <% end %>
+    <% if @types.present? %>
+      <div class="form-group">
+        <%= select_tag(:operation_type, options_for_select(@types, params[:operation_type]), prompt: "Select Type", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    <% end %>
+    <div class="form-group pt-1">
+      <input type="text" name="keyword" class="form-control" value="<%= params[:keyword] %>" placeholder="Search..." autocomplete="off">
+      <button type="submit" class="btn btn-info"> Search </button>
+    </div>
+    <% end %>
+  </div>
+</div>

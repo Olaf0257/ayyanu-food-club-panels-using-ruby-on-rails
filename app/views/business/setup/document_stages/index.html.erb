@@ -1,0 +1,91 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2>Initiate List</h2>
+    </div>
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+      <%= select_tag(:account_type_id, options_for_select(@account_type, params[:account_type_id]), prompt: "Select Account Type", class: "form-control admin-search-field") %>
+       <%= select_tag(:account_category_id, options_for_select(@account_category, params[:account_category_id]), prompt: "Select Account Category", class: "form-control admin-search-field") %>
+        <%= date_field_tag(:start_date, params[:start_date], class: "form-control admin-search-field") %>
+       <%= date_field_tag(:end_date, params[:end_date], class: "form-control admin-search-field") %>
+      <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Name", autocomplete: :off) %>
+      <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+      <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Bank" href="<%= new_business_setup_document_stage_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+          <% if @document_stages.present? %>
+          <div class="full-height-scroll">
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Account Type</th>
+                    <th>Account Category</th>
+                    <th>Created At</th>
+                    <th>Created by</th>
+                    <th>Stage</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @document_stages.each do |document_stage| %>
+                  <tr>
+                    <td><%=document_stage.id%></td>
+                    <td><%=document_stage.name%></td>
+                    <td><%=document_stage.account_type.try(:name)%></td>
+                    <td><%=document_stage.account_category.try(:name)%></td>
+                    <td><%=document_stage.created_at.strftime("%d/%m/%Y")%></td>
+                    <td><%=document_stage.created_by.try(:name)%></td>
+                    <td>
+                      <%= document_stage.stages.pluck(:name).join(" , ")%>
+                    </td>
+                    <td>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit'.html_safe, edit_business_setup_document_stage_path(document_stage,restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove'.html_safe, business_setup_document_stage_path(document_stage,restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    </td>
+                  </tr>
+                  <%end%>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <%else%>
+          <center>
+            <div class="alert alert-danger">No Initiate available yet.</div>
+          </center>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script bank="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+  
+  $('#asc').on("change",function(){
+   vendor= $(this).val()
+   $('#'+vendor+'-submit-form-vendor').submit()
+  })
+</script>

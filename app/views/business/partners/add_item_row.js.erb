@@ -1,0 +1,2 @@
+$(".target-row").after('<%= escape_javascript render(partial: 'new_item_row', locals: { count: @count }) %>');
+$(".target-row").removeClass("target-row");

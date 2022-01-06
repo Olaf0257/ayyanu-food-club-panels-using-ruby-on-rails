@@ -1,0 +1,2 @@
+<label for="loan_employee">Asset</label>
+<%= select_tag('asset_id', options_from_collection_for_select(@assets, :id, :name), prompt: "Select Asset", class: 'form-control', style: 'height: 40px!important;', name: 'assign_asset[asset_id]' ) %>

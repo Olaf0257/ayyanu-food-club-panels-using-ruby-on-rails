@@ -1,0 +1,79 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Units</h2>
+  </div>
+</div>
+<%= render "master/common_filters", path: setup_restaurant_units_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Account Type" href="<%= new_setup_restaurant_unit_path %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @units.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Country</th>
+                  <th>Branch</th>
+                  <th>Unit Name</th>
+                  <th>Qty / Bu</th>
+                  <th>Unit</th>
+                  <th>Consists Of</th>
+                  <th>Base Unit</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @units.each do |group| %>
+                <tr>
+                  <td><%=group.id%></td>
+                  <td><%=group.country_names%></td>
+                  <td><%=group.addresses%></td>
+                  <td><%=group.name%></td>
+                  <td><%=group.qty%></td>
+                  <td><%=group.other_unit%></td>
+                  <td><%=group.consists_of%></td>
+                  <td><%=group.base_unit%></td>
+                  <td><%=set_time_formated(group.created_at)%></td>
+                  <td><%=group.user.try(:name)%></td>
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Unit'.html_safe, edit_setup_restaurant_unit_path(group, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Unit'.html_safe, setup_restaurant_unit_path(group, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <center> <%= will_paginate @units ,renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+        <br> 
+        <%else%>
+        <center><div class="alert alert-danger">No Unit available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+  swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

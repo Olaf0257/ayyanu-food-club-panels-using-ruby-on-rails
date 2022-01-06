@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  restaurant: one
+  order: one
+  transporter_id: one
+  restaurant_review_title: MyString
+  restaurant_vote_type: MyString
+  transporter_review_title: MyString
+  transporter_vote_type: MyString
+  order_experience: MyText
+
+two:
+  user: two
+  restaurant: two
+  order: two
+  transporter_id: two
+  restaurant_review_title: MyString
+  restaurant_vote_type: MyString
+  transporter_review_title: MyString
+  transporter_vote_type: MyString
+  order_experience: MyText

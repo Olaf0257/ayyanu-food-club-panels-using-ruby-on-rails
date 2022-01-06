@@ -1,0 +1,30 @@
+<% if @pos_check.present? %>
+	<% if @error_meesage.present?  %>
+		toastr.error("<%= @error_meesage %>");
+	<% elsif @pos_check.order_type_id == 2 && !@pos_check.user_id.present? %>
+		toastr.error("Please Assign Customer");
+	<% else %>
+		if($('.is_gift_card_currency').val() == 'true') {
+			var payment_amount = parseFloat($('#quickPayCheckPayment').find('.after_tax_quick_pay').val())
+			var totalDue = "<%= total_due_pos_payment(@pos_check) %>"+ "BHD";
+		} else {
+			var payment_amount = parseFloat('<%= @total_amount.to_f %>')
+			var totalDue = $('#pos_total').text();
+		}
+		var amount_paid = parseFloat("<%= params[:paid_amount] %>");
+		var new_amount = payment_amount - amount_paid;
+		$('#getPaymentModalPopup').modal('hide');
+		$('.total-due').text(totalDue);
+		$('.amount-transfered').text(amount_paid.toFixed(3)+'BHD');
+		new_amount > 0 ? $('.remain-amount-text').text('Remaining Amount') : $('.remain-amount-text').text('Change Due'); 
+		$('.remain-amount').text(Math.abs(new_amount).toFixed(3)+'BHD');
+		$('.remain_currency_type_id').val("<%= params[:currency_type] ? params[:currency_type] : '' %>")
+		$('#remainAmountDetailsPopup').modal('show');
+		<% if (total_due_pos_payment(@pos_check).to_f - params[:paid_amount].to_f) <= 0 %>
+          $('#printCheckpopUp').empty().append("<%= j render partial: 'print_check_pop_up', locals: {pos_check: @pos_check} %>");
+          $('#printCheckId').trigger('click');
+        <% end %>
+	<% end %>
+<% else %>
+	toastr.error("Check not found");
+<% end %>

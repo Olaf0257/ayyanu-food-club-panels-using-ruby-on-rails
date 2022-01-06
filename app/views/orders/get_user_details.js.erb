@@ -1,0 +1,7 @@
+<% if @user %>
+  $(".user-contact-number").html("<b>Number: </b>" + "<%= @user.country_code.to_s + @user.contact.to_s %>");
+  $(".user-email").html("<b>Email: </b>" + "<%= @user.email %>");
+  $(".user-occupation").html("<b>Occupation: </b>" + "<%= @user.auths.first&.role.to_s.titleize %>");
+<% else %>
+  $(".user-contact-number, .user-email, .user-occupation").html("");
+<% end %>

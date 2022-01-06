@@ -1,0 +1,133 @@
+<div class="row form-group">
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :country_id %>
+		</div>
+
+		<div class="col-sm-4">
+			<%= f.collection_select :country_id, Country.order(:name),:id,:name, {prompt: 'Select Country'}, {class: "form-control", required: true, include_hidden: false, id: 'branch_country_id'} %>
+
+		</div>
+	</div>
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :branch_id %>
+		</div>
+
+		<div class="col-sm-4">
+			<% if params[:action].eql?('edit') %>
+			  <%= f.collection_select :branch_id, @restaurant.branches, :id, :address, {prompt: 'Select Branch'}, {class: "form-control", required: true, include_hidden: false, id: 'branch_ids'} %>
+			<% else %>
+			  <%= f.collection_select :branch_id, Branch.where(id: 0), :id, :address, {prompt: 'Select Branch'}, {class: "form-control", required: true, include_hidden: false, id: 'branch_ids'} %>
+			<% end %>
+		</div>
+	</div> 
+</div>
+
+<div class="row form-group">
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :destination_type %>
+		</div>
+
+		<div class="col-sm-4">
+			<%= f.select :destination_type, options_for_select(TransferOrder::TYPE), {prompt: "Select Destination Type"}, {class: 'form-control'} %>
+		</div>
+	</div>
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :destination_id %>
+		</div>
+
+		<div class="col-sm-4">
+			<% if params[:action].eql?('edit') %>
+			  <%= f.collection_select :destination_id, @sources, :id, :name, {prompt: 'Select Destination'}, {class: "form-control", required: true, include_hidden: false} %>
+			<% else %>
+			  <%= f.collection_select :destination_id, Store.where(id: 0), :id, :name, {prompt: 'Select Destination'}, {class: "form-control", required: true, include_hidden: false} %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<div class="row form-group">
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :source_type %>
+		</div>
+
+		<div class="col-sm-4">
+			<%= f.select :source_type, options_for_select(TransferOrder::TYPE), {prompt: "Select Source Type"}, {class: 'form-control'} %>
+		</div>
+	</div>
+	<div class="column">
+		<div class="col-sm-2">
+			<%= f.label :source_id %>
+		</div>
+
+		<div class="col-sm-4">
+			<% if params[:action].eql?('edit') %>
+			  <%= f.collection_select :source_id, @sources, :id, :name, {prompt: 'Select Source'}, {class: "form-control", required: true, include_hidden: false} %>
+			<% else %>
+			  <%= f.collection_select :source_id, Store.where(id: 0), :id, :name, {prompt: 'Select Source'}, {class: "form-control", required: true, include_hidden: false} %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :delivery_date %>
+	</div>
+
+	<div class="col-sm-3">
+		<%= f.date_field(:delivery_date, required: true, class: "form-control") %>
+	</div>
+</div>
+<h3 class="text-success">Add items to Transfer Request</h3>
+<hr style="border: 1px solid;">
+<div class='Transfer_articles'>
+	<%= f.fields_for :transfer_articles do |transfer_article| %>
+	<%= render 'transfer_article_fields', :f => transfer_article %>
+	<% end %>
+</div>
+<div class="form-actions">
+	<%= link_to_add_association 'Add More Articles', f, :transfer_articles, class: 'btn btn-warning btn-sm' %>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$(".add-article").select2();
+	});
+	$('form').on('cocoon:after-insert', function() {
+		$(".add-article").select2();
+	});
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+
+	$(function() {
+		$("select#branch_country_id").on("change", function() {
+			$.ajax({
+				url:  "<%= restaurant_filter_branch_by_country_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { country_id: $("select#branch_country_id").val() }
+			});
+		});
+		$("select#transfer_order_source_type").on("change", function() {
+			$.ajax({
+				url:  "<%= inventory_restaurant_filter_source_by_type_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { source_type: $("select#transfer_order_source_type").val(), country_id: $("select#branch_country_id").val() }
+			});
+		});
+		$("select#transfer_order_destination_type").on("change", function() {
+			$.ajax({
+				url:  "<%= inventory_restaurant_filter_destination_by_type_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { destination_type: $("select#transfer_order_destination_type").val(), country_id: $("select#branch_country_id").val() }
+			});
+		});
+	});
+</script>

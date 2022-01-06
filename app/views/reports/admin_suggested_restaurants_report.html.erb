@@ -1,0 +1,90 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-2">
+    <h2>Suggested Restaurants</h2>
+  </div>
+
+  <div class="col-lg-2">
+    <h2>
+      <%= link_to admin_suggested_restaurants_report_path(format: :csv, searched_country_id: params[:searched_country_id], searched_area_id: params[:searched_area_id], keyword: params[:keyword]) do  %>
+        <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+
+  <div class="col-lg-8">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <%= select_tag(:searched_area_id, options_for_select(@areas, params[:searched_area_id]), prompt: "Select Area", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Restaurant Name", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Suggestions Table</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @suggestions.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Restaurant</th>
+                  <th>Area</th>
+                  <th>Users</th>
+                  <th>Country</th>
+                  <th>Suggestion Count</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @suggestions.group_by { |s| [s.restaurant, s.coverage_area] }.sort_by { |s| s.last.size }.reverse.each do |k, v| %>
+                  <tr>
+                    <td><%= k.first.title %></td>
+                    <td><%= k.last.area %></td>
+
+                    <td>
+                      <% if v.map(&:user_id).uniq.compact.present? %>
+                        <%= link_to "View Users", admin_suggested_restaurants_users_path(restaurant_id: k.first.id, area_id: k.last.id), class: "btn btn-xs btn-primary", remote: true %>
+                      <% end %>
+                    </td>
+
+                    <td><%= k.first.country&.name %></td>
+                    <td><%= v.size %></td>
+
+                    <td>
+                      <% if v.map(&:user_id).uniq.compact.present? %>
+                        <%= link_to "Send Push", send_suggested_restaurants_push_notification_path(restaurant_id: k.first.id, area_id: k.last.id), class: "btn btn-xs btn-success", remote: true %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No branches available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

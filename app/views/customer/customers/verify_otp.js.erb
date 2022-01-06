@@ -1,0 +1,33 @@
+<% if flash[:success].present? %>
+  var orderMode = "postpaid";
+  var redeem = $("#redeem").val();
+  var addressId = $(".address-selection:checked").val();
+  var userId = $("#user_id").val();
+  var note = $("#delivery_request").val();
+  var code = $("#coupon_code").val();
+  $("#verify_otp_modal").modal("hide");
+
+  swal({
+    html: true,
+    title: "Placing Order...",
+    text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+    showConfirmButton: false
+  });
+
+  $.ajax({
+    type: "POST",
+    url: "/customer/place_order?order_mode=" + orderMode + "&is_redeem=" + redeem + "&address_id=" + addressId + "&user_id=" + userId + "&note=" + note + "&coupon_code=" + code,
+    dataType: "JSON",
+    success: function(data) {
+      if (data.code == 200) {
+        swal("Success", "Order Placed Successfully!", "success")
+        window.location = "/customer/dashboard";
+      }
+    },
+    error: function() {
+      swal("Error", data.message, "error")
+    }
+  });
+<% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+<% end %>

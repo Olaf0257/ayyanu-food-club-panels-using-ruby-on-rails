@@ -1,0 +1,43 @@
+<div class="modal fade" id="coupon_restaurant_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Restaurants and Branches</h4>
+      </div>
+
+      <div class="modal-body">
+        <% if @branches.present? %>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Restaurant</th>
+                <th>Branches</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @branches.each do |restaurant_id, branches| %>
+                <tr>
+                  <td><%= Restaurant.find(restaurant_id).title %></td>
+
+                  <td>
+                    <% branches.each do |branch| %>
+                      <%= branch.address %><br>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <p class="text-center"><b>ALL RESTAURANTS</b></p>
+        <% end %>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

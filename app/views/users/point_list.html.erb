@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-3">
+    <h2><%= @user.name %> Points & Referrals</h2>
+  </div>
+
+  <div class="col-sm-7">
+    <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+      <%= form_for :search, method: :get, html: { class: "form-inline pull-right" } do |f| %>
+        <%= hidden_field_tag(:user_id, params[:user_id]) %>
+        <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "start date", id: "start_datepicker") %>
+        <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "end date", id: "end_datepicker") %>
+        <button type="submit" class="btn btn-xs btn-danger"> Search </button>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="col-sm-2">
+    <h2 class="pull-right">
+      <%= link_to user_point_list_path(format: :csv, user_id: @user.id, start_date: params[:start_date], end_date: params[:end_date]) do  %>
+        <button class="btn btn-xs btn-primary" title="Download CSV"> Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Total Points: <%= number_with_precision(@points[:totalPoint], precision: 3) %></h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @points[:point].present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="30%">Restaurant</th>
+                  <th width="40%">Branch</th>
+                  <th width="15%">Points</th>
+                  <th width="15%">Details</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @points[:point].each do |point| %>
+                  <tr>
+                    <td><%= point["branch"]["restaurant_name"] %></td>
+                    <td><%= point["branch"]["address"] %></td>
+                    <td><%= number_with_precision(point["user_point"].to_f, precision: 3) %></td>
+                    <td><%= link_to "Details", user_point_details_path(user_id: @user.id, branch_id: point["branch"]["id"]), class: "btn btn-xs btn-success", remote: true %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Points available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Referrals</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @referrals.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th width="10%">Sl No</th>
+                  <th width="30%">Name</th>
+                  <th width="30%">Email</th>
+                  <th width="30%">Joined</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @referrals.each_with_index do |referral, i| %>
+                  <% user = User.find_by(email: referral.email) %>
+
+                  <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.created_at.strftime("%d/%m/%Y") %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Referrals available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

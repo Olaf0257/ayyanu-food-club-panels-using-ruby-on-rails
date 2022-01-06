@@ -1,0 +1,24 @@
+<div class="col-md-12">
+	<label>Enterprise:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.enterprise.include?("DashBoard") %>
+			<input type="checkbox"  name="enterprise[dashboard]" value="DashBoard" checked="">
+		<%else%>
+			<input type="checkbox"  name="enterprise[dashboard]" value="DashBoard">
+		<%end%>
+		<label class="label_color">DashBoard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.enterprise.include?("Brands") %>
+			<input type="checkbox"  name="enterprise[brands]"  value="Brands" checked="">
+		<%else%>
+			<input type="checkbox"  name="enterprise[brands]"  value="Brands">
+		<%end%>
+		<label class="label_color">Brands</label>
+	</div>
+</div>
+
+
+

@@ -1,0 +1,56 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Finance Master >> Account Category >> New</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, business_finance_account_categories_path, class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Add New Account Category</h3>
+		</div>
+
+		<div class="panel-body">
+			<%= form_for(@account_category, url: business_finance_account_categories_path, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :name %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:name, required: true, class: "form-control") %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>Account Type</label>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.collection_select :account_type_id, AccountType.all.order(:name),:id,:name, {include_blank: true},{:class => 'form-control'} %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<center><%= f.submit "Create New Account Type", class: "btn btn-success btn-sm" %></center>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+</script>

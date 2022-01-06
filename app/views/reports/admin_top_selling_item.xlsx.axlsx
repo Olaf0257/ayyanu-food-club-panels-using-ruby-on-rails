@@ -1,0 +1,9 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Top Items ") do |sheet| 
+	  sheet.add_row ['Id','Item Name','Amount','Rating','Total Order','% Order'] 
+	  if @items.present?
+			@items.each do |item| 
+			sheet.add_row [item[:id],item[:item_name],item[:price_per_item],item[:item_rating],item[:totalItemCount],item[:percentage]] 
+			end
+		end 
+	end

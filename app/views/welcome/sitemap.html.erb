@@ -1,0 +1,56 @@
+<div class="sitemap-section">
+  <div class="container">
+    <%= form_for :search, method: :get, html: { class: "form-horizontal" } do |f| %>
+      <div class="row search">
+        <div class="col-sm-offset-5 col-sm-5">
+          <%= hidden_field_tag(:country_id, params[:country_id]) %>
+          <%= text_field_tag(:keyword, params[:keyword], placeholder: "Search Area, Cuisine, Restaurant", autocomplete: :off, class: "form-control") %>
+        </div>
+
+        <div class="col-sm-2">
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> Search</button>
+        </div>
+      </div>
+    <% end %>
+
+    <div id="sitemap_cuisines">
+      <h4>Cuisines</h4>
+
+      <div class="row">
+        <% @cuisines.each do |cuisine| %>
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <%= link_to cuisine.title, customer_restaurants_list_path(cuisine_id: encode_token(cuisine.id)) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+
+    <div id="sitemap_areas">
+      <h4>Areas in <%= @country.name %></h4>
+
+      <div class="row">
+        <% @areas.each do |area| %>
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <%= link_to area.area, customer_restaurants_list_path(search: area.area) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <hr>
+
+    <div id="sitemap_restaurants">
+      <h4>Restaurants in <%= @country.name %></h4>
+
+      <div class="row">
+        <% @restaurants.each do |restaurant| %>
+          <div class="col-xs-6 col-sm-4 col-md-3">
+            <%= link_to restaurant.title, customer_restaurants_list_path(restaurant_id: encode_token(restaurant.id)) %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

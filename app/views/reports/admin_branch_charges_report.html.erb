@@ -1,0 +1,78 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-3">
+    <h2>Branch Charges Report</h2>
+  </div>
+
+  <div class="col-lg-6">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <%= select_tag(:restaurant_id, options_for_select(@restaurants, params[:restaurant_id]), prompt: "Select Restaurant", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Branch", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+
+  <div class="col-lg-3">
+    <h2 class="pull-right">
+      <%= link_to admin_branch_charges_report_path(format: :csv, restaurant_id: params[:restaurant_id], keyword: params[:keyword]) do  %>
+        <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= page_entries_info @branches %></h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @branches.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Restaurant</th>
+                  <th>Branch</th>
+                  <th>Branch Subscription Fee</th>
+                  <th>Report Subscription Fee</th>
+                  <th>Total Fee</th>
+                  <th>Fixed Charge (%)</th>
+                  <th>Fixed Charge Capping</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @branches.each do |branch| %>
+                  <% currency = branch.currency_code_en %>
+
+                  <tr>
+                    <td><%= branch.restaurant.title %></td>
+                    <td><%= branch.address %></td>
+                    <td><%= branch.branch_subscription.present? ? (number_with_precision(branch.branch_subscription.fee, precision: 3) + " " + currency) : "" %></td>
+                    <td><%= branch.report_subscription.present? ? (number_with_precision(branch.report_subscription.fee, precision: 3) + " " + currency) : "" %></td>
+                    <td><%= number_with_precision((branch.report_subscription&.fee.to_f + branch.branch_subscription&.fee.to_f), precision: 3) %> <%= currency %></td>
+                    <td><%= branch.fixed_charge_percentage %></td>
+                    <td><%= branch.max_fixed_charge.present? ? (number_with_precision(branch.max_fixed_charge, precision: 3) + " " + currency) : "" %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="col-sm-12">
+              <center><%= will_paginate @branches, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">No branches available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

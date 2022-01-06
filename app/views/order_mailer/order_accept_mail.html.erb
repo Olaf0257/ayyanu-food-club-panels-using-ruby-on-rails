@@ -1,0 +1,125 @@
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.8;
+    background: #f1f1f1;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .email-container {
+    max-width: 600px;
+    border-radius: 0px 0px 5px 5px;
+    color: #ffff;
+  }
+
+  .email-header {
+    padding: 3em;
+    background: white;
+  }
+
+  .email-content{
+    padding: 2.5em;
+    background: #2f4050;
+    min-height: 220px;
+  }
+
+  .content-header .subheading{
+    display: inline-block;
+    padding: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .content-header h2{
+    margin: 10px 0px 20px 0px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .content-main p{
+    font-size: 12px;
+  }
+
+  .content-main table{
+    padding: 15px 0px;
+    width: 100%;
+  }
+
+  .value{
+    width: 50%;
+    text-align: center;
+  }
+
+  .email-footer {
+    font-size: 12px;
+    line-height: 15px;
+    background: #546575;
+    padding: 1.5em 2.5em;
+    text-align: left;
+    border-radius: 0px 0px 5px 5px;
+  }
+</style>
+<div class="container">
+  <center>
+    <div class="email-container">
+      <div class="email-header">
+        <figure>
+          <img src="https://ik.imagekit.io/sodhemlpr/admin/fc-logo-740e35ae18bd8ef009b002e07e4e3dc0ffffd6566540380411608b48256c6a38_jUGif7F06g.png" class="img-fluid" style="height:150px;">
+        </figure>
+      </div>
+      <div class="email-content">
+        <div class="content-header">
+          <span class="subheading">Hello <%=@order.user.name%></span>
+          <hr>
+          <h2>Order Accepted</h2>
+          <span style="color:#e3e3e3; font-size:15px; font-weight:500;">Thank you for your order. </span>
+        </div>
+        <div class="content-main">
+          <p style="padding: 5px;">Your order from <%=@order.branch.restaurant.title%> has been accepted. Your estimated delivery time is indicated in the Food Club App. If you would like to view the status of your order or make any changes to it, please visit My Orders on Food Club App.</p>
+          <br><br>
+          <h3 style="font-size: 20px">Invoice Details</h3>
+          <table>
+            <tr>
+              <td>Order Id</td>
+              <td class="value"><%=@order.id%></td>
+            </tr>
+            <tr>
+              <td>Items</td>
+              <td class="value"><%=@items.join(", ")%></td>
+            </tr>
+            <tr>
+              <td>Payment</td>
+              <td class="value">Payment : <%=@order.is_paid ? "Paid" : 'Not Paid'%></td>
+            </tr>
+            <tr>
+              <td>Amount</td>
+              <td class="value"><%=@order.total_amount.present? ? @order.total_amount : '0.00'%> BD</td>
+            </tr>
+            <tr>
+              <td>Payment By</td>
+              <td class="value"><%=@order.payment_mode== 'online' ? 'Online' : @order.payment_mode=='CCM' ? 'Credit Card Machine' : 'Cash On Delivery'%></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="email-footer">
+        <p>
+          ©2020 Food Club
+          <br>
+          <small style="font-size: 11px;">Bahrain</small>
+        </p>
+      </div>
+    </div>
+  </center>
+</div>

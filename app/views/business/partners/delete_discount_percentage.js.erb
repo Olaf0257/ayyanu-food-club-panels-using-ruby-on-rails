@@ -1,0 +1,13 @@
+<% if @error.present? %>
+	toastr.error('<%= @error %>');
+<% else %>
+	$('#discount_row').addClass('hide');
+	var discount_per = parseFloat($('#discount_amount').text().replace('BHD', ''))
+	$('#discount_amount').text('0.000BHD');
+	$('.discountData a button').removeClass('selected_discount');
+	var remainAmount = parseFloat("<%= number_with_precision(@total_amount.round(3), precision: 3) %>");
+	$('#remain_payment_amount').val(remainAmount.toFixed(3));
+	var total = parseFloat($('#pos_total').text().replace('BHD', ''));
+	var payable = total + discount_per
+	$('#pos_total').text(payable.toFixed(3) + 'BHD')
+<% end %>

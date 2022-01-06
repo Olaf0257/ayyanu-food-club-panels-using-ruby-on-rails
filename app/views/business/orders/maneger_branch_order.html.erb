@@ -1,0 +1,116 @@
+<style type="text/css">
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height: 40px !important;
+  }
+
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important;
+  }
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-6">
+    <h2 style="margin-top:20px;"><b>Order History</b></h2>
+  </div>
+
+  <div class="col-xs-6">
+    <a style="margin-right: 15px;" href="<%= business_manager_dashboard_path %>"> <button class="btn btn-danger pull-right" style="margin-top: 23px;">Back to Dashboard<i class="fa fa-arrow-right"></i> </button></a>
+    <a href="<%= business_manager_restaurant_branch_path() %>"> <button class="btn btn-primary pull-right" style="margin-top: 23px;margin-right: 12px;">Back to Branch <i class="fa fa-arrow-right"></i> </button></a>
+  </div>
+</div>
+<br>
+
+<div class="row">
+  <div class="col-lg-2">
+    <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i), onchange: "if(this.value){window.location='?per_page='+this.value;}",class: "form-control setheight"%>
+  </div>
+
+  <%= form_for :search, url: business_branch_order_path, method: :get, html: { class: "form-inline" }, authenticity_token: true do |f| %>
+    <div class="col-lg-10">
+      <div class="row">
+        <div class="col-lg-4">
+          <%= select_tag(:branch, options_for_select(@branches.pluck(:address, :id), @selected_branch.id), class: "form-control setheight") %>
+        </div>
+
+        <div class="col-lg-6" style="padding-left:4%;">
+          <input type="text" name="keyword" class="form-control" value="<%= params[:keyword] %>" placeholder="search Customer name,order id,mobile no" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-2">
+          <input type="submit" value="Submit" class="btn btn-danger btn-block btn-md">
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="border:none;">
+          <% if @orders.present? %>
+            <div class="full-height-scroll">
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Sno</th>
+                        <th>Branch</th>
+                        <th>Customer Name</th>
+                        <th>Customer Mobile</th>
+                        <th>Customer Phone</th>
+                        <th>Order Time</th>
+                        <th>Total Amount</th>
+                        <th>Payment Type</th>
+                        <th>Order Stage</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% @orders.each do |o| %>
+                        <tr id="order-<%= o.id %>">
+                          <td><p><%= o.id %></p></td>
+                          <td><%= o.branch&.address || 'Not available' %></td>
+                          <td><p><%= o.user.name %></p></td>
+                          <td><p><%= o.contact.presence || 'Not available' %></p></td>
+                          <td><p><%= o.landline.presence || 'Not available' %></p></td>
+                          <td><p><%= o.created_at.strftime('%B %d %Y %I:%M%p') %></p></td>
+                          <td><p><%= number_with_precision(o.total_amount, precision: 3) %> BD</p></td>
+                          <td><p><%= o.payment_mode == 'online' ? 'Online' : o.payment_mode=='COD ' ? 'CASH' : 'CREDIT CARD MACHINE' %></p></td>
+                          <%p o.pickedup%>
+                          <td><%=o.is_settled == true ? '<label class="label label-sm" style=" background-color:#086608; color:white;">SETTLED</label>'.html_safe : o.is_delivered ==true ? '<label class="label label-sm" style=" background-color:#3FECA8; color:white;">DELIVERED</label>'.html_safe : o.pickedup ==true ? '<label class="label label-sm" style=" background-color:#DD1A80; color:white;">ONWAY</label>'.html_safe  : o.is_ready ==true ? '<label class="label label-sm" style=" background-color:#17a2b8; color:white;">COOKING</label>'.html_safe : o.is_accepted==true ? '<label class="label label-sm label-warning" style=" color:white;">Order Accepted</label>'.html_safe : o.is_rejected==true ? '<label class="label label-sm" style=" background-color:#F1B950; color:white;">Order Rejected</label>'.html_safe : '<label class="label label-sm" style=" background-color:#5DBCD2; color:white;">INITIALIZE</label>'.html_safe  %></td>
+                          <td>
+                            <a href="<%= business_view_order_path(o.id) %>" class="btn btn-sm btn-danger" style="font-size: 13px;"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                          </td>
+                        </tr>
+                      <%end%>
+                    </tbody>
+                  </table>
+               </div>
+            </div>
+
+            <div class="col-lg-12">
+              <center><%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">Orders not available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

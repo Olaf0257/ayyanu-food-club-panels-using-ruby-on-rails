@@ -1,0 +1,97 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Salary Details </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%= new_business_hrms_salary_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @salaries.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Employee</th>
+                  <th>Basic Salary (BHD)</th>
+                  <th>Family Visa Charges (BHD)</th>
+                  <th>Gosi Percentage </th>
+                  <th>Health Check Charges (BHD)</th>
+                  <th>Hiring Fees Deduction (BHD)</th>
+                  <th>Housing Allowance (BHD)</th>
+                  <th>Indemnity Days</th>
+                  <th>LMRA Charges (BHD)</th>
+                  <th>Meal Allowance (BHD)</th>
+                  
+                  <th>Mobile Allowance (BHD)</th>
+                  <th>Transportation Allowance (BHD)</th>
+                  <th>Visa Charges (BHD)</th>
+                  <th>Actions</th>
+                  
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <% @salaries.each do |salary| %>
+                  <%# next if salary.user_detail.blank? %>
+                  <tr id="trans-<%=salary.id %>">
+                    <td id="<%=salary.id %>-id"><%=salary.id%></td>
+                    <td><%= salary.user.name %></td>
+                    <td><%= salary.basic_salary %></td>
+                    <td><%= salary.family_visa_charges %></td>
+                    <td><%= salary.gosi_percentage %></td>
+                    <td><%= salary.health_check_charges %></td>
+
+                    <td><%= salary.hiring_fees_deduction %></td>
+                    <td><%= salary.housing_allowance %></td>
+                    <td><%= salary.indemnity_days %></td>
+                    <td><%= salary.lmra_charges %></td>
+
+                    <td><%= salary.meal_allowance %></td>
+                    
+                    <td><%= salary.mobile_allowance %></td>
+                    <td><%= salary.transportation_allowance %></td>
+                    <td><%= salary.family_visa_charges %></td>
+                    
+
+                    <td>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit Employee'.html_safe, edit_business_hrms_salary_path(salary, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove Salary'.html_safe, business_hrms_salary_path(salary, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="row">
+            <div class="col-lg-12">
+             <center><%#= will_paginate @employees ,renderer: BootstrapPagination::Rails %></center>
+            </div>
+          </div> -->
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No salary list available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

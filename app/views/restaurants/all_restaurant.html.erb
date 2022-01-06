@@ -1,0 +1,404 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+<script src="/assets/bootstrap-toggle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .product-imitation {
+  text-align: center;
+  padding: 18px 0;
+  background-color: #f8f8f9;
+  color: #bebec3;
+  font-weight: 600;
+  }
+  .product-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #676a6c;
+  display: block;
+  margin: 2px 0 5px 0;
+  }
+  .icheckbox_square-green {
+  background-position: 0 0;
+  }
+  .icon_cross{
+  color: #FF0000;
+  }
+  .icon_check{
+  color: #228B22;
+  }
+  .div-height{
+  min-height: 750px;
+  }
+  input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+  background: #1ab394;
+  border: 1px solid #1ab394;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-transform: capitalize;
+  border-radius: 4px;
+  padding: 2px 15px;
+  }
+  input[type="file"] {
+  margin-bottom: 5px;
+  }
+  @media screen and (min-width: 1200px) and (max-width: 1300px){
+  .div-height{
+  min-height: 800px;
+  }
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px){
+  .div-height{
+  min-height: 900px;
+  }
+  }
+  @media screen and (max-width:991px){
+  .div-height{
+  height: auto;
+  }
+  }
+  .toggle{
+  width: 200px !important;
+  height: 34px !important;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2>All Restaurants</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+          <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Restaurant Name", autocomplete: :off) %>
+          <%= select_tag(:status, options_for_select(["Enabled", "Disabled"], params[:status]), prompt: "Select Status", class: "form-control admin-search-field") %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+
+        <%= link_to restaurant_list_path(format: :csv, start_date: params[:start_date], end_date: params[:end_date], keyword: params[:keyword], searched_country_id: params[:searched_country_id], status: params[:status]) do  %>
+          <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <%if @restaurants.present? %>
+  <%@restaurants.each do |m|%>
+  <div class="row">
+    <div class="ibox-content">
+      <div class="col-lg-12">
+        <div class="ibox product-detail">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="product-images">
+                <div>
+                  <div class="image-imitation">
+                    <img style = "width:100%;height: 300px;" src='<%=m.logo.present? ? "#{m.logo}" : "/assets/placeholder.png"%>' alt="restaurant logo" >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-6">
+                  <h2 class="font-bold m-b-xs">
+                    <%=m.title%>
+                  </h2>
+                  <b><font color="green">Joined: <%= m.created_at.strftime("%d/%m/%Y") %></font></b>
+                  <br><font color="red"><%= m.branches.average(:avg_rating).to_f.round(1) %> average ratings </font>
+                  <br>Coverage Areas: <%= m.branches.map(&:branch_coverage_areas).flatten.uniq.count %>
+                </div>
+                <div class="col-md-6">
+                  <%=form_for :restaurant,url: change_restaurant_state_path,:html=>{:multipart=>true,:id=>"#{m.id}-submit-form_restaurant"},:remote=>true do |f|%>
+                  <span class="m-l-ms" style="font-weight: bold;">Restaurant Status : <input type="hidden" name="restaurant_id" value="<%=m.id%>">
+                  <input type="hidden" name="status" id="<%=m.id%>-signed" value="false">
+                  <input type="checkbox" style="height:323px;" value="<%=m.id%>" id="<%=m.id%>-signedcon" class="input-signed" <%if m.is_signed %> checked <%end%> data-toggle="toggle" data-style="ios" data-on="Disable"  data-off="Enable" >
+                  </span>
+                  <%end%>
+
+                  <% if is_super_admin?(@admin) && m.branches.empty? %>
+                    <br><%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete Restaurant", restaurant_remove_path(restaurant_id: m.id), class: "btn btn-sm btn-danger", data: { confirm: "Are you sure you want to Delete this Restaurant?" } %>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row">
+                <div class="m-t-md col-lg-6">
+                  <% if m.is_signed%><i class="icon_check fa fa-check" aria-hidden="true"></i><span class="m-l-xs">Restaurant Verified</span> <%else%><i class="icon_cross fa fa-times"></i><span class="m-l-xs">Verify Restaurant</span><%end%>
+                </div>
+                <div class="m-t-md col-lg-6">
+                  <% if m.restaurant_document%>
+                  <%if m.restaurant_document.is_approved %> <i class="icon_check fa fa-check" aria-hidden="true"></i>  <span class="m-l-xs">Restaurant Document Verified</span>  <%else%><i class="icon_cross fa fa-times"></i>  <span class="m-l-xs">Verify Restaurant Document</span>  <%end%>
+                  <%else%>
+                  <i class="icon_cross fa fa-times"></i><span class="m-l-xs">Upload Restaurant Document</span>
+                  <%end%>
+                </div>
+              </div>
+              <%if !m.restaurant_document%>
+              <!--  <div class="product-desc"> -->
+              <div class="">
+                <div class="col-lg-12 ibox-content" style="padding-left: 0;padding-right: 0;">
+                  <span class="m-l-xs"><b><i class="fa fa-file" aria-hidden="true"></i> Document : <font color="red">Not Available </font></b></span><br><br>
+                  <%=form_for :upload_contract_document,url: admin_upload_contract_path do |f|%>
+                  <%=f.file_field :file,:style=>"display: inline-block;"%>
+                  <%=f.submit :upload%>
+                  <input type="hidden"  name="restaurant_id" value="<%=m.id%>" />
+                  <%end%>
+                </div>
+              </div>
+              <!-- </div> -->
+              <%else%>
+              <!--   <div class="product-desc"> -->
+              <div class="col-lg-12 ibox-content" style="padding-left: 0;padding-right: 0;">
+                <span class="m-l-ms" style="font-weight: bold;"><i class="fa fa-file" aria-hidden="true"></i> Document : <a href="/restaurant/doc/<%=m.id%>" style="color: green;word-break: break-all;"><%=m.restaurant_document.doc_url%></a></span><br><br>
+                <%=form_for :upload_contract_document,url: admin_upload_contract_path do |f|%>
+                <span class="m-l-ms" style="font-weight: bold;">Document Upload :  <%=f.file_field :file,:style=>"display: inline-block;"%>
+                <%=f.submit :upload%>
+                <input type="hidden"  name="restaurant_id" value="<%=m.id%>" />
+                </span>
+                <%end%>
+              </div>
+              <!-- </div> -->
+              <%end%>
+              <%if !m.user.present?%>
+              <!--  <div class="product-desc"> -->
+              <div class="col-lg-12 ibox-content" style="padding-left: 0;padding-right: 0;">
+                <span class="m-l-xs"><b>Owner : <font color="red">Not Available </font></b></span>
+                <a href="<%=restaurant_owner_path(:id=>encode_token(m.id))%>" class="btn btn-sm btn-outline btn-danger pull-right inline">Add Restaurant Owner<i class="fa fa-long-arrow-right"></i> </a>
+              </div>
+              <!-- </div> -->
+              <%else%>
+              <!--   <div class="product-desc"> -->
+              <div class="col-lg-12 ibox-content" style="padding-left: 0;padding-right: 0;">
+                <span class="m-l-xs"><b>Owner Name :  <a href="<%=profile_path(:id=>encode_token(m.user.id))%>"><font color="green"><%=m.user.name%></font></a></b></span>
+                <a href="<%=edit_user_details_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-danger pull-right inline">Edit Restaurant Owner<i class="fa fa-long-arrow-right"></i> </a>
+                 <span class="btn btn-primary btn-m reset_password pull-right inline" id="<%=m.user.id%>" style="margin-right: 11px;"><i class="fa fa-pencil"></i> Reset Password</span>
+              </div>
+              <!-- </div> -->
+              <%end%>
+              <div class="row">
+                <a href="<%=restaurant_details_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-warning inline" style="margin-right:10px;margin-bottom: 5px;">View <i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=branch_show_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-primary inline" style="margin-right: 10px;margin-bottom: 5px;">Branches<i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=restaurant_menu_managment_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-danger inline"style="margin-bottom: 5px;">Menu Management<i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=restaurant_customer_list_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-info inline"style="margin-left: 10px;margin-bottom: 5px;">Customer List<i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=scrap_menu_path(encode_token(m.id))%>" class="btn btn-m btn-outline btn-success inline"style="margin-left: 10px;margin-bottom: 5px;">Add Menu<i class="fa fa-long-arrow-right"></i> </a>
+
+                <% if m.user.present? %>
+                  <%= link_to ("Login as Owner " + '<i class="fa fa-long-arrow-right"></i>').html_safe, login_as_restaurant_owner_path(restaurant_id: m.id), class: "btn btn-m btn-outline btn-primary inline", style: "margin-left: 10px;margin-bottom: 5px;", target: "_blank" %>
+                <% end %>
+              </div>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 " style="margin-bottom: 12px;">
+          <a href="<%=admin_over_all_report_path(:restaurant_id=>m.id)%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;width: 100%;">Branch Performance Report</a>
+        </div>
+        <div class="col-lg-4">
+          <a href="<%=admin_revenue_growth_lost_report_path(m.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;width: 100%;">Revenue Growth / Lost Revenue </a>
+        </div>
+        <div class="col-lg-4">
+          <a href="<%=area_orders_report_path(id: m.id )%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;width: 100%;">Area Wise Order Report</a>
+        </div>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <a href="<%=admin_cancel_order_report_path(m.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;width: 100%;">Cancelled Order Report</a>
+        </div>
+        <div class="col-lg-4">
+          <a href="<%=admin_new_customer_report_path(m.id)%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;width: 100%;">Monthly Customer</a>
+        </div>
+        <div class="col-lg-4">
+          <a href="<%=admin_top_selling_item_report_path(m.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;width: 100%;">Top Selling Item</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <%end%>
+  <div class="row">
+    <div class="col-lg-12">
+      <center> <%= will_paginate @restaurants ,renderer: BootstrapPagination::Rails %></center>
+      <br>
+    </div>
+  </div>
+  <%else%>
+  <div class="col-lg-12">
+    <div class="alert alert-danger text-center">No Restaurant Available yet</div>
+  </div>
+  <%end%>
+</div>
+
+<div class="modal fade" id='reset-password' role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="padding-bottom: none !important;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><center>Reset Password</center></h4>
+      </div>
+      <div class="modal-body">
+
+          <input type="hidden" name="user_id" id="user_id">
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <label>New Password</label>
+              <input type="password" class="form-control" name="new_password" placeholder="New Password" id="new_password">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12">
+              <label>Repeat Password</label>
+              <input class="form-control" name="confirm_password" placeholder="Repeat Password" type="password" id="confirm_password">
+            </div>
+          </div><br>
+          <button class="btn btn-primary btn-md pull-right" id="update_password">Reset Password</button>
+          <br>
+        <%#end%>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+   swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+   swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+  $('.input-form').on("change",function(){
+   restaurant= $(this).val()
+   trandingstatus = $('#'+restaurant+'-tranding').is(':checked')
+   topstatus =  $('#'+restaurant+'-top').is(':checked')
+   $('#'+restaurant+'-is_tranding').val(trandingstatus)
+   $('#'+restaurant+'-in_top_50').val(topstatus)
+   $('#'+restaurant+'-submit-form').submit()
+  })
+
+  $('.branchlist').on("click", function(event) {
+    var restaurant_id = $(this).attr('attr-reid');
+     $('#restaurant_branch_list').modal({backdrop: 'static', keyboard: false});
+     $('#restaurant_branch_list').modal("show");
+     $.ajax({
+     type: "POST",
+     url: '/api/v1/branch/list',
+     dataType: "JSON",
+     data: {
+       restaurant_id:restaurant_id
+     },
+     success:function(branch) {
+       console.log(branch.data)
+       var branchDiv= document.getElementById("branch_list");
+       branchDiv.innerHTML=' ';
+
+      $.each(branch.data, function(arrayID,data) {
+         branchDiv.innerHTML += '<tr id="row'+data.id+'"> <td id="available_row'+data.id+'">'+data.id+'</td> <td id="data_row'+data.id+'"> '+ data.address  +'</td><td id="btn_row'+data.id+'"> <a class="btn btn-primary btn-sm" href="/branch/'+data.id+'" id="save_data'+data.id+'">View</a></td></tr>'
+       })
+     },
+     error: function() {
+       swal("Error","Something went wrong","Error")
+     }
+   });
+
+  });
+
+  $('.input-signed').on("change",function(){
+    restaurant = $(this).val();
+    statstatus = $('#'+restaurant+'-signedcon').is(':checked');
+    $('#'+restaurant+'-signed').val(statstatus)
+    $('#'+restaurant+'-submit-form_restaurant').submit()
+  })
+
+  $(".reset_password").on("click",function(){
+    var eleId = $(this).attr('id');
+    $("#user_id").val(eleId);
+    console.log(eleId)
+    $('#reset-password').modal({backdrop: 'static', keyboard: false});
+    $("#reset-password").modal("show");
+  });
+
+  $("#update_password").on("click",function(){
+    var passlength = new RegExp("(?=.{6,})");
+    if($('#new_password').val().trim() == "") {
+      $('#new_password').focus();
+      swal("Warning","New password can't be blank","error");
+      return false;
+    }
+    else if(!(passlength.test($('#new_password').val()))) {
+      $('#new_password').focus();
+      swal("Warning","Password length should be 6 character long", "error");
+      return false;
+    }
+    else if($("#new_password").val() != $("#confirm_password").val()) {
+      $('#confirm_password').focus();
+      swal("Warning","Password  and confirm password do not match", "error");
+      return false;
+    }
+    else if($('#new_password').val().length <=5 || $('#new_password').val().length >=13 )
+    {
+      $('#new_password').focus();
+      swal("Warning","Please enter new password between length 6 to 12", "error");
+      return false;
+    }
+    else {
+      var new_pass = $('#new_password').val()
+      var user_id = $('#user_id').val()
+      $.ajax({
+        method: "POST",
+        url: "/restaurant/change/password",
+        data: {
+          user_id: user_id,
+          new_password: new_pass
+        },
+        dataType: "JSON",
+        success: function(data) {
+          if (data.code == 200) {
+            swal({
+              type: "success",
+              title: "Done",
+              text: data.message
+            },
+            function(isConfirm){
+              if(isConfirm){
+               $("#new_password").val("");
+                $("#confirm_password").val("");
+                $("#reset-password").modal("hide");
+              }
+            });
+          } else {
+            swal("Warning", data.message, "error")
+          }
+        },
+        error: function() {
+          swal("error", "Something went wrong", "error")
+        }
+      });
+    }
+  });
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

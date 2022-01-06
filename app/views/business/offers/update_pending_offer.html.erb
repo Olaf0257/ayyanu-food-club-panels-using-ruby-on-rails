@@ -1,0 +1,304 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+<style type="text/css">
+  .mrgin-bottom-2 {
+    margin-bottom: 2%;
+  }
+
+  .private_dock {
+    display: none;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <h2>
+      <a href="<%= business_pending_advertisement_list_path(restaurant_id: params[:restaurant_id]) %>"><button class="btn btn-danger pull-right">Back <i class="fa fa-arrow-right"></i> </button></a>
+    </h2>
+  </div>
+<br>
+  <div class="row">
+    <%= form_for :marina, url: business_offers_edit_pending_offer_path, html: { id: "add-marina-form", class: "form-horizontal", multipart: true } do |f| %>
+      <div class="row setup-content" id="step-1">
+        <div class="col-lg-12">
+          <div class="panel panel-default" style="margin-bottom:5%;">
+            <div class="panel-heading text-center"><h3>Update Offer</h3></div>
+            <div class="panel-body" >
+
+              <div class="row mrgin-bottom-2">
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                  <label> Advertisement Type </label>
+                  <select class="form-control"  name="advertisement_type" id="advertisement_type"  style="height:30%;">
+                    <option value="banner">Banner</option>
+                    <option value="list" <% if @offer.place == "list" %>selected<% end %>>List View</option>
+                  </select>
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                  <label>Advertisement Week </label>
+
+                  <select class="form-control"  name="weeks" id="week" style="height:30%;">
+                    <%= @weeks%>
+                    <%= @weekes.each do |b| %>
+                      <option value="<%= b.id %>" <%= @offer.week_id == b.id ? 'selected' : 'false'%>><%= b.start_date %> To <%= b.end_date %></option>
+                    <% end %>
+                  </select>
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                  <label> Branch </label>
+                  <select class="form-control"  name="branch" id="branch_id" onload="area_data(this.options[this.selectedIndex].value);" onchange="get_states(this.options[this.selectedIndex].value,'region','')" style="height:30%;">
+                    <%= @branches.each do |b| %>
+                      <option value="<%= b.id %>" <%= @offer.branch_id == b.id ? 'selected' : 'false' %>><%= b.address %></option>
+                    <% end %>
+                  </select>
+                </div>
+              </div>
+
+              <input type="hidden" name="offer_id" class="form-control" value="<%=@offer.id%>">
+
+              <div class="row mrgin-bottom-2">
+                <div class="col-sm-6 col-md-4 col-lg-4" id="area_id">
+                  <label> Area </label>
+                  <select class="form-control"  name="region" id="region" style="height:30%;">
+                  </select>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <label> Select Space </label>
+                  <select class="form-control position-text"  name="space" id="space"  style="height:30%;">
+                    <option value="1" <% if @offer.position == "1" %> selected <% end %>><%= @offer.place == 'list' ? 'Top' : 'Place' %> 1</option>
+                    <option value="2" <% if @offer.position == "2" %> selected <% end %>><%= @offer.place == 'list' ? 'Top' : 'Place' %> 2</option>
+                    <option value="3" <% if @offer.position == "3" %> selected <% end %>><%= @offer.place == 'list' ? 'Top' : 'Place' %> 3</option>
+                    <option value="4" <% if @offer.position == "4" %> selected <% end %>><%= @offer.place == 'list' ? 'Top' : 'Place' %> 4</option>
+                    <option value="5" <% if @offer.position == "5" %> selected <% end %>><%= @offer.place == 'list' ? 'Top' : 'Place' %> 5</option>
+                  </select>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-4">
+                  <label> Amount </label>
+                  <input type="text" placeholder="Enter amount" name="amount" class="form-control"  id="amount" autocomplete="off" value="<%= @offer.amount %>">
+                </div>
+              </div>
+
+              <div class="row mrgin-bottom-2">
+                <div class="col-sm-6 col-md-4 col-lg-4 title-div <%= 'hide' if @offer.place == 'list' %>">
+                  <label> Title </label>
+                  <input type="text" placeholder="Enter title" name="title" class="form-control"  id="marina_title" autocomplete="off" value="<%= @offer.title %>">
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-4 description-div <%= 'hide' if @offer.place == 'list' %>">
+                  <label> Description </label>
+                  <textarea name="description" class="form-control" rows="4" id="add_desc" placeholder="Enter description" value="<%= @offer.description %>"></textarea>
+                </div>
+              </div>
+
+              <div class="row image-div <%= 'hide' if @offer.place == 'list' %>">
+                <div class="col-lg-4">
+                  <h4>Upload Image (Optional)</h4>
+                  <a href='javascript:;'>
+                    <img src="<%=@offer.image.present? ? @offer.image : '/assets/ic_placeholder.png'%>" class="img-tag" width="200px" height="200px">
+                    <input type="file" id='add-img-tag' name="branch_image" onchange='readURL(event)'><hr>
+                  </a>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong> Save & Next</strong></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script src="/assets/bootstrap-toggle.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UNzzgG2Ng8uQduSSO_nlspaP31orqRc&libraries=places&sensor=false"></script>
+<script type="text/javascript">
+
+  <%if flash[:check_marina].present?%>
+    swal("warning","<%=flash[:check_marina]%>","warning")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+
+
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+  var readURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readLogoURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $("#marina-logo").attr("src",getImagePath);
+  }
+
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+
+  $('#marina_type').on('change', function(){
+    if($(this).val() == 'private'){
+      $(".private_dock").css('display', 'block')
+    }else{
+      $(".private_dock").css('display', 'none')
+    }
+  });
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+        console.log(latlng)
+        $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+
+  // Marinas After Price Range Changes
+
+  $("#saveBtn").on("click",function(){
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var contact = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    var zipregex = /^[0-9]{5,6}$/;
+    var floatValues =  /[+-]?([0-9]*[.])?[0-9]+/;
+
+    if($("#marina_title").is(":visible") && ($('#marina_title').val().length>=41 || $('#marina_title').val().length<=0)){
+     swal({
+          title: "Please enter a valid title",
+          type: "warning",
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Ok",
+      }),
+     $('#marina_title').focus();
+      return false;
+    }
+    else if(!floatValues.test($('#amount').val())){
+      $('#amount').focus();
+      swal("Warning","Please enter valid amount","warning");
+      return false;
+    }
+    else{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+
+
+    function get_states(branch_id,region,v){
+      console.log(branch_id)
+    $.ajax({
+      type: "POST",
+      url: '/api/v1/branch/areas',
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        areas = data.areas ? data.areas : ''
+        console.log(areas)
+        print_state(areas,region)
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  }
+
+   function print_state(areas,region){
+    console.log(areas)
+    if (areas){
+        $("#"+region).empty();
+        var option_state_str = document.getElementById(region);
+        // var option = document.createElement("OPTION");
+        // option.innerHTML = 'Select Area'
+        // option.value = ''
+        // option_state_str.options.add(option);
+
+        console.log(option_state_str)
+        for (var i = 0; i < areas.length; i++) {
+        var option = document.createElement("OPTION");
+          option.innerHTML = areas[i].area;
+          console.log(areas[i])
+          option.value = areas[i].coverage_area_id;
+          console.log(areas[i].area)
+          option_state_str.options.add(option);
+        }
+    }
+  }
+
+
+  window.onload = function area_data(branch_id) {
+    branch_id = "<%= @offer.branch_id %>"
+    region = "region"
+
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/branch/areas",
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        areas = data.areas ? data.areas : ''
+        print_state(areas,region)
+      },
+      error: function() {
+        swal("Error", "Something went wrong", "Error")
+      }
+    });
+  }
+
+  $("#advertisement_type").on("change", function () {
+    var type = $(this).val();
+
+    if (type == "banner") {
+      $(".title-div, .description-div, .image-div").removeClass("hide");
+      $('.position-text option:contains("Top 1")').text('Place 1');
+      $('.position-text option:contains("Top 2")').text('Place 2');
+      $('.position-text option:contains("Top 3")').text('Place 3');
+      $('.position-text option:contains("Top 4")').text('Place 4');
+      $('.position-text option:contains("Top 5")').text('Place 5');
+    } else {
+      $(".title-div, .description-div, .image-div").addClass("hide");
+      $('.position-text option:contains("Place 1")').text('Top 1');
+      $('.position-text option:contains("Place 2")').text('Top 2');
+      $('.position-text option:contains("Place 3")').text('Top 3');
+      $('.position-text option:contains("Place 4")').text('Top 4');
+      $('.position-text option:contains("Place 5")').text('Top 5');
+    }
+  });
+</script>

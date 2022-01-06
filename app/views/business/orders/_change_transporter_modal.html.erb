@@ -1,0 +1,41 @@
+<div class="modal fade" id='change-transporter-model' role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Current Driver</h4>
+      </div>
+
+      <div class="modal-body">
+        <% if @transports.present? %>
+          <div class="row">
+            <% @transports.each do |transport| %>
+              <div class="col-sm-7 left-col">
+                <div>
+                  <img src="<%= transport["image"].present? ? transport["image"] : 'https://res.cloudinary.com/dllkw7sbd/image/upload/v1575003661/logo/user.png'%>" style="width: 35px; height: 35px;">
+                </div>
+
+                <div style="margin-left: 20px;">
+                  <strong style="padding-right: 5px;"><%= transport["name"] %></strong>
+                  <label class="label label-sm" style=" background-color:#086608; color:white;"><%= transport["amount"] %></label>
+                </div>
+              </div>
+
+              <div class="col-sm-5" style="display: flex; display:-webkit-flex;">
+                <% if @order.payment_mode == "COD" %>
+                  <input class="form-control" name="amount" placeholder="Iou Amount" value="0"  type="text" autocomplete="off"  id="change_iou-<%= transport["id"] %>" style="margin-bottom: 10px; width: 100px;">
+                <% end %>
+
+                <center><button  class="btn btn-sm btn-success" onclick="change_transporter_in_order(<%= @order.id %>, <%= transport["id"] %>)" style="height: 34px; margin-left:10px;">Assign Order</button></center>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <center>
+            <div class="alert alert-danger">Transporter not available yet.</div>
+          </center>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% if params[:keyword] %>
+  $("#other_drivers_modal").html("<%= escape_javascript render 'driver_list' %>");
+<% else %>
+  $("#other_drivers_modal").remove();
+  $(".page-heading").append("<%= escape_javascript render(partial: 'other_driver_list_modal') %>");
+  $("#other_drivers_modal").modal("show");
+<% end %>

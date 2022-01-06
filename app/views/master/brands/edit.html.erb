@@ -1,0 +1,130 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Main Master >> Brand >> Edit</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, master_restaurant_brands_path, class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Update Brand</h3>
+		</div>
+
+		<div class="panel-body">
+			<%= form_for(@brand, url: master_restaurant_brand_path, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :name %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:name, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :representative %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:representative, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :representative_phone %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:representative_phone, placeholder: "Enter contact number", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :authorised_person %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:authorised_person, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :authorised_person_phone %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:authorised_person_phone, placeholder: "Enter contact number", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+				</div>
+			</div> 
+
+			<div class="row form-group">
+				<center><%= f.submit "Update Brand", class: "btn btn-success btn-sm" %></center>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+
+	$("#brand_representative_phone").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "representative_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%= @user.country_id.present? ? @user.class.find(@user.id)[:country_code] : 'bh' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $("#brand_authorised_person_phone").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "authorised_person_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%= @user.country_id.present? ? @user.class.find(@user.id)[:country_code] : 'bh' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

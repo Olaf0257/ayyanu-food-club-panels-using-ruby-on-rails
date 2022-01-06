@@ -1,0 +1,197 @@
+<style type="text/css">
+  .bg-white{
+    background-color: white;
+  }
+  .form-control {
+    height: 40px;
+  }
+  .setheight{
+    height:40px !important;
+  }
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important;
+  }
+    .tcolor{
+    color: black;
+  }
+
+  .normal {
+     background-color: red;
+    }
+.active {
+
+   background-color: green;
+}
+
+.btn-default .toggle-off {
+    background-color: #40b494 !important;
+    border: #40b494 !important;
+    height: 100%;
+}
+.btn-primary .toggle-on{
+  background-color: #b7b5b5!important;
+  border: #b7b5b5 !important;
+  height: 100%;
+}
+
+</style>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="/assets/bootstrap-toggle.min.js"></script>
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-sm-8">
+    <h2 style="margin-top:17px;"><b>Branch Coverage Area</b></h2>
+  </div>
+  <div class="col-sm-4">
+  <%if @user.auths.first.role == "business"%>
+    <a href="<%=business_resturant_branch_path(:restaurant_id=>params[:restaurant_id])%>" class="pull-right" style="margin-top:17px;"><button class="btn btn-success btn-sm">Back to Branches <i class="fa fa-arrow-right"></i></button></a>
+    <%else%>
+     <a href="<%=business_manager_restaurant_branch_path%>" class="pull-right" style="margin-top:17px;"><button class="btn btn-success btn-sm">Back to Branches <i class="fa fa-arrow-right"></i></button></a>
+     <%end%>
+  </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-3">
+      <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i), :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight"%>
+    </div>
+
+    <div class="col-sm-9">
+      <span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <div class="form-group">
+            <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+            <input type="text" style="height: 35px;" class="form-control" name="keyword" value="<%= params[:keyword] %>" placeholder="Search by Area" autocomplete="off">
+          </div>
+
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+      </span>
+    </div>
+   <!--  -->
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="border:none;">
+          <%if @all_areas .present?%>
+            <div class="full-height-scroll">
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Coverage area Name</th>
+                        <th>Delivery charge (<%= @branch.currency_code_en %>)</th>
+                        <th>Food Club Charges (<%= @branch.currency_code_en %>)</th>
+                        <th>Minimum Order Amount (<%= @branch.currency_code_en %>)</th>
+                        <th>Delivery Time</th>
+                        <th>Third Party Delivery</th>
+                        <th>Status</th>
+                        <th>Busy</th>
+                        <th>Far Menu</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% @all_areas.each do |o| %>
+                        <% if o.class.name == "CoverageArea" %>
+                          <tr>
+                            <td><a href="#"><%= o.area %></a></td>
+                            <td><p>0.000</p></td>
+                            <td><p>0.000</p></td>
+                            <td><p>0.000</p></td>
+                            <td><p>N/A</p></td>
+                            <td><p>No</p></td>
+
+                            <%= form_for :restaurant, url: business_change_branch_busy_state_path(new_area: true, branch_id: @branch.id, restaurant_id: params[:restaurant_id]), html: { id: "#{o.id}-branch-update-status" } do |f| %>
+                              <td>
+                                <input type="hidden" name="area_id" value="<%= o.id %>">
+                                <p><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-close" class="input-form" checked style="width: 100% !important " data-on="Closed" data-off="Open"></p>
+                              </td>
+                            <% end %>
+
+                            <td>
+                              <p class="inactive-coverage-area-link"><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-busy" class="input-form" checked style="width: 100% !important " data-on="Busy" data-off="Active" disabled="disabled"></p>
+                            </td>
+
+                            <td>
+                              <p class="inactive-coverage-area-link"><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-far-menu" class="input-form" checked style="width: 100% !important " data-on="No" data-off="Yes" disabled="disabled"></p>
+                            </td>
+
+                            <td>
+                              <a href="#" class="btn btn-sm btn-default inactive-coverage-area-link" style="font-size: 13px;"><i class="fa fa-eye" aria-hidden="true"></i>Edit </a>
+                            </td>
+                          </tr>
+                        <% else %>
+                          <tr id="order-<%#=o.id%>">
+                            <td><a href="#"><%= o.coverage_area.area %></a></td>
+                            <td><p><%= o.delivery_charges.presence || 0.000 %></p></td>
+                            <td><p><%= o.foodclub_charges.presence || 0.000 %></p></td>
+                            <td><p><%= o.minimum_amount.presence || 0.000 %></p></td>
+                            <td><p><%= o.delivery_time.presence || "N/A"%></p></td>
+                            <td><p><%= o.third_party_delivery ? "Yes (#{ o.third_party_delivery_type })" : "No" %></p></td>
+
+                            <%= form_for :restaurant, url: business_change_branch_busy_state_path(restaurant_id: params[:restaurant_id]), html: { id: "#{o.id}-branch-update-status" } do |f| %>
+                              <td>
+                                <input type="hidden" name="area_id" value="<%=o.id%>">
+                                <input type="hidden" name="is_busy" id="<%=o.id%>-is_busy" value="false">
+                                <input type="hidden" name="is_close" id="<%=o.id%>-is_close" value="false">
+                                <input type="hidden" name="is_far_menu" id="<%=o.id%>-is_far_menu" value="<%= o.far_menu %>">
+                                <p><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-close" class="input-form" <% if o.is_closed %> checked <% end %> style="width: 100% !important " data-on="Closed" data-off="Open"></p>
+                              </td>
+
+                              <td>
+                                <p><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-busy" class="input-form" <%if o.is_busy %> checked <%end%> style="width: 100% !important " data-on="Busy" data-off="Active"></p>
+                              </td>
+
+                              <td>
+                                <p><input data-toggle="toggle" type="checkbox" value="<%=o.id%>" id="<%=o.id%>-far-menu" class="input-form" <% unless o.far_menu %> checked <%end%> style="width: 100% !important " data-on="No" data-off="Yes"></p>
+                              </td>
+                            <% end %>
+
+                            <td>
+                              <a href="<%= business_update_coverage_area_path(coverage_area_id: encode_token(o.id), restaurant_id: params[:restaurant_id],branch_id: encode_token(o.branch.id))%>" class="btn btn-sm btn-danger" style="font-size: 13px;"><i class="fa fa-eye" aria-hidden="true"></i>Edit </a>
+                            </td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+               </div>
+            </div>
+            <div class="col-lg-12">
+              <center> <%= will_paginate @all_areas ,renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <%else%>
+            <center><div class="alert alert-danger">Area not available yet.</div></center>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("success", "<%= flash[:success] %>", "success")
+    <% flash[:success] = nil %>
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%=flash[:error]%>", "warning")
+    <% flash[:error] = nil %>
+  <% end %>
+
+  $(".input-form").on("change", function() {
+    area = $(this).val();
+    busyStaus = $("#" + area + "-busy").is(":checked");
+    closeStatus =  $("#" + area + "-close").is(":checked");
+    farMenuStatus = $("#" + area + "-far-menu").is(":checked");
+    $("#" + area + "-is_busy").val(busyStaus);
+    $("#" + area + "-is_close").val(closeStatus);
+    $("#" + area + "-is_far_menu").val(!farMenuStatus);
+    $("#" + area + "-branch-update-status").submit();
+  });
+</script>

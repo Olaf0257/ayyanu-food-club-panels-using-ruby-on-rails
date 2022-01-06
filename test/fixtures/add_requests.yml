@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  position: MyString
+  place: MyString
+  title: MyString
+  description: MyString
+  amount: 1.5
+  is_accepted: false
+  transaction_id: MyString
+  branch: one
+  coverage_area: one
+  week: one
+  start_year: MyString
+  end_year: MyString
+
+two:
+  position: MyString
+  place: MyString
+  title: MyString
+  description: MyString
+  amount: 1.5
+  is_accepted: false
+  transaction_id: MyString
+  branch: two
+  coverage_area: two
+  week: two
+  start_year: MyString
+  end_year: MyString

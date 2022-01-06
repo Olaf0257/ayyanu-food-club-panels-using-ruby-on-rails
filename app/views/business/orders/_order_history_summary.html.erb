@@ -1,0 +1,44 @@
+<% if @all_orders.present? %>
+  <% currency = @all_orders.first.currency_code_en %>
+
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="ibox-content bg-white">
+        <h3 class="text-center">Summary</h3>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td><b>Total Orders</b></td>
+              <td><%= @all_orders.size %></td>
+            </tr>
+
+            <tr>
+              <td><b>Total Order Amount</b></td>
+              <td><%= number_with_precision(@all_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+            </tr>
+
+            <tr>
+              <td><b>Total Cash Orders</b></td>
+              <td><%= @all_orders.cash_orders.size %></td>
+            </tr>
+
+            <tr>
+              <td><b>Total Cash Orders Amount</b></td>
+              <td><%= number_with_precision(@all_orders.cash_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+            </tr>
+
+            <tr>
+              <td><b>Total Online Orders</b></td>
+              <td><%= @all_orders.online_orders.size %></td>
+            </tr>
+
+            <tr>
+              <td><b>Total Online Orders Amount</b></td>
+              <td><%= number_with_precision(@all_orders.online_orders.reload.pluck(:total_amount).sum, precision: 3) %> <%= currency %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<% end %>

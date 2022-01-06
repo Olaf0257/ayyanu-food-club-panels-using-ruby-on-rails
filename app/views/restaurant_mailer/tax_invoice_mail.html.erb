@@ -1,0 +1,227 @@
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i" rel="stylesheet">
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.8;
+    background: #f1f1f1;
+  }
+
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .email-container {
+    max-width: 700px;
+    border-radius: 0px 0px 5px 5px;
+    color: #ffff;
+  }
+
+  .email-header {
+    padding: 3em;
+    background: white;
+  }
+
+  .email-content{
+    padding: 2.5em;
+    background: #2f4050;
+    min-height: 220px;
+  }
+
+  .content-header .subheading{
+    display: inline-block;
+    padding: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .content-header h2{
+    margin: 10px 0px 20px 0px;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .content-main p{
+    font-size: 12px;
+  }
+
+  .content-main table{
+    padding: 15px 0px;
+    width: 100%;
+  }
+
+  .value{
+    width: 50%;
+    text-align: center;
+  }
+
+  .email-footer {
+    font-size: 12px;
+    line-height: 15px;
+    background: #546575;
+    padding: 1.5em 2.5em;
+    text-align: left;
+    border-radius: 0px 0px 5px 5px;
+  }
+
+  table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #ffffff;
+    font-size: 14px;
+    padding: 5px;
+  }
+
+  .total-row {
+    font-weight: 600;
+  }
+</style>
+
+<div class="container">
+  <center>
+    <div class="email-container">
+      <div class="email-header">
+        <figure>
+          <img src="https://ik.imagekit.io/sodhemlpr/admin/fc-logo-740e35ae18bd8ef009b002e07e4e3dc0ffffd6566540380411608b48256c6a38_jUGif7F06g.png" class="img-fluid" style="height:150px;">
+        </figure>
+      </div>
+
+      <div class="email-content">
+        <div class="content-header">
+          <span class="subheading">Hello <%= @restaurant.user.name %></span>
+          <hr>
+          <h2>Food Club Tax Invoice</h2>
+          <span style="color:#e3e3e3; font-size:15px; font-weight:500;">Please find the Detailed Report below. </span>
+        </div>
+
+        <div class="content-main">
+          <h3 style="font-size: 20px">Tax Invoice</h3>
+
+          <table>
+            <tr>
+              <td>Restaurant</td>
+              <td class="value"><%= @restaurant.title %></td>
+            </tr>
+
+            <tr>
+              <td>Branch Address</td>
+              <td class="value"><%= @branch.address %></td>
+            </tr>
+
+            <tr>
+              <td>Invoice No.</td>
+              <td class="value"><%= "FC-" + Date.yesterday.year.to_s.last(2) + Date.yesterday.month.to_s + "-" + SecureRandom.hex(3).upcase %></td>
+            </tr>
+
+            <tr>
+              <td>Date</td>
+              <td class="value"><%= Date.yesterday.beginning_of_month.strftime("%d/%m/%Y") + " - " + Date.yesterday.end_of_month.strftime("%d/%m/%Y") %></td>
+            </tr>
+
+            <tr>
+              <td>Issue Date</td>
+              <td class="value"><%= Date.today.strftime("%d/%m/%Y") %></td>
+            </tr>
+
+            <tr>
+              <td>Currency</td>
+              <td class="value"><%= @restaurant.currency_code_en %></td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="content-main">
+          <br><h3 style="font-size: 18px">Tax Details</h3>
+          <% vat_data = [] %>
+          <% subtotal_data = [] %>
+          <% total_data = [] %>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>VAT (%)</th>
+                <th>VAT Amount</th>
+                <th>Subtotal</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Food Club Fixed Charges</td>
+                <td>5</td>
+                <td><%= vat = number_with_precision((@orders.sum(:fixed_fc_charge) * 0.05.to_f), precision: 3) %></td>
+                <td><%= subtotal = number_with_precision(@orders.sum(:fixed_fc_charge), precision: 3) %></td>
+                <td><%= total = number_with_precision((@orders.sum(:fixed_fc_charge) * 1.05.to_f), precision: 3) %></td>
+                <% vat_data << vat %>
+                <% subtotal_data << subtotal %>
+                <% total_data << total %>
+              </tr>
+
+              <tr>
+                <td>Credit Card Charges</td>
+                <td>5</td>
+                <td><%= vat = number_with_precision((@orders.online_orders.where(card_type: "Credit").map(&:card_charge).sum * 0.05.to_f), precision: 3) %></td>
+                <td><%= subtotal = number_with_precision(@orders.online_orders.where(card_type: "Credit").map(&:card_charge).sum, precision: 3) %></td>
+                <td><%= total = number_with_precision((@orders.online_orders.where(card_type: "Credit").map(&:card_charge).sum * 1.05.to_f), precision: 3) %></td>
+                <% vat_data << vat %>
+                <% subtotal_data << subtotal %>
+                <% total_data << total %>
+              </tr>
+
+              <tr>
+                <td>Debit Card Charges</td>
+                <td>5</td>
+                <td><%= vat = number_with_precision((@orders.online_orders.where(card_type: "Debit").map(&:card_charge).sum * 0.05.to_f), precision: 3) %></td>
+                <td><%= subtotal = number_with_precision(@orders.online_orders.where(card_type: "Debit").map(&:card_charge).sum, precision: 3) %></td>
+                <td><%= total = number_with_precision((@orders.online_orders.where(card_type: "Debit").map(&:card_charge).sum * 1.05.to_f), precision: 3) %></td>
+                <% vat_data << vat %>
+                <% subtotal_data << subtotal %>
+                <% total_data << total %>
+              </tr>
+
+              <tr>
+                <td>Food Club Delivery Charges</td>
+                <td>5</td>
+                <td><%= vat = number_with_precision((@orders.where(third_party_delivery: true).sum(:delivery_charge) * 0.05.to_f), precision: 3) %></td>
+                <td><%= subtotal = number_with_precision(@orders.where(third_party_delivery: true).sum(:delivery_charge), precision: 3) %></td>
+                <td><%= total = number_with_precision((@orders.where(third_party_delivery: true).sum(:delivery_charge) * 1.05.to_f), precision: 3) %></td>
+                <% vat_data << vat %>
+                <% subtotal_data << subtotal %>
+                <% total_data << total %>
+              </tr>
+
+              <tr class="total-row">
+                <td colspan="2">TOTAL</td>
+                <td><%= number_with_precision(vat_data.map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision(subtotal_data.map(&:to_f).sum, precision: 3) %></td>
+                <td><%= number_with_precision(total_data.map(&:to_f).sum, precision: 3) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-main" style="margin-top: 50px;">
+          <center>
+            FOOD CLUB RESTAURANT MANAGEMENT COMPANY S.P.C
+            <br>BUILDING 2636, BLOCK 257, ROAD 5720, BAHRAIN
+          </center>
+        </div>
+      </div>
+
+      <div class="email-footer">
+        <p>
+          ©2020 Food Club
+          <br>
+          <small style="font-size: 11px;">Bahrain</small>
+        </p>
+      </div>
+    </div>
+  </center>
+</div>

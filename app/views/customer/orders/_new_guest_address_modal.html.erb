@@ -1,0 +1,265 @@
+<style>
+  .intl-tel-input .country-list .country {
+    display: block;
+  }
+</style>
+
+<div class="modal fade" id="new_guest_address_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">ADD NEW ADDRESS</h4>
+      </div>
+
+      <%= form_tag customer_add_guest_address_path, method: :post, class: "form-horizontal", autocomplete: :off do %>
+        <%= hidden_field_tag(:coverage_area_id, @coverage_area&.id) %>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="control-label col-sm-3">First Name: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:first_name, "", class: "form-control", required: true, placeholder: "Enter your name") %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Last Name: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:last_name, "", class: "form-control", required: true, placeholder: "Enter your name") %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Location: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:location, "", placeholder: "Enter location", class: "form-control", required: true) %>
+              <%= hidden_field_tag(:latitude, "") %>
+              <%= hidden_field_tag(:longitude, "") %>
+            </div>
+          </div>
+
+          <div class="row" style="height: 300px;">
+            <div id="map_canvas"></div>
+          </div><br>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Address Name: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Address Type: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Block: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Road No: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Building: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Floor:</label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:floor, "", class: "form-control") %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Additional Directions (Optional):</label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Mobile: <span class="text-danger">*</span></label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only") %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-sm-3">Landline Number (Optional):</label>
+
+            <div class="col-sm-9">
+              <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-bottom: 0">Close</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script>
+  var placeSearch, autocomplete;
+  autocomplete = new google.maps.places.Autocomplete( (document.getElementById('location')),{ types: []});
+
+  google.maps.event.addListener(autocomplete, "place_changed", function() {
+    var place = autocomplete.getPlace();
+    codeAddress();
+  });
+
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        autocomplete.setBounds(new google.maps.LatLngBounds(geolocation, geolocation));
+      });
+    }
+  }
+
+  var geocoder;
+  var map;
+  var marker;
+
+  var infowindow = new google.maps.InfoWindow({
+    size: new google.maps.Size(150, 50)
+  });
+
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng("26.2336","50.5523");
+    var mapOptions = {
+      zoom: 12,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    google.maps.event.addListener(map, "click", function() {
+      infowindow.close();
+    });
+  }
+
+  function geocodePosition(pos) {
+    geocoder.geocode({
+      latLng: pos
+    }, function(responses) {
+      if (responses && responses.length > 0) {
+        marker.formatted_address = responses[0].formatted_address;
+      } else {
+        marker.formatted_address = "Cannot determine address at this location.";
+      }
+      infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+      infowindow.open(map, marker);
+    });
+  }
+
+  function codeAddress() {
+    var address = document.getElementById("location").value;
+    geocoder.geocode({
+      "address": address
+    }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        if (marker) {
+          marker.setMap(null);
+          if (infowindow) infowindow.close();
+        }
+        marker = new google.maps.Marker({
+          map: map,
+          draggable: true,
+          position: results[0].geometry.location
+        });
+        google.maps.event.addListener(marker, "dragend", function() {
+          geocodePosition(marker.getPosition());
+          document.getElementById("location").value= marker.formatted_address
+          var addressLat = document.getElementById("latitude").value= marker.getPosition().toUrlValue(6).split(',')[0];
+          var addressLong = document.getElementById("longitude").value= marker.getPosition().toUrlValue(6).split(',')[1];
+          setTimeout(function(){google.maps.event.trigger(marker, 'click'); }, 300);
+        });
+        google.maps.event.addListener(marker, "click", function() {
+          var addressLat = document.getElementById("latitude").value= marker.getPosition().toUrlValue(6).split(',')[0];
+          var addressLong = document.getElementById("longitude").value= marker.getPosition().toUrlValue(6).split(',')[1];
+
+          if (marker.formatted_address) {
+            document.getElementById("location").value= marker.formatted_address
+            infowindow.setContent(marker.formatted_address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+          } else {
+            document.getElementById("location").value= address
+            infowindow.setContent(address + "<br>coordinates: " + marker.getPosition().toUrlValue(6));
+          }
+          infowindow.open(map, marker);
+          $.get("/customer/fill_address?latitude=" + addressLat + "&longitude=" + addressLong);
+        });
+        google.maps.event.trigger(marker, "click");
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+
+  google.maps.event.addDomListener(window, "load", initialize);
+
+  $("#mobile").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone_contact",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

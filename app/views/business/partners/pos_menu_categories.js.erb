@@ -1,0 +1,10 @@
+$('.menu-category-text').text('MENU CATEGORIES');
+$('.back-menu-item').addClass('hide');
+$('.pos-transaction').empty().append("<%= j render partial: 'menu_category_lists', locals: { menu_categories: @categories, pos_table_id: params[:pos_table_id] }%>");
+$('.first-letter-list').empty().append("<%= j render partial: 'pos_first_letter_btn', locals: { categories: @categories }%>")
+$('.addon-categories, .pos-addon-items, .comment-form').addClass('hide');
+$('.first-letter-list').removeClass('first-letter-width');
+$('#selected_menuaddon_transaction_id').val("");
+$('#selected_menuaddon_id').val("");
+selectSingleText();
+update_qty();

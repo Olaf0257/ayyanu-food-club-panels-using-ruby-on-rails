@@ -1,0 +1,114 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Add Asset </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Asset Type" href="<%= new_business_asset_management_asset_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @add_assets.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Asset Name</th>
+                  <th>Asset Type</th>
+                  <th>Asset Category</th>
+                  <th>Asset Location</th>
+                  <th>Brand</th>
+                  <th>Model</th>
+                  <th>Serial Number</th>
+                  <th>Purchase Date</th>
+                  <th>Invoice Number</th>
+                  <th>Warranty</th>
+                  <th>Station Assigned</th>
+                  <th>View Image</th>
+                  <th>QR Code</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @add_assets.each do |asset| %>
+                <tr id="trans-<%=asset.id %>">
+                  <td id="<%=asset.id %>-id"><%=asset.id%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.name%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.asset_type&.name%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.asset_category&.name%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.branch&.address%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.brand&.name%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.model%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.serial_number%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.purchase_date%></td>
+                  <td id="<%=asset.id %>-id"><%=asset.invoice_number%></td>
+                   <td id="<%=asset.id %>-id"><%=asset.warranty%></td>
+                   <td id="<%=asset.id %>-id"><%=asset.station&.name%></td>
+                   <td>
+                    <% if asset.asset_pic_upload.present?%>
+                  <span id ="document_stage"><%= link_to 'View Image', view_image_business_asset_management_asset_path(asset), :class=>"btn btn-primary attach-btn-anchor", :remote => true, 'data-toggle' =>"modal",'data-target' =>'#exampleModal' %></span>
+                   <%end%>
+                   </td>
+                  
+                    <td>
+                  <% if asset.barcode_url.present?%>    
+                    <span id ="document_stage"><%= link_to 'QR Code',view_QR_Code_business_asset_management_asset_path(asset), :class=>"btn btn-primary attach-btn-anchor", :remote => true, 'data-toggle' =>"modal",'data-target' =>'#exampleModal' %></span>
+                   </td>
+                  <%end%> 
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Asset'.html_safe, edit_business_asset_management_asset_path(asset, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Asset'.html_safe, business_asset_management_asset_path(asset, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Assets available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">                                                <div class="modal-dialog" role="document">
+                            <div class="modal-content" style="width: 900px;right: 15%;">
+                              <div class="modal-header">
+                                <!-- <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> -->
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+              
+                              </div>
+                              <div class="modal-footer">
+                                <!-- <button type="button" class="btn btn-secondary" >Close</button> -->
+                                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button> -->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- model end -->
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

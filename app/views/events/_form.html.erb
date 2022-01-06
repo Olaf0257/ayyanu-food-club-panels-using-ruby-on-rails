@@ -1,0 +1,41 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :title %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_field(:title, required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :description %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_field(:description, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= label_tag(:country_ids, "Countries") %>
+  </div>
+
+  <div class="col-sm-10">
+    <% if is_super_admin?(@admin) %>
+      <%= select_tag("country_ids[]", options_for_select(Country.pluck(:name, :id).sort, f.object&.event_countries&.map(&:country_id)), { class: "form-control admin-search-field event-country-select", required: true, multiple: true }) %>
+    <% else %>
+      <%= select_tag("country_ids[]", options_for_select(Country.where(id: @admin.country_id).pluck(:name, :id).sort, f.object&.event_countries&.map(&:country_id)), { class: "form-control admin-search-field event-country-select", required: true, multiple: true }) %>
+    <% end %>
+  </div>
+</div>
+
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $(".event-country-select").select2();
+</script>

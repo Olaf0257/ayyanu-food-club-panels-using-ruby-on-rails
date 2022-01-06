@@ -1,0 +1,21 @@
+<% if flash[:success].present? %>
+  swal({
+    title: "OTP Sent",
+    text: "<%= flash[:success] %>",
+    type: "success",
+    showCancelButton: false,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "VERIFY OTP",
+    closeOnConfirm: false
+  },
+  function(isConfirm) {
+    if (isConfirm) {
+      swal.close();
+      $("body").append("<%= escape_javascript render(partial: 'verify_otp_modal') %>");
+      $("#verify_otp_modal").modal({ backdrop: "static", keyboard: false });
+      $("#verify_otp_modal").modal("show");
+    }
+  });
+<% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+<% end %>

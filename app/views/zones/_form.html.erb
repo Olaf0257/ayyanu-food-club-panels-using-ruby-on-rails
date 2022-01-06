@@ -1,0 +1,29 @@
+<div class="row form-group">
+  <div class="col-sm-3">
+    <%= f.label :name, "Name (English)" %>
+  </div>
+
+  <div class="col-sm-9">
+    <%= f.text_field(:name, placeholder: "Enter english name", required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-3">
+    <%= f.label :name_ar, "Name (Arabic)" %>
+  </div>
+
+  <div class="col-sm-9">
+    <%= f.text_field(:name_ar, placeholder: "Enter arabic name", required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-3">
+    <%= f.label :district_id, "District" %>
+  </div>
+
+  <div class="col-sm-9">
+    <%= f.select(:district_id, options_for_select(@districts, f.object&.district_id), { prompt: "Select District" }, { required: true, class: "form-control admin-search-field" }) %>
+  </div>
+</div>

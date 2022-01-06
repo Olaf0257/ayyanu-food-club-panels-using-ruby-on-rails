@@ -1,0 +1,49 @@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<div class="qr-code-container">
+  <%= image_tag("food_club_banner.png", alt: @branch.restaurant.title, height: "60px", width: "80px") %>
+  <%= image_tag(@branch.restaurant.logo, alt: @branch.restaurant.title, height: "60px", width: "60px", style: "float: right") %>
+
+  <div class="qr-code-image">
+    <%= @barcode.html_safe %>
+  </div>
+
+  <h2>Contactless Menu</h2>
+  <h2>Stay Safe</h2>
+  <p><%= @branch.restaurant.title %></p>
+  <p>(<%= @branch.city %>)</p>
+</div>
+
+<style>
+  @page {
+    margin: 7mm 5mm 4mm 5mm;
+  }
+
+  svg {
+    height: 270px;
+    width: 270px;
+  }
+
+  .qr-code-container {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+  }
+
+  .qr-code-image {
+    margin: 70px 30px 40px 30px;
+  }
+
+  h2, p {
+    text-align: center;
+  }
+</style>
+
+<script>
+  $(document).ready(function() {
+    window.print();
+  });
+</script>

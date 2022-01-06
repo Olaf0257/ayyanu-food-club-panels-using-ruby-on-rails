@@ -1,0 +1,29 @@
+<% if @cart_data.present? %>
+  <% @cart_data.each do |data| %>
+    <li>
+      <div class="dish-name">
+        <h6 itemprop="headline">
+          <i class="fa fa-trash remove-cart-item" data-id="<%= data['id'] %>"></i> <%= data["item_name"] %>
+
+          <% if data["description"].present? %>
+            <i class="fa fa-info-circle" title="<%= data['description'] %>"></i>
+          <% end %>
+
+          <span class="<%= 'hide' if data['restricted_quantity'] %>"><i class="fa fa-minus decrement-item-count" data-id="<%= data['id'] %>"></i></span>
+          <span class="item-count"><%= data["quantity"] %></span>
+          <span class="<%= 'hide' if data['restricted_quantity'] %>"><i class="fa fa-plus increment-item-count" data-id="<%= data['id'] %>"></i></span>
+        </h6>
+
+        <span class="price"><span class="total-price"><%= data["total_price"] %></span>  <%= CartItem.find(data['id']).menu_item.currency_code_en %></span>
+      </div>
+
+      <div class="dish-ingredients">
+        <% data["item_addons"].each do |item| %>
+          <span class="check-box"><label for="checkbox1-1"><span><%= item["addon_title"] %></span></label></span>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+<% else %>
+  <h5 class="text-center">Your Cart is empty</h5>
+<% end %>

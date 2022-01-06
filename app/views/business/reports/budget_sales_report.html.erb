@@ -1,0 +1,129 @@
+<style type="text/css">
+  .setheight {
+    height:100% !important;
+  }
+
+  .form-group {
+    width: 100% !important;
+    margin-bottom: 15px !important;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-12">
+    <h2 style="margin-top:20px;"><b>Budget Vs Sales Report</b></h2>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+    <input type="hidden" value="<%= params[:restaurant_id] %>" name="restaurant_id">
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:branch, options_for_select(@branches.pluck(:address, :id), params[:branch]), prompt: "All Branches", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <%= select_tag(:area, options_for_select(@areas.pluck(:area), params[:area]), prompt: "All Areas", class: "form-control setheight", style: "width: 100%;") %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <input type="text" id="datepicker" placeholder="start date" autocomplete="off" style="height: 36px; width: 100%;" name="start_date" value="<%= params[:start_date] %>">
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="form-group">
+        <input type="text" id="enddatepicker"  placeholder="end date" autocomplete="off" style="height: 36px; width: 100%;" name="end_date" value="<%= params[:end_date] %>">
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <button type="submit" class="btn btn-danger"> Search </button>
+    </div>
+  <% end %>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <input type="hidden"  name="top_item_data" value="<%=@reports%>">
+          <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+            <a href="<%= business_budget_sales_report_csv_path(format: :xlsx, items_data: @budget_sales) %>" class="btn btn-success btn-sm"><strong>Xlsx</strong></a>
+          </span>
+
+          <h5>Budget Vs Sales Report</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @budget_sales.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Branch Address</th>
+                  <th>Total Order Count</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Total Order Amount</th>
+                  <th>Total Budget Amount</th>
+                  <th>Amount Difference</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @budget_sales.each do |b| %>
+                  <tr>
+                    <td><%= b[:address] %></td>
+                    <td><%= b[:order_count] %></td>
+                    <td><%= b[:start_date] %></td>
+                    <td><%= b[:end_date] %></td>
+                    <td><%= b[:total_order_amount] %> BD</td>
+                    <td><%= b[:budget_total_amount] %> BD</td>
+                    <td><%= b[:diffrence_amount] %> BD</td>
+                    <td>
+                      <b><%= b[:status] %></b>
+
+                      <% if b[:status] == "loss" %>
+                        <i class="fa fa-arrow-down" style="font-size:18px;color:red;margin-left: 3px;"></i>
+                      <% else %>
+                        <i class="fa fa-arrow-up" style="font-size:18px;color:green;margin-left: 3px;"></i>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No reports available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+          <center><%#= will_paginate @reports, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+  $("#datepicker").datepicker({
+    format: "yyyy-mm-dd"
+  });
+
+  $("#enddatepicker").datepicker({
+    format: "yyyy-mm-dd"
+  });
+</script>

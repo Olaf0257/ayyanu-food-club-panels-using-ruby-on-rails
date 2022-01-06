@@ -1,0 +1,97 @@
+<div style="border: 1px solid black; height:100%;" id="printCheckContent">
+    <div style="border-bottom: 1px dashed black;">
+        <p class="text-center"><%= pos_check.branch&.restaurant&.title %>
+        <p class="text-center"><%= pos_check&.branch&.address %></p>
+        <p class="text-center">VAT INVOICE</p>
+        <!-- <p>
+            <span>90009 Vinay</span>
+            <span style='float: right'>2</span>
+        </p> -->
+    </div>
+    <div style="border-bottom: 1px dashed black;">
+        <p>
+            <span class='big-text'>CHK <%= pos_check&.check_id %></span>
+            <% if pos_check.pos_table.present? && pos_check.order_type_id.eql?(1) %>
+                <% pos_count = tableCount(pos_check.pos_table, pos_check) %>
+                <span style='float: right;' class='big-text'>TBL <%= pos_check&.pos_table&.pos_table_no %><%= pos_count ? "/#{pos_count}" : ''%></span>
+            <% end %>
+        </p>
+        <p style='text-align: end;' class='big-text'>
+        GST <%= pos_check.no_of_guest.to_i %>
+        </p>
+    </div>
+    <div>
+        <p class='text-center' class='big-text'><%= pos_check&.order_type&.name %></p>
+        <table width='100%' class='transaction-table'>
+            <tbody>
+                <% pos_check.reload.pos_transactions.each do |transaction|%>
+                    <tr>
+                        <td><%= check_guest_type(transaction.qty) %></td>
+                        <td><%= "#{transaction.itemable_type.eql?('ItemAddon') ? '<span style="padding-left: 13px;"></span>' : ''} #{transaction.item_name}".html_safe %></td>
+                        <td><%= number_with_precision(transaction.total_amount, precision: 3) %></td>
+                    </tr>
+                <% end %>
+                <% total_amount = pos_check.pos_transactions.pluck(:total_amount).sum %>
+                <% total_paid = pos_check.pos_payments.pluck(:paid_amount).sum %>
+                <% tax = Tax.where(country_id: pos_check&.branch&.restaurant&.country_id).pluck(:percentage).sum %>
+                <tr>
+                    <td colspan="2">Subtotal</td>
+                    <td>BHD<%= number_with_precision(total_amount, precision: 3) %></td>
+                </tr>
+                <tr class='big-text'>
+                    <td colspan="2">Payment</td>
+                    <td>BHD<%= number_with_precision(total_amount, precision: 3) %></td>
+                </tr>
+                <!-- <tr class='big-text'>
+                    <td colspan="2">Change Due</td>
+                    <td>BHD<%#= number_with_precision((total_amount - total_paid), precision: 3)  %></td>
+                </tr> -->
+                <tr>
+                    <td colspan="2"><%= number_with_precision((total_amount.to_f * tax.to_f) / (100 + tax.to_f), precision: 3) %> VAT <%= tax.to_i %> %</td>
+                    <td>BHD<%= number_with_precision(total_amount, precision: 3) %></td>
+                </tr>
+                <% tax_amount = taxonlyamount(tax, pos_check.pos_transactions.pluck(:total_amount).sum)%>
+                <% offer_text = pos_check.offer.present? ? pos_check.offer.discount_percentage.to_f == 0.0 ? pos_check.offer.offer_title : pos_check.offer.discount_percentage.to_s + "%"  : nil %>
+                <% discount_per = pos_check.offer.present? ? pos_check.offer.discount_percentage.to_f == 0.0 && pos_check.offer.offer_title.eql?('Buy 1 Get 1 Free') ? 50 : pos_check.offer.discount_percentage.to_f : 0.0 %>
+                <% if pos_check.offer.present? && pos_check.offer.menu_item_id.present? %>
+                    <% addons = ItemAddon.where(item_addon_category_id: pos_check.offer.menu_item.item_addon_categories.pluck(:id))  %>
+                    <% total_ind_amount = pos_check.pos_transactions.where(
+                    '(itemable_type = ? && itemable_id = ?) || (itemable_type = ? && itemable_id IN (?))', 
+                    "MenuItem", pos_check&.offer&.menu_item_id, "ItemAddon", addons.pluck(:id) )&.pluck(:total_amount)&.sum.to_f %>
+                <% else %>
+                    <% total_ind_amount = 0.0 %>
+                <% end %>
+                <% transaction_total = pos_check.pos_transactions.pluck(:total_amount).sum.to_f %>
+                <% individual_tax = pos_check&.offer&.offer_type.eql?('individual')  ? taxonlyamount(tax, total_ind_amount) : 0.0 %>
+                <% discount = 
+                    pos_check.offer_id.present? ? pos_check.offer.offer_type.eql?('individual') ? ((pos_check.is_full_discount ? total_ind_amount : (total_ind_amount - individual_tax.to_f))  * discount_per / 100) : pos_check.pos_transactions.length > 0 ? ((pos_check.is_full_discount ? transaction_total : (transaction_total - tax_amount.to_f)) * (discount_per) / 100) : 0 : 0%>
+                <% if discount.to_f > 0 %>
+                    <tr>
+                        <td>Discount</td>
+                        <td>BHD <%= number_with_precision(discount, precision: 3) %></td>
+                    </tr>
+                <% end %>
+                <% pos_check.pos_payments.each do |payment|%>
+                    <tr>
+                        <td><%= payment&.payment_method&.name %></td>
+                        <td>BHD <%= number_with_precision(payment.paid_amount, precision: 3) %></td>
+                    </tr>
+                    <% if payment.reference_number.present? %>
+                        <tr>
+                            <td colspan="3"><%= payment.reference_number%></td>
+                        </tr>
+                    <% end %>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <p class='data'><span>Check Closed</span></p>
+        <p class='text-center'><%= pos_check.updated_at.strftime("%d %^b'%y %I:%M %p")%></p>
+    </div>
+    <div class='text-center'>
+        <p>Thank you.</p>
+        <p>email - info@foodclubco.com</p>
+        <p>All our prices are inclusive of VAT <%= tax.to_i %>%</p>
+    </div>
+</div>

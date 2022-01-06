@@ -1,0 +1,93 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2>All Banks</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= select_tag(:country_id, options_for_select(@countries, params[:country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <%#= select_tag(:city_id, options_for_select(@cities, params[:city_id]), prompt: "Select City", class: "form-control admin-search-field") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Account,Ifsc,Bank,Swift,Area", autocomplete: :off) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+          <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Bank" href="<%= new_business_setup_bank_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @banks.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Bank Name</th>
+                  <th>Ifsc</th>
+                  <th>Swift</th>
+                  <th>Area</th>
+                  <th>Country</th>
+                  <th>Account</th>
+                  <th>IBAN</th>
+                  <th>Address</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @banks.each do |bank| %>
+                <tr>
+                  <td><%=bank.id%></td>
+                  <td><%=bank.name%></td>
+                  <td><%=bank.ifsc%></td>
+                  <td><%=bank.swift_code%></td>
+                  <td><%=bank.area.try(:area)%></td>
+                  <td><%=bank.country.try(:name)%></td>
+                  <td><%=bank.account_number%></td>
+                  <td><%=bank.iban%></td>
+                  <td><%=bank.address%></td>
+                  <td><%=bank.updated_by.try(:name)%></td>
+                  <td><%=bank.created_at.strftime("%d/%m/%Y")%></td>
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Bank'.html_safe, edit_business_setup_bank_path(bank,restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Bank'.html_safe, business_setup_bank_path(bank, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Bank available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script bank="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

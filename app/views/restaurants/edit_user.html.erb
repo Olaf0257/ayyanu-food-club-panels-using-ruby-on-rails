@@ -1,0 +1,123 @@
+<style type="text/css">
+  .mb-2{
+    margin-bottom:2%;
+  }
+  .private_dock{
+    display: none;
+  }
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+   
+}
+</style>
+
+<div class="container">
+  <%#= render :partial=>'admin_steps'%>
+  <%=form_for :marina,url: update_restaurant_user_path(@restaurant.id),:html=>{id: "add-marina-form",:class=>"form-horizontal",:multipart => true} do |f|%> 
+   <input type="hidden" name="hidden_field" value="<%=@restaurant.id%>">
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;">
+          <div class="panel-heading"><center><h3>User Details</h3></center></div>
+          <div class="panel-body">
+            <div class="row mb-2">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <label>Restaurant Name</label> 
+               
+                <input type="text"  name="restaurant_name" id="restaurant_name" class="form-control" value="<%=@restaurant.title%>" autocomplete="off" placeholder="Restaurant name" >
+              </div> 
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <label>Restaurant Owner Name</label> 
+                <input type="text" autocomplete="off" placeholder="Restaurant owner name" id="owner_name" name="owner_name" class="form-control" value="<%=@restaurant.user.present? ? @restaurant.user.name : "" %>">
+                <input type="hidden"  name="restaurant_id" value="<%=@restaurant.id%>" /> 
+              </div> 
+               <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <label>Email</label> 
+                <input type="email"  name="email" id="email" value="<%=@restaurant.user.email%>" class="form-control"  placeholder="Email" autocomplete="off">
+              </div>                          
+            </div>
+             <div class="row mb-2"> 
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Branch Primary Contact Number (*Required)</label>
+                <input type="hidden"  name="branch_id" value="<%=@restaurant.user.id%>" /> 
+                <input type="text" name="contact" placeholder="041234567" id="user_contact" class="form-control" value="<%=@restaurant.user.contact%>">
+              </div>             
+            </div>         
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Update</strong> </button> 
+             </div>            
+          </div>
+        </div>
+      </div>
+   
+  <%end%>
+</div>    
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script type="text/javascript">
+
+<%if flash[:success].present?%>
+  swal("success","<%=flash[:success]%>","success")
+<%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning")
+<%end%>
+ $("#user_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%=@restaurant.user.country_code.present? ? @restaurant.user.country_code.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+ $("#saveBtn").on("click",function(){
+    // var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var number = /^[0-9]{1,6}$/
+    var branch_no = /^\d{1,2}$/
+    // var contact = /\\(?\d{3}\\)?([\-\s\.])?\d{3}\1?\d{4}/
+    var country_code = $("#user_contact").intlTelInput("getSelectedCountryData");
+    console.log(country_code)
+    var countrycode = "+"+country_code.dialCode
+    if($.trim($('#restaurant_name').val())==="" || $('#restaurant_name').val().length>200){
+      $('#restaurant_name').focus();
+      swal("Warning","Please enter valid restaurant name","warning");
+      return false;
+    }else if($.trim($('#owner_name').val())==="" || $('#owner_name').val().length>200){
+      $('#owner_name').focus();
+      swal("Warning","Please enter a valid owner name","warning");
+      return false;
+    }else if(($.trim($('#email').val())==="")){
+      $('#email').focus();
+      swal("Warning","Please Enter the email","warning");
+      return false;
+    }else if($.trim($('#user_contact').val())==''){
+       $('#user_contact').focus();
+      swal("Warning","Please enter a valid contact No.","warning");
+      return false;
+    }else{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true;
+    }
+  });
+
+</script>

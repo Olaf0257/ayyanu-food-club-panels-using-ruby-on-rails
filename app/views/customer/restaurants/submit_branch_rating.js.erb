@@ -1,0 +1,8 @@
+<% if @rating.save %>
+  $(".customer-reviews").first("li").prepend('<li><div class="comment"><img alt="" class="brd-rd50" height="100px" width="100px" src="<%= @rating.user.image %>"><div class="comment-info"><h4 itemprop="headline"><a href="#" title="" itemprop="url" style="pointer-events: none;"><%= @rating.user.name %></a></h4><p itemprop="description"><%= @rating.review_description %></p></div></div></li>');
+
+  swal("Success!", "Review successfully submitted!", "success");
+  $("#review").val("");
+<% else %>
+  swal("Error", "Review not submitted.", "error");
+<% end %>

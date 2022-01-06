@@ -1,0 +1,32 @@
+.form-row {
+  width: 70%;
+  float: left;
+  background-color: #ededed;
+}
+
+#error-handler {
+  color: red;
+  margin-top: 15px;
+}
+
+#card-element {
+  background-color: transparent;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+#card-element--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+#card-element--invalid {
+  border-color: #fa755a;
+}
+
+#card-element--webkit-autofill {
+  background-color: #fefde5 !important;
+}

@@ -1,0 +1,79 @@
+<%= render 'reject_modal' %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Reimbursements</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%= new_business_hrms_reimbursement_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @reimbursements.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>reimbursement name</th>
+                  <th>Reimbursement Type</th>
+                  <th>Amount</th>
+                  <th>Remarks</th>
+                  <th>Status</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @reimbursements.each do |reimbursement| %>
+                    <td><%= reimbursement.id %></td>
+                    <td><%= reimbursement.user&.name %></td>
+                    <td><%= reimbursement.reimbursement_type&.name %></td>
+                    <td><%= reimbursement.amount %></td>
+                    <td><%= reimbursement.remarks %></td>
+                    <td><%= reimbursement.status&.capitalize %></td>
+                    <td><%= created_by(reimbursement) %></td>
+                    <td><%= reimbursement.created_at %></td>
+                   <td>
+                      <%= link_to '<i class="fa fa-check"></i> Approve'.html_safe, approve_reimbursement_business_hrms_reimbursements_path(reimbursement, restaurant_id: params[:restaurant_id], id: reimbursement.id), method: :patch, confirm: 'Are you sure?', class: 'btn btn-success btn-sm approve_reimbursement' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Reject'.html_safe, '#', confirm: 'Are you sure?', class: 'btn btn-danger btn-sm reject_reimbursement_btn', 'data-toggle': 'modal', 'data-target': "#reject_modal", reimbursement_id: reimbursement.id %>
+                      <%= link_to '<i class="fa fa-pencil"></i> Show Detail'.html_safe, business_hrms_reimbursement_path(reimbursement, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Reimbursement available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+
+  $(document).ready(function(){
+  $('.reject_reimbursement_btn').click(function(){
+    $('#reimbursement_id').val(this.getAttribute('reimbursement_id'));
+  })
+})
+</script>

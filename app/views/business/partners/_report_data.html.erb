@@ -1,0 +1,12 @@
+<% if pos_check.present? && pos_check.pos_payments.present? && pos_check.pos_payments.select { |a| a.attachments.present? }.present? %>
+  <% pos_check.pos_payments.map { |a| a.attachments }.flatten.uniq.compact.each do |attachment_data| %>
+    <tr>
+      <td><%= attachment_data.blob.filename %></td>
+      <td><%= link_to 'View', url_for(attachment_data), style: 'color: blue;' %></td>
+    </tr>
+  <% end %>
+<% else %>
+  <tr>
+    <td colspan="2" style="text-align: center;">Data not found</td>
+  </tr>
+<% end %>

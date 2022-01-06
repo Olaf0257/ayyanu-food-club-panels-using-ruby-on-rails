@@ -1,0 +1,6 @@
+<% if params[:over_group_id].present? %>
+  $('select#article_major_group_id').html('<%= j options_from_collection_for_select(@major_groups, :id, :name) %>');
+  $('select#article_item_group_id').html('<%= j options_from_collection_for_select(@item_groups, :id, :name) %>');
+<% elsif params[:major_group_id].present? %>
+  $('select#article_item_group_id').html('<%= j options_from_collection_for_select(@item_groups, :id, :name) %>');
+<% end %>

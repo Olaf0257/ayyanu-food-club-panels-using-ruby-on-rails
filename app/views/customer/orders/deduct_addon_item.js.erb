@@ -1,0 +1,15 @@
+var qty = parseFloat($("#order_item_details_modal .item-count").text());
+
+if($("#order_item_details_modal .addon-item-checkbox:checked").length > 0) {
+  var addon_prices = 0;
+
+  $("#order_item_details_modal .addon-item-checkbox:checked").each(function () {
+    addon_prices += parseFloat($(this).closest("p").find(".addon-price").text());
+  });
+
+  var total_price = (parseFloat("<%= @menu_item_price %>") + addon_prices) * qty;
+  $("#order_item_details_modal .total-price").text(total_price.toFixed(3));
+} else {
+  var total_price = parseFloat("<%= @menu_item_price %>") * qty;
+  $("#order_item_details_modal .total-price").text(total_price.toFixed(3));
+}

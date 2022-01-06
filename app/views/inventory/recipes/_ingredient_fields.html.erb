@@ -1,0 +1,215 @@
+
+<div class='nested-fields'>
+  <div class="row form-group">
+    <div class="col-sm-12 pull-right">
+    <%= f.radio_button :ingredientable_type, 'Article', checked: true, class: "ingredient_radio_fields" %>
+    <%= label :ingredientable_type, 'Article' %>
+    <%= f.radio_button :ingredientable_type, 'Recipe', class: "ingredient_radio_fields" %>
+    <%= label :ingredientable_type, 'Recipe' %>
+    <%= f.radio_button :ingredientable_type, 'Expense', class: "ingredient_radio_fields" %>
+    <%= label :ingredientable_type, 'Expense' %>
+  </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <% if f.object.ingredientable_type.eql?("Article") %>
+        <%= f.label :article, data: {article: {"Choose Article": ""}.merge(@articles.pluck(:name, :id).to_h), recipe: {"Choose Recipe": ""}.merge(@recipes.pluck(:name, :id).to_h), expense: {"Choose Expense": ""}.merge(@expenses.pluck(:name, :id).to_h)} %>
+      <% elsif f.object.ingredientable_type.eql?("Recipe") %>
+        <%= f.label :recipe, data: {article: {"Choose Article": ""}.merge(@articles.pluck(:name, :id).to_h), recipe: {"Choose Recipe": ""}.merge(@recipes.pluck(:name, :id).to_h), expense: {"Choose Expense": ""}.merge(@expenses.pluck(:name, :id).to_h)} %>
+      <% elsif f.object.ingredientable_type.eql?("Expense") %>
+        <%= f.label :expense, data: {article: {"Choose Article": ""}.merge(@articles.pluck(:name, :id).to_h), recipe: {"Choose Recipe": ""}.merge(@recipes.pluck(:name, :id).to_h), expense: {"Choose Expense": ""}.merge(@expenses.pluck(:name, :id).to_h)} %>
+      <% else %>
+        <%= f.label :article, data: {article: {"Choose Article": ""}.merge(@articles.pluck(:name, :id).to_h), recipe: {"Choose Recipe": ""}.merge(@recipes.pluck(:name, :id).to_h), expense: {"Choose Expense": ""}.merge(@expenses.pluck(:name, :id).to_h)} %>
+      <% end %>
+    </div>
+
+    <div class="col-sm-10">
+      <% if f.object.ingredientable_type.eql?("Article") %>
+        <%= f.collection_select :ingredientable_id, @articles, :id, :name, {prompt: 'Choose Article'}, {class: "form-control", required: true, onchange: "change_portion_unit(this.value, this);"} %>
+      <% elsif f.object.ingredientable_type.eql?("Recipe") %>
+        <%= f.collection_select :ingredientable_id, @recipes, :id, :name, {prompt: 'Choose Recipe'}, {class: "form-control", required: true} %>
+      <% elsif f.object.ingredientable_type.eql?("Expense") %>
+        <%= f.collection_select :ingredientable_id, @expenses, :id, :name, {prompt: 'Choose Expense'}, {class: "form-control", required: true} %>
+      <% else %>
+        <%= f.collection_select :ingredientable_id, @articles, :id, :name, {prompt: 'Choose Article'}, {class: "form-control", required: true, onchange: "change_portion_unit(this.value, this);"} %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <% if (f.object.ingredientable_type.eql?("Article") || f.object.ingredientable_type.eql?("Expense")) %>
+        <%= f.label :item_group, data: {article: {"Select Item Group": ""}.merge(current_restaurant.item_groups.pluck(:name, :id).to_h), recipe: {"Select Recipe Group": ""}.merge(current_restaurant.recipe_groups.pluck(:name, :id).to_h)} %>
+      <% elsif f.object.ingredientable_type.eql?("Recipe") %>
+        <%= f.label :recipe_group, data: {article: {"Select Item Group": ""}.merge(current_restaurant.item_groups.pluck(:name, :id).to_h), recipe: {"Select Recipe Group": ""}.merge(current_restaurant.recipe_groups.pluck(:name, :id).to_h)} %>
+      <% else %>
+        <%= f.label :item_group, data: {article: {"Select Item Group": ""}.merge(current_restaurant.item_groups.pluck(:name, :id).to_h), recipe: {"Select Recipe Group": ""}.merge(current_restaurant.recipe_groups.pluck(:name, :id).to_h)} %>
+      <% end %>
+    </div>
+    <div class="col-sm-10">
+      <% if (f.object.ingredientable_type.eql?("Article") || f.object.ingredientable_type.eql?("Expense")) %>
+        <%= f.collection_select :item_group_id, current_restaurant.item_groups, :id, :name, {prompt: 'Select Item Group'}, {class: "form-control", required: true} %>
+      <% elsif f.object.ingredientable_type.eql?("Recipe") %>
+        <%= f.collection_select :recipe_group_id, current_restaurant.recipe_groups, :id, :name, {prompt: 'Select Item Group'}, {class: "form-control", required: true} %>
+      <% else %>
+        <%= f.collection_select :item_group_id, current_restaurant.item_groups, :id, :name, {prompt: 'Select Item Group'}, {class: "form-control", required: true} %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :quantity, "Portion quantity" %>
+    </div>
+    <div class="col-sm-10">
+      <%= f.text_field(:quantity, required: true, class: "form-control") %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :portion_unit %>
+    </div>
+    <div class="col-sm-10">
+      <%= f.select(:portion_unit, [], { include_blank: true }, {class: "form-control", required: true}) %>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :weight %>
+    </div>
+    <div class="col-sm-10">
+      <%= f.text_field(:weight, required: true, class: "form-control") %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-2 pull-right">
+      <%= link_to_remove_association "Remove Article", f, class: "btn btn-danger btn-sm" %>
+    </div>
+  </div>
+  <hr style="border: 1px solid;">
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+  $('.add-article').click(function() {
+    var elem = this.parentElement;
+    console.log(elem)
+    var data_select2 = elem.find('data-select2-id');
+    console.log(data_select2)
+    var current_div = $("div").find("[data-select2-id='" + data_select2 + "']")[0]
+    var selected_article = current_div.children[1];
+    var new_id = 'article_detail_container'+data_select2;
+    selected_article.setAttribute('id', new_id)
+    $.ajax({
+      type: "GET",
+      url: "<%= display_article_details_inventory_restaurant_purchase_orders_path(restaurant_id: params[:restaurant_id])%>",
+      dataType: 'script',
+      data: {article_id: this.value, selector_id: new_id}
+    });
+  });
+
+    $('.ingredient_radio_fields').click(function() {
+      var id = $(this).attr("id").split(/([0-9]+)/)[1];
+      if ($(this).val() == "Article"){
+        if ($("[for=recipe_ingredients_attributes_" + id + "_article").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_article").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_article").text("Article");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_article").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_recipe").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe").text("Article");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_recipe").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_expense").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_expense").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_expense").text("Article");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_expense").parent().next().children();
+        }
+        if ($("[for=recipe_ingredients_attributes_" + id + "_recipe_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").text("Item group");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][item_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_item_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_item_group").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").text("Item group");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][item_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children();
+        }
+      }else if($(this).val() == "Recipe"){
+        if ($("[for=recipe_ingredients_attributes_" + id + "_article").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_article").data("recipe");
+          $("[for=recipe_ingredients_attributes_" + id + "_article").text("Recipe");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_article").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_recipe").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe").data("recipe");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe").text("Recipe");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_recipe").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_expense").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_expense").data("recipe");
+          $("[for=recipe_ingredients_attributes_" + id + "_expense").text("Recipe");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_expense").parent().next().children();
+        }
+        if ($("[for=recipe_ingredients_attributes_" + id + "_item_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_item_group").data("recipe");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").text("Recipe group");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][recipe_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_recipe_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").data("recipe");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").text("Recipe group");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][recipe_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children();
+        }
+      }else if($(this).val() == "Expense"){
+        if ($("[for=recipe_ingredients_attributes_" + id + "_article").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_article").data("expense");
+          $("[for=recipe_ingredients_attributes_" + id + "_article").text("Expense");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_article").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_recipe").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe").data("expense");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe").text("Expense");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_recipe").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_expense").length > 0){
+          var ingredient_options = $("[for=recipe_ingredients_attributes_" + id + "_expense").data("expense");
+          $("[for=recipe_ingredients_attributes_" + id + "_expense").text("Expense");
+          var $el_ingredient = $("[for=recipe_ingredients_attributes_" + id + "_expense").parent().next().children();
+        }
+        if ($("[for=recipe_ingredients_attributes_" + id + "_item_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_item_group").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").text("Item group");
+          $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][item_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_item_group").parent().next().children();
+        }else if ($("[for=recipe_ingredients_attributes_" + id + "_recipe_group").length > 0){
+          var ingredient_type_options = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").data("article");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").text("Item group");
+          $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children().attr("name", "recipe[ingredients_attributes][" + id + "][item_group_id]");
+          var $el_ingredient_type = $("[for=recipe_ingredients_attributes_" + id + "_recipe_group").parent().next().children();
+        }
+      }
+      $el_ingredient.empty();
+      $.each(ingredient_options, function(key,value) {
+        $el_ingredient.append($("<option></option>")
+           .attr("value", value).text(key));
+      });
+      $el_ingredient_type.empty();
+      $.each(ingredient_type_options, function(key,value) {
+        $el_ingredient_type.append($("<option></option>")
+           .attr("value", value).text(key));
+      });
+    });
+  });
+
+  function change_portion_unit(article_id, element){
+    var id = $(element).attr("id").split(/([0-9]+)/)[1];
+    if (article_id && id){
+      $.ajax({
+        type: "GET",
+        url: "<%= get_portion_units_inventory_restaurant_recipes_path(restaurant_id: params[:restaurant_id]) %>",
+        dataType: 'script',
+        data: {article_id: article_id, nested_id: id}
+      });
+    }
+  }
+</script>

@@ -1,0 +1,142 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-3 col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content mailbox-content">
+          <div class="file-manager">
+            <div class="btn btn-block btn-primary">Notifications List</div>
+            <div class="space-25"></div>
+            <h5>List</h5>
+            <ul class="folder-list m-b-md" style="padding: 0">
+              <li> <i class="fa fa-inbox "></i> Inbox <span class="label label-warning pull-right"><%=@notifications.count%></span> </li>
+              <li> <i class="fa fa-check"></i>Order Accepted <span class="label label-primary pull-right"><%=@order_accepted.count%></span></li>
+              <li> <i class="fa fa-times"></i> Order Rejected <span class="label label-danger pull-right"><%=@order_rejected.count%></span></li>
+              <li> <i class="fa fa-file-text-o"></i> Order Delivered <span class="label label-info pull-right"><%=@order_delivered.count%></span></li>
+            </ul>
+            <h5>Categories</h5>
+            <ul class="category-list" style="padding: 0">
+              <li><a href="<%=notification_list_path(status:"order_created")%>"> <i class="fa fa-circle text-navy"></i> Order Created</a></li>
+              <li><a href="<%=notification_list_path(:status=>"order_accept")%>"> <i class="fa fa-circle text-primary"></i> Order Accepted</a></li>
+              <li><a href="<%=notification_list_path(:status=>"order_reject")%>"> <i class="fa fa-circle text-danger"></i> Order Rejected</a></li>
+              <li><a href="<%=notification_list_path(:status=>"order_delivered")%>"> <i class="fa fa-circle text-info"></i> Order Delivered</a></li>
+              <li><a href="<%=notification_list_path(:status=>"transporter_assigned")%>"> <i class="fa fa-circle text-warning"></i> Order Assigned to Transporter</a></li>
+            </ul>
+            <h5 class="tag-title">Labels</h5>
+            <ul class="tag-list" style="padding: 0">
+              <li><a href=""><i class="fa fa-tag"></i> Order</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Accept</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Reject</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Delivered</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Assigned</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> User</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Sender</a></li>
+              <li><a href=""><i class="fa fa-tag"></i> Receiver</a></li>
+            </ul>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-12 animated fadeInRight">
+      <div class="mail-box-header">
+      <!--   <form method="get" action="#" class="pull-right mail-search">
+          <div class="col-lg-4 col-md-12" style="width: 100%;">
+            <input type="text" class="form-control input-sm" name="search" placeholder="Search email" autocomplete="off">
+          </div>
+         
+            <div class="input-group-btn col-lg-3">
+              <button type="submit" class="btn btn-sm btn-primary">
+              Search
+              </button>
+            </div> -->
+             <div class="col-lg-2 col-md-12 pull-right">
+              <button type="submit" onclick="clear_url()" class="btn btn-sm btn-success">
+              Clear
+              </button>
+            </div>
+          <!-- </div> -->
+        <!-- </form> -->
+        <h2>
+          Notifications (<%=@notifications.count%>)
+        </h2>
+        
+      </div>
+      <div class="mail-box table-responsive">
+        <%if @notifications.present?%>
+          <table class="table table-hover table-mail">
+            <tbody>
+              <tr class="unread">
+                <td class="check-mail"> ID </td>
+                <td class="mail-ontact">Type</td>
+                <td class="mail-subject">Message</td>
+                <td class="">Sender</td>
+                <td>Receiver</td>
+                <td class="text-right mail-date">Created At</td>
+              </tr>
+              <%@notifications.each do |noti|%>
+                <%if noti.order_id.present? %>
+                  <tr class="read" onclick="document.location='<%=order_path(:id=>encode_token(noti.order_id))%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>
+                <%elsif ((noti.notification_type =="menu_item_update" or noti.notification_type == "add_menu_item"))%>  
+                  <tr class="read" onclick="document.location='<%=restaurant_menu_managment_path(:restaurant_id=>encode_token(noti.restaurant_id),status: "menu_item")%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>
+                <%elsif ((noti.notification_type =="menu_category_update" or noti.notification_type == "add_menu_category"))%>
+                  <tr class="read" onclick="document.location='<%=restaurant_menu_managment_path(:restaurant_id=>encode_token(noti.restaurant_id),status: "menu_category")%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>  
+                <%elsif (noti.notification_type =="add_addon_item" or noti.notification_type == "update_addon_item")%>
+                  <tr class="read" onclick="document.location='<%=restaurant_menu_managment_path(:restaurant_id=>encode_token(noti.restaurant_id),status: "addon_item")%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>  
+                <%elsif (noti.notification_type =="add_addon_category" or noti.notification_type == "update_addon_category")%> 
+                  <tr class="read" onclick="document.location='<%=restaurant_menu_managment_path(:restaurant_id=>encode_token(noti.restaurant_id),status: "addon_category")%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>
+                <%elsif (noti.notification_type =="restaurant_branch")%> 
+                  <tr class="read" onclick="document.location='<%=branch_show_path(:id=>encode_token(noti.restaurant_id))%>';">
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>    
+                <%else%>  
+                  <tr class="read">
+                  <%p noti%>
+                    <%@noti = noti %>
+                    <%=render :partial=>"notification_list"%>
+                  </tr>  
+                <%end%>
+              <%end%>  
+           </tbody>
+          </table>
+        <%else%>
+          <div class="alert alert-danger text-center">No Notification</div>
+        <%end%>
+        <div class="col-lg-12">
+          <center> <%= will_paginate @notifications ,renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+
+  $(function() {
+    $('.i-checks').iCheck({
+      checkboxClass: 'icheckbox_square-green',
+      radioClass: 'iradio_square-green',
+    });
+  });
+  function clear_url() {
+    location.search = '';
+  }
+</script>
+<% end %>

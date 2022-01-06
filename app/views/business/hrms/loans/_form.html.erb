@@ -1,0 +1,98 @@
+<%= form_for(@loan, url: (params[:id].blank? ? business_hrms_loans_path : edit_business_hrms_loan_path(@loan).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+     <%= f.label :employee %>
+     <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @loan.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+       <!-- <label for="loan_employee">Department</label> -->
+      <%#= f.select(:department_id, options_from_collection_for_select(Department.all, :id, :name, @loan.department_id), {include_blank: "Select Department"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+    </div>
+  </div>
+
+  <div class="row" id="designation_container">
+    <div class="col-xs-6 col-md-6">
+       <label for="loan_employee">Department</label>
+      <%= f.text_field :department, class: 'form-control', placeholder: 'Enter Department', readonly: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Designation</label>
+      <%= f.text_field :designation, class: 'form-control', placeholder: 'Enter Designation', readonly: true  %>
+    </div>
+  </div>
+    
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :loan_type_id %>
+      <%= f.select(:loan_type_id, options_from_collection_for_select(LoanType.all, :id, :name, @loan.loan_type_id), {include_blank: "Select Loan Type"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Loan date</label>
+      <%= f.date_field :loan_date, class: 'form-control', required: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+     <%= f.label :deducted_from %>
+      <%= f.select(:deducted_from, options_for_select(Loan::DEDUCTED_FROM, @loan.deducted_from), {include_blank: "Select Deducted from"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Amount (BHD)</label>
+      <%= f.number_field :amount, step: :any, class: 'form-control', placeholder: 'Amount', oninput: "validate(this)" %>
+    </div>
+  </div>
+
+  <div class="row">
+    
+    <div class="col-xs-6 col-md-6">
+       <%= f.label 'Interest rate(%)' %>
+      <%= f.number_field :interest_rate, step: :any, class: 'form-control', placeholder: 'Interest Rate', required: true, oninput: "validate(this)" %>
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :installments %>
+      <%= f.number_field :installments, class: 'form-control', placeholder: 'Installments', required: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :created_date %>
+      <%= f.date_field :created_date, class: 'form-control', placeholder: 'Created Date', required: true %>
+    </div>
+  </div>
+  
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'loan[restaurant_id]', params[:restaurant_id] %>
+
+  <br>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+  <% if params[:action] == "edit" %>
+    <%= f.submit 'Update Loan', class: 'btn btn-lg btn-primary btn-block' %>
+  <% else %>
+    <%= f.submit 'Add Loan', class: 'btn btn-lg btn-primary btn-block' %>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $('#loan_user_id').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/loans/department_designation",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+
+  })
+
+  var validate = function(e) {
+    var t = e.value;
+    e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 4)) : t;
+  }
+</script>

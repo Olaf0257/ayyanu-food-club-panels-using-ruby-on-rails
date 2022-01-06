@@ -1,0 +1,9 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "New Customer Report") do |sheet| 
+	  sheet.add_row ['ID','Branch Address','Number Of Customer','Total Orders','Total Amount'] 
+	  if @data.present?
+			@data.each do |data| 
+			sheet.add_row [data[:id],data[:branch_address],data[:customer_count],data[:total_order_count],data[:total_amount]] 
+			end
+		end 
+	end

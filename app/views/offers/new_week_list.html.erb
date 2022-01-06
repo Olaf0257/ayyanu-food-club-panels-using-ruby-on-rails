@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Add New Week</h2>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Upload New Week</h3>
+    </div>
+
+    <div class="panel-body">
+    <%=form_for :upload_csv,url: upload_week_csv_path do |f|%>
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :name, "Country" %>
+            <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id)), { prompt: "Select Country" }, { required: true, class: "form-control", style: "height: 34px" }) %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :Upload_file %>
+            <%= f.file_field :file %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <center><%= f.submit "Upload File", class: "btn btn-success btn-sm", id: "create_role" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+  if($("#contact").length > 0) {
+    $("#contact").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "full_phone",
+      initialCountry: "auto",
+      nationalMode: true,
+      initialCountry: '<%=@admin.class.find(@admin.id)[:country_id].present? ? @admin.class.find(@admin.id)[:country_code] : 'bh' %>',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      preferredCountries: ['bh'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+    });
+  }
+</script>

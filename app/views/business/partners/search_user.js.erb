@@ -1,0 +1,18 @@
+<% if @email.blank? && @contact.blank? %>
+  swal("Error", "This area is not covered by any branch", "error")
+<% elsif @searched_user %>
+  $("#user_name").attr("readonly", true).val("<%= @searched_user.name %>");
+  $("#user_email").attr("readonly", true).val("<%= @searched_user.email %>");
+
+  <% if @addresses.present? %>
+    $(".user-address-list").closest(".row").removeClass("hide");
+    $(".user-address-list").html('<%= escape_javascript select_tag("address_id", options_for_select(@addresses), prompt: "Select Address", class: "form-control business-search-field user-address") %>');
+  <% else %>
+    $(".user-address-list").closest(".row").addClass("hide");
+  <% end %>
+
+  $("#manual_order_search_modal").modal("hide");
+<% else %>
+  $(".user-select-div").removeClass("hide");
+  $(".user-select-options").html('<%= escape_javascript render partial: "user_list" %>');
+<% end %>

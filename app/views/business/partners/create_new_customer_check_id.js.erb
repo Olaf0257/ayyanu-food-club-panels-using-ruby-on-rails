@@ -1,0 +1,6 @@
+$('#newCustomerCheckIdPopup').modal('hide');
+$('#minimumOrderAmount').modal('show');
+$('#newCustomerCheckIdPopup #address_id').val("<%= @address.id %>");
+$('.customer-details').empty().append("<span><%= @check.user.name %></span></br><span><%= @check.address.area_name %></span>");
+$('.minimum_amount_value').text("<%= number_with_precision((@branch_coverage_area&.minimum_amount || 0), precision: 3) %>")
+

@@ -1,0 +1,31 @@
+<% if @pos_transaction.present? && @pos_transaction.shared_transactions.present?  %>
+    <% @pos_transaction.shared_transactions.where(parent_pos_transaction_id: nil, pos_check_id: params[:check_ids]).each do |transaction|%>
+        transaction_input = $('.check_<%= transaction.pos_check_id %>').find('.split_selected_transaction')
+        transaction_input.data('transaction-ids').push('<%= transaction.id.to_i %>')
+        $('.check_<%= @pos_transaction.pos_check_id %>').find('#transaction_data_<%= @pos_transaction.id %>').addClass('shared_item')
+        $('.check_<%= transaction.pos_check_id %>').find('tbody').append("<%= j render partial: 'transaction_data_list', locals: {transaction: transaction, is_split: true} %>");
+        var sum = 0.0;
+        $('.check_<%= transaction.pos_check_id %>').find('tbody tr').find('td:eq(2)').each(function(){
+            sum += parseFloat($(this).text());
+        });
+        $('.span_check_<%= transaction.pos_check_id %>').text(sum.toFixed(3) + ' BHD')
+    <% end %>
+    $('.check_<%= @pos_transaction.pos_check_id %>').find("#transaction_data_<%= @pos_transaction.id %>").find('td:eq(2)').text('<%= number_with_precision(@pos_transaction.reload.total_amount,:precision => 3) %>')
+    <% if @pos_transaction.addon_pos_transactions.present? %>
+        <% @pos_transaction.addon_pos_transactions.each do |transaction| %>
+            transaction_input = $('.check_<%= transaction.pos_check_id %>').find('.split_selected_transaction')
+            transaction_input.data('transaction-ids').push('<%= transaction.id.to_i %>')
+            $('.check_<%= @pos_transaction.pos_check_id %>').find('#transaction_data_<%= transaction.id %>').find('td:eq(2)').text('<%= number_with_precision(transaction.reload.total_amount,:precision => 3) %>')
+        <% end %>
+    <% end %>
+    var sum = 0.0;
+    $('.check_<%= @pos_transaction.pos_check_id %>').find('tbody tr').find('td:eq(2)').each(function(){
+        sum += parseFloat($(this).text());
+    });
+    $('.span_check_<%= @pos_transaction.pos_check_id %>').text(sum.toFixed(3) + ' BHD')
+    $('#shareItemCheckModalPopup').modal('hide')
+<% else %>
+    toastr.error('Unable to share transaction')
+<% end %>
+splitCheck();
+checkTableTrSelect();

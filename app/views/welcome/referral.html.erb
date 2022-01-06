@@ -1,0 +1,149 @@
+<script src="/assets/telinput/intlTelInput.js"></script>
+<link href="/assets/intlTelInput.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+  @media (min-width: 600px){
+        .form-gap {
+        padding-top: 70px;
+    }
+  }
+  @media (max-width: 600px){
+       .form-gap {
+        padding-top: 20px;
+    }
+  }
+  .hide{
+    display: none;
+  }
+</style>
+
+
+<div class="form-gap"></div>
+<div class="container">
+
+  <div class="row" style="margin-top: 80px;">
+		<div class="col-md-4  col-md-offset-4 col-lg-6 col-lg-offset-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="text-center">
+            <h3><i class="fa fa fa-envelope-open fa-2x"></i></h3>
+            <h2 class="text-center">Invitation!</h2>
+            <p>You've been invited to Food Club. </p>
+            <div class="panel-body">
+              <%if used_device !="other"%>
+                <%=form_for :referral,url: submit_referral_path, html: {role: "form",autocomplete: "off",class: "form"} do |f|%>
+                  <div class="form-group">
+                      <input type="hidden" name="referrer_id" value="<%=params[:referral_code]%>" id="referrer_id" class="form-control form-group" required="true">
+                      <input type="email" placeholder="Email" required="true" name="email" class="form-control" autocomplete="off">
+                  </div>
+                  <div class="form-group">
+                    <input name="recover-submit" class="btn btn-lg btn-success btn-block" value="SUBMIT" type="submit">
+                  </div>
+                <%end%>
+              <%else%>
+                <div class="alert alert-warning">
+                  <%= link_to "Register Now", customer_customer_signup_path(referral: params[:referral_code]) %>
+                </div>
+              <%end%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+  $("#mobilenumber").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "full_phone",
+      nationalMode: true,
+      initialCountry: 'us',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      // preferredCountries: ['cn', 'jp'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+    });
+
+
+  var telInput = $("#mobilenumber"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+
+  var reset = function() {
+
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+  $('#referral_form').on("submit",function(){
+
+    if(!testContact()){
+      return false
+    }
+
+  })
+
+</script>

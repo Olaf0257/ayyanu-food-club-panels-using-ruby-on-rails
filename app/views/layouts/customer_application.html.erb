@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Food Club</title>
+
+      <%= stylesheet_link_tag "admin_application", media: "all", "data-turbolinks-track" => true %>
+      <link href="/assets/publicapp/font-awesome.min.css" rel="stylesheet" type="text/css">
+      <%= javascript_include_tag "admin_application", "data-turbolinks-track" => true %>
+      <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+    <%= render "layouts/admin/skinconfig" %>
+
+    <div id="wrapper" class="<%= params[:controller] %>.<%= params[:action] %>">
+      <%= render "layouts/admin/navigation" %>
+        <div id="page-wrapper" class="gray-bg">
+          <%= render "layouts/admin/topnavbar" %>
+          <%= yield %>
+          <%= render "layouts/admin/footer" %>
+        </div>
+      </div>
+    </div>
+
+    <%= yield :javascript %>
+  </body>
+</html>

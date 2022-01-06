@@ -1,0 +1,24 @@
+<div class="modal fade" id="reject_amount_settle_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center><div id="showimage"></div></center>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reject Reason</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row" style="margin-bottom:10px;">
+          <p>Reject Reason</p>
+          <%= text_field_tag(:reason, "", placeholder: "Reject Reason", class: "form-control", autocomplete: :off) %>
+          <input type="hidden" name="order_id" id="order_id" value="">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+          <span class="btn theme-btn pull-right btn-warning amount-settle-reject-submit">Submit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

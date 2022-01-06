@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= @user.influencer ? "Influencer" : (@user.auths.first.role == "delivery_company" ? "Delivery Company" : "Business") %> | Food Club</title>
+
+    <%= stylesheet_link_tag "partner_application", media: "all", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag "check_styles", media: "all", "data-turbolinks-track" => true %>
+    <link href="/assets/publicapp/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <%= javascript_include_tag "partner_application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+
+    <script type="text/javascript">
+      var link = window.location.origin
+      var channel = ""
+      var pusher = new Pusher("<%=web_pusher(Rails.env)[:key]%>", {
+      cluster: 'ap2',
+      forceTLS: true
+      });
+
+      <% if @user.auths.first.role == "business" %>
+        channel = pusher.subscribe('public-restaurant'+<%=@user.id%>);
+
+        channel.bind('my-event', function(data) {
+          document.getElementById("sound").innerHTML='<audio autoplay="autoplay" loop="true"><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg" /><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg"/></audio>';
+
+          var restaurant = data.restaurant;
+          var id = data.restaurant_id
+          $.ajax({
+            type: "POST",
+            url: "/business/noti/count",
+            dataType: "JSON",
+            success:function(data) {
+              $("#notification-count").text(data.notifications);
+              if(data.status == true && data.noti_data && data.noti_data.notification_type != "order_pending") {
+                if($('.fcSpan').length > 0) {
+                  if(!data.is_pos_check) {
+                    var totalOrder = parseInt($('.fcSpan').text());
+                    $('.fcSpan').text(totalOrder + 1);
+                    $('.newOrderFoodClub').removeClass('hide');
+                    var newTotalOrder = parseInt($('.fcSpan').text());
+                    if(newTotalOrder == 0) {
+                      $('.orderCountBtn').removeClass('red-border').addClass('green-border');
+                    } else {
+                      $('.orderCountBtn').removeClass('green-border').addClass('red-border');
+                    }
+                    setTimeout(function(){ document.getElementById("sound").innerHTML= '' }, 15000);
+                  }
+                } else {
+                  swal({
+                    title: "New Order Is Received On" +' '+ restaurant.title,
+                    text: "Please Check New Order",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes"
+                  },
+                  function(isConfirm){
+                    if(isConfirm) {
+                      var sound = document.getElementById("sound").firstChild
+                      sound.pause();
+                      window.location.href="/business/partner/dashboard/"+id;
+                    }
+                  });
+                }
+              } else {
+                if(data.noti_data) {
+                  if(data.noti_data.notification_type == "order_pending") {
+                    swal({
+                      title: "Order is Pending Approval for over 5 minutes",
+                      text: "Please Accept or Reject Order",
+                      type: "success",
+                      confirmButtonColor: "#DD6B55",
+                      confirmButtonText: "Yes"
+                    },
+                    function(isConfirm) {
+                      if(isConfirm) {
+                        var sound = document.getElementById("sound").firstChild
+                        sound.pause();
+                        window.location.href="/business/partner/dashboard/"+id;
+                      }
+                    });
+                  } else {
+                    if($('.fcSpan').length > 0) {
+                      if(!data.is_pos_check) {
+                        var totalOrder = parseInt($('.fcSpan').text());
+                        $('.fcSpan').text(totalOrder + 1);
+                        $('.newOrderFoodClub').removeClass('hide');
+                        var newTotalOrder = parseInt($('.fcSpan').text());
+                        if(newTotalOrder == 0) {
+                          $('.orderCountBtn').removeClass('red-border').addClass('green-border');
+                        } else {
+                          $('.orderCountBtn').removeClass('green-border').addClass('red-border');
+                        }
+                        setTimeout(function(){ document.getElementById("sound").innerHTML= '' }, 15000);
+                      }
+                    } else {
+                      swal({
+                        title: data.noti_data.menu_status || 'Order Received',
+                        text: data.noti_data.message,
+                        type: (data.noti_data.menu_status == "Approved" || data.noti_data.menu_status == "Bulk Approved") ? "success" : "error",
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "OK"
+                      },
+                      function(isConfirm) {
+                        if(isConfirm) {
+                          var sound = document.getElementById("sound").firstChild
+                          sound.pause();
+
+                          if(data.noti_data.notification_type == "amount_settle_approved") {
+                            window.location.href="/business/branch/foodclub_delivery/settle/amount/" + id;
+                          } else {
+                            window.location.reload();
+                          }
+                        }
+                      });
+                    }
+                  }
+                }
+              }
+            },
+            error: function() {
+              swal("Error","Something went wrong","Error");
+            }
+          });
+        });
+      <% elsif @user.auths.first.role == "manager" %>
+        <% @user.branch_managers.pluck(:branch_id).each do |branch_id| %>
+          channel = pusher.subscribe('public-branch' + <%= branch_id %>);
+
+          channel.bind('my-event', function(data) {
+          document.getElementById("sound").innerHTML='<audio autoplay="autoplay" loop="true"><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg" /><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg"/></audio>';
+            $.ajax({
+                type: "POST",
+                url: "/business/noti/count",
+                dataType: "JSON",
+                success:function(data){
+                  console.log(data)
+                  $("#notification-count").text(data.notifications);
+                if(data.status == true){
+                  swal({
+                    title: "New Order",
+                    text: "Please Check New Order",
+                    type: "success",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes"
+                  },
+                    function(isConfirm){
+                        if(isConfirm){
+                        var sound = document.getElementById("sound").firstChild
+                        sound.pause();
+                        window.location.href = "/business/manager/dashboard";
+                        }
+                    });
+                }else{
+                  if(data.noti_data){
+                  swal({
+                    title: data.noti_data.menu_status,
+                    text: data.noti_data.message,
+                    type: (data.noti_data.menu_status == "Approved" || data.noti_data.menu_status == "Bulk Approved") ? "success" : "error",
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "OK"
+                  },
+                    function(isConfirm){
+                        if(isConfirm){
+                        var sound = document.getElementById("sound").firstChild
+                        sound.pause();
+                        window.location.reload();
+                        }
+                    });
+                  }
+                }
+                  // });
+                },
+                error: function(){
+                  swal("Error","Something went wrong","Error");
+                }
+            });
+          });
+        <% end %>
+      <% elsif @user.auths.first.role == "kitchen_manager" %>
+        channel = pusher.subscribe('public-branch-kitchen-managers'+<%=@user.branch_kitchen_managers.first.branch_id%>);
+          channel.bind('my-event', function(data) {
+          document.getElementById("sound").innerHTML='<audio autoplay="autoplay" loop="true"><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg" /><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg"/></audio>';
+
+          $.ajax({
+            type: "POST",
+            url: "/business/noti/count",
+            dataType: "JSON",
+            success:function(data) {
+              $("#notification-count").text(data.notifications);
+              if(data.status == false) {
+
+                swal({
+                  title: "New Order",
+                  text: "Please Check New Order",
+                  type: "success",
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Yes"
+                },
+                function(isConfirm) {
+                  if(isConfirm){
+                    var sound = document.getElementById("sound").firstChild
+                    window.location.reload();
+                  }
+                });
+              }
+            },
+            error: function(){
+              swal("Error","Something went wrong","Error");
+            }
+          });
+        });
+      <% elsif @user.auths.first.role == "delivery_company" %>
+        channel = pusher.subscribe("delivery-company" + <%= @user.id %>);
+
+        channel.bind('my-event', function(data) {
+          document.getElementById("sound").innerHTML = '<audio autoplay="autoplay" loop="true"><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg" /><source src="/assets/telephone-ring-02.mp3"  type="audio/mpeg"/></audio>';
+
+          $.ajax({
+            type: "POST",
+            url: "/business/noti/count",
+            dataType: "JSON",
+            success:function(data) {
+              $("#notification-count").text(data.notifications);
+
+              if(data.status == false && data.noti_data.notification_type == "transporter_assigned") {
+                swal({
+                  title: "Order assigned to Food Club Driver. Please Re-assign.",
+                  text: "Please Re-assign New Order",
+                  type: "success",
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "Yes"
+                },
+                function(isConfirm){
+                  if(isConfirm) {
+                    var sound = document.getElementById("sound").firstChild
+                    sound.pause();
+                    window.location.href="/delivery_company/active_orders_list?state=active";
+                  }
+                });
+              } else {
+                swal({
+                  title: data.noti_data.message,
+                  text: data.noti_data.notification_type,
+                  type: data.noti_data.notification_type == "amount_settle_approved" ? "success" : "error",
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "OK"
+                },
+                function(isConfirm){
+                  if(isConfirm) {
+                    var sound = document.getElementById("sound").firstChild
+                    sound.pause();
+                    window.location.reload();
+                  }
+                });
+              }
+            },
+            error: function() {
+              swal("Error","Something went wrong","Error");
+            }
+          });
+        });
+      <% end %>
+    </script>
+  </head>
+
+  <body>
+    <% if (@user.enterprise.present? && params[:restaurant_id].blank?) || params[:enterprise] == "true" %>
+      <%= render "layouts/partner/enterprise_side_navbar" %>
+    <% else %>
+      <% if @user.auth_role == "business" %>
+        <%= render "layouts/partner/side_navbar" %>
+      <% else %>
+        <%= render "layouts/partner/side_navbar_menu" %>
+      <% end %>
+    <% end %>
+
+    <div class="partner-main">
+      <%= render "layouts/partner/skinconfig" %>
+      <div id="sound"></div>
+      <div id="wrapper" class="<%= params[:controller] %>.<%= params[:action] %>">
+        <% if params[:action] == 'pos_dashboard' || (params[:controller].eql?('business/catering_schedules') && params[:action].eql?('index')) %>
+          <% if @user.auths.first.role == "business" %>
+            <%#= render "layouts/partner/pos_navigation" %>
+            <%= render "layouts/partner/pos_master_key" %>
+          <% else %>
+            <%#= render "layouts/partner/privilege_pos_navigation" %>
+            <%= render "layouts/partner/pos_master_key" %>
+          <% end %>
+        <% elsif params[:action] == 'pos_dashboard_terminal' || params[:controller] == "business/spot_checks/cash_spot_checks" %>
+          <%= render "layouts/partner/pos_navigation" %>
+        <% elsif params[:enterprise_id].present? %>
+          <%= render "layouts/enterprise_navigation" %>
+        <% elsif params[:controller].include?('inventory') %>
+          <% if @user.auths.first.role == "business" %>
+            <%= render 'layouts/inventory/purchase_orders_navigation' %>
+          <% else %>
+            <%= render 'layouts/inventory/privilege_purchase_orders_navigation' %>
+          <% end %>
+
+        <% elsif params[:controller] == 'business/hrms/employees' || params[:controller] == 'business/hrms/family_details'  || params[:controller] == 'business/hrms/salaries' || params[:controller] == 'business/hrms/reimbursements' || params[:controller] == 'business/hrms/loans' || params[:controller] == 'business/hrms/loan_revises' || params[:controller] == 'business/hrms/loan_settlements' || params[:controller] == 'business/hrms/assign_assets' || params[:controller] == 'business/hrms/job_positions' || params[:controller] == 'business/hrms/job_applications' %>
+
+          <% if @user.auths.first.role == "business" %>
+            <%= render 'layouts/hrms/employees_navigation' %>
+          <% else %>
+            <%= render 'layouts/hrms/privilege_employees_navigation' %>
+          <% end %>
+
+          <% elsif ['business/task_reports/task_percentages'].include?(params[:controller]) %>
+
+          <%= render 'layouts/task_reports/task_percentage' %>
+           <% elsif ['business/kds'].include?(params[:controller]) %>
+
+          <%= render 'layouts/kds' %>
+        <% elsif ['business/task_management/assign_tasks'].include?(params[:controller]) %>
+
+          <%= render 'layouts/task_management/assign_task_navigation' %>
+        <% elsif params[:action] == 'pos_new_transaction' %>
+          
+          <% if @user.auths.first.role == "business" %>
+            <%= render "layouts/partner/pos_new_transaction" %>
+          <% else %>
+            <%= render "layouts/partner/privilege_pos_new_transaction" %>
+          <% end %>
+
+        <% elsif params[:action] == 'kds_menu' %>
+          <%= render "layouts/partner/pos_kds_menu" %>
+        <% elsif params[:action] == 'resturant_branch' || params[:action] == 'customers_list'  || params[:action] == 'restaurant' || params[:action] == 'document_list' || params[:controller] == 'business/order_types' || params[:controller] == 'business/payment_methods' || params[:is_view_address] == 'true' ||  is_active_setup_master.present? || params[:controller] == 'business/cash_types' %>
+          <%= render "layouts/partner/pos_master_key" %>
+        <% elsif params[:action] == 'resturant_branch' || params[:action] == 'customers_list'  || params[:action] == 'restaurant' || params[:action] == 'document_list' || params[:controller] == 'business/order_types' || params[:controller] == 'business/payment_methods' || params[:is_view_address] == 'true' %>
+          <% if @user.auths.first.role == "business" %>
+            <%= render "layouts/partner/pos_master_key" %>
+          <% else %>
+            <%= render "layouts/partner/privilege_pos_master_key" %>
+          <% end %>
+
+        <% elsif ['master/major_groups', 'master/over_groups', 'master/item_groups', 'master/recipe_groups', 'master/combo_meal_groups', 'master/store_types', 'master/stores', 'master/production_groups', 'master/brands', 'master/stations', 'master/articles', 'business/employee_master/departments', 'business/employee_master/designations', 'business/employee_master/reimbersments', 'business/employee_master/loan_types', 'business/employee_master/asset_categories',"business/asset_management/asset_types","business/asset_management/assets", 'hrms/shifts','business/employee_master/user_privileges', 'business/pos_management/floor_managements'].include?(params[:controller]) || params[:action] == "kds_color_setting" %>
+          <%= render "layouts/partner/pos_master_key" %>
+        <% elsif ['finance/account_types', 'finance/account_categories', 'business/setup/card_types', 'business/setup/banks','business/setup/vendors','business/setup/stages', 'setup/units','business/setup/manuals', 'business/task_management/task_types', 'business/task_management/task_categories', 'business/task_management/task_lists', 'business/task_management/task_activities', 'business/task_management/task_sub_categories', 'business/task_management/assign_tasks'].include?(params[:controller]) %>
+          <%= render "layouts/partner/pos_master_key" %>
+        <% elsif ['business/setup/document_stages'].include?(params[:controller]) %>
+          <% if @user.auths.first.role == "business" %>
+            <%= render "layouts/document_stage/stages" %>
+          <% else %>
+            <%= render "layouts/document_stage/privilege_stages" %>
+          <% end %>
+
+        <% elsif ['business/setup/chapters'].include?(params[:controller]) %>
+          <% if @user.auths.first.role == "business" %>
+            <%= render "layouts/setup/chapter" %>
+          <% else %>
+            <%= render "layouts/setup/privilege_chapter" %>
+          <% end %>
+        <% elsif ['business/enterprises'].include?(params[:controller]) %>
+          <%= render 'layouts/enterprise_navigation' %>
+        <% elsif ['business/tasks_list'].include?(params[:controller])%>
+          <%= render "layouts/business/tasks_list_navigation" %>
+        <% elsif params[:action] == 'kds_menu' %>
+          <%= render "layouts/partner/pos_kds_menu" %>
+        <%# elsif params[:controller] == 'business/pos_management/floor_managements' %>
+          <%#= render "layouts/partner/floor_list" %>
+        <%else%>
+          <% if @user.auths.first.role == "business" %>
+            <%= render "layouts/partner/navigation" %>
+          <% else %>
+            <%= render "layouts/partner/privilege_navigation" %>
+          <% end %>
+        <% end %>
+
+        <div id="page-wrapper" class="gray-bg">
+          <%= render "layouts/partner/topnavbar" %>
+          <%= yield %>
+          <%= render "layouts/partner/footer" %>
+        </div>
+      </div>
+    </div>
+
+    <%= yield :javascript %>
+  </body>
+</html>

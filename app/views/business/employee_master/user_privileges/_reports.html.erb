@@ -1,0 +1,13 @@
+<div class="col-md-12">
+	<label>Reports:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.reports.include?("Reports") %>
+			<input type="checkbox"  name="reports[reports]" value="Reports" checked="">
+		<%else%>
+			<input type="checkbox"  name="reports[reports]" value="Reports">
+		<%end%>
+		<label class="label_color">Reports</label>
+	</div>
+</div>

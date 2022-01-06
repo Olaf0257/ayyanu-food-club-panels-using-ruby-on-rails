@@ -1,0 +1,6 @@
+<% if @schedule.present? %>
+	$('#CateringShowPopup').empty().append('<%= j render partial: "view_catering", locals: {catering: @schedule, pos_check: @pos_check}%>');
+	setTimeout(function(){ $('#scheduleShowCatering').modal(); }, 100);
+<% else %>
+	toastr.error('Schedule event not found');
+<% end %>

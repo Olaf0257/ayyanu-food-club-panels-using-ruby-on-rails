@@ -1,0 +1,159 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .setheight {
+    height:100% !important;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+
+  .csv-button {
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<% currency = @orders.first&.currency_code_en %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-md-2">
+      <h2>Cancelled Orders List</h2>
+    </div>
+
+    <div class="col-md-10">
+      <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+        <%= form_for :search, method: :get, html: { class: "form-inline pull-right" } do |f| %>
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:country_id, options_for_select(@countries.to_a, params[:country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <input type="text" class="form-control admin-search-field" name="keyword" value="<%= params[:keyword] %>" placeholder="ID, Restaurant, Branch" autocomplete="off">
+
+          <span class="form-groups">
+            <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "start date", id: "start_datepicker") %>
+          </span>
+
+          <span class="form-groups">
+            <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control admin-search-field", placeholder: "end date", id: "end_datepicker") %>
+          </span>
+
+          <button type="submit" class="btn btn-danger"> Search </button>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= page_entries_info @orders %></h5>
+
+          <div>
+            <%= link_to order_refund_list_path(format: :csv, keyword: params[:keyword], country_id: params[:country_id], start_date: params[:start_date], end_date: params[:end_date]) do %>
+              <button class="btn btn-xs btn-success csv-button pull-right" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Branch Address</th>
+                  <th>Order Type</th>
+                  <th>Total Amount (<%= currency %>)</th>
+                  <th>Customer Name</th>
+                  <th>Cancelled At</th>
+                  <th>Cancel Requested By</th>
+                  <th>Cancel Reason</th>
+                  <th>Cancel Notes</th>
+                  <th>Refund Status</th>
+                  <th>Refund Notes</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @orders.each do |order| %>
+                  <tr class="<%= 'changed-delivery-order' if order.changed_delivery %>">
+                    <td><%= order.id %></td>
+                    <td><%= order.branch.restaurant.title %></td>
+                    <td><%= order.branch.address %></td>
+                    <td><%= order.order_type =="prepaid" ? "Online" : order.order_type =="postpaid" ? "Cash on delivery" : 'Credit Card Machine' %></td>
+                    <td><%= order.total_amount %></td>
+                    <td><%= order.user ? order.user.name : order.cart.user.name %></td>
+                    <td><%= order.cancelled_at&.strftime('%B %d %Y %I:%M%p') %></td>
+                    <td><%= order.cancel_request_by %></td>
+                    <td><%= order.cancellation_reason %></td>
+                    <td><%= link_to "View", order_view_cancel_notes_path(order_id: order.id, type: "cancel"), class: "btn btn-xs btn-info", remote: true %></td>
+
+                    <td>
+                      <% if order.refund == true %>
+                        <label class="label label-success">REFUND</label>
+                      <% elsif order.refund == false %>
+                        <label class="label label-danger">NO REFUND</label>
+                      <% else %>
+                        <label class="label label-default">PENDING</label>
+                      <% end %>
+                    </td>
+
+                    <td>
+                      <% unless order.refund.nil? %>
+                        <%= link_to "View", order_view_cancel_notes_path(order_id: order.id, type: "refund"), class: "btn btn-xs btn-info", remote: true %>
+                      <% end %>
+                    </td>
+
+                    <td>
+                      <a href="<%= order_path(encode_token(order.id)) %>" class="btn btn-xs btn-primary"><i class="fa fa-eye"> <b>View</b> </i> </a>
+
+                      <% if order.refund.nil? %>
+                        <span class="btn btn-xs btn-success refund-order-btn" data-id="<%= order.id %>"><i class="fa fa-check-circle" aria-hidden="true"> <b>Refund</b> </i></span>
+                        <span class="btn btn-xs btn-danger no-refund-order-btn" data-id="<%= order.id %>"><i class="fa fa-ban" aria-hidden="true"> <b>No Refund</b> </i></span>
+                      <% end %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No orders available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%= will_paginate @orders ,renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "refund_order_modal" %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

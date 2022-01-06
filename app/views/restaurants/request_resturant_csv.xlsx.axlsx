@@ -1,0 +1,6 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Restaurant Data") do |sheet| 
+	  sheet.add_row ["Restaurant Name","Owner Name","Contact Number","Email","Coverage Area","Cuisine","Status","Reject Reason","CR Number","Bank Name","Bank Account","CPR Number","Nationality","Submitted By"] 
+			sheet.add_row [@req_restaurant.restaurant_name,@req_restaurant.owner_name,@req_restaurant.contact_number,@req_restaurant.email,@req_restaurant.coverage_area.area,@req_restaurant.cuisine,@req_restaurant.is_approved.present? ? "Approve": "Reject",@req_restaurant.reject_reason.present? ? @req_restaurant.reject_reason : "N/A" ,@req_restaurant.cr_number,@req_restaurant.bank_name,@req_restaurant.bank_account,@req_restaurant.cpr_number,@req_restaurant.nationality,@req_restaurant.person_name] 
+		
+	end

@@ -1,0 +1,3 @@
+<% if @nested_id.present? && @portion_units.present? && @portion_units.is_a?(Array) %>
+	$("#recipe_ingredients_attributes_<%= @nested_id.to_s %>_portion_unit").empty().append("<%= escape_javascript(render('portion_units')) %>");
+<% end %>

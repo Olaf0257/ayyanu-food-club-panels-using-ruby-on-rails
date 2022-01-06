@@ -1,0 +1,56 @@
+<% if @order.transporter %>
+  <br>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="ibox-content bg-white" style="padding:5px 20px;">
+        <h3 class="text-center">
+          Driver Performance
+
+          <%= link_to driver_performance_path(format: :csv, order_id: @order.id) do %>
+            <button class="btn btn-xs btn-warning csv-button" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+          <% end %>
+        </h3>
+
+        <div class="full-height-scroll">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Driver Assigned At: </td>
+                  <td><%= @order.driver_assigned_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                  <td></td>
+                </tr>
+
+                <tr>
+                  <td>Driver Accepted Order At: </td>
+                  <td><%= @order.driver_accepted_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                  <td><%= (@order.driver_accepted_at && @order.driver_assigned_at) ? time_diff(@order.driver_accepted_at, @order.driver_assigned_at) : "" %></td>
+                </tr>
+
+                <tr>
+                  <td>Driver Onway At: </td>
+                  <td><%= @order.pickedup_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                  <td><%= (@order.pickedup_at && @order.driver_accepted_at) ? time_diff(@order.pickedup_at, @order.driver_accepted_at) : "" %></td>
+                </tr>
+
+                <tr>
+                  <td>Order Delivered At: </td>
+                  <td><%= @order.delivered_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                  <td><%= (@order.delivered_at && @order.pickedup_at) ? time_diff(@order.delivered_at, @order.pickedup_at) : "" %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

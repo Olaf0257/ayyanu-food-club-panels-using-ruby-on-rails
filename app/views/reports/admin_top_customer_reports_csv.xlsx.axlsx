@@ -1,0 +1,15 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Top Customers Report") do |sheet|
+  sheet.add_row ["Country: " + @country_name, "Restaurant: " + @restaurant_name, "Area: " + @area_name, "Start Date: " + @start_date, "End Date: " + @end_date]
+  sheet.add_row ["Customer Id", "Customer Name", "No. Of Orders"]
+
+  if @customers.present?
+    @customers.each do |report|
+      report.first
+      sheet.add_row [report.first, User.find_by(id: report.first)&.name, report.last]
+    end
+
+    sheet.add_row ["TOTAL", @customers.size.to_s + " Customers", @customers.sum { |c| c.last.to_i }]
+  end
+end

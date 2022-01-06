@@ -1,0 +1,72 @@
+<style>
+  input.form-check-input {
+    width: 25px;
+    height: 25px;
+  }
+</style>
+
+
+<!-- <div class="card">
+  <div class="card-body" style="height: 60px;">
+    <h1 style="margin-left: 15px;">
+    	<b>  TASK LIST</b>
+    </h1>
+  </div>
+</div>
+<br>
+<br> -->
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2><b>COMPLETED TASK</b></h2>
+  </div>
+</div>
+<br>
+
+<div class="row" style="padding-left: 15px;
+    padding-right: 15px;">
+  <% unless @employee_tasks.blank? %>
+    <div class="col-md-12">
+      <% @employee_tasks.each_with_index do |emp_task, index| %>
+        <div class="row" style="background: white;">
+          <div>
+            <h3 style="margin-left: 15px; margin-top: 15px;"><b>TASK</b></h3><hr>
+          </div>
+        </div>
+        <div class="row" style="background: white;">
+          <div class="col-md-12" style="padding-bottom: 2%;">
+            <div class="col-md-4">
+              <p><h3>Task Name</h3></p>
+              <br/>
+              <p><h3><b><%=emp_task.task_list.name%></b></h3></p>
+            </div>
+            <div class="col-md-2">
+              <p><h3>Start</h3></p>
+              <br/>
+              <p><h3><b><%=emp_task.task_list.time_to%></b></h3></p>
+            </div>
+            <div class="col-md-2">
+              <p><h3>End</h3></p>
+              <br/>
+              <p><h3><b><%=emp_task.task_list.time_from%></b></h3></p>
+            </div>
+            <div class="col-md-2">
+              <p><h3>Assigned By</h3></p>
+              <br/>
+              <p><h3><b><%=User.find_by_id(emp_task.task_list.created_by_id).name%></b></h3></p>
+            </div>
+            <div class="col-md-2">
+              <p><h3>Action</h3></p>
+              <br/>
+              <P><b>COMPLETED</b></P>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <br/>
+      <%end%>
+    </div>
+  <% else %>
+    <center><div class="alert alert-danger">No Task available.</div></center>
+  <% end %>
+  
+</div>

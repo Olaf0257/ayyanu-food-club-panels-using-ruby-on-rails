@@ -1,0 +1,7 @@
+$('select#branch_ids').html('<%= j options_from_collection_for_select(@branches, :id, :address) %>');
+$('select#store_ids').html('<%= j options_from_collection_for_select(@stores, :id, :name) %>');
+$('select#vendor_ids').html('<%= j options_from_collection_for_select(@vendors, :id, :company_name) %>');
+$('select#over_group_ids').html('<%= j options_from_collection_for_select(@over_groups, :id, :name) %>');
+$('select#major_group_ids').html('<%= j options_from_collection_for_select(@major_groups, :id, :name) %>');
+$('select#recipe_group_ids').html('<%= j options_from_collection_for_select(@recipe_groups, :id, :name) %>');
+$('select#unit_ids').html('<%= j options_from_collection_for_select(@units, :id, :name) %>');

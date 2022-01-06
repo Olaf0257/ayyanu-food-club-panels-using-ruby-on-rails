@@ -1,0 +1,55 @@
+<div>
+  <%= link_to "TAKE ORDER", admin_take_order_path(user_id: params[:id]), class: "btn btn-sm btn-success", target: "_blank" %>
+</div>
+<hr>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Restaurant Name</th>
+      <th>Address</th>
+      <th>Order Type</th>
+      <th>Total Amount (<%= @customer_orders.first&.currency_code_en %>)</th>
+      <th>Current Status</th>
+      <th>Transporter</th>
+      <th>Cancelled At</th>
+      <th>Cancel Requested By</th>
+      <th>Cancel Reason</th>
+      <th>Cancel Notes</th>
+      <th>Action</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @customer_orders.each do |order| %>
+      <tr class="<%= 'changed-delivery-order' if order.changed_delivery %>">
+        <td><%= order.id %></td>
+        <td><%= order.branch.restaurant.title %></td>
+        <td><%= order.branch.address %></td>
+        <td><%= order.order_type == "prepaid" ? "Online" : "Cash on delivery" %></td>
+        <td><%= order.total_amount %></td>
+        <td><label class="label label-success"><b><%= order.current_status %></b></label></td>
+        <td><%= order.transporter&.name %></td>
+        <td><%= order.cancelled_at&.strftime('%B %d %Y %I:%M%p') %></td>
+        <td><%= order.cancel_request_by %></td>
+        <td><%= order.cancellation_reason %></td>
+        <td title="<%= order.cancel_notes %>"><%= order.cancel_notes.to_s.truncate(30) %></td>
+
+        <td>
+          <a href="<%= order_path(encode_token(order.id) )%>" class="btn btn-xs btn-primary"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+
+          <% if order.transporter_id && !order.is_delivered && !order.is_cancelled %>
+            <%= link_to '<i class="fa fa-repeat"></i>'.html_safe + " Change Driver", admin_change_driver_path(order_id: order.id), class: "btn btn-xs btn-success", remote: true %>
+          <% end %>
+
+          <% if !order.is_rejected && !order.is_delivered && !order.is_cancelled %>
+            <%= link_to '<i class="fa fa-ban"></i>'.html_safe + " Cancel", admin_cancel_order_form_path(order_id: order.id), class: "btn btn-xs btn-danger", remote: true %>
+          <% end %>
+        </td>
+        <td><b><%= order.changed_delivery ? "Changed Order" : "" %></b></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,6 @@
+$("#<%= @count %>").find(".coupon-item-list").html("");
+
+targetField = $("#<%= @count %>").find(".coupon-category-list");
+targetField.html('<%= escape_javascript select_tag("category_ids_#{@count.to_s}[]", options_for_select(@categories.to_a), prompt: "All Categories", class: "form-control admin-search-field coupon-category-select", multiple: true) %>');
+
+targetField.find(".coupon-category-select").select2();

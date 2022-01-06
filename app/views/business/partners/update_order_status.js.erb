@@ -1,0 +1,44 @@
+<% if params[:order_action] == 'reject-order' %>
+	$('.selected_order_id').val("<%= @order.id %>");
+	$('.cancel_reason_textbox').val('');
+	$('#orderListModalPopup').modal('hide');
+	$('#cancelOrderPopup').modal('show');
+<% end %>
+<% if @order.present? && @order.is_accepted %>
+	toastr.success("Order accepted successfully");
+	var totalOrder = parseInt($('.fcSpan').text());
+    $('.fcSpan').text(totalOrder - 1);
+	$('#orderListModalPopup').modal('hide');
+	$('#otherOrderdriverListing').modal('show');
+	setClassName();
+	<% if @drivers.present? %>
+		$("#otherOrderdriverListing tbody").empty();
+		<% @drivers.each do |transporter| %>
+			$("#otherOrderdriverListing tbody").append("<%= j render partial: 'transporter_list', locals: { transporter: transporter, modal_id: 'otherOrderdriverListing'  } %>");
+		<% end %>
+		$('.pos_other_order_id').val("<%= @order.id %>");
+		saveDriver();
+		saveOutsidePosDriver();
+	<% else %>
+		$("#otherOrderdriverListing tbody").empty().append("<tr><td colspan='4' style='text-align:center;'>Drivers Not Available</td></tr>");
+	<% end %>
+    $('.newOrderFoodClub').removeClass('hide');
+<% elsif @order.present? && @order.is_rejected %>
+	toastr.success("Order rejected successfully");
+	var totalOrder = parseInt($('.fcSpan').text());
+    $('.fcSpan').text(totalOrder - 1);
+    $('.newOrderFoodClub').removeClass('hide');
+	$('#cancelOrderPopup').modal('hide');
+	setClassName();
+<% elsif !@order.present? %>
+	toastr.error("Order not found");
+<% end %>
+
+function setClassName() {
+	var totalOrder = parseInt($('.fcSpan').text());
+	if(totalOrder == 0) {
+		$('.orderCountBtn').removeClass('red-border').addClass('green-border');
+	} else {
+		$('.orderCountBtn').removeClass('green-border').addClass('red-border');
+	}
+}

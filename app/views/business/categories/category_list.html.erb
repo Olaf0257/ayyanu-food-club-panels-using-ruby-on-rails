@@ -1,0 +1,320 @@
+
+<style type="text/css">
+  select.form-control:not([size]):not([multiple]) {
+    height: calc(2.5rem - 5px);
+  }
+  .glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+  }
+  @-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+  }
+  @keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+  }
+  #loading {
+  text-align: center;
+    background:#ccc;
+    opacity: 0.85;
+    margin-bottom:10px;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position:absolute;
+    display:none;
+    z-index: 999999;
+  }
+   
+  /* The ghost, nudged to maintain perfect centering */
+  #loading:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+  }
+
+  /* The element to be centered, can
+     also be of any width and height */ 
+  #loading > div {
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+  }
+  th{
+   font-size: 15px;
+  font-weight: bold;
+}
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Cuisine List</h2>
+  </div>
+  <div class="col-sm-4" style="margin-top: 20px;">
+    <a href="<%=business_resturant_branch_path(:restaurant_id=>params[:restaurant_id])%>" class="pull-right"><button class="btn btn-danger">Back to branch <i class="fa fa-arrow-right"></i> </button></a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInUp">
+      <div >
+        <center><h4 class="alert alert-info" id="successMessage" ></h4></center>
+      </div>
+      <div class="ibox"> 
+        <div class="ibox-title">
+          <h5><b>All Cuisine </b></h5>
+           <a href="#" class="pull-right dim btn btn-primary btn-circle" title="Add Category"  data-target="#add-category-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="ibox-content">
+          
+          <%if @cuisine .present?%>
+            <div class="project-list table-responsive" id="add-cat">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>S.No.</th>
+                    <th>Name</th>
+                    <th><center>Image</center></th>
+                    <th><center>Actions</center></th>
+                  </tr>
+                </thead> 
+                <tbody id="all-students">
+                  <%@cuisine.each_with_index do |category,cat_index|%>
+               
+                    <tr id="cat-<%=category.id%>">
+                      <td><%=cat_index.to_i+1%>
+                        <input type="hidden" value="<%=cat_index%>" id="cat_index-<%=category.id%>">
+                        <input type="hidden" value="<%=params[:restaurant_id]%>" id="restaurant_id">
+                         <input type="hidden" value="<%=category.branch.id%>" id="branch_id">
+                      </td>
+                      <td> 
+                        <span><%=category.category.title%></span>
+                        <input type="hidden" value="<%=category.category.title%>" id="cat-name-<%=category.id%>">
+                      </td>
+                      <td> 
+                        <center>
+                          <div><img src="<%=category.category.icon.present? ? category.category.icon : '/assets/No_Image_Available.png' %>" width="60" height="60" id="cat-image-<%=category.id%>"></div>
+                        
+                        </center>
+                      </td>
+                      <td class="project-actions">
+                        <center>
+                          <a href="javascript:void(0)" class="btn btn-white btn-sm delete_category" value="<%=category.id%>" "> <i class="fa fa-folder"></i> Remove </a>
+                        </center>
+                      </td>
+                    </tr>
+                  <%end%>
+                </tbody>
+              </table>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+               <center><%= will_paginate @cuisine ,renderer: BootstrapPagination::Rails %></center>
+              </div>
+            </div>
+          <%else%>
+            <center><div class="alert alert-danger">Cuisine are not available right now.</div></center>
+          <%end%>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-hidden="true">  
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add category</h4>
+      </div>
+
+      <div class="modal-body">
+        <%=form_for :category,url: business_branch_cuisine_path(restaurant_id: params[:restaurant_id]) ,html: {:multipart=>true,:id=>"add-city_content_form"},:authenticity_token => true do |f|%>
+        <div class="row">
+            <input type="hidden" name="index" id="index" value="">                 
+            Branch Address:
+            <select name="branch_id" id="branch_id" class="form-control" style="height: 30%" required="true">
+                <% @branches.each do |addre|%>
+                  <option value="<%=addre.id%>" id="branch_address" ><%=addre.address%></option>
+                <%end%>  
+            </select>
+          </div><br>
+          <div class="row">
+            <input type="hidden" name="index" id="index" value="">                 
+            Category Name:
+            <select name="category_id" id="category_id" class="form-control" style="height: 30%" required="true">
+                <% @categories.each do |cat|%>
+                  <option value="<%=cat.id%>" ><%=cat.title%></option>
+                <%end%>  
+            </select>
+          </div><br>         
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary pull-right" id="" value="Submit" >
+          </div>
+        <%end%>
+      </div>  
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit categories</h4>
+        </div>
+        <div class="modal-body">
+          <form action="#" class="form-horizontal" method="post" data-remote="true">
+            <input type="hidden" name="category_id" id="category_id"  value="">
+            <input type="hidden" name="cat_index" id="cat_index" value="">
+            <input type="hidden" name="restaurant_id" id="restaurant_id" value="">
+            <div class="row" style="margin-bottom:10px;">          
+              <p>Category Name</p>
+              <input type="text"  name="name" id="category_name" placeholder="Category name" required="true" class="form-control" autocomplete="off">
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+              <p>Available for filter</p>
+              <select name="in_filter" id="edit_in_filter"  class="form-control">
+                <option value="true"> Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+              <p>Available At form</p>
+              <select name="in_form" id="edit_in_form" class="form-control">
+                <option value="true"> Yes</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <!-- <p>Category Image</p> -->
+                <br>
+                <a href='javascript:;'>
+                  <img src="/assets/upload_image1.png" class="img-tag img-tag" height="100vh" id="catimage">
+                  <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                  <input type="file" id='img-tag' style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;height: 100%;width: 100%;' name="category_image" onchange='readURL(event)'>
+                </a>
+              </div>  
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn theme-btn pull-right" value="Update" id="editcat">
+            </div>
+          </form>
+        </div>  
+      </div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<script type="text/javascript">
+
+  <%if flash[:success].present?%>
+    swal("Success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("Error","<%=flash[:error]%>","error")
+  <%end%>
+
+  
+  $(document).ready(function() {
+
+    $(document).on("click", '.editcategories', function(event) { 
+      var id = $(this).attr("id").split('-')[0]
+      $('#category_id').val(id);
+      $('#restaurant_id').val();
+      var name = $("#cat-name-"+id).val();
+      $('#category_name').val(name);
+
+      var image = $("#cat-image-"+id).attr('src');
+      $('#catimage').attr('src',image);
+
+      $('#cat_index').val($("#cat_index-"+id).val());
+      $('#restaurant_id').val(restaurant_id);
+      $('#edit-category-modal').modal({backdrop: 'static', keyboard: false});
+      $('#edit-category-modal').modal('show');
+    })
+  });
+
+  $("#editcat").on("click",function() {
+    swal({
+      html:true,
+      title: "Please wait...",
+      text: "<img src='/assets/rest-loading.gif' width='20%'>",
+      showConfirmButton: false,
+      timer: 6000
+    });
+  });
+
+  $("#add-category-modal").on("hidden.bs.modal", function(){
+     $(this).find("input[type=text],input[type=file],select").val('').end();
+  });
+
+  $("#add-category-modal").on("show.bs.modal",function(){
+    $("#successMessage").css("display","none");
+  });
+
+  $("#successMessage").css("display","none");
+  
+  $('.delete_category').click(function() {
+    var categoryid=$(this).attr("value")
+    var branchid= $("#branch_id").val();
+    swal({
+      title: "Are you sure?",
+      text: "Do you want to delete this cuisine !",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "No, cancel plz!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function(isConfirm){
+      if (isConfirm) {
+        $.ajax({
+          type: "POST",
+          url: "/business/branch/cuisine/remove",
+          data: {category_id: categoryid,branch_id: branchid},
+          dataType: "JSON",
+          success:function(data){
+            if(data.code==200){
+              swal("Deleted!","Cuisine has been deleted","success")
+              document.getElementById("cat-"+categoryid+"").outerHTML="";  
+            }
+          },
+          error: function() {  
+            swal("error",data.response_message,"error")
+          }
+        });
+      }
+      else 
+      {
+        swal("Cancelled", "No change in Cuisine", "error");
+      }
+    });
+  });
+
+  function readURL(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src", getImagePath);
+  }
+
+  function addreadURL(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src", getImagePath);
+  }
+
+  
+
+</script>

@@ -1,0 +1,112 @@
+<style type="text/css">
+  .form-group {
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+
+  .csv-button {
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-10">
+    <h2>Order List for <%= @transporter.name %> from <%= @start_date.to_date.strftime("%Y-%m-%d") %> to <%= @end_date.to_date.strftime("%Y-%m-%d") %></h2>
+  </div>
+
+  <div class="col-sm-2">
+    <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, admin_driver_performance_report_path(start_date: params[:start_date], end_date: params[:end_date]), class: "btn btn-danger pull-right" %></h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="padding: 10px; height: 55px;">
+          <div>
+            <%= link_to transporter_order_list_path(format: :csv, user_id: @transporter.id, start_date: params[:start_date], end_date: params[:end_date]) do %>
+              <button class="btn btn-sm btn-warning csv-button pull-right" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+            <% end %>
+          </div>
+          <span class="pull-right" style="padding: 6px;"><b><%= @orders.total_entries %> ORDERS</b></span>
+
+          <h5 style="padding: 8px;">Total Amount: <%= number_with_precision(@orders.sum(:total_amount).to_f, precision: 3) %> <%= @orders.first&.currency_code_en %></h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Branch</th>
+                  <th>Order Time</th>
+                  <th>Driver Assigned At</th>
+                  <th>Driver Accepted Order At</th>
+                  <th>Accept Time</th>
+                  <th>Driver Onway At</th>
+                  <th>Onway Time</th>
+                  <th>Order Delivered At</th>
+                  <th>Delivery Time</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @orders.each do |b| %>
+                  <tr>
+                    <td><%= b.id %></td>
+                    <td><%= b.branch.restaurant.title %></td>
+                    <td><%= b.branch.address %></td>
+                    <td><%= b.created_at.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                    <td><%= b.driver_assigned_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+
+                    <td><%= b.driver_accepted_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+
+                    <td>
+                      <% if b.driver_accepted_at && b.driver_assigned_at %>
+                        <%= time_diff(b.driver_accepted_at, b.driver_assigned_at) %>
+                      <% end %>
+                    </td>
+
+                    <td><%= b.pickedup_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+
+                    <td>
+                      <% if b.pickedup_at && b.driver_accepted_at %>
+                        <%= time_diff(b.pickedup_at, b.driver_accepted_at) %>
+                      <% end %>
+                    </td>
+
+                    <td><%= b.delivered_at&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+
+                    <td>
+                      <% if b.delivered_at && b.pickedup_at %>
+                        <%= time_diff(b.delivered_at, b.pickedup_at) %>
+                      <% end %>
+                    </td>
+
+                    <td><b><%= b.current_status %></b></td>
+
+                    <td>
+                      <a href="<%= order_path(encode_token(b.id)) %>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No orders available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+         <center><%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>

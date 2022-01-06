@@ -1,0 +1,333 @@
+<style type="text/css">
+  #error-msg{
+    color:red;
+  }
+
+  #valid-msg{
+    color:green;
+  }
+  .intl-tel-input {
+    width: 100% !important;
+}
+</style>
+<br><br>
+<div class="GridLex-col-9_sm-4_xs-12_xss-12">
+  <div class="col-lg-6 mb-30" data-match-height="confirm">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <center><h3 style="color: white;">Profile</h3></center>
+        </div><br>
+        <div class="panel-body">
+          <form data-remote="true" id="change-form" method="post" name="change-form">
+            <input id="user_id" name="user" style="display: none;" type="text" value="<%=@user.id%>">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label class="control-label">User Name</label> 
+                  <input class="form-control mb-0" id="user_name" name="user_name" placeholder="First_name" type="text" value="<%=@user.name%>">
+                </div>
+              </div>
+
+              <div class="col-sm-6"> 
+                <div class="form-group">
+                   <label>Phone Number</label>
+                    <input type="hidden" name="country-code" id="country-code" class="form-control form-group" placeholder="Country Code">  
+                    <input type="tel" id="mobilenumber" placeholder="Telephone / Mobile" required="true" name="contact" class="form-control" value="<%=@user.contact%>">
+                    <span id="valid-msg" class="hide">✓ Valid</span>
+                    <span id="error-msg" class="hide">Invalid number</span>
+                </div>
+              </div>
+            </div>  
+
+            <div class="row">
+              <div class="col-sm-6" style="margin-top:15px !important;">
+                <label>User Image</label>
+                <br>
+                <a href='javascript:;' style="margin-top:15px !important;">
+                  <img class="img-tag pull-left"  id="img-img0" src="<%=@user.image.present? ? @user.image : '/assets/downloads/add-user.png'%>" style="height:80px;width: 80px;"> 
+                  <button class="" style="display: none;" type="button">Hello</button> 
+                 <label class="file">
+                  <input type="file" id='img0' name="update_image" onchange='readURL(event)' aria-label="File browser example">
+                  <span class="file-custom"></span>
+                </label> 
+                </a>
+                 <p style="margin-top: -10px;"><b>Image size :</b> 300X300 </p>      
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-12">
+                <br>
+                <a class="btn btn-primary btn-border pull-right" id="update_profile" style="color: white ;">Save Changes</a>
+              </div>
+            </div>
+          </form>
+        </div>  
+      </div>
+  </div>
+  <div class="col-lg-6 mb-30" data-match-height="confirm" style="">
+    <div class="metro-box-wrapper equal-height">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+       
+          <form action="#" id="change-pass" method="post" name="change-pass">
+            <input id="user_id" name="user" style="display: none;" type="text" value="<%=@user.id%>">
+            <center>
+              <h3 style="color: white ;">Change Password</h3>
+            </center>
+          </form>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <br>
+            <div class="col-sm-12" style="margin-top:15px !important;">
+              <label class="control-label">Old password</label> <input class="form-control mb-0" id="old_password" name="Old password" placeholder="Old password" type="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12" style="margin-top:15px !important;">
+              <label class="control-label">New password</label> <input class="form-control mb-0" id="new_password" name="New password" placeholder="New password" type="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12" style="margin-top:15px !important;">
+              <label class="control-label">Confirm password</label> <input class="form-control mb-0" id="confirm_password" name="Confirm password" placeholder="Confirm password" type="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <br>
+              <button class="btn btn-primary btn-border pull-right" id="change" type="submit">Change Password</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+
+<script type="text/javascript"> 
+  var image = ""   
+  var readURL = function(event) {
+    var componentId = event.target.id
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");     
+    var img = new Image();
+    img.src = URL.createObjectURL(event.target.files[0]);
+    document.getElementById("img-" + componentId).setAttribute("src", img.src);       
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      image = canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+    };
+  }
+
+  $("#change").on("click", function() {
+    var passlength = new RegExp("(?=.{6,})");
+    if ($('#old_password').val().trim() == "") {
+      $('#old_password').focus();
+      swal("Warning", "Old password can't be blank", "error");
+      return false;
+    } 
+    else if ($('#new_password').val().trim() == "") {
+      $('#new_password').focus();
+      swal("Warning", "New password can't be blank", "error");
+      return false;
+    } 
+    else if (!(passlength.test($('#new_password').val()))) {
+      $('#new_password').focus();
+      swal("Warning", "Password length should be 6 character long", "error");
+      return false;
+    } 
+    else if ($("#new_password").val() != $("#confirm_password").val()) {
+      $('#confirm_password').focus();
+      swal("Warning", "Password  and confirm password  do not match", "error");
+      return false;
+    } 
+    else if ($('#new_password').val().length <=5 || $('#new_password').val().length >=13 )
+    {
+      $('#new_password').focus();
+      swal("Warning", "Please enter new password between length 6 to 12", "error");
+      return false;
+    }
+    else {
+      var new_pass = $('#new_password').val()
+      var user_id = $('#user_id').val()
+      var old_password = $('#old_password').val()
+      $.ajax({
+        method: "POST",
+        headers: { 'accessToken': "<%=params[:session]%>" },
+        url: "/business/change/password",
+        data: {
+          role: 'business',
+          old_password: old_password,
+          user_id: user_id,
+          new_password: new_pass
+        },
+        dataType: "JSON",
+        success: function(data) {
+          if (data.code == 200) {
+            swal("Done", data.message, "success")
+            $("#old_password").val('')
+            $("#new_password").val('')
+            $("#confirm_password").val('')
+          } else {
+            swal("Warning", data.message, "error")
+          }
+        },
+        error: function() {
+          swal("error", "Something went wrong", "error")
+        }
+      });
+    }
+  });
+  
+
+  $("#update_profile").on("click", function() {
+    var fname = /^[a-zA-Z ]{2,30}$/
+
+    if(!fname.test($('#user_name').val())){      
+      $('#user_name').focus();
+      swal("Warning","Please enter valid name","warning");
+      return false;
+    }
+    else if($.trim($("#mobilenumber").val())===""){
+      $('#mobilenumber').focus();
+      swal("Warning","Please enter phone number","warning")
+      return false;
+    }else if(!testContact()) {
+      $('#mobilenumber').focus();
+      swal("Warning","Please enter a valid phone number","warning")
+      return false;
+    }
+    else{
+      var user_id = $('#user_id').val()
+      var username = $('#user_name').val()
+      var contact = $('#mobilenumber').val()
+      var country_code = $("#mobilenumber").intlTelInput("getSelectedCountryData");
+      countrycode = country_code.dialCode
+      swal({
+        title: "Wait",
+        text: "Please wait While we process your request",
+        imageUrl: '/assets/wait.gif',
+        showConfirmButton: false
+      });
+      $.ajax({
+        type: "POST",
+        headers: { 'accessToken': "<%=session[:partner_user_id]%>" },
+        url: "/api/v1/update/profile",
+        data: {
+          user_id: user_id,
+          image: image,
+          name: username,
+          contact: contact,
+          country_code:countrycode
+        },
+        dataType: "JSON",
+        success: function(data) {
+          if (data.code == 200) {
+            swal("Message", data.message, "success")
+          } else {
+            swal("warning", data.message, "error")
+          }
+        },
+        error: function() {
+          swal("error", "Something went wrong", "error")
+        }
+      });
+    }
+  });
+
+// console.log('<%=@user.country_code%>')
+
+  $("#mobilenumber").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: ['BH'],
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    separateDialCode: true,
+    preferredCountries: ['bh'],
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+
+  var telInput = $("#mobilenumber"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  }; 
+  
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();    
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;   
+        
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+</script>

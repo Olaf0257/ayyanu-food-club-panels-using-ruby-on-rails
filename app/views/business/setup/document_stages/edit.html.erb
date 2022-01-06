@@ -1,0 +1,83 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Document Library >> initiate >> Edit</h2>
+  </div>
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, business_setup_document_stages_path(restaurant_id: params[:restaurant_id]), class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+<br>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Edit Document initiate</h3>
+    </div>
+    <div class="panel-body">
+      <%= form_for(@document_stage, url: business_setup_document_stage_path(@document_stage,restaurant_id: params[:restaurant_id]), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <%= f.label :name %>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field(:name, required: true, class: "form-control") %>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Type</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :account_type_id, @account_type.map{|c| [c.name,c.id]}, {promt: "Select Country"}, {class: "form-control"} %>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Category</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :account_category_id, @account_category.map{|c| [c.name,c.id]}, {promt: "Select Country"}, {class: "form-control"} %>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Stage</label>
+        </div>
+        <div class="col-sm-10">
+          <select class="form-control setheight select2_stage" name="stage_ids[]" id="branch" multiple="true">
+            <% @stages.each do |stage| %>
+            <option <%if @document_stage.stages.pluck(:name).include?(stage.name)%> selected <%end%> value="<%= stage.id %>"><%= stage.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Frequency</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :frequency, options_for_select(DocumentStage::FREQUENCY), {prompt: "Select Frequency"}, {class: 'form-control'} %>
+        </div>
+      </div>
+      <div class="row form-group">
+        <center><%= f.submit "Document initiate Update", class: "btn btn-success btn-sm" %></center>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+  swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+  
+  // $("#document_stage_stage_id" ).select2({
+  //    theme: "bootstrap"});
+  
+  $(".select2_stage").select2({placeholder: 'Add multiple stage', allowClear: true});
+  $(".select2_frequency").select2();
+  $('#datetimepicker').datetimepicker();
+</script>

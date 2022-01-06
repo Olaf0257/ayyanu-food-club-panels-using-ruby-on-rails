@@ -1,0 +1,160 @@
+<% privilage = check_user_privillage(@user) %>
+<% user_privilages = privilage.assign_privileges %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <% if @user.auths.first.role == "business" %>
+        <li class="displayNavigation <%= is_active_action('dashboard') %> &&  <%= is_active_controller('partners') %>">
+          <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i> <span class="nav-label">Dashboard</span><span class="fa arrow"></span></a>
+        </li>
+        <li class="displayNavigation <%= is_active_controller('business/users') && (is_active_action('all_kitchen_managers') || is_active_action('all_managers') || is_active_action('index')) %>">
+          <a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Employee</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= is_active_action('index') %>">
+              <a href="<%= business_transporters_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Transporters</span></a>
+            </li>
+
+            <li class="<%= is_active_action('all_kitchen_managers') %>">
+              <a href="<%= business_kitchen_managers_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Kitchen Managers</span></a>
+            </li>
+
+            <li class="<%= is_active_action('all_managers') %>">
+              <a href="<%= business_managers_path(restaurant_id:params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Managers</span></a>
+            </li>
+          </ul>
+        </li>
+      <% elsif @user.auths.first.role == "manager" %>
+        <% restaurant_token_id = encode_token(@user.branch_managers.first.branch.restaurant_id) %>
+        <% unless (user_privilages["TASK MANAGEMENT"].include?("Dashboard").blank? rescue true) %>
+          <li class="<%= is_active_action('tasks_list') %>">
+            <a href="<%= business_task_dashboard_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+          </li>
+        <% end %>
+        <li class="<%= is_active_controller('business/users') && (is_active_action('all_kitchen_managers') || is_active_action('index')) %>">
+          <a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Task List</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <%# unless user_privilages["TASK MANAGEMENT"].include?("Assign Task").blank? %>
+              <li class="<%= is_active_action('index') %>">
+                <a href="<%= business_assigned_task_path(restaurant_id: params[:restaurant_id]) %>"> <span class="nav-label">Assigned Task</span></a>
+              </li>
+            <%# end %>
+
+            <li class="<%= is_active_action('all_kitchen_managers')%>">
+              <a href="<%= business_completed_task_path(restaurant_id: params[:restaurant_id]) %>"> <span class="nav-label">Completed Task</span></a>
+            </li>
+          </ul>
+        </li>
+      <% elsif @user.auths.first.role == "delivery_company" %>
+        <li class="<%= is_active_action('dashboard') %>">
+          <%= link_to delivery_company_dashboard_path do %>
+            <i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('transporters') %>">
+          <%= link_to delivery_company_transporters_path do %>
+            <i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Transporters</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_controller('delivery_company/delivery_company_shifts') %>">
+          <%= link_to delivery_company_delivery_company_shifts_path do %>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-label">Shifts</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('ious_list') %>">
+          <%= link_to delivery_company_ious_list_path do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Manage I.O.U</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('settle_amount') %>">
+          <%= link_to delivery_company_settle_amount_path do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Settle Amount</span>
+          <% end %>
+        </li>
+
+        <li class="<%= 'active' if (params[:action] == 'active_orders_list' && ['total', 'settled', 'returned', 'disputed'].include?(params[:state])) || is_active_action('driver_timing_report') || is_active_action('driver_review_report') %>">
+          <a href="#"><i class="fa fa-line-chart" aria-hidden="true"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'total' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'total') %>"><span class="nav-label">Total Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'settled' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'settled') %>"><span class="nav-label">Settled Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'returned' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'returned') %>"><span class="nav-label">Returned Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'disputed' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'disputed') %>"><span class="nav-label">Disputed Orders</span></a></li>
+
+            <li class="<%= is_active_action('driver_review_report') || is_active_action('driver_timing_report') %>">
+              <a href="#"><span class="nav-label">Drivers Reports</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('driver_review_report') || is_active_action('driver_timing_report') %>">
+                <li class="<%= is_active_action('driver_timing_report') %>"><%= link_to "Driver Shifts", delivery_company_driver_timing_report_path %></li>
+                <li class="<%= is_active_action('driver_review_report') %>"><%= link_to "Driver Reviews", delivery_company_driver_review_report_path %></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_action('edit_password') %>">
+          <%= link_to delivery_company_edit_password_path do %>
+            <i class="fa fa-cog" aria-hidden="true"></i> <span class="nav-label">Change Password</span>
+          <% end %>
+        </li>
+
+      <% elsif @user.influencer %>
+        <li class="<%= is_active_action('dashboard') %>">
+          <%= link_to influencer_dashboard_path do %>
+            <i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

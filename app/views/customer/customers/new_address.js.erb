@@ -1,0 +1,5 @@
+$("#edit_address_modal").remove();
+$("#new_address_modal").remove();
+$("body").append("<%= escape_javascript render(partial: 'new_address_modal') %>");
+$("#new_address_modal").modal("show");
+initialize();

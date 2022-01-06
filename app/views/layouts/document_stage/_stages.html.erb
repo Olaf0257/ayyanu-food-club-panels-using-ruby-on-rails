@@ -1,0 +1,323 @@
+<% selected_user = @selected_user || @user %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if selected_user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif selected_user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif selected_user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif selected_user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.name %></span>
+            </span>
+          <% elsif selected_user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <div class="dropdown profile-element">
+        <li class="partner-nav-header">
+          <h3 class="block m-l-lg"><strong class="font-bold"><%= link_to "Document Control", document_upload_list_business_setup_document_stages_path(restaurant_id: params[:restaurant_id]) %></strong></h3>
+        </li>
+      </div>
+
+      <li class="displayMaster %>">
+        <a href="#"> <span class="nav-label">Dashboard</span></a></li>
+        <li <%if params[:controller]=="business/setup/document_stages" && params[:action]=="index" %> class="active" <%end%>> <a href="<%= business_setup_document_stages_path(restaurant_id: params[:restaurant_id])%>"><span class="nav-label">Initiate Scan</span></a></li>
+        <li <%if params[:controller]=="business/setup/document_stages" && params[:action]=="document_upload_list" %> class="active" <%end%>><a href="<%=document_upload_list_business_setup_document_stages_path(restaurant_id: params[:restaurant_id])%>"><span class="nav-label">Document Upload</span></a></li>
+        <li <%if params[:controller]=="business/setup/document_stages" && params[:action]=="document_detail_list" %> class="active" <%end%>><a href="<%=document_detail_list_business_setup_document_stages_path(restaurant_id: params[:restaurant_id])%>"><span class="nav-label">Folder List</span></a></li>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div id="newCustomerPopupMasterKey" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 100%;height: 66%;top: 20%;overflow-y: scroll;">
+    <div class="modal-content" style="max-width: 100%;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <span style="font-size: 20px;
+            font-weight: 700;
+            width: 28%;
+            display: block;
+            margin: auto;;">New Customer</span>
+      </div>
+      <div class="modal-body">
+        <%= form_tag business_new_customer_master_key_path, autocomplete: :off do %>
+          <%= hidden_field_tag(:address_id, '', class: 'newCutomerFormAddressId') %>
+          <input type="hidden" name="restaurant_id" class="unique_restaurant_id" value='<%= params[:restaurant_id] %>'>
+          <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:user_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Email: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= email_field_tag(:user_email, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <h3 class="text-center">Address Details</h3>
+
+            <div class="row hide">
+              <div class="form-group">
+                <label class="col-sm-5">Address:</label>
+
+                <div class="col-sm-7 user-address-list">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Area: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7 manual-order-area-list">
+                  <%= select_tag(:area_id, options_for_select(@areas.to_a), prompt: "Select Area", class: "form-control business-search-field area-selection-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Type: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), prompt: "Select Address Type", class: "form-control business-search-field address-type-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Block: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Road No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Building: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Floor:</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:floor, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row villa-text">
+              <div class="form-group">
+                <label class="col-sm-5">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Additional Directions (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Mobile: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Landline Number (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group text-center">
+                <%= submit_tag "Save Details", class: "btn btn-md btn-success", data: { disable_with: "Saving..." } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="uploadBulkCustomerPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <%= file_field_tag :upload_customer, class: 'form-control', required: true %>
+        <span>(Only CSV File)</span>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "Upload", class: "btn btn-primary form-button create-customer", data: { disable_with: "Saving..." }, style: '    padding: 15px;float:left;' %>
+        <button type="button" class="btn btn-primary form-button" style="padding: 15px;float:right;width: 35%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<style type="text/css">
+  #newCustomerPopupMasterKey .modal-body .row {
+    margin-bottom: 10px
+  }
+</style>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $('.add-new-customer').on('click', function(e) {
+    $('#newCustomerPopupMasterKey').modal('show');
+    e.stopImmediatePropagation();
+  });
+
+  $('.upload-bulk-customer').on('click', function(e) {
+    $('.create-customer').removeClass('disabled');
+    $('#uploadBulkCustomerPopup').modal('show');
+    e.stopImmediatePropagation();
+  })
+
+  $('.create-customer').on('click', function(e) {
+    if(document.getElementById('upload_customer').files[0]) {
+      $(this).addClass('disabled');
+      var form_data = new FormData();
+      form_data.append('restaurant_id', $('.unique_restaurant_id').val());
+      form_data.append("attachments", document.getElementById('upload_customer').files[0]);
+      $.ajax({
+        method: "POST",
+        url: '/business/restaurant/branches/bulk_customer_creation',
+        data: form_data,
+        contentType: false,
+        processData: false,
+      });
+    }
+    e.stopImmediatePropagation();
+  })
+</script>

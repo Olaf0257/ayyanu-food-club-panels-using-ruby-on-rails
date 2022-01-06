@@ -1,0 +1,57 @@
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :offer_title %>
+  </div>
+
+  <div class="col-sm-10">
+    <%= f.text_field(:offer_title, placeholder: "Enter offer title", required: true, class: "form-control") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :offer_percentage %>
+  </div>
+
+  <div class="col-sm-4">
+    <%= f.number_field(:offer_percentage, placeholder: "Enter offer percentage", class: "form-control", min: 0, max: 100, step: 0.01) %>
+  </div>
+</div>
+
+<% if is_super_admin?(@admin) %>
+  <div class="row form-group">
+    <div class="col-sm-2">
+      <%= f.label :country_id, "Country" %>
+    </div>
+
+    <div class="col-sm-4">
+      <%= f.select(:country_id, options_for_select(Country.pluck(:name, :id).sort, f.object&.country_id), { prompt: "Select Country" }, { class: "form-control", required: true, style: "height: 35px;" }) %>
+    </div>
+  </div>
+<% else %>
+  <%= f.hidden_field(:country_id, value: @admin.country_id) %>
+<% end %>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :offer_image %>
+  </div>
+
+  <div class="col-sm-4">
+    <% if f.object.persisted? && f.object.offer_image.present? %>
+      <img src="<%= f.object.offer_image %>" width="150px" height="120px">
+    <% end %>
+
+    <%= f.file_field(:offer_image, required: !f.object.persisted?, class: "form-control", accept: "image/png, image/jpeg") %>
+  </div>
+</div>
+
+<div class="row form-group">
+  <div class="col-sm-2">
+    <%= f.label :limit, 'Offer Limit per user' %>
+  </div>
+
+  <div class="col-sm-4">
+    <%= f.number_field :limit %>
+  </div>
+</div>

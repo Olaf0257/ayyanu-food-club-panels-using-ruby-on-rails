@@ -1,0 +1,161 @@
+<style type="text/css">
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 35px;
+  }
+
+  .float-e-margins .btn {
+    margin-bottom: 11px;
+  }
+
+  .setheight {
+    height: 35px !important;
+  }
+
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <h2 style="margin-top:20px;"><b>Coverage Areas</b>
+    <a href="<%= branch_show_path(encode_token(@branch.restaurant.id)) %>" class="pull-right" style="margin-left: 20px;"><button class="btn btn-sm btn-danger">Back <i class="fa fa-arrow-circle-right"></i> </button></a>
+    <a href="<%= download_area_upload_format_doc_path(format: :xlsx, branch_id: params[:id]) %>" class="pull-right"><button class="btn btn-primary btn-sm">Download Coverage Area Formats</button></a>
+  </h2>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><b>Upload Doc For Active Coverage Area</b></h5>
+
+          <div class="ibox-tools">
+            <%= form_for :upload_covrage_area_document,url: upload_area_doc_path(branch_id: params[:id]) do |f| %>
+              <%= f.file_field :file, required: true, style: "display: inline-block;" %>
+              <%= f.submit :upload %>
+              <input type="hidden"  name="branch_id" value="<%= params[:id] %>" />
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 animated fadeInRight">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <div class="row">
+            <div class="col-sm-3">
+              <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i), :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight"%>
+            </div>
+
+            <div class="col-sm-9">
+              <span class="pull-right">
+                <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="keyword" value="<%= params[:keyword] %>" placeholder="Search by Area" autocomplete="off">
+                  </div>
+
+                  <button type="submit" class="btn btn-info">Search</button>
+                <% end %>
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-lg-12">
+            <%= form_tag admin_branch_coverage_area_bulk_action_path, class: "menu-management-bulk-form" do %>
+              <div class="ibox-title">
+                <h5>Coverage Area List</h5>
+
+                <% if is_super_admin?(@admin) %>
+                  <span class="menu-management-bulk-actions">
+                    <%= submit_tag "BULK DELETE", class: "btn btn-xs btn-danger", data: { confirm: "Are you sure?" } %>
+                  </span>
+                <% end %>
+              </div>
+
+              <div class="ibox-content table-responsive">
+                <% if @branches.present? %>
+                  <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <% if is_super_admin?(@admin) %>
+                          <th><%= check_box_tag "all_coverage_areas_id", 1, checked = false, class: "pick-all-menu-management-item" %></th>
+                        <% end %>
+                        <th>Sno</th>
+                        <th>Coverage area Name</th>
+                        <th>Delivery Charges (<%= @branch.currency_code_en %>)</th>
+                        <th>Minimum Order Amount (<%= @branch.currency_code_en %>)</th>
+                        <th>Delivery Time</th>
+                        <th>Third Party Delivery</th>
+                        <th>Cash On Delivery</th>
+                        <th>Accept Cash</th>
+                        <th>Accept Card</th>
+                        <th>Closed</th>
+                        <th>Busy</th>
+                        <th>Far Menu</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <% @branches.each do |o| %>
+                        <tr id="order-<%= o.id %>">
+                          <% if is_super_admin?(@admin) %>
+                            <td><%= check_box_tag "coverage_area_ids[]", o.id, checked = false, class: "pick-menu-management-item" %></td>
+                          <% end %>
+                          <td><p><%= o.id %></p></td>
+                          <td><a href="#"><%= o.coverage_area.area %></a></td>
+                          <td><p><%= o.delivery_charges.present? ? (number_with_precision(o.delivery_charges, precision: 3)) : 0.000 %></p></td>
+                          <td><p><%= o.minimum_amount.present? ? (number_with_precision(o.minimum_amount, precision: 3)) : 0.000 %></p></td>
+                          <td><p><%= o.delivery_time.present? ? o.delivery_time : "N/A" %></p></td>
+                          <td><p><%= o.third_party_delivery ? "Yes (#{ o.third_party_delivery_type })" : "No" %></p></td>
+                          <td><p><%= o.cash_on_delivery == true ? "Yes" : "No" %></p></td>
+                          <td><p><%= o.accept_cash == true ? "Yes" : "No" %></p></td>
+                          <td><p><%= o.accept_card == true ? "Yes" : "No" %></p></td>
+                          <td><p><%= o.is_closed == true ? "Yes" : "No" %></p></td>
+                          <td><p><%= o.is_busy == true ? "Yes" : "No" %></p></td>
+                          <td><p><%= o.far_menu == true ? "Yes" : "No" %></p></td>
+                          <td>
+                            <% if is_super_admin?(@admin) %>
+                              <%= link_to "DELETE", admin_delete_branch_coverage_area_path(id: o.id), class: "btn btn-xs btn-danger", data: { confirm: "Are you sure?" } %>
+                            <% end %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+
+                  <div class="col-lg-12">
+                    <center> <%= will_paginate @branches, renderer: BootstrapPagination::Rails %></center><br>
+                  </div>
+                <% else %>
+                  <center><div class="alert alert-danger">Area not available yet.</div></center>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning")
+  <% end %>
+</script>

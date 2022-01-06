@@ -1,0 +1,225 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-primary" title="Customers">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-user fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right ">
+              <div class="huge"><%=@user%></div>
+              <div>Total Customers!</div>
+            </div>
+          </div>
+        </div>
+
+        <% if is_super_admin?(@admin) || @admin.role_id == 1 || is_call_center_executive?(@admin) %>
+          <a href="<%=user_list_path(:role=>"customer")%>">
+            <div class="panel-footer white-bg">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-warning" title="Partner">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-user  fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge"><%=@business%></div>
+              <div>Total Partner</div>
+            </div>
+          </div>
+        </div>
+
+        <% if is_super_admin?(@admin) || @admin.role_id == 1 || is_call_center_executive?(@admin) %>
+          <a href="<%=user_list_path(:role=>"business")%>">
+            <div class="panel-footer white-bg">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-6">
+      <div class="panel panel-danger" title="Manager">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-user fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge"><%=@manager%></div>
+              <div>Total Manager!</div>
+            </div>
+          </div>
+        </div>
+
+        <% if is_super_admin?(@admin) || @admin.role_id == 1 || is_call_center_executive?(@admin) %>
+          <a href="<%=user_list_path(:role=>"manager")%>">
+            <div class="panel-footer white-bg">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-6">
+      <div class="panel panel-success" title="Transporter">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-user fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right ">
+
+              <div class="huge"><%=@busy%></div>
+              <div>Total Busy Area</div>
+            </div>
+          </div>
+        </div>
+
+        <% if is_super_admin?(@admin) || @admin.role_id == 1 || is_call_center_executive?(@admin) %>
+          <a href="<%=busy_restaurants_path%>">
+            <div class="panel-footer white-bg">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-6">
+      <div class="panel panel-success" title="Transporter">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-user fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right ">
+              <div class="huge"><%=@close%></div>
+              <div>Total Closed Area</div>
+            </div>
+          </div>
+        </div>
+
+        <% if is_super_admin?(@admin) || @admin.role_id == 1 || is_call_center_executive?(@admin) %>
+          <a href="<%=close_restaurants_path%>">
+            <div class="panel-footer white-bg">
+              <span class="pull-left">View Details</span>
+              <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+              <div class="clearfix"></div>
+            </div>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Order Statics</h5>
+           <div class="col-lg-2 pull-right">
+            <a href="<%=dashboard_path(keyword: 'day')%>" class="btn btn-xs btn-default btn-block">Day</a>
+          </div>
+          <div class="col-lg-2 pull-right">
+            <a href="<%=dashboard_path(keyword: 'week')%>" class="btn btn-xs btn-success btn-block">Week</a>
+          </div>
+          <div class="col-lg-2 pull-right">
+            <a href="<%=dashboard_path(keyword: 'month')%>" class="btn btn-xs btn-warning btn-block">Month</a>
+          </div>
+          <div class="col-lg-2 pull-right">
+            <a href="<%=dashboard_path(keyword: 'year')%>" class="btn btn-xs btn-danger btn-block">Year</a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <div class="row text-center">
+            <label class="label label-fade"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            &nbsp;&nbsp; <strong>Order Accepted</strong> &nbsp;&nbsp;
+            <label class="label label-primary"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            &nbsp;&nbsp; <strong>Order Rejected</strong>
+          </div><br>
+          <div class="ibox-content">
+            <canvas id="lineChart" height="100"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    var data=[]
+    var data1=[]
+    var data2=[]
+    '<%=@graphData.each do |d|%>'
+      console.log(data)
+      data.push('<%=d["key"]%>')
+      data1.push('<%=d["accept"]%>')
+      data2.push('<%=d["reject"]%>')
+    '<%end%>'
+
+
+    var lineData = {
+      labels: data,
+      datasets: [
+          {
+              label: "Order Accepted",
+              fillColor: "rgba(220,220,220,0.5)",
+              strokeColor: "rgba(220,220,220,1)",
+              pointColor: "rgba(220,220,220,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(220,220,220,1)",
+              data: data1
+          },
+          {
+              label: "Order Rejected",
+              fillColor: "rgba(26,179,148,0.5)",
+              strokeColor: "rgba(26,179,148,0.7)",
+              pointColor: "rgba(26,179,148,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(26,179,148,1)",
+              data: data2
+          }
+      ]
+    };
+
+    var lineOptions = {
+        scaleShowGridLines: true,
+        scaleGridLineColor: "rgba(0,0,0,.05)",
+        scaleGridLineWidth: 1,
+        bezierCurve: true,
+        bezierCurveTension: 0.4,
+        pointDot: true,
+        pointDotRadius: 4,
+        pointDotStrokeWidth: 1,
+        pointHitDetectionRadius: 20,
+        datasetStroke: true,
+        datasetStrokeWidth: 2,
+        datasetFill: true,
+        responsive: true,
+    };
+
+    var ctx = document.getElementById("lineChart").getContext("2d");
+    var myNewChart = new Chart(ctx).Line(lineData, lineOptions);
+
+</script>

@@ -1,0 +1,15 @@
+<% if params[:page] == "1" %>
+	$("#driverListing tbody").empty();
+<% end %>
+$('#paymentMehtodSelection').modal();
+$('.okBtnPaymentMethod').removeClass('disabled');
+$('.is_third_party_delivery').val("<%= @branch_coverage_area.present? && @branch_coverage_area.third_party_delivery.present? %>")
+<% if @drivers.present? %>
+	$("#driverListing tbody").empty();
+	<% @drivers.each do |transporter| %>
+		$("#driverListing tbody").append("<%= j render partial: 'transporter_list', locals: { transporter: transporter, modal_id: params[:modal_id]  } %>");
+	<% end %>
+<% else %>
+	$("#driverListing tbody").empty().append("<tr><td colspan='4' style='text-align:center;'>Drivers Not Available</td></tr>");
+<% end %>
+saveDriver()

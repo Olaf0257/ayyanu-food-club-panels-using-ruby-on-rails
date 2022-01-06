@@ -1,0 +1,32 @@
+<div class="modal fade" id="edit_delivery_charge_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Food Club Fixed Charges <b><%= @delivery_charge&.country&.name.to_s.upcase %></b></h4>
+        </div>
+
+        <%= form_tag update_fixed_charge_distance_delivery_charges_path, html: { class: "form-horizontal" } do %>
+          <%= hidden_field_tag(:delivery_charge_id, @delivery_charge&.id) %>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <p>Charge (%)</p>
+              </div>
+
+              <div class="col-sm-8">
+                <%= number_field_tag(:delivery_percentage, @delivery_charge&.delivery_percentage, class: "form-control", required: true, min: 0, step: 0.001, autocomplete: :off) %>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <%= submit_tag "Submit", class: "btn theme-btn pull-right" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+  </div>
+</div>

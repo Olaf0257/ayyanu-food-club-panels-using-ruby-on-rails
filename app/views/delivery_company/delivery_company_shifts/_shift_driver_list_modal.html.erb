@@ -1,0 +1,28 @@
+<div class="modal fade" id="shift_driver_list_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Driver List</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <ul>
+            <% @drivers.each do |driver| %>
+              <div class="col-sm-6">
+                <li>
+                  <%= driver.name %>
+                  <i class="fa fa-trash remove-driver-shift-btn" data-driver="<%= driver.id %>" data-shift="<%= @shift.id %>"> </i>
+                </li>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger driver-shift-modal-close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<% additional_amount = 0.0 %>
+<% @child_transactions.includes(:addon_pos_transactions).each do |transaction|%>
+    <% additional_amount += (transaction.total_amount.to_f + transaction.addon_pos_transactions.sum(:total_amount)) %>
+    $('#pos_transactions_list').append('<%= j render partial: 'transaction_data_list', locals: {transaction: transaction} %>')
+<% end %>
+toastr.success('Check transfered successfully.')
+$('#transferCheckDetail').modal('hide')
+var sub_total = parseFloat($('#pos_total').text().replace('BHD', '')) + parseFloat('<%= additional_amount %>');
+$('#pos_total').empty().append(sub_total.toFixed(3) + 'BHD');
+$('#remain_payment_amount').val(sub_total.toFixed(3));
+var taxable_amount = (sub_total * parseFloat($("#tax_percentage").val())/100);
+$('#tax_amount').empty().append(taxable_amount.toFixed(3) + 'BHD');
+$('#pos_sub_total').empty().append((sub_total - taxable_amount).toFixed(3) + 'BHD');

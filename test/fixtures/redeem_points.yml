@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  order: one
+  point: 1.5
+  remaining_point: 1.5
+
+two:
+  order: two
+  point: 1.5
+  remaining_point: 1.5

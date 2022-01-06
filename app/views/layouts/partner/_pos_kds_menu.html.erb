@@ -1,0 +1,154 @@
+<% selected_user = @selected_user || @user %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if selected_user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif selected_user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif selected_user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif selected_user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.name %></span>
+            </span>
+          <% elsif selected_user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= selected_user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <li class="displayMaster kdsItem" data-kds-type='Station'>
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Station KDS</span></a>
+      </li>
+
+      <li class="displayMaster kdsItem" data-kds-type='Expo'>
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Expo KDS</span></a>
+      </li>
+
+      <li class="displayMaster kdsItem" data-kds-type='Runner'>
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Runner KDS</span></a>
+      </li>
+
+      <li class="displayMaster kdsItem"  data-kds-type='Customer'>
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Customer KDS</span></a>
+      </li>
+
+      <li class="displayMaster kdsItem" data-kds-type='Manager'>
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Manager KDS</span></a>
+      </li>
+    
+    </ul>
+  </div>
+</nav>
+
+
+<div id="kdsMenuPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" style="width: 100%;display: contents;">
+    <input type="hidden" name="current_check_id" value="<%= @pos_check&.id %>">
+    <div class="modal-content" style="background-color: #f3f3f4">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">KDS MENU</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'layouts/partner/kds_menu_data' %>
+      </div>
+      <div class="modal-footer">
+        <div class="divData bump-btn">
+          <i class="icons fa fa-check" aria-hidden="true"></i>
+          <div class="text-data">Bump</div>
+        </div>
+        <div class="divData">
+          <i class="icons fa fa-angle-left"></i>
+          <div class="text-data">Left</div>
+        </div>
+        <div class="divData">
+          <i class="icons fa fa-angle-right"></i>
+          <div class="text-data">Right</div>
+        </div>
+
+        <div class="divData">
+          <i class="icons fa fa-home" aria-hidden="true"></i>
+          <div class="text-data">Home</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-angle-double-right"></i>
+          <div class="text-data">Tag</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">Recall</div>
+        </div>
+
+        <div class="divData">
+          <i class="icons fa fa-check" aria-hidden="true"></i>
+          <div class="text-data">Unbump</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-angle-double-right"></i>
+          <div class="text-data">Recipe</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">Cancel</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">ItemSum</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .icons {
+    font-size: 76px;
+  }
+  .text-data {
+    font-size: 20px;
+  }
+  .divData {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+    width: 6%;
+  }
+</style>

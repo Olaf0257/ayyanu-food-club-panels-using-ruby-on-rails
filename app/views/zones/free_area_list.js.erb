@@ -1,0 +1,7 @@
+<% if params[:keyword] %>
+  $("#free_areas_modal").html("<%= escape_javascript render 'area_list' %>");
+<% else %>
+  $("#free_areas_modal").remove();
+  $(".page-heading").append("<%= escape_javascript render(partial: 'free_area_list_modal') %>");
+  $("#free_areas_modal").modal("show");
+<% end %>

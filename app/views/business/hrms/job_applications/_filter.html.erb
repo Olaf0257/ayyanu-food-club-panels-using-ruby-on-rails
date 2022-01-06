@@ -1,0 +1,15 @@
+  <br><span class="pull-right">
+    <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+      <div class="form-group">
+        <%= select_tag(:searched_department_id, options_for_select(Department.pluck(:name, :id).sort, params[:searched_department_id]), prompt: "Select Department", class: "form-control admin-search-field") %>
+        <%= select_tag(:searched_designation_id, options_for_select(Designation.pluck(:name, :id).sort, params[:searched_designation_id]), prompt: "Select Designation", class: "form-control admin-search-field") %>
+        <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Candidate Name", autocomplete: :off) %>
+      </div>
+      <%= hidden_field_tag "restaurant_id", params[:restaurant_id] %>
+      <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+    <% end %>
+
+    <%= link_to business_hrms_job_applications_path(format: :csv, searched_designation_id: params[:searched_designation_id], searched_department_id: params[:searched_department_id], keyword: params[:keyword]) do  %>
+      <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+    <% end %>
+  </span>

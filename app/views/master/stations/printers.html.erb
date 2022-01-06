@@ -1,0 +1,89 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Add Printers</h2>
+  </div>
+</div>
+<%= render "master/common_filters", path: printers_master_restaurant_stations_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <% if @recipes.present? || @menu_items.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Choose Stations</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if @recipes.present? %>
+                <% @recipes.each do |group| %>
+                <tr>
+                  <td><%=group.id%></td>
+                  <td><%=group.class.name%></td>
+                  <td><%=group.name%></td>
+                  <%= form_for :menu_item, url: add_printers_master_restaurant_stations_path, html: { multipart: true } do |f| %>
+                  <%= hidden_field_tag 'id', group.id  %>
+                  <%= hidden_field_tag 'type', 'Recipe'  %>
+                  <td>
+                    <%= f.collection_check_boxes(:station_ids, Station.where(branch: group.branch), :id, :name) do |b| %>
+                    <%= b.label(class: "check_box") { b.check_box(checked: group.station_ids.include?(b.value.to_s), class: "add_margin") + b.text } %>
+                    <% end %>
+                    <% button_text = group.station_ids.present? ? 'Update' : 'Add' %>
+                    <%= submit_tag button_text, data: { disable_with: "Please wait.." }, class: 'btn btn-success mt-1' %>
+                  </td>
+                  <% end %>
+                </tr>
+                <%end%>
+                <% end %>
+                <% if @menu_items.present? %>
+                <% @menu_items.each do |group| %>
+                <tr>
+                  <td><%=group.id%></td>
+                  <td><%=group.class.name%></td>
+                  <td><%=group.item_name%></td>
+                  <%= form_for :menu_item, url: add_printers_master_restaurant_stations_path, html: { multipart: true } do |f| %>
+                  <%= hidden_field_tag 'id', group.id  %>
+                  <%= hidden_field_tag 'type', 'MenuItem'  %>
+                  <td>
+                    <%= f.collection_check_boxes(:station_ids, Station.all, :id, :name) do |b| %>
+                    <%= b.label(class: "check_box") { b.check_box(checked: group.station_ids.include?(b.value.to_s), class: "add_margin") + b.text } %>
+                    <% end %>
+                    <% button_text = group.station_ids.present? ? 'Update' : 'Add' %>
+                    <%= submit_tag button_text, data: { disable_with: "Please wait.." }, class: 'btn btn-success mt-1' %>
+                  </td>
+
+                  <% end %>
+                </tr>
+                <%end%>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <center> <%= will_paginate @menu_items ,renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Data available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

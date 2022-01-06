@@ -1,0 +1,5 @@
+<% if params[:booked] == "true" %>
+	$('.modal-body').html('<%= escape_javascript(render "edit_document_upload_disabled",document_upload: @document_upload)%>');
+<% else %>
+	$('.modal-body').html('<%= escape_javascript(render "edit_document_upload",document_upload: @document_upload)%>');
+<% end %>

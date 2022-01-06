@@ -1,0 +1,146 @@
+
+<style type="text/css">
+  .bg-white{
+    background-color: white;
+  }
+  .form-control { 
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+  .setheight{
+    height:40px !important;
+  }
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important; 
+  }
+</style>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+   <div class="col-lg-10">
+      <h2>Clients</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="index.html">Home</a>
+        </li>
+        <li>
+          <a>App Views</a>
+        </li>
+        <li class="active">
+          <strong>Clients</strong>
+        </li>
+      </ol>
+   </div>
+   <div class="col-lg-2">
+   </div>
+</div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Branch Detail</h5>
+        </div>
+
+        <div>
+          <div class="ibox-content no-padding border-left-right">
+            <br>
+            <center><img alt="image" class="img-responsive" src="<%=@branch.restaurant.logo%>"></center>
+          </div>
+            <div class="ibox-content profile-content">
+              <h4><strong><%=@branch.restaurant.title%></strong></h4>
+              <p><i class="fa fa-map-marker"></i> <%=@branch.address%></p>
+              <br>
+              <h4>Delivery Time : <span><%=@branch.delivery_time%> minutes</span></h4>
+              <h5>Daily Timings : <span><%=@branch.daily_timing%></span></h5>
+              <h5>Minimum Order Amount : <span><%=@branch.min_order_amount%> BHD</span></h5>
+              <h5>Delivery Charges : <span><%=@branch.delivery_charges%> BHD</span></h5>
+
+              <div class="row m-t-lg">
+                <div class="col-md-4" style="text-align:center;">
+                  <h5><strong style="margin-bottom:5px;"><%=@orders.count%></strong> <br>Orders</h5>
+                </div>
+                <div class="col-md-4" style="text-align:center;">
+                  <h5><strong style="margin-bottom:5px;"><%=@transporters.count%></strong> Transporters</h5>
+                </div>
+                <div class="col-md-4" style="text-align:center;">
+                  <h5><strong style="margin-bottom:5px;"><%=@managers.count%></strong> Managers</h5>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-9">
+      <div class="ibox">
+        <div class="ibox-content">
+          <div class="clients-list">
+            <ul class="nav nav-tabs">
+              <!-- <span class="pull-right small text-muted">1406 Elements</span> -->
+              <li class="active"><a data-toggle><i class="fa fa-user"></i> Menus</a></li>
+              <li ><a href="/business/orders?branch=<%=@branch.id%>"><i class="fa fa-cutlery"></i> Orders</a></li>
+              <li class=""><a href="/business/transporters?branch=<%=@branch.id%>"><i class="fa fa-users"></i> Transporters</a></li>
+              <li class=""><a href="/business/managers?branch=<%=@branch.id%>"><i class="fa fa-users"></i> Managers</a></li>
+            </ul>
+            <div class="tab-content">
+              <div id="tab-1" class="tab-pane active">
+                <br>
+                <center><img src="/assets/under_development" style="height
+                :20vh;"> </center>
+                <%#= render :partial => "/business/orders/index" , :locals=>{:@orders=>@orders} %>
+              </div>
+              <!-- <div id="tab-2" class="tab-pane">
+                <br>
+                <%#if @transporters.present?%> 
+                  <div class="full-height-scroll">
+                     <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th>User Id</th>
+                              <th>Image</th>
+                              <th>User Name</th>
+                              <th>Email</th>
+                              <th>Contact</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                     </div>
+                  </div>
+                <%#end%>
+              </div>
+              <div id="tab-3" class="tab-pane">
+                <br>
+                <%#if @managers.present?%> 
+                  <div class="full-height-scroll">
+                    <div class="table-responsive">
+                      <table class="table table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th>User Id</th>
+                            <th>Image</th>
+                            <th>User Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                          </tr>
+                          </thead>
+                        <tbody>   
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                <%#end%>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

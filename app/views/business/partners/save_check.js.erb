@@ -1,0 +1,19 @@
+<% if @error.present? %>
+    toastr.alert('<%= @error %>');
+<% else %>
+    toastr.success('Check saved successfully.');
+    $('#errorTransactionError').modal('hide');
+    $('.validated_field').removeClass('pending_transaction');
+    $('#printCheckpopUp').empty().append("<%= j render partial: 'print_check_pop_up', locals: {pos_check: @pos_check} %>");
+    $('#printCheckId').trigger('click');
+    $('#pos_check_save').attr("disabled", true);
+    window.location.replace("<%= business_partner_pos_dashboard_terminal_path(encode_token(@pos_check.branch.restaurant_id)) %>");
+<% end %>
+$('.okDriverSelect').removeClass('disabled');
+<% if @pos_check.present? && @pos_check.order_type_id.eql?(2) && @pos_check.pos_transactions.present? && @pos_check.check_status == "saved" %>
+    $('#food_listing').addClass('disabled');
+<% else %>
+    $('#food_listing').removeClass('disabled');
+<% end %>
+
+

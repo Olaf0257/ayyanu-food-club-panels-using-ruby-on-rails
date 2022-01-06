@@ -1,0 +1,191 @@
+
+
+<style type="text/css">
+  input[type="submit"] {
+  color: #fff;
+  background: #1ab394;
+  border: 1px solid #1ab394;
+  padding: 2px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: capitalize;
+  }
+  input[type="file"] {
+  margin-bottom: 10px;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-12">
+    <h2 style="margin-top:20px;"><b>Brand Info</b></h2>
+    </div>
+
+  </div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox product-detail">
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="product-images">
+                <div>
+                  <div class="image-imitation">
+                    <img style = "width:100%;height: 300px;" src='<%=@restaurant.logo.present? ? "#{@restaurant.logo}" : "/assets/ic_placeholder.png"%>' alt="restaurant logo" >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-8">
+                  <h2 class="font-bold m-b-xs">
+                    <%=@restaurant.title%>
+                  </h2>
+                </div>
+                <div class="col-md-4">
+                  <h4 class="font-bold m-b-xs pull-right">
+                    Food Club Joined date:  <%=@restaurant.created_at.strftime("%Y-%m-%d")%>
+                  </h4>
+                </div>
+              </div>
+              <small>Login Id :  <%=@restaurant.login_id.present? ? @restaurant.login_id : "N/A" %></small>
+              <div class="row">
+                <div class="m-t-md col-lg-12">
+                  <h2 class="product-main-price">BD <%=@taotal_sales%> <small class="text-muted">Total Sales</small> </h2>
+                </div>
+              </div>
+              <hr>
+              <h4>Restaurant Details</h4>
+              <h5>Total Available Branches :  <%=@restaurant.branches.present? ? @restaurant.branches.count : 0 %></h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5>Opened Coverage Area : <%=@open_branches.present? ? @open_branches : 0 %></h5>
+                </div>
+                <div class="col-md-4">
+                  <h5>Closed Coverage Area : <%=@closed_branches.present? ? @closed_branches : 0 %></h5>
+                </div>
+                <div class="col-md-4">
+                  <h5>Busy Coverage Area :   <%=@busy_branches.present? ? @busy_branches : 0 %></h5>
+                </div>
+              </div>
+              <hr>
+              <div>
+                <div class="btn-group">
+                  <a class="btn btn-primary btn-sm" style="margin-bottom: 10px;" href="<%=business_resturant_branch_path(encode_token(@restaurant.id))%>"><i class="fa fa-cart-plus"></i> View Branch</a>
+                  <!-- <a style="margin-left: 2px;margin-bottom: 10px;" target="blank" class="btn btn-info btn-sm" href="<%#=@restaurant_contract.present? ? @restaurant_contract.contract_url : "" %>"><i class="fa fa-file"></i> View / Download Contract </a> -->
+                  <a style="margin-left: 2px;margin-bottom: 10px;" class="btn btn-success btn-sm" href="<%=business_edit_restaurant_details_path(encode_token(@restaurant.id))%>"><i class="fa fa-pencil"></i>Edit Brand Info</a>
+                    <%#if @restaurant.subscriptions.present?%>
+                     <!--  <%#if @restaurant.subscriptions.last.is_subscribe%>
+                        <a style="margin-left: 2px;margin-bottom: 10px;" class="btn btn-info btn-sm" href="#" onclick="report_subscribe('un_subscribe','<%=@restaurant.id%>')"><i class="fa fa-file"></i> Un Subscribe Reports</a>
+                      <%#else%>
+                        <a style="margin-left: 2px;margin-bottom: 10px;" class="btn btn-info btn-sm" href="#" onclick="report_subscribe('subscribe','<%=@restaurant.id%>')"><i class="fa fa-file"></i> Subscribe Reports</a>
+                      <%#end%> -->
+                    <%#else%>
+                      <!-- <a style="margin-left: 2px;margin-bottom: 10px;" class="btn btn-info btn-sm" href="#" onclick="report_subscribe('subscribe','<%=@restaurant.id%>')"><i class="fa fa-file"></i> Subscribe Reports</a> -->
+                    <%#end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-footer">
+          Food Club Copyright
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+ <!--  <div class="pull-right">
+    10GB of <strong>250GB</strong> Free.
+  </div> -->
+  <div>
+    <strong>Copyright</strong> Example Company &copy; 2014-2017
+  </div>
+</div>
+<script type="text/javascript">
+<%if flash[:success].present?%>
+  swal("success","<%=flash[:success]%>","success")
+<%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning")
+<%end%>
+  $('.subscribe_report').click(function() {
+   swal({
+     title: "Are you sure?",
+     text: "Do you want to subscribe report!! if you want to subscribe report monthly charges is 5BD.",
+     type: "warning",
+     showCancelButton: true,
+     confirmButtonColor: "#DD6B55",
+     confirmButtonText: "Yes, Delete it!",
+     cancelButtonText: "No, cancel plz!",
+     closeOnConfirm: false,
+     closeOnCancel: false
+   },
+   function(isConfirm){
+     if (isConfirm) {
+       $.ajax({
+         type: "GET",
+         url: "/business/subscribe/report",
+         dataType: "JSON",
+         success:function(data){
+
+           if(data.code==200){
+             swal("Success",data.message,"success")
+              // window.location.reload()
+           }
+         },
+         error: function() {
+           swal("error",data.response_message,"error")
+         }
+       });
+     }
+     else
+     {
+       swal("Cancelled", "No subscribe report", "error");
+     }
+   });
+  });
+
+  function report_subscribe(status,id) {
+    var msg = status=='un_subscribe' ? 'Do you want to un subscribe report!!' : 'Do you want to subscribe report!! if you want to subscribe report monthly charges is <%=@report_subs_fee.first.report_subscribe_fee%> (BD).'
+    var button = status=='un_subscribe' ? 'Yes Unsubscribe' : 'Yes Subscribe'
+     swal({
+     title: "Are you sure?",
+     text: msg,
+     type: "warning",
+     showCancelButton: true,
+     confirmButtonColor: "#DD6B55",
+     confirmButtonText: button,
+     cancelButtonText: "No, cancel plz!",
+     closeOnConfirm: false,
+     closeOnCancel: false
+   },
+   function(isConfirm){
+     if (isConfirm) {
+       $.ajax({
+         type: "POST",
+         url: "/business/subscribe/report",
+         data: {status: status,restaurant_id: id},
+         dataType: "JSON",
+         success:function(data){
+
+           if(data.code==200){
+             swal("Success",data.message,"success")
+              window.location.reload()
+           }
+         },
+         error: function() {
+           swal("error",data.response_message,"error")
+         }
+       });
+     }
+     else
+     {
+       swal("Cancelled", "No subscribe report", "error");
+     }
+   });
+  }
+</script>

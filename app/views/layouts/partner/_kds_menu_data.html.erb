@@ -1,0 +1,149 @@
+<div>
+	<div class="row">
+		<div class="col-md-12" style="font-size: 10px;font-size: 20px;font-weight: bolder;">
+			<span><-- 0</span>
+			<span style="margin-left: 10%;">Total Orders: <span class="total_order_count_kds"></span></span>
+			<span id='current_time' style="margin-left: 34%;">4:12 PM</span>
+			<span style="float: right;">0--></span>
+      <input type="hidden" name="pos_kds_data" class="pos_kds_data">
+		</div>
+		<div class="row kds-container" id="kds-container-" >
+			<% @branch.pos_checks.includes(:pos_transactions).where(pos_transactions: {transaction_status: "saved"}).where.not(check_status: 'closed').each do |pos_check|  %>
+        <%= render partial: "layouts/partner/kds_menu_item", locals: { pos_check: pos_check } %>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<style type="text/css">
+.active_kds{
+  border: 8px solid blue !important;
+}
+.overflowHandle {
+  overflow: auto;
+  height: 180px;
+}
+.modal-dialog {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin:0;
+}
+.modal-content {    
+      height: 100%;
+      border-radius: 0;
+      overflow:auto;
+}
+ .close
+    {
+      opacity:1.0;
+    } 
+ #first-child
+    {
+      top:0;
+      left:0;
+      background-color: yellowgreen;
+    }
+    #second-child
+    {
+      top:0;
+      left:50%;
+      background-color: #E6537D;
+      color:black;
+    }
+    #third-child
+    {
+      top:50%;
+      left:0;
+      background-color: crimson;
+    }
+    #fourth-child
+    {
+      top:50%;
+      left:50%;
+      background-color: lightseagreen;
+      color:black;
+    }
+    .big-box
+    {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+    }
+    .big-box h2
+    {
+      text-align: center;
+      margin-top: 20%;
+      padding: 20px;
+      width: 100%;
+      font-size: 1.8em;
+      letter-spacing: 2px;
+      font-weight: 700;
+      text-transform: uppercase;
+    cursor:pointer;
+    }
+  
+    @media screen and (max-width: 46.5em) 
+    {
+      .big-box h2
+      {
+        font-size:16px;
+        padding-left:0px;
+        
+      }
+    }
+
+    @media screen and (max-width: 20.5em) 
+    {
+      .big-box h2
+      {
+        font-size:12px;
+        padding-left:0px;
+        margin-top:30%;
+        }
+    }
+    .modal-dialog {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin:0;
+    }
+    .modal-content {
+      
+      height: 100%;
+      border-radius: 0;
+      overflow:auto;
+    }
+    .modal-title
+    {
+      font-size: 3em;
+      font-weight: 300;
+      margin: 0 0 20px 0;
+    }
+    .modal-content-one
+    {
+      background-color:yellowgreen;
+    }
+    .modal-content-two
+    {
+      background-color:#E6537D;
+    }
+    .modal-content-three
+    {
+      background-color:crimson;
+    }
+    .modal-content-four
+    {
+      background-color:lightseagreen;
+    }
+</style>
+
+<script type="text/javascript">
+
+  var channel = pusher.subscribe('pos_checks_<%= @branch.id %>');
+
+  channel.bind('pos_check', function(data) {
+    $("#kds-container-"+ data.kds_type +" #kds-item-" + data.check_id).remove();
+    $("#kds-container-"+ data.kds_type).append(data.pos_check);
+  });
+</script>

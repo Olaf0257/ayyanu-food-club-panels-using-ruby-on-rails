@@ -1,0 +1,7 @@
+<%= select_tag(:employee_ids, options_from_collection_for_select(@employees.uniq, :id, :name), {id: 'assign_task_employee_ids', class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true, name: 'assign_task[employee_ids][]'}) %>
+<script type="text/javascript">
+	$("#assign_task_employee_ids").select2({
+  	placeholder: "Select Employee",
+  	allowClear: true
+	});
+</script>

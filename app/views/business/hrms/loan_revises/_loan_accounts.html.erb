@@ -1,0 +1,15 @@
+<label>Loan</label>
+<%= select_tag(:loan_id, options_from_collection_for_select(@loans, :id, :id), {class: 'form-control', style: 'height: 40px!important;', include_blank: "Select Loan", name: 'loan_revise[loan_id]', id: 'loan_revise_loan_id', required: true}) %>
+
+
+<script type="text/javascript">
+  $('#loan_revise_loan_id').change(function(){
+    debugger
+    $.ajax({
+      type: "GET",
+      url: "/business/hrms/loan_revises/loan_details",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  })
+</script>

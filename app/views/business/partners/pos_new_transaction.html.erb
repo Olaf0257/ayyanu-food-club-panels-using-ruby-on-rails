@@ -1,0 +1,2759 @@
+<div class="container-fluid">
+   <div class="row content">
+      <div class="col-sm-12">
+          <div class="well top-header">
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="foodtop">
+                      <ul>
+                        <li><a href="javascript:void(0)"><i class="icon-time fa fa-calendar" aria-hidden="true"></i><span  id='current_date'>04-12-2019</span></a></li>
+                        <li><a href="javascript:void(0)"><i class="icon-time fa fa-clock-o" aria-hidden="true"></i><span  id='current_time'>2:25</span></a></li>
+                      </ul>
+                      <h3 style="font-size: 21px;text-align: center;display: inline-block;margin-top:2%">Guest Count: <span class="displayNoofGuest"><%= @pos_check.present? ? @pos_check&.no_of_guest || 0 : @pos_table.no_of_guest ? check_guest_type(@pos_table.no_of_guest) : 0 %></span>
+                      </h3>
+                      <h3 style="font-size: 21px;float: right;margin-top:2%" class="numberpadDisplaySelection">
+                      </h3>
+                  </div>
+               </div>
+            </div>
+            <div class="food">
+               <ul>
+                  <li><a class="<%= @pos_check.order_type&.name&.titleize&.upcase ? 'active' : '' %> menu-list" href="javascript:void(0)" id='foods'>Food</a></li>
+                  <!-- <li><a class='menu-list' href="#news">Beverages</a></li> -->
+                  <li><a class="menu-list <%= @pos_check.check_status.eql?('closed') ? 'reopen_check' : '' %>" href="javascript:void(0)" id='condiments'>Condiment's</a></li>
+                  <li><a class="menu-list delivery_restriction <%= @pos_check.order_type&.name&.titleize&.upcase.eql?('DELIVERY') ? 'delivery_type' : ''%>" href="javascript:void(0)" id='payment-tab'>Payment</a></li>
+                  <li><a class="<%= @pos_check.order_type&.name&.titleize&.upcase ? '' : 'active' %> menu-list <%= @pos_check.check_status.eql?('closed') ? 'reopen_check' : '' %>" href="javascript:void(0)" id="function_reports_link">Function/Report</a></li>
+                  <li><a class="menu-list <%= @pos_check.check_status.eql?('closed') ? 'reopen_check' : '' %>" href="javascript:void(0)" id="additional_item">Additional</a></li>
+                  <li style="float: right;height: 10px;margin-left: 10px;" class="newOrderFoodClub">
+                     <span><h3 style="cursor: pointer;color: white;padding: 17px;margin: auto;" class="orderCountBtn <%= @newOrders.to_i == 0 ? 'green-border' : 'red-border' %>"><b>FOOD CLUB ORDER </b><span class="fcSpan fcSpanDesign"><%= @newOrders.to_i %></span></h3></span>
+                  </li>
+                  <li style="float: right;border: 1px solid blue;background-color: blue;">
+                    <%= link_to 'QuickPay', business_pos_quick_pay_popup_path(restaurant_id: encode_token(@pos_check&.branch&.restaurant_id)), remote: true, class: "menu-list quick_pay_btn #{@pos_check.check_status.eql?('closed') ? 'reopen_check' : ''}", style: "font-weight: bolder;color: white;"  %>
+                  </li>
+               </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+               <div class="well">
+                  <div class="twell">
+                     <div class="row" style="height: 225px;overflow-y: auto;">
+                        <div class="table-slip">
+                           <div class="col-sm-4 displayCheckNo <%= 'hide' unless @pos_check.order_type&.name&.titleize&.upcase %>" style="padding-right: 0px;">
+                              CHK NO <%= @pos_check&.check_id %>
+                           </div>
+                           <div class="col-sm-4 displayCheckType">
+                              <%= @pos_check.present? ? @pos_check.order_type&.name&.titleize&.upcase : 'DINE IN' %> 
+                           </div>
+                           <div class="col-sm-4 displayTbl <%= 'hide' if @pos_check.check_status == 'closed' %>" style="text-align: right;">
+                              <% if @pos_check.pos_table.present? && @pos_check.order_type_id.eql?(1) %>
+                                <% pos_count = tableCount(@pos_table, @pos_check) %>
+                                TBL <%= @pos_table&.pos_table_no %><%= pos_count ? "/#{pos_count}" : ''%>
+                              <% end %>
+                           </div>
+                        </div>
+                        <div class="table-slip">
+                          <div class="col-sm-6" style="display: block;font-weight: lighter;">
+                            <input type='hidden' value="<%= @pos_check.check_status %>" id="check_status">
+                            <input type='hidden' value="<%= @pos_check.user_id %>" id="check_customer_id">
+                            <input type='hidden' value="<%= @pos_check.driver_id %>" id="check_driver_id">
+                            <input type='hidden' value="<%= @pos_check.order_type_id %>" id="check_order_type_id">
+                              <span class="customer-details">
+                                <% if @pos_check.address_id.present? %>
+                                  <span><%= @pos_check.user.name %></span></br>
+                                  <span><%= @pos_check.address.area_name %></span>
+                                <% end %>
+                              </span>
+                          </div>
+                          <div class="col-sm-6 mt-1 mb-1" style="float: right;text-align: right;padding-right: 10px;">
+                                <span class="totalGuestSpan <%= @pos_check.no_of_guest.present? ? '' : 'hide' %>">TOTAL GUEST: <span class="displayNoofGuest"><%= @pos_check.present? ? @pos_check&.no_of_guest : @pos_table.no_of_guest ? check_guest_type(@pos_table.no_of_guest) : 0 %></span>
+                                </span>
+                          </div>
+                        </div>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th style='width: 10%'>Qty</th>
+                              <th style='width: 55%'>Name</th>
+                              <th style='width: 20%'>Price</th>
+                              <th style='width: 15%'>Seat</th>
+                            </tr>
+                          </thead>
+                          <tbody id='pos_transactions_list'>
+                            <% @transactions.includes(:addon_pos_transactions).each do |transaction| %>
+                              <%= render partial: 'transaction_data_list', locals: {transaction: transaction} %>
+                            <% end %>
+                          </tbody>
+                        </table>
+                     </div>
+                  </div>
+                  <div class="payment_amount_details">
+                    <% if @pos_check.present? && @pos_check.pos_payments.present? %>
+                      <% @pos_check.pos_payments.each do |payment| %>
+                        <% if payment.payment_method_id != 4 %>
+                          <div style='margin: 10px 0px;' class='payment_detail' data-payment-id="<%= payment&.id %>">
+                            <span><%= payment.payment_method.name %></span>
+                            <span style="float: right;"><%= number_with_precision(payment.paid_amount, precision: 3) %><%= payment.currency_type.present? ? payment.currency_type.currency : 'BHD' %></span>
+                          </div>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <input type="hidden" value="<%= @tax %>" id="tax_percentage">
+                  Sub Total 
+                  <div class="pull-right" id='pos_sub_total'><%= before_tax_amount(@tax, @all_transactions.pluck(:total_amount).sum) %>BHD</div>
+                  <br>
+                  <br>
+                  <% tax_amount = taxonlyamount(@tax, @all_transactions.pluck(:total_amount).sum)%>
+                  <% offer_text = @pos_check.offer.present? ? @pos_check.offer.discount_percentage.to_f == 0.0 ? @pos_check.offer.offer_title : @pos_check.offer.discount_percentage.to_s + "%"  : nil %>
+                  <% discount_per = @pos_check.offer.present? ? @pos_check.offer.discount_percentage.to_f == 0.0 && @pos_check.offer.offer_title.eql?('Buy 1 Get 1 Free') ? 50 : @pos_check.offer.discount_percentage.to_f : 0.0 %>
+                  <% if @pos_check.offer.present? && @pos_check.offer.menu_item_id.present? %>
+                    <% addons = ItemAddon.where(item_addon_category_id: @pos_check.offer.menu_item.item_addon_categories.pluck(:id))  %>
+                    <% total_ind_amount = @pos_check.pos_transactions.where(
+                    '(itemable_type = ? && itemable_id = ?) || (itemable_type = ? && itemable_id IN (?))', 
+                    "MenuItem", @pos_check&.offer&.menu_item_id, "ItemAddon", addons.pluck(:id) )&.pluck(:total_amount)&.sum.to_f %>
+                  <% else %>
+                    <% total_ind_amount = 0.0 %>
+                  <% end %>
+                  <% transaction_total = @all_transactions.pluck(:total_amount).sum.to_f %>
+                  <% individual_tax = @pos_check&.offer&.offer_type.eql?('individual')  ? taxonlyamount(@tax, total_ind_amount) : 0.0 %>
+                  <% discount = 
+                    @pos_check.offer_id.present? ? @pos_check.offer.offer_type.eql?('individual') ? ((@pos_check.is_full_discount ? total_ind_amount : (total_ind_amount - individual_tax.to_f))  * discount_per / 100) : @all_transactions.length > 0 ? ((@pos_check.is_full_discount ? transaction_total : (transaction_total - tax_amount.to_f)) * (discount_per) / 100) : 0 : 0%>
+                  <div class="gift-card-amount">
+                    <% if @pos_check.present? && @pos_check.pos_payments.present? && @pos_check.pos_payments.pluck(:payment_method_id).include?(4)  %>
+                      <% payment = @pos_check.pos_payments.find_by payment_method_id: 4 %>
+                      <div style='margin: 0px 0px 15px 0px;' class='payment_detail' data-payment-id="<%= payment&.id %>">
+                        <span><%= payment.payment_method.name %></span>
+                        <span style="float: right;"><%= number_with_precision(payment.paid_amount, precision: 3) %><%= payment.currency_type.present? ? payment.currency_type.currency : 'BHD' %></span>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class='<%= @pos_check.offer_id.present? ? '' : 'hide' %>' id='discount_row' data-pos-check-id='<%= @pos_check.id %>'>
+                    <div class="hide" id="discountPer"><%= discount_per %></div>
+                    <div class="pull-left"> Discount<span id="discountPerText">(<%= offer_text %>)</span></div>
+                    <div class="pull-right" id="discount_amount"><%= number_with_precision(discount, precision: 3) %>BHD</div>
+                    <br><br>
+                  </div>
+                  Tax ( <%= @tax_name.join(", ") %> <%= @tax.to_i == @tax ? @tax.to_i : @tax %>% )
+                  <div class="pull-right" id="tax_amount"><%= number_with_precision(tax_amount, precision: 3) %>BHD</div>
+                  <br><br>
+                  Total Due
+                  <div class="pull-right" id='pos_total'><%= number_with_precision((@all_transactions.pluck(:total_amount).sum - @pos_check.pos_payments.pluck(:paid_amount).sum - discount), precision: 3) %>BHD</div>
+                </div>
+                <%= link_to 'Save Check', 'javascript:void(0)', 'data-save_check_link': business_save_check_path(params[:restaurant_id], 'no_table', @pos_check&.id, {is_save_check_btn: true}), method: :post, remote: true, class: "btn btn-primary noMenu #{@pos_check.present? && !@pos_check.pos_transactions.present? && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : ''}", id: "pos_check_save" %>
+                <%= link_to 'Schedule', 'javascript:void(0)', class: "btn btn-primary schedule_categoring #{@pos_check&.order_type&.name.eql?('Catering') ? '' : 'hide'}", id: "schedule_categoring" %>
+                <%= link_to 'Print Check', business_print_check_path(@pos_table&.id, @pos_check&.id), method: :post, remote: true,  class: "btn btn-primary noMenu #{@pos_check.present? && !@pos_check.pos_transactions.present?  && @pos_check.order_type&.name&.titleize&.upcase ? 'disabled' : ''}", style: "float: right;" %>
+            </div>
+            <div class="col-sm-1" style="margin-left: -2%;">
+               <div class="well" style="padding: 10px">
+                <%#= hidden_field_tag 'selected_menu_item' %>
+                <%= hidden_field_tag 'selected_qty' %>
+                <% total_amount = @all_transactions.pluck(:total_amount).sum - @pos_check.pos_payments.pluck(:amount).sum %>
+                <%= hidden_field_tag 'remain_payment_amount', number_with_precision(total_amount, precision: 3), id: 'remain_payment_amount' %>
+                <%= hidden_field_tag 'pos_check_id', @pos_check&.id, id: 'pos_check_id' %>
+                <%= hidden_field_tag 'restaurant_id', params[:restaurant_id], id: 'pos_restaurant_id' %>
+                <%= hidden_field_tag 'table_id', params[:table], id: 'pos_table_id' %>
+                  <% (0..9).each do |i| %>
+                    <%= link_to "javascript:void(0)", 'data-selected-qty' => i, class: 'qty_selection' do %>
+                      <div class="blue">
+                        <%= i %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                  <%= link_to "javascript:void(0)", 'data-selected-qty' => '.', class: 'qty_selection' do %>
+                    <div class="blue">
+                      .
+                    </div>
+                  <% end %>
+               </div>
+            </div>
+            <div class="food_listing <%= ((@pos_check.present? && @pos_check.order_type_id.eql?(2) && @pos_check.pos_transactions.present? && @pos_check.check_status == "saved") || @pos_check.check_status == "closed") ? 'disabled' : '' %> <%= @pos_check.order_type&.name&.titleize&.upcase ? '' : 'hide' %> " id='food_listing'>
+                <div class="col-sm-6" style="margin-left: -2%;">
+                   <div class="cata">
+                      <span class="menu-category-text">MENU CATEGORIES</span>
+                      <%= link_to 'Back', business_partner_pos_menu_categories_path(params[:restaurant_id], pos_check_id: @pos_check.id), class: 'btn btn-default back-menu-item hide',style: 'float: left', remote: true %>
+                   </div>
+                </div>
+                 <div class="col-sm-6" style="margin-left: -2%;">
+                    <div class="menu" style="height: 472px;overflow-y: auto;">
+                      <div class="row pos-transaction" style="margin: auto;margin-left: 2%;">
+                        <% @categories.each do |category| %>
+                          <%= link_to business_partner_pos_menu_items_path(category, pos_table_id: @pos_table&.id), remote: true do  %>
+                            <div class="card" style="display: inline-block;
+                              height: 60px;
+                              width: 32%;
+                              padding-bottom: 15px;
+                              border-radius: 5px;
+                              text-align: center;
+                              vertical-align: middle;">
+                                  <div class="card-body">
+                                    <p style="color: black;top: 15px;position: relative;text-align: center;"><%= category.category_title %>
+                                    </p>
+                                  </div>
+                            </div>
+                          <% end %>
+                        <% end %>
+                      </div>
+                      <!-- <div class="row pos-addon-items hide" style="margin: auto;margin-left: 2%;">
+                      </div>
+
+                      <div class="row comment-form hide" style="margin: auto;margin-left: 2%;">
+                        <%#= form_for :branch, url: business_pos_save_comment_path, method: :post, html: { class: "comments-form", remote: true, autocomplete: :off } do |f| %>
+                          <%#= hidden_field_tag(:table_id, params[:table]) %>
+                          <%#= hidden_field_tag(:selected_menu_item_id) %>
+                          <%#= hidden_field_tag(:selected_menuaddon_transaction_id) %>
+                          <%#= hidden_field_tag(:selected_menuaddon_id) %>
+                          <%#= hidden_field_tag(:addon_item_count) %>
+
+                          <div style="padding: 20px 0px 0px 0px;">
+                                  <%#= label_tag :comments, "Comments" %><br>
+                                  <%#= text_area_tag(:comments, nil,  rows: 5, cols: 50) %>
+                                  <%#= submit_tag "Add Comment", class: "btn btn-success pull-right", style: 'display: block;position: absolute;margin-bottom: 13px;' %>
+                          </div>
+                        <%# end %>
+                      </div> -->
+                   </div>
+                </div>
+                <div class="col-sm-1" style="padding: 0px;width: 11%;margin-top: -2.4%">
+                  <div class="well first-letter-list" style="height: 500px;overflow-y: scroll;">
+                      <div class="blue">ALL</div>
+                      <% @categories.map { |cat| cat.category_title[0].titleize }.uniq.sort.each do |category_name| %>
+                        <div class="blue"><%= category_name %></div>
+                      <% end %>
+                  </div>
+
+                  <!-- <div class="well addon-categories hide">
+                  </div> -->
+                </div>
+            </div>
+
+            <div class="pos_payment hide" id='pos_payment'>
+                <div class="col-sm-6 pos_payment_data paymentMethodList" style="margin-left: -2%;">
+                    <div class="" style="height: 472px;overflow-y: auto;">
+                        <div class="row" style="margin: auto;margin-left: 2%;">
+                            <% PaymentMethod.all.each do |payment_method| %>
+                                <% if payment_method.id != 4 %>
+                                  <div class="col-md-4 box functionListingDiv paymentDiv" data-payment-method-id="<%= payment_method.id %>">
+                                      <span class="functionListingSpan"><%= payment_method.name %></span>
+                                  </div>
+                                <% end %>
+                            <% end %>
+                        </div>
+                   </div>
+                </div>
+                <div class="col-sm-6 pos_payment_data discountList hide" style="margin-left: -2%;">
+                    <% payment_method_4 = PaymentMethod.find_by_id(4) %>
+                    <div class="" style="height: 472px;overflow-y: auto;">
+                      <div class="row" style="margin: auto;margin-left: 2%;">
+                        <a href='javascript:void(0)' class="paymentDiv" data-payment-method-id="<%= payment_method_4.try(:id) %>" data-remote=true><button class='discount_img gift_coupon_btn <%= @pos_check.pos_payments.where(pending_delete: false).pluck(:payment_method_id).include?(4) ? 'selected_discount' : '' %>'><%= payment_method_4.try(:name) %></br><span>&nbsp;</span></button></a>
+                        <span class="discountData"></span>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-1" style="padding: 0px;width: 11%;">
+                  <div class="well" style="height: auto;overflow-y: scroll;">
+                      <div class="blue payment-option active-menuon foodPayment paybtn">Pay</div>
+                      <%= link_to business_get_discount_percentage_path(branch_id: @branch.id, pos_check_id: @pos_check&.id), remote: true do %>
+                        <div class="blue payment-option">
+                          Discount
+                        </div>
+                      <%end%>
+                      <div class="blue payment-option hide">Foreign Currency</div>
+                  </div>
+                </div>
+            </div>
+
+            <div class="function_listing <%= @pos_check.order_type&.name&.titleize&.upcase ? 'hide' : '' %>" id='function_listing'>
+                <div class="col-sm-6 all-functions" style="margin-left: -2%;">
+                    <div class="" style="height: 472px;overflow-y: auto;">
+                        <div class="row" style="margin: auto;margin-left: 2%;">
+                            <div class="col-md-4 box functionListingDiv coverNavigation">
+                                <span class="functionListingSpan">Change Cover</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv bindCustomerWithCheck">
+                                <span class="functionListingSpan">Check ID</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                                <span class="functionListingSpan">EMP ID</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) && @pos_check.order_type_id.present? ? 'pending_transaction' : '' %> delivery_restriction <%= @pos_check.order_type&.name&.titleize&.upcase.eql?('DELIVERY') ? 'delivery_type' : ''%>" id="reopen_check">
+                                <span class="functionListingSpan">Reopen Closed Check</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) && @pos_check.order_type_id.present? ? 'pending_transaction' : '' %> delivery_restriction <%= @pos_check.order_type&.name&.titleize&.upcase.eql?('DELIVERY') ? 'delivery_type' : ''%>" id="edit_closed_check">
+                                <span class="functionListingSpan">Edit Closed Check</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                                <span class="functionListingSpan">Reprint Closed Check</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv transferTableDiv">
+                                <span class="functionListingSpan">Transfer Table</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                              <%#= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-target': "#{
+                                @pos_check.check_type.eql?('dine_in') ? '' : '#transferCheckData'}",  class: "functionListingSpan #{
+                                  @pos_check.check_type.eql?('dine_in') ? 'DineInError' : '' }" do %>
+                              <%= link_to 'javascript:void(0)', 'data-toggle': "modal",  'data-target': "#transferCheckData",  class: "functionListingSpan" do %>
+                                <span class="">Transfer Chk Number</span>
+                              <% end %>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                                <span class="functionListingSpan">Return</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv validated_field <%= ['reopened_pending' , 'pending'].include?(@pos_check.check_status) ? 'pending_transaction' : '' %> splitCheckDiv" data-check-id="<%= @pos_check&.id %>">
+                              <span class="functionListingSpan">Split Check</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                                <span class="functionListingSpan">Change RVC</span>
+                            </div>
+
+                            <div class="col-md-4 box functionListingDiv">
+                                <span class="functionListingSpan">No Sale</span>
+                            </div>
+
+                            <% OrderType.where(is_enabled: true).each do |order_type| %>
+                                <div class="col-md-4 box functionListingDiv posCheckStatus" data-status="<%= order_type.id %>">
+                                    <span class="functionListingSpan"><%= order_type.name %></span>
+                                </div>
+                            <% end %>
+                        </div>
+                   </div>
+                </div>
+
+                <div class="col-sm-6 hide all-reports" style="margin-left: -2%;">
+                    <div class="" style="background-color: white;height: 472px;overflow-y: auto;">
+                      <div class="row" style="margin: auto;margin-left: 2%;">
+                        <table>
+                          <tr>
+                            <th>File Name</th>
+                            <th>Download</th>
+                          </tr>
+                          <tbody class="report-list">
+                            <% if @pos_check.present? && @pos_check.pos_payments.present? && @pos_check.pos_payments.select { |a| a.attachments.present? }.present? %>
+                              <% @pos_check.pos_payments.map { |a| a.attachments }.flatten.uniq.compact.each do |attachment_data| %>
+                                <tr>
+                                  <td><%= attachment_data.blob.filename %></td>
+                                  <td><%= link_to 'View', url_for(attachment_data), target: '_blank', style: 'color: blue;' %></td>
+                                </tr>
+                              <% end %>
+                            <% else %>
+                              <tr>
+                                <td colspan="2" style="text-align: center;">Data not found</td>
+                              </tr>
+                            <% end %>
+                          </tbody>
+                        </table>
+                      </div>  
+                   </div>
+                </div>
+                <div class="col-sm-1" style="padding: 0px;width: 11%;">
+                  <div class="well" style="height: auto;overflow-y: scroll;">
+                      <div class="blue tab-function-and-reports functions-tab active-menuon">Functions</div>
+                      <div class="blue tab-function-and-reports report-tab">Reports</div>
+                      <div class="blue hide">PMC</div>
+                  </div>
+                </div>
+            </div>
+            <div class='col-md-7'>
+              <div class="ml-0 hide" id='condiments_data'>
+                <div class='col-md-10 condiment-header'>
+                  <p class="comment-text">Comments</p>
+                </div>
+                <div class='col-md-2 text-right' style="padding: 0 11px 0 1px; float: right;">
+                  <button class='btn mr-2 condiments-btn active' id='con_comment'>Condiment</button>
+                  <button class='btn mr-2 mt-1 condiments-btn' id='con_kitchen'>Kitchen <br/>Instruction</button>
+                </div>
+                <div class='condiment_comment'>
+                  <div class="col-md-4" style="padding: 0px;padding-top: 10px;float: left;">
+                    <textarea class="item_comment comment_list"></textarea>
+                    <%= link_to "Comment", 'javascript:void(0)', class: 'btn btn-primary comment_submit', style: "background-color: #e9f0f8; color: black;" %>
+                    <!-- <button class='comment_list'>comments**</button> -->
+                  </div>
+                    <!-- <div class="col-md-6" style="padding: 0;float: right;">
+                    <button class='btn btn-primary menu-btn' style="background-color: #e9f0f8;color: black;">Comments</button>
+                  </div> -->
+                </div>
+                <div class='kitchen_list hide col-md-10'>
+                  <button type="button" class='comment_submit instruction_button' value='1st COURSE'>*1st COURSE*</button>
+                  <button type="button" class='comment_submit instruction_button' value='2nd COURSE'>*2nd COURSE*</button>
+                  <button type="button" class='comment_submit instruction_button' value='3rd COURSE'>*3rd COURSE*</button>
+                  <!-- fire modal -->
+                  <%= select_tag(:duration, options_for_select(PosTransaction.durations, params[:duration] ), class:"form-control mb-2", prompt: 'Select Duration') %>
+                  <button type="button" class='comment_submit fire btn btn-danger btn-lg fire_button'>*** FIRE ***</button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+   </div>
+</div>
+
+<div id="printCheckpopUp"></div>
+
+<div class="modal fade" id="scheduleCatering" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 28%">
+    <%= form_for :branch, url: business_catering_schedules_path(pos_check_id: @pos_check&.id, user_id: @user&.id), method: :post, remote: false do |f| %>
+      <input type='hidden' name='timezone' id="current_time_zone" value="">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Schedule Catering</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for='start_time'>Start Time</label>
+            <input type="datetime-local" class="form-control" min="2021-09-07T00:00" id="start_time" name="start_time">
+          </div>
+          <div class="form-group">
+            <label for='end_time'>End Time</label>
+            <input type="datetime-local" class="form-control" id="end_time" name="end_time">
+          </div>
+          <div class="row" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="modal fade" id="pickupTablePopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="width: 28%">
+    <%= form_for :branch, url: business_pickup_tables_path(restaurant_id: params[:restaurant_id]), method: :patch, remote: true, html: {id: 'table_no_form'} do |f| %>
+      <input type="hidden" name="selected_table_id" class="selected_table_id">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Pickup Table</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter table number</p>
+          <input type="text" class="form-control no-of-guest table_no" name="table_no">
+          <div class="table_number-error hide text-danger">Please enter table number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button", id: 'pos_table_no' %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div id="seatNumber" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_pos_table_seat_path(@pos_table&.id), method: :patch, remote: true, html: {id: 'seat_no_form'} do |f| %>
+      <input type="hidden" name="selected_table_id" class="selected_table_id">
+      <input type="hidden" name="selected_check_id" value="<%= @pos_check&.id %>">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Seat Number</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter number of Seats</p>
+          <input type="text" class="form-control no-of-guest seat_no" name="current_seat_number">
+          <div class="seat_number-error hide text-danger">Please enter seat number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button", id: 'seat_no_submit' %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="getPaymentModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="top: 10%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <label style="display: inherit;color: #4c4949;text-align: center;">Reference Entry Prompt</label>
+        <input type="text" class="form-control reference_prompt" style="width: 60%;float: left;height: 47px;margin-right: 10px;font-size: 20px;" placeholder="Reference Entry Prompt">
+        <form class="file-upload-form">
+          <input type="file" name="pos_files[]" class="form-control" id="pos_payment_file" style="width: 37%;padding: 0px;float: left;height: 47px;margin-right: 10px;font-size: 20px;" multiple="true">
+        </form>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="width: 100%;height: 350px;overflow-y: scroll;background-color: white;">
+        <input type="hidden" class="quick_pay_check_id">
+        <input type="hidden" class="quick_pay_amt">
+        <input type="hidden" class="selected_payment_id">
+        <input type="hidden" class="restaurant_id" value='<%= params[:restaurant_id] %>'>
+        <input type="hidden" class="check_id" value='<%= @pos_check&.id %>'>
+        <%= render partial: 'pos_alphabet' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="beginCheckByNamePopupCheckId" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="top: 10%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="btn btn-success customer_back_btn d-none" style="float: left;">Back</button>
+        <input type="text" class="form-control customer_search_box" style="width: 60%;float: left;margin-right: 10px;" placeholder="Enter customer mobile number">
+        <button class="btn btn-success customer_search_btn">Ok</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="width: 100%;height: 400px;overflow-y: scroll;background-color: white;">
+          <input type="hidden" class="next_page_no">
+          <input type="hidden" class="restaurant_id" value='<%= params[:restaurant_id] %>'>
+          <input type="hidden" class="customer_id" value=''>
+          <input type="hidden" class="address_id" value=''>
+          <table class="table" id="customerDetails">
+            <thead>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Mobile no</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <table class="table d-none" id="customerAddressDetails">
+            <thead>
+              <th>Country</th>
+              <th>Area</th>
+              <th>Address Name</th>
+              <th>Address Type</th>
+              <th>Block</th>
+              <th>Road No</th>
+              <th>Building</th>
+              <th>Floor</th>
+              <th>Villa/ Apartment/ Office No</th>
+              <th>Contact</th>
+              <th>Landline</th>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <div id='minimum_amount_data' class='d-none'>
+            <h2 style="text-align: center;"> Minimum Order Amount: <span id='minimum_amount'></span> BHD</h2>
+            <button type="button" class="btn btn-primary form-button selectCheckOrderType" style="width: 28%;margin-left: 37%;margin-top: 5%;">Ok
+            <button type="button" class="btn btn-primary form-button checkIdLastStep d-none" data-dismiss="modal" style="width: 28%;margin-left: 37%;margin-top: 5%;">Ok
+            </button>
+          </div>
+          <div id='check_order_type' class='d-none'>
+            <h2 style="text-align: center;"> Please Select Order Type:</h2>
+            <%= select_tag(:order_type, options_for_select(OrderType.where(is_enabled: true).where.not(id: 1).pluck(:name, :id)), id: "check_order_types", class: "form-control", style: "width: 25%;height: auto;align-items: center;display: block;margin-left: 36%;margin-top: 2%;") %>
+            <button type="button" class="btn btn-primary form-button orderTypeSelectionBeginCheckByName" style="width: 28%;margin-left: 35%;margin-top: 5%;">Ok
+            </button>
+          </div>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success new_customer_btn_check_id" style="float: left;display: flex;">New Customer</button>
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="minimumOrderAmount" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 180px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 100px;">
+        <h3>Minimun Order Value: <span class="minimum_amount_value"></span> BHD</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button" data-dismiss="modal" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button back-btn-in-minimum-order-selection" style="width: 54%;">Back
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="newCustomerCheckIdPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 100%;height: 66%;top: 20%;overflow-y: scroll;">
+    <div class="modal-content" style="max-width: 100%;">
+      <div class="modal-header">
+        <button class="btn btn-md btn-success back-in-address-form-check-id" style="float: left;">Back</button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <span style="font-size: 20px;
+    font-weight: 700;
+    width: 28%;
+    display: block;
+    margin: auto;;">New Customer</span>
+      </div>
+      <div class="modal-body">
+        <%= form_tag business_create_new_customer_check_id_path, autocomplete: :off, remote: true do %>
+          <%= hidden_field_tag(:branch_id, @pos_check&.branch_id) %>
+          <%= hidden_field_tag(:check_id, @pos_check&.id) %>
+          <input type="hidden" id="restaurant_id" value='<%= params[:restaurant_id] %>'>
+          <%= hidden_field_tag(:address_id, '', class: 'newCutomerFormAddressId') %>
+          <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:user_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Email: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= email_field_tag(:user_email, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <h3 class="text-center">Address Details</h3>
+
+            <div class="row hide">
+              <div class="form-group">
+                <label class="col-sm-5">Address:</label>
+
+                <div class="col-sm-7 user-address-list">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Area: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7 manual-order-area-list">
+                  <%= select_tag(:area_id, options_for_select(@areas.to_a), prompt: "Select Area", class: "form-control business-search-field area-selection-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Name: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Address Type: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), prompt: "Select Address Type", class: "form-control business-search-field address-type-pos-check", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Block: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Road No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Building: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Floor:</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:floor, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row villa-text">
+              <div class="form-group">
+                <label class="col-sm-5">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Additional Directions (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Mobile: <span class="text-danger">*</span></label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group">
+                <label class="col-sm-5">Landline Number (Optional):</label>
+
+                <div class="col-sm-7">
+                  <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group text-center">
+                <%= submit_tag "Save Details", class: "btn btn-md btn-success", data: { disable_with: "Saving..." } %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="splitCheckPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" style="width: 100%;display: contents;">
+    <input type="hidden" name="current_check_id" value="<%= @pos_check&.id %>">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Split Check</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
+</div>
+<div id='modelPopupData'></div>
+
+<div id="addOnPOPUP" class="modal fade" role="dialog">
+  <div class="modal-dialog-full-width modal-dialog momodel modal-fluid modal-lg" style="top: 25%;">
+    <input type="hidden" name="current_check_id" value="<%= @pos_check&.id %>">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Addon Menu Item</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-9 pos-addon-items">
+          </div>
+          <div class="col-md-9 comment-form hide">
+            <%= form_for :branch, url: business_pos_save_comment_path, method: :post, html: { class: "comments-form", remote: true, autocomplete: :off } do |f| %>
+              <%= hidden_field_tag(:table_id, params[:table]) %>
+              <%= hidden_field_tag(:selected_menu_item_id) %>
+              <%= hidden_field_tag(:selected_menuaddon_transaction_id) %>
+              <%= hidden_field_tag(:selected_menuaddon_id) %>
+              <%= hidden_field_tag(:addon_item_count) %>
+
+              <div style="padding: 20px 0px 0px 0px;">
+                      <%= label_tag :comments, "Comments" %><br>
+                      <%= text_area_tag(:comments, nil,  rows: 5, cols: 60) %>
+                      <%= submit_tag "Add Comment", class: "btn btn-success pull-right", style: 'display: block;position: absolute;margin-bottom: 13px;' %>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-md-3 addon-categories">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="width: 100%;margin: auto;">
+        <button type="button" class="btn btn-primary form-button" style="width: 10%" data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="quickPayCheckPayment" class="modal fade" role="dialog">
+  <div class="modal-dialog-full-width modal-dialog momodel modal-fluid modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Quick Pay &nbsp;&nbsp;&nbsp;<span class="fullAmount" style="border: 1px solid black;padding: 10px;margin-right: 10px;"></span><span class="discountAmount" style="border: 1px solid black;padding: 10px;margin-right: 10px;"></span><span class="partialAmount" style="border: 1px solid black;padding: 10px;"></span><span style="float: right" class="quickPaynumberpadDisplaySelection"></span></h4>
+      </div>
+      <input type="hidden" class="before_tax_quick_pay">
+      <input type="hidden" class="tax_quick_pay">
+      <input type="hidden" class="after_tax_quick_pay">
+      <div class="modal-body" style="background-color: #f3f3f4;padding-bottom: 0px;padding-top: 5px;">
+        <div class="pos_payment row" id='pos_payment'>
+            <div class="col-sm-2" style="margin-left: -2%;">
+              <div class="well" style="padding: 10px">
+                <%#= hidden_field_tag 'selected_menu_item' %>
+                <%= hidden_field_tag 'selected_qty' %>
+                <% total_amount = @all_transactions.pluck(:total_amount).sum - @pos_check.pos_payments.pluck(:amount).sum %>
+                <%= hidden_field_tag 'quick_pay_remain_payment_amount', number_with_precision(total_amount, precision: 3), id: 'remain_payment_amount' %>
+                <%= hidden_field_tag 'selected_quick_pay_pos_check_id', @pos_check&.id, id: 'pos_check_id' %>
+                <% (0..9).each do |i| %>
+                  <%= link_to "javascript:void(0)", 'data-selected-qty' => i, class: 'qty_selection' do %>
+                    <div class="blue">
+                      <%= i %>
+                    </div>
+                  <% end %>
+                <% end %>
+                <%= link_to "javascript:void(0)", 'data-selected-qty' => '.', class: 'qty_selection' do %>
+                  <div class="blue">
+                    .
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-sm-8 pos_payment_data paymentMethodList" style="margin-left: -2%;">
+                <div class="" style="height: 472px;overflow-y: auto;">
+                    <div class="row" style="margin: auto;margin-left: 2%;">
+                        <% PaymentMethod.all.each do |payment_method| %>
+                            <% if payment_method.id != 4 %>
+                              <div class="col-md-4 box functionListingDiv paymentDiv" data-is-gift-card="true" data-payment-method-id="<%= payment_method.id %>">
+                                  <span class="functionListingSpan"><%= payment_method.name %></span>
+                              </div>
+                            <% end %>
+                        <% end %>
+                    </div>
+               </div>
+            </div>
+            <div class="col-sm-8 pos_payment_data discountList hide" style="margin-left: -2%;">
+                <% payment_method_4 = PaymentMethod.find(4) %>
+                <div class="" style="height: 472px;overflow-y: auto;">
+                  <div class="row" style="margin: auto;margin-left: 2%;">
+                    <a href='javascript:void(0)' class="paymentDiv" data-is-gift-card="true" data-payment-method-id="<%= payment_method_4.id %>" data-remote=true><button class='discount_img gift_coupon_btn <%= @pos_check.pos_payments.where(pending_delete: false).pluck(:payment_method_id).include?(4) ? 'selected_discount' : '' %>'><%= payment_method_4.name %></br><span>&nbsp;</span></button></a>
+                    <span class="discountData"></span>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2" style="padding: 0px;width: 11%;">
+              <div class="well" style="padding: 0px;">
+                  <div class="blue payment-option active-menuon foodPayment is_quick_pay">Pay</div>
+                  <%= link_to business_get_discount_percentage_path(branch_id: @branch.id, pos_check_id: @pos_check&.id), remote: true, class: 'quickPayDiscount' do %>
+                    <div class="blue payment-option">
+                      Discount
+                    </div>
+                  <%end%>
+                  <div class="blue payment-option hide">Foreign Currency</div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="width: 100%;margin: auto;">
+        <button type="button" class="btn btn-primary form-button" style="width: 10%" data-dismiss="modal">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="beginTablePopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_pos_begin_table_path, method: :post, remote: true do |f| %>
+      <input type="hidden" name="selected_branch_id" class="selected_branch_id", value="<%= @pos_check&.branch_id %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Begin Table</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter table number</p>
+          <input type="text" class="form-control no-of-guest seat_no" name="selected_table_no">
+          <div class="seat_number-error hide text-danger">Please enter table number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="bindDineInTablePopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_pos_bind_dinein_table_path, method: :post, remote: true do |f| %>
+      <input type="hidden" name="selected_branch_id" value="<%= @pos_check&.branch_id %>">
+      <input type="hidden" name="selected_check_id" value="<%= @pos_check&.id %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Begin Table</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter table number</p>
+          <input type="text" class="form-control no-of-guest seat_no" name="selected_table_no">
+          <div class="seat_number-error hide text-danger">Please enter table number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="shareItemCheckModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="height: 90%">
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Share Item</h4>
+      </div>
+      <input type="hidden" class="share_item_selected_check_id" name="share_item_selected_check_id">
+      <input type="hidden" class="share_item_selected_transaction_id" name="share_item_selected_transaction_id">
+      <div class="check_info" style="display: block;padding: 20px 30px 0px 30px;font-size: 17px;font-weight: bolder;">
+        <span class="transaction-name"></span>
+        <span class="transaction-amount float-right"></span>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Check id</th>
+              <th>Order Type</th>
+              <th>Total Amount</th>
+              <th>Table no</th>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default form-button" style="width: 21%" id='confirm_share'>Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cancelOrderPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%; top: 25%">
+    <%= form_for :branch, url: business_partner_update_order_status_path(), method: :post, remote: true do |f| %>
+      <input type="hidden" name="order_id" class="selected_order_id">
+      <input type="hidden" name="order_action" class="selected_order_action">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Cancel Order</h4>
+        </div>
+        <div class="modal-body">
+          <p>Cancel Reason</p>
+          <input type="text" class="form-control cancel_reason_textbox" name="cancel_reason" required="true">
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="coupon_modal_popup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%; top: 25%">
+    <%= form_for :branch, url: business_partner_apply_coupon_code_path(), method: :post, remote: true do |f| %>
+      <input type="hidden" name="branch_id" value="<%= @pos_check.branch_id %>">
+      <input type="hidden" name="pos_check_id" value="<%= @pos_check.id %>">
+      <input type="hidden" name="pos_check_id_coupon" class="pos_check_id_coupon">
+      <input type="hidden" name="is_gift_card_coupon" class="is_gift_card_coupon">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Coupon Code</h4>
+        </div>
+        <div class="modal-body">
+          <p>Coupon Code</p>
+          <input type="text" class="form-control user_coupon_code" name="coupon_code" required="true">
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<div id="orderListModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 90%">
+    <div class="modal-content" style="height: auto;top: 25%">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Order List</h4>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table order-list">
+          <thead>
+            <tr>
+              <th>Order Id</th>
+              <th>Customer Name</th>
+              <th>Customer Mobile</th>
+              <th>Customer Phone</th>
+              <th>Order Time</th>
+              <th>Total Amount</th>
+              <th>Payment By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="pickupCheckModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 90%">
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Pickup Check</h4>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <div class="searching"></div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Check id</th>
+              <th>Order Type</th>
+              <th>Total Amount</th>
+              <th>Advance Amount</th>
+              <th>Remaining Amount</th>
+              <th class="driver-th">Driver</th>
+              <th class="driver-th">Order Status</th>
+              <th>Customer Name</th>
+              <th>Customer Number</th>
+              <th>Created At</th>
+              <th>Table no</th>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default okBtnPickUpCheck form-button" style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="quickpayPayment" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 90%">
+    <div class="modal-content" style="height: auto;width: 1200px;top: 20%;left: -15%;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Quick Pay</h4>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Branch Name</th>
+              <th>Check id</th>
+              <th>Order Type</th>
+              <th>Customer</th>
+              <th>Discount</th>
+              <th>Table</th>
+              <th>Amount</th>
+              <th>VAT</th>
+              <th>Total</th>
+              <th>Action</th>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="employeeDetails" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 45%;background:white;top: 25%;">
+    <input type='hidden' id="check_redirection">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Check Details</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <tbody style="height: 75%;overflow-y: auto;">
+            <tr>
+              <td>Check</td>
+              <td class="check_no"></td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td class="current_time"></td>
+            </tr>
+            <tr>
+              <td>Amount</td>
+              <td class="total_amount"></td>
+            </tr>
+            <tr>
+              <td>Employee</td>
+              <td class="employee_name=">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default form-button okEmployeeDetails"  style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button d-none" id='submit_check_details'  style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="errorMessagePickupCheckPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;padding: 96px;height: 195px;">
+        <h4 style="font-size: 19px;" class="errorMessage">Check Is Not Found In This Table.</h4>
+      </div>
+      <div class="modal-footer" style="width: 100%;display: flex;margin: auto;">
+        <button type="button" class="btn btn-primary form-button" style="margin: auto;" data-dismiss="modal">Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="remainAmountDetailsPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;padding: 41px;height: 195px;">
+        <input type="hidden" class="reference_prompt">
+        <input type="hidden" class="remain_currency_type_id">
+        <input type="hidden" class="selected_payment_id">
+        <input type="hidden" class="restaurant_id" value='<%= params[:restaurant_id] %>'>
+        <input type="hidden" class="check_id" value='<%= @pos_check&.id %>'>
+        <table>
+          <tr>
+            <td>Total Due Amount</td>
+            <td class="total-due"></td>
+          </tr>
+          <tr>
+            <td>Amount Transfered</td>
+            <td class="amount-transfered"></td>
+          </tr>
+          <tr>
+            <td class="remain-amount-text">Remaining Amount</td>
+            <td class="remain-amount"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer" style="width: 100%;display: flex;margin: auto;">
+        <button type="button" class="btn btn-primary form-button okBtnOfRemainAmountPopup" style="margin: auto;">Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="errorMessageOrderType" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;padding: 96px;height: 195px;">
+        <h4 style="font-size: 19px;" class="errorMessageOrder">Please assign customer for this order type.</h4>
+      </div>
+      <div class="modal-footer" style="width: 100%;display: flex;margin: auto;">
+        <button type="button" class="btn btn-primary form-button" style="margin: auto;" data-dismiss="modal">Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="otherOrderdriverListing" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 80%; top: 10%;">
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <h4 class="modal-title">Driver List</h4>
+      </div>
+      <input type="hidden" class="pos_other_order_id">
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="20%">Name</th>
+              <th width="40%">CPR No</th>
+              <th width="30%">Mobile No</th>
+              <th width="10%">IOU</th>
+            </tr>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;" id="other_check_driver_listing">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default form-button okOtherDriverSelect"  style="width: 21%">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="driverListing" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 80%; top: 10%;">
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <h4 class="modal-title">Driver List</h4>
+      </div>
+      <input type="hidden" class="payment_method_name">
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="20%">Name</th>
+              <th width="40%">CPR No</th>
+              <th width="30%">Mobile No</th>
+              <th width="10%">IOU</th>
+            </tr>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;" id="check_driver_listing">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default form-button okDriverSelect"  style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="splitCheckConfirmation" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;padding: 96px;height: 195px;">
+        <h4 style="font-size: 19px" class="splitCheckData">Are You Sure You Want To Save Check?</h4>
+      </div>
+      <div class="modal-footer" style="width: 100%;display: flex;margin: auto;">
+        <button type="button" class="btn btn-primary form-button" style="margin: auto;" id='split_check_confimation'>Yes
+        </button>
+        <button type="button" class="btn btn-default form-button" style="margin: auto;" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="transferTable" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_pos_transfer_table_path, method: :post, remote: true do |f| %>
+      <input type="hidden" name="selected_branch_id" value="<%= @pos_check&.branch_id %>">
+      <input type="hidden" name="current_pos_check_id" value="<%= @pos_check&.id %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Transfer Table</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter table number</p>
+          <input type="text" class="form-control no-of-guest entered_table_no" name="entered_table_no">
+          <div class="seat_number-error hide text-danger">Please enter table number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="transferTableDineInList" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="height: 90%">
+    <div class="modal-content" style="height: auto;">
+      <input type="hidden" name="selected_check_id" class="pos_check_id" value="<%= @pos_check&.id %>">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Transfer Table</h4>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Check id</th>
+              <th>Order Type</th>
+              <th>Total Amount</th>
+              <th class="driver-th">Driver</th>
+              <th class="driver-th">Order Status</th>
+              <th>Customer Name</th>
+              <th>Customer Number</th>
+              <th>Created At</th>
+              <th>Table no</th>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default okBtnTransferTableCheckList1 form-button" style="width: 21%">Ok</button>
+        <button type="button" class="btn btn-default newCheckBtnTransferTableCheckList1 hide form-button" data-new-check="true" style="width: 21%">New Check</button>
+        <button type="button" class="btn btn-default okBtnTransferTableCheckList form-button hide" style="width: 21%">Ok</button>
+        <button type="button" class="btn btn-default newCheckBtnTransferTableCheckList form-button hide" data-new-check="true" style="width: 21%">New Check</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="transferCheckData" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_transfer_check_detail_path(params[:restaurant_id]), method: :post, remote: true do |f| %>
+      <input type="hidden" name="mergable_check_id" value="<%= params[:check] %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Transfer Check</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter check number</p>
+          <input type="text" class="form-control no-of-guest check_no" name="selected_check_no">
+          <div class="check_number-error hide text-danger">Please enter check number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button", id: 'transfer_check_submit' %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="guestPopupForBeginCheck" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_store_pos_table_path, method: :post, html: {id: 'guestBeginCheckForm'} do |f| %>
+      <input type="hidden" name="selected_table_id" class="selected_table_id">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id" , value="<%= @pos_table&.branch&.restaurant_id ? encode_token(@pos_table&.branch&.restaurant_id) : encode_token(@pos_check&.branch&.restaurant_id) %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Guest Count</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter number of guests</p>
+          <input type="text" class="form-control no-of-guest begin_check_guest_no" name="no_of_guest">
+          <div class="guest-no-guest-error text-danger hide">Please add number of guest</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button save-guest-popup-begin-check" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="checkNoOfGuest" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_begin_check_path(params[:restaurant_id], table_id: (params[:table] || 'no_table')), method: :post, remote: false do |f| %>
+      <input type="hidden" name="selected_table_id" class="selected_table_id">
+      <input type='hidden' name='check_type' id='selected_check_type'>
+      <input type='hidden' name='branch_id' value="<%= @pos_check&.branch_id %>">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id" , value="<%= @pos_table&.branch&.restaurant_id ? encode_token(@pos_check&.branch&.restaurant_id) : '' %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Guest Count</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter number of guests</p>
+          <input type="text" class="form-control no-of-guest check-no-of-guest" name="no_of_guest">
+          <div class="check-no-guest-error text-danger hide">Please add number of guest</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button save-check-no-guest-btn" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="driver_details" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="height: 90%">
+        <div class="modal-content" style="height: auto;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Driver Details</h4>
+          </div>
+          <div class="modal-body" style="height: 404px;overflow-y: auto;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+              </thead>
+              <tbody style="height: 75%;overflow-y: auto;">
+              </tbody>
+            </table>
+          </div>
+          <div class="button-list" style="padding: 5%">
+            <button type="button" class="btn btn-default assignDriverOkBtn form-button" style="width: 21%" data-dismiss="modal">Ok</button>
+            <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+    </div>
+</div>
+
+<div id="errorMessagePopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;padding: 88px 0;text-align: center;">
+        <h4 style="font-size: 19px;" class="tableBusyErrorMessage">Table Is Busy. Choose Another Table No.</h4>
+      </div>
+      <div class="modal-footer" style="margin: auto;float: left;width: 100%;display: flex;">
+        <button type="button" class="btn btn-primary form-button busyTable" style="margin: auto;">Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="orderTypeOption" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <h4 style="font-weight: 600;margin-top: 10px;" class="tableBusyErrorMessage">
+          Please Select Order Type:
+        </h4>
+        <%= select_tag(:orderType, options_for_select(OrderType.where(is_enabled: true).where.not(id: 1).pluck(:name, :id)), id: 'selected_order_types') %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button selectOrderType" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button" style="width: 50%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="currencyTypePopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <input type="hidden" class="currency_payment_method_id">
+        <input type="hidden" class="currency_payment_amount">
+        <input type="hidden" class="currency_paid_amount">
+        <input type="hidden" class="is_gift_card_currency">
+        <div class="row">
+          <div class="col-md-5" style="overflow: auto;height: 185px;">
+            <table class="table cash-table">
+              <thead>
+                <tr>
+                  <td style="width: 18%;" colspan="2"></td>
+                  <td>Currency Name</td>
+                  <td>Amount</td>
+                  <td>Count</td>
+                  <td>Conversion</td>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-7">
+            <div class="row" style="margin: auto;margin-left: 2%;">
+              <% CashType.where(is_enabled: true, restaurant_id: @pos_check&.branch&.restaurant_id).each do |cash_type| %>
+                <div class="col-md-4 box cashfunctionListingDiv cashNavigation" data-cash-type-id="<%= cash_type.id %>" data-cash-conversion-amount="<%= cash_type.converted_amount %>" data-cash-name="<%= cash_type.pos_cash_type %>"
+                data-country-currency-code="<%= cash_type.restaurant.country.currency_code %>" >
+                    <span class="functionListingSpan"><span class="cash-amount"><%= cash_type.amount %></span> <span><%= cash_type.pos_cash_type %></span></span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button selectCurrencyType" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button" style="width: 50%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="paymentMehtodSelection" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <h4 style="font-weight: 600;margin-top: 10px;">
+          Please Select Payment Method:
+        </h4>
+        <input type="hidden" class="is_third_party_delivery">
+        <%= select_tag(:payment_method, options_for_select(PaymentMethod.pluck(:name, :name)), prompt: "Select Payment Method", class: "selected_payment_method") %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button okBtnPaymentMethod" style="width: 43%;">Ok
+        </button>
+        <button type="button" class="btn btn-primary form-button" style="width: 50%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="errorTransactionError" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;padding: 96px;height: 195px;">
+        <h4 style="font-size: 19px;" class="tableBusyErrorMessage">Are You Sure You Want To Save Check?</h4>
+      </div>
+      <div class="modal-footer" style="margin: auto;float: left;width: 100%;display: flex;">
+        <button type="button" class="btn btn-primary form-button" style="margin: auto;" id='transaction_confimation'> Yes
+        </button>
+        <button type="button" class="btn btn-default form-button" style="margin: auto;" data-dismiss="modal">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="guestCoverModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_cover_pos_table_path, method: :post, html: { remote: true } do |f| %>
+      <input type="hidden" name="cover_selected_check_id" value="<%= @pos_check.id %>" class="cover_selected_check_id">
+      <input type="hidden" name="is_redirect_page" value="false" class="is_redirect_page">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Guest Count</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter Number of Guests</p>
+          <input type="text" class="form-control no-of-guest cover-no-of-guest" name="cover_no_of_guest">
+          <div class="no-guest-error text-danger">Please add number of guest</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">1</button>
+              <button type="button" class="btn btn-default num-button">2</button>
+              <button type="button" class="btn btn-default num-button">3</button>
+              <button type="button" class="btn btn-default num-button"><-</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">4</button>
+              <button type="button" class="btn btn-default num-button">5</button>
+              <button type="button" class="btn btn-default num-button">6</button>
+              <button type="button" class="btn btn-default num-button">X</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">7</button>
+              <button type="button" class="btn btn-default num-button">8</button>
+              <button type="button" class="btn btn-default num-button">9</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">0</button>
+              <button type="button" class="btn btn-default num-button">.</button>
+              <button type="button" class="btn btn-default num-button">00</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default form-button save-button-popup" data-dismiss="modal">OK</button>
+              <%= submit_tag "OK", class: "btn btn-default form-button hide save-cover-no-guest-btn" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="userConfirmation" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;padding: 88px 0;text-align: center;">
+        <h4 style="font-size: 24px;">More Than 9 Guests?</h4>
+      </div>
+      <div class="modal-footer" style="margin: auto;float: left;width: 100%;display: flex;">
+        <button type="button" class="btn btn-primary form-button okButtonClick" style="margin: auto;"
+style="margin: auto;">Yes</button>
+        <button type="button" class="btn btn-primary form-button cancelBtnClick" style="margin: auto;"
+style="margin: auto;">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="PickupErrorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;padding: 88px 0;text-align: center;">
+        <h4 style="font-size: 20px;" class='pickupTableError'></h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary form-button okBtnClick" style='display: block;margin: auto;'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="cancelTransaction" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;padding: 88px 0;text-align: center;">
+        <h3 style="font-size: 19px;">Are You Sure You Want To Cancel?</h3>
+      </div>
+      <div class="modal-footer" style="margin: auto;float: left;width: 100%;display: flex;">
+        <%= link_to business_pos_cancel_transaction_path(@pos_table, check_id: @pos_check&.id), class: 'btn btn-primary form-button' do %>
+          <span style="display: inline-block;width: 100%;padding: 5px 0;">Yes</span>
+        <% end %>
+        <button type="button" data-dismiss="modal" class="btn btn-primary form-button" style="margin: auto;">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="EditClosedCheckPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_open_check_number_path, method: :patch, remote: true do |f| %>
+      <input type="hidden" name="selected_branch_id" class="selected_branch_id", value="<%= @pos_check&.branch_id %>">
+      <input type="hidden" name="is_edit_closed_check" class="edit_check", value="true">
+      <input type="hidden" name="current_check_id"  value="<%= @pos_check.id %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Check Number</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter Check Number</p>
+          <input type="text" class="form-control no-of-guest closed_check" name="selected_check_no">
+          <div class="check_number-error hide text-danger">Please enter check number</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button open_check_confirmation" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    update_qty();
+    select_transaction();
+  });
+  function select_transaction(){
+    // $('.transaction_selection').click(function(e){
+    //   e.preventDefault();
+    //   $('.transaction_selection').removeClass('selected_transaction')
+    //   $(this).addClass('selected_transaction');
+    //   $('#selected_menu_item').val($(this).data('transaction-id'));
+    // });
+    $('.qty_selection').click(function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      $('.qty_selection').removeClass('selected_qty')
+      $(this).addClass('selected_qty');
+      var selectedVal = $('#selected_qty').val() + $(this).data('selected-qty').toString();
+      $('#selected_qty').val(selectedVal);
+      $('.numberpadDisplaySelection').text(selectedVal);
+      $('.quickPaynumberpadDisplaySelection').text(selectedVal);
+      setTimeout(function(){
+        $('.qty_selection').removeClass('selected_qty');
+      }, 150)
+    })
+  }
+</script>
+
+<style>
+.alphbet-num {
+    width: 9%;
+    margin-bottom: 10px;
+    margin-right: 4px;
+    height: 50px;
+    color: white;
+    font-size: 20px;
+    background-color: #184283;
+}
+
+.alphbet-num:hover {
+    background-color: #184283;
+    color: white;
+}
+
+.modal { overflow: auto !important; }
+
+.fade2 {
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all .2s linear;
+    display: block !important;
+}
+
+.green-border {
+  border: 1px solid #4cb495;
+  background-color: #4cb495;
+}
+
+.red-border {
+  border: 1px solid red;
+  background-color: red;
+}
+
+.fade2.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.custom-button div {
+  margin-bottom: 10px;
+}
+
+#selected_order_types, .selected_payment_method, #selected_currency_types {
+  width: 100%;
+  margin-bottom: 10px;
+  height: 45px;
+}
+
+::-webkit-file-upload-button {
+  background-color: #184283;
+  color: white;
+  display: inline-block;
+  padding: 6px 12px;
+  height: 100%;
+  width: 50%;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.functionListingSpan {
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: black;
+    cursor: pointer;
+}
+
+.functionListingDiv {
+    background-color: white;
+    height: 75px;
+    width: 30%;
+    display: table;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.cashfunctionListingDiv {
+    background-color: #c3cac8;
+    height: 75px;
+    width: 30%;
+    display: table;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+#guestCoverModal .modal-header, #seatNumber .modal-header,
+#beginTablePopup .modal-header, #pickupTablePopup .modal-header,
+#guestPopupForBeginCheck .modal-header,
+#checkNoOfGuest .modal-header,
+#pickupCheckModalPopup .modal-header,
+#transferTable .modal-header,
+#transferTableDineInList .modal-header,
+#transferCheckData .modal-header,
+#pickupCheckModalPopup .modal-header,
+#employeeDetails .modal-header,
+#transferCheckDetail .modal-header,
+#bindDineInTablePopup .modal-header,
+#shareItemCheckModalPopup .modal-header,
+#splitCheckPopup .modal-header,
+#beginCheckByNamePopupCheckId .modal-header,
+#minimumOrderAmount .modal-header,
+#driver_details .modal-header,
+#driverListing .modal-header,
+#getPaymentModalPopup .modal-header,
+#EditClosedCheckPopup .modal-header,
+#addOnPOPUP .modal-header,
+#orderListModalPopup .modal-header,
+#coupon_modal_popup .modal-header,
+#cancelOrderPopup .modal-header,
+#quickpayPayment .modal-header,
+#quickPayCheckPayment .modal-header,
+#otherOrderdriverListing .modal-header,
+#newCustomerCheckIdPopup .modal-header{
+  color: black;
+  background-color: white;
+}
+
+.check-table {
+  display: table-cell;
+  height: 70vh;
+  border-right: 4px solid;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+#splitCheckPopup .modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#splitCheckPopup .modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+
+#splitCheckPopup .form-button {
+  width: 10%;
+}
+
+#splitCheckPopup .check_info{
+  background-color: #03025f;
+  color: white;
+  font-weight: 900;
+  padding: 6px;
+  margin-bottom: 10px;
+}
+
+a.functionListingSpan:hover{
+  color: black;
+} 
+
+#guestCoverModal .modal-header h4,
+#seatNumber .modal-header h4,
+#pickupTablePopup .modal-header h4,
+#beginTablePopup .modal-header h4,
+#checkNoOfGuest .modal-header h4,
+#transferCheckData .modal-header h4,
+#guestPopupForBeginCheck .modal-header h4,
+#pickupCheckModalPopup .modal-header h4,
+#transferCheckDetail .modal-header h4,
+#transferTable .modal-header h4,
+#bindDineInTablePopup .modal-header h4,
+#transferTableDineInList .modal-header h4,
+#employeeDetails .modal-header h4,
+#shareItemCheckModalPopup .modal-header h4,
+#splitCheckPopup .modal-header h4,
+#beginCheckByNamePopupCheckId .modal-header h4,
+#minimumOrderAmount .modal-header h4,
+#driver_details .modal-header h4,
+#driverListing .modal-header h4,
+#getPaymentModalPopup .modal-header h4,
+#EditClosedCheckPopup .modal-header h4,
+#addOnPOPUP .modal-header h4,
+#coupon_modal_popup .modal-header h4,
+#orderListModalPopup .modal-header h4,
+#cancelOrderPopup .modal-header h4,
+#quickpayPayment .modal-header h4,
+#quickPayCheckPayment .modal-header h4,
+#otherOrderdriverListing .modal-header h4,
+#newCustomerCheckIdPopup .modal-header h4{ 
+  color: black;
+}
+
+.custom-button .num-button {
+  height: 50px;
+  width: 50px;
+  font-size: 23px;
+  font-weight: bold;
+  background-color: blue !important;
+}
+
+.form-button {
+  height: 50px;
+  width: 38%;
+  font-size: 16px;
+  background-color: #00b5ff !important;
+}
+
+.no-of-guest {
+  border: 1px solid black;
+  border: 1px solid black;
+  padding: 22px;
+  padding-left: 10px;
+  font-size: 25px;
+}
+
+
+.condiments-btn{
+  height: 65px;
+  width: 100%;
+  color: white;
+  background-color: blue;
+}
+.condiments-btn:hover {
+  color: white !important;
+}
+
+#condiments_data .condiments-btn.active:hover {
+  color: black !important;
+}
+.btn:focus, .btn:active{
+  outline: none !important;
+}
+.kitchen_list{
+  text-align: center;
+  margin-top: 15px;
+}
+.kitchen_list p {
+  width: 100%;
+  background: blue;
+  color: white;
+  height: 42px;
+  vertical-align: middle;
+  justify-content: center;
+  padding-top: 5px;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+.kitchen_list p.fire{
+  background-color: red;
+}
+.instruction{
+  background-color: purple !important;
+}
+
+#splitCheckPopup button{
+  white-space: normal;
+  line-height: 19px;
+}
+
+.condiments-btn.active {
+  background-color: #e9f0f8 !important;
+  color: black;
+  border: none;
+  box-shadow: none;
+  height: 65px;
+  width: 100%; 
+}
+.comment_list {
+  width: 475px;
+  height: 120px;
+  margin-top: 1px;
+  /*background-color: #9D9626;*/
+  border: none;
+  color: white;
+  font-size: 20px;
+}
+.menu-btn {
+  right: 0;
+  position: absolute;
+  height: 50px;
+  width: 102px;
+  margin: 1px;
+}
+.comment_list {
+  color: black;
+}
+.comment_list:focus-visible{
+  outline: none;
+  color: black;
+}
+button:active, button:focus {
+  border: none;
+  outline: none;
+}
+/* Import fonts */
+@import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900);
+
+
+::-webkit-scrollbar {
+    width: 20px;
+    height: 15px;
+}
+::-webkit-scrollbar-corner {
+    background-image: url(http://i.stack.imgur.com/FguQn.png?corner.png);
+    background-repeat: no-repeat;
+}
+::-webkit-resizer {
+    background-image: url(http://i.stack.imgur.com/aKKDY.png?resizer.png);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+::-webkit-scrollbar-button:start {
+    display: none;
+}
+::-webkit-scrollbar-button:end {
+    display: block;
+}
+::-webkit-scrollbar:horizontal {
+    -webkit-border-image: url(http://i.stack.imgur.com/NQ2K6.png?horizontal-button.png) 0 2 0 2;
+    border-color: transparent;
+    border-width: 0 2px;
+    background-image: url(http://i.stack.imgur.com/8xDbU.png?horizontal-button-background.png);
+    background-repeat: repeat-x;
+}
+::-webkit-scrollbar:horizontal:corner-present {
+    border-right-width: 0;
+}
+::-webkit-scrollbar-thumb:horizontal {
+    -webkit-border-image: url(http://i.stack.imgur.com/YQRD7.png?horizontal-thumb.png) 0 15 0 15;
+    border-color: transparent;
+    border-width: 0 15px;
+    min-width: 20px;
+}
+::-webkit-scrollbar-track-piece:horizontal:start {
+    margin-left: 6px;
+}
+::-webkit-scrollbar-track-piece:horizontal:end {
+    margin-right: -6px;
+}
+::-webkit-scrollbar-track-piece:horizontal:decrement {
+    -webkit-border-image: url(http://i.stack.imgur.com/p9yMk.png?horizontal-track.png) 0 15 0 15;
+    border-color: transparent;
+    border-width: 0 0 0 15px;
+}
+::-webkit-scrollbar-track-piece:horizontal:increment {
+    -webkit-border-image: url(http://i.stack.imgur.com/p9yMk.png?horizontal-track.png) 0 15 0 15;
+    border-color: transparent;
+    border-width: 0 15px 0 0;
+}
+::-webkit-scrollbar-button:horizontal {
+    width: 21px;
+    -webkit-border-image: url(http://i.stack.imgur.com/NQ2K6.png?horizontal-button.png) 0 2 0 2;
+    border-color: transparent;
+    border-width: 0 2px;
+}
+::-webkit-scrollbar-button:horizontal:decrement {
+    background-image: url(http://i.stack.imgur.com/dGOKL.png?horizontal-decrement-arrow.png), url(http://i.stack.imgur.com/8xDbU.png?horizontal-button-background.png);
+    background-repeat: no-repeat, repeat-x;
+    background-position: 7px 4px, 0 0;
+}
+::-webkit-scrollbar-button:horizontal:decrement:active {
+    -webkit-border-image: url(http://i.stack.imgur.com/gT5BM.png?horizontal-button-active.png) 0 2 0 2;
+    background-image: url(http://i.stack.imgur.com/dGOKL.png?horizontal-decrement-arrow.png), url(http://i.stack.imgur.com/RDf8L.png?horizontal-button-background-active.png);
+}
+::-webkit-scrollbar-button:horizontal:increment {
+    background-image: url(http://i.stack.imgur.com/5rJr5.png?horizontal-increment-arrow.png), url(http://i.stack.imgur.com/8xDbU.png?horizontal-button-background.png);
+    background-repeat: no-repeat, repeat-x;
+    width: 16px;
+    border-left-width: 0;
+    background-position: 3px 4px, 0 0;
+}
+::-webkit-scrollbar-button:horizontal:increment:active {
+    -webkit-border-image: url(http://i.stack.imgur.com/gT5BM.png?horizontal-button-active.png) 0 2 0 2;
+    background-image: url(http://i.stack.imgur.com/5rJr5.png?horizontal-increment-arrow.png), url(http://i.stack.imgur.com/RDf8L.png?horizontal-button-background-active.png);
+}
+::-webkit-scrollbar-button:horizontal:end:increment:corner-present {
+    border-right-width: 0;
+    width: 15px;
+}
+::-webkit-scrollbar:vertical {
+    -webkit-border-image: url(http://i.stack.imgur.com/NdaTT.png?vertical-button.png) 2 0 2 0;
+    border-color: transparent;
+    border-width: 2px 0;
+    background-image: url(http://i.stack.imgur.com/p7j9a.png?vertical-button-background.png);
+    background-repeat: repeat-y;
+}
+::-webkit-scrollbar:vertical:corner-present {
+    border-bottom-width: 0;
+}
+::-webkit-scrollbar-thumb:vertical {
+    -webkit-border-image: url(http://i.stack.imgur.com/rPEsZ.png?vertical-thumb.png) 15 0 15 0;
+    border-color: transparent;
+    border-width: 15px 0;
+    min-height: 20px;
+}
+::-webkit-scrollbar-track-piece:vertical:start {
+    margin-top: 6px;
+}
+::-webkit-scrollbar-track-piece:vertical:end {
+    margin-bottom: -6px;
+}
+::-webkit-scrollbar-track-piece:vertical:decrement {
+    -webkit-border-image: url(http://i.stack.imgur.com/Rb6ru.png?vertical-track.png) 15 0 15 0;
+    border-color: transparent;
+    border-width: 15px 0 0 0;
+}
+::-webkit-scrollbar-track-piece:vertical:increment {
+    -webkit-border-image: url(http://i.stack.imgur.com/Rb6ru.png?vertical-track.png) 15 0 15 0;
+    border-color: transparent;
+    border-width: 0 0 15px 0;
+}
+::-webkit-scrollbar-button:vertical {
+    height: 21px;
+    -webkit-border-image: url(http://i.stack.imgur.com/NdaTT.png?vertical-button.png) 2 0 2 0;
+    border-color: transparent;
+    border-width: 2px 0;
+}
+::-webkit-scrollbar-button:vertical:decrement {
+    background-image: url(http://i.stack.imgur.com/KQvwk.png?vertical-decrement-arrow.png), url(http://i.stack.imgur.com/p7j9a.png?vertical-button-background.png);
+    background-repeat: no-repeat, repeat-y;
+    background-position: 4px 7px, 0 0;
+}
+::-webkit-scrollbar-button:vertical:decrement:active {
+    -webkit-border-image: url(http://i.stack.imgur.com/uW3TL.png?vertical-button-active.png) 2 0 2 0;
+    background-image: url(http://i.stack.imgur.com/KQvwk.png?vertical-decrement-arrow.png), url(http://i.stack.imgur.com/puDsH.png?vertical-button-background-active.png);
+}
+::-webkit-scrollbar-button:vertical:increment {
+    background-image: url(http://i.stack.imgur.com/UjkVR.png?vertical-increment-arrow.png), url(http://i.stack.imgur.com/p7j9a.png?vertical-button-background.png);
+    background-repeat: no-repeat, repeat-y;
+    height: 16px;
+    border-top-width: 0;
+    background-position: 4px 5px, 0 0;
+}
+::-webkit-scrollbar-button:vertical:increment:active {
+    -webkit-border-image: url(http://i.stack.imgur.com/uW3TL.png?vertical-button-active.png) 2 0 2 0;
+    background-image: url(http://i.stack.imgur.com/UjkVR.png?vertical-increment-arrow.png), url(http://i.stack.imgur.com/puDsH.png?vertical-button-background-active.png);
+}
+::-webkit-scrollbar-button:vertical:end:increment:corner-present {
+    border-bottom-width: 0;
+    height: 15px;
+}
+::-webkit-scrollbar:disabled {
+    background: red;
+    -webkit-border-image: none;
+    display: none;
+}
+
+.first-letter-width {
+  overflow-y: auto !important;
+  height: 265px !important;
+}
+
+
+.category-addon-width {
+  overflow-y: auto;
+  height: 230px;
+  padding: 3px;
+}
+
+.selected_transaction, .selected_pickup, .selected_split_check, .selected_share_item, .selected_driver {
+  background-color: #4c79f6 !important;
+  color: white;
+}
+
+.selected_qty .blue, .active-menuon{
+    background: #e9f0f8 !important;
+    color: black !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+.p0{
+   padding:0px;
+}
+.p0 img{
+   padding-left: 9px;
+}
+.ptop{
+   padding-top:10px;
+}
+.sm{
+   width:5%;
+}
+.logo{
+   width:100%;
+   text-align: center;
+    padding: 20px 0px;
+}
+.nav>li>a{
+   color:#808080;
+   }
+i.icon-time.fa.fa{
+   padding: 8px;
+}
+
+.top-header {
+  padding: 12px !important;
+}
+
+.food ul {
+  padding: 5px !important;
+}
+
+ul li {
+    list-style: none;
+}
+
+a, a:hover, a:focus {
+    text-decoration: none;
+    outline: none;
+}
+::selection {
+
+    background: #4ECDC4;
+    color: #fff;
+}
+::-moz-selection {
+    background: #4ECDC4;
+    color: #fff;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Bootstrap Modifications */
+.modal-header {
+   background: #4ECDC4;
+}
+
+.modal-title {
+   color: white;
+}
+
+.btn-round {
+   border-radius: 20px;
+   -webkit-border-radius: 20px;
+}
+
+.accordion-heading .accordion-toggle {
+   display: block;
+   cursor: pointer;
+   border-top: 1px solid #F5F5F5;
+   padding: 5px 0px;
+   line-height: 28.75px;
+   text-transform: uppercase;
+   color: #1a1a1a;
+   background-color: #ffffff;
+   outline: none !important;
+   text-decoration: none;
+}
+.topnav .search-container {
+  float: right;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  background:#e9f0f8;;
+  border-radius:5px;
+  border: none;
+}
+.topnav button {
+    border-radius: 5px;
+}
+
+.topnav .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
+form.example button {
+    float: left;
+    width: 20%;
+    padding: 10px;
+    background: #2196F3;
+    color: white;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-left: none;
+    cursor: pointer;
+}
+select.selectpicker{
+       padding: 8px;
+    float: right;
+}
+.well{
+   background:#fff;
+   margin-bottom: 5px;
+   }
+   .well2{
+   background:#fff;
+    height:500px;
+   width: 344px;
+   }
+.wellblue{
+   background:#337ab7;
+   color:#fff;
+   padding:10px;
+   font-size: 18px;
+   border-bottom: #fff 1px solid;
+   width:100%;
+   text-align:center;
+   }
+      
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 550px}
+   .food ul {
+  list-style-type: none;
+  margin: 0;
+ font-size: 18px;
+ padding: 10px;
+ border-radius: 5px;
+  overflow: hidden;
+  background-color: #e9f0f8;;
+}
+
+.food li {
+  float: left;
+}
+
+.food li a {
+  display: block;
+  color: grey;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.food li a:hover:not(.active) {
+  background-color:#4c79f6;
+  color:#fff;
+}
+
+.food .active {
+ background-color: #4c79f6;
+ border-radius: 5px;
+ color:#fff;
+}
+
+
+.food2 ul {
+  list-style-type: none;
+  margin: 0;
+ font-size: 18px;
+ padding: 10px;
+ border-radius: 5px;
+  overflow: hidden;
+  background-color: #e9f0f8;;
+}
+
+.food2 li {
+  float: left;
+}
+
+.food2 li a {
+  display: block;
+  color: grey;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.food2 li a:hover:not(.active) {
+  background-color:#4c79f6;
+  color:#fff;
+}
+
+.food2 .active {
+ background-color: #4c79f6;
+ border-radius: 5px;
+ color:#fff;
+}
+
+
+.food2 li {
+  float: left;
+  padding-left: 70px;
+}
+
+.foodtop ul {
+}
+
+.foodtop li {
+  float: left;
+}
+
+.foodtop li a {
+  display: block;
+  color: grey;
+  text-align: center;
+    padding: 14px 35px;
+    margin-left: -30px;
+  text-decoration: none;
+}
+.foodtop {
+    margin-top: -30px;
+}
+.table-slip{
+   font-weight:800;
+   }
+/*---------------------------------------------*/  
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.twell{
+    padding-bottom: 50px;
+}
+.pull-right{
+   float:right;
+}
+.blue{
+    background-color: blue;
+    border-radius: 5px;
+    box-shadow: 0 0 black;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 6px;
+    padding: 10px;
+    color: #fff;
+}
+.blue2{
+    background-color:#337ab7;
+    box-shadow: 0 0 black;
+   margin-bottom: 10px;
+    padding: 10px;
+    color: #fff;
+}
+.menu{
+   background: #eaeaea;
+}
+.menu img{
+   padding:10px;
+}
+.cata{
+       font-size: 18px;
+    font-weight: 800;
+    text-align: center;}
+a {
+    color: #ffffff;
+}
+.top-box{
+       background: #337ab7;
+    padding: 5px 5px;
+    text-align: center;
+    color: #fff;
+}
+.signin{
+   width:100%;
+   background: #fff;
+    font-size: 36px;
+    padding: 5px;
+    text-align: center;
+}
+.green {
+    background-color: #1ab394;
+    border-radius: 5px;
+    box-shadow: 0 0 black;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 60px;
+    color: #fff;
+}
+.brown{
+       background: #4c79f6;
+    color: #fff;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+ul.nav.nav-pills2.nav-stacked {
+    background: #337ab7;
+    color: #fff;
+}
+.nav-pills2 li a{
+   color:#fff;
+   border-bottom: #c3bebe 1px solid;
+   text-align:center;
+}
+.nav-pills2 .active{
+   background-color: #4c79f6;
+    color: #fff;
+}
+.nav-pills2>li>a:hover {
+       background-color: #4c79f6;
+}
+
+.yellow{
+    background: #f7d429;
+    color: #fff;
+   border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    padding: 20px;
+}
+.blue3{
+    background: #337ab7;
+    color: #fff;
+   border-radius: 5px;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.pink{
+   background: #b44df5;
+    color: #fff;
+   border-radius: 5px;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.light-blue{
+   background: #63d5ef;
+   border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.green2{
+   background: #3edaba;
+   border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.darkblue{
+   background: #346db3;
+   border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.orange{
+   background: #f1b42c;
+   border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+.red{
+   background: #da4c3e;
+   border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+}
+
+        
+    /* On small screens, set height to 'auto' for the grid */
+    @media screen and (max-width: 767px) {
+      .row.content {height: auto;} 
+    }
+   
+   @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+      .col-sm-4 {
+    width: 100%;
+}
+.food li a {
+    display: block;
+    color: grey;
+    text-align: center;
+    padding: 14px 10px;
+    text-decoration: none;
+}
+.food ul{
+       font-size: 12px;
+   
+   }
+   
+   .foodtop li a{
+      padding: 14px 15px;
+    margin: 0 auto;
+   }
+.owner img{
+   width:100%; 
+   
+   }
+   .owner2{
+   font-size: 15px;
+}
+   }
+.owner2 i{
+   font-size: 20px;
+}
+.condiment-header {
+  height: 45px;
+  vertical-align: middle;
+  justify-content: center;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 20px;
+  background-color: white;
+  color: black;
+}
+.edit-icon {
+  height: 15px;
+  width: 13px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+.seat_no_column input:focus-visible{
+  outline: none;
+}
+.seat_no_column {
+  color: black;
+
+}
+
+.transporter_select{
+  background-color: blue;
+  color: white;
+}
+.transporter_select input,.transporter_select select {
+  color: black;
+}
+
+.selected_payment_detail,
+.selected_discount {
+  background-color: #4c79f6;
+  color: white;
+}
+
+.instruction_button {
+    width: 100%;
+    background: blue;
+    color: white;
+    height: 42px;
+    vertical-align: middle;
+    justify-content: center;
+    padding-top: 5px;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.fire_button {
+    width: 100%;
+    color: white;
+    height: 42px;
+    vertical-align: middle;
+    justify-content: center;
+    padding-top: 5px;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+</style>
+
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

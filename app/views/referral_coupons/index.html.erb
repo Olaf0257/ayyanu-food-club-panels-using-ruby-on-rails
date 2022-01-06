@@ -1,0 +1,139 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style>
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-3">
+    <h2>Referral Coupons</h2>
+  </div>
+
+  <div class="col-sm-9">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+          <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Code,Restaurant", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Referral Coupons Table</h5>
+
+          <span class="pull-right">
+            <%= link_to "Add New Coupon", new_referral_coupon_path(country_id: (is_super_admin?(@admin) ? "": @admin.country_id)), class: "btn btn-xs btn-success", style: "margin-right: 20px;" %>
+
+            <%= link_to referral_coupons_path(format: :csv, searched_country_id: params[:searched_country_id], keyword: params[:keyword], start_date: params[:start_date], end_date: params[:end_date]) do %>
+              <button class="btn btn-xs btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+            <% end %>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @coupons.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Coupon Code</th>
+                  <th>Discount (%) (Referrer)</th>
+                  <th>Discount (%) (Referred)</th>
+                  <th>Total Quantity (Referrer)</th>
+                  <th>Quantity Left (Referrer)</th>
+                  <th>Total Quantity (Referred)</th>
+                  <th>Quantity Left (Referred)</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Country</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                  <th>Restaurants</th>
+                  <th>Coupon Users</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @coupons.each do |coupon| %>
+                  <tr>
+                    <td><%= coupon.coupon_code %></td>
+                    <td><%= coupon.referrer_discount %></td>
+                    <td><%= coupon.referred_discount %></td>
+                    <td><%= coupon.total_referrer_quantity %></td>
+                    <td><%= coupon.referrer_quantity %></td>
+                    <td><%= coupon.total_referred_quantity %></td>
+                    <td><%= coupon.referred_quantity %></td>
+                    <td><%= coupon.start_date.strftime("%d/%m/%Y") %></td>
+                    <td><%= coupon.end_date.strftime("%d/%m/%Y") %></td>
+                    <td><%= coupon.country&.name %></td>
+                    <td><b><%= coupon.current_status %></b></td>
+
+                    <td>
+                      <% if coupon.notes.present? %>
+                        <%= link_to "View", view_notes_referral_coupon_path(coupon.id), remote: true, class: "btn btn-xs btn-primary" %>
+                      <% end %>
+                    </td>
+
+                    <td><%= link_to "View", referral_coupon_path(coupon.id), remote: true, class: "btn btn-xs btn-primary" %></td>
+                    <td><%= link_to "View", user_list_referral_coupon_path(coupon.id), remote: true, class: "btn btn-xs btn-primary" %></td>
+
+                    <td>
+                      <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_referral_coupon_path(coupon.id, country_id: coupon.country_id), class: "btn btn-xs btn-info" %>
+
+                      <% if is_super_admin?(@admin) %>
+                        <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", coupon, method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete this Coupon?" } %>
+                      <% end %>
+
+                      <% if coupon.active %>
+                        <%= link_to '<i class="fa fa-ban"></i>'.html_safe + " Deactivate", activate_referral_coupon_path(coupon.id), class: "btn btn-xs btn-warning", data: { confirm: "Are you sure you want to Deactivate this Coupon?" } %>
+                      <% else %>
+                        <%= link_to '<i class="fa fa-check-circle"></i>'.html_safe + " Activate", activate_referral_coupon_path(coupon.id, active: true), class: "btn btn-xs btn-success", data: { confirm: "Are you sure you want to Activate this Coupon?" } %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="col-sm-12">
+              <center><%= will_paginate @coupons, renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">No Coupon available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

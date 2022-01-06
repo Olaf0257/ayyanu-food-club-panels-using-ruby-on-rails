@@ -1,0 +1,636 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header">
+        <center>
+          <div class="dropdown profile-element">
+            <span><img alt="image" class="image-responsive" src="/assets/food_club_logo.png" height="100px;"></span>
+            <span class="block m-t-xs"><strong class="font-bold">
+            <% if session[:admin_user_id] %>
+              Super Admin
+            <% else  %>
+              <%= @admin.name %>
+            <% end %>
+            </strong></span>
+          </div>
+        </center>
+      </li>
+
+      <% if is_super_admin?(@admin) || @admin.role_id == 1 %>
+
+        <li class="<%= is_active_controller('super_admins') && is_active_action('dashboard') %>">
+          <a href="<%= dashboard_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+        </li>
+
+        <li class="<%= is_active_controller('restaurants') %>">
+          <a href="#"><i class="fa fa-ship"></i> <span class="nav-label">Enterprise</span><span class="fa arrow"></a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('restaurants') %> && <%= is_active_action('all_restaurant') %>">
+            <li class="<%= is_active_action('all_restaurant') %>"><%= link_to "All Enterprise ", enterprise_list_path %></li>
+            <li class="<%= is_active_action('requested_restaurant') %>"><%= link_to "Requested Enterprise", requested_enterprise_enterprises_path %></li>
+            <li class="<%= is_active_action('rejected_restaurant') %>"><%= link_to "Rejected Enterprise",rejected_enterprise_path %></li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_controller('roles') %> || <%= is_active_controller('users') %> || <%= is_active_controller('posts') %> || <%= is_active_controller('branch_subscriptions') %> || <%= is_active_controller('report_subscriptions') %> || <%= is_active_controller('influencers') %> || <%= is_active_controller('admin_offers') %> || <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %> || <%= is_active_controller('influencer_coupons') %> || <%= is_active_controller('referral_coupons') %> || <%= is_active_controller('restaurant_coupons') %> || <%= is_active_controller('events') %>">
+          <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Masters</span><span class="fa arrow"></span> </a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('roles') %>">
+            <li class="<%= is_active_controller('roles') %> || <%= is_active_controller('users') %> ">
+              <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Users</span><span class="fa arrow"></span> </a>
+
+              <ul class="nav nav-third-level collapse <%= is_active_controller('roles') %>">
+                <li class="<%= is_active_action('roles_list') %>"><%= link_to "Roles & Privileges", roles_list_path %></li>
+                <li class="<%= is_active_action('role_user_list') %>"><%= link_to "Create user", user_role_user_list_path %></li>
+                <li class="<%= is_active_action('unapproved_user_list') %>"><%= link_to "Approve users", user_unapproved_user_list_path %></li>
+              </ul>
+            </li>
+          </ul>
+
+          <% if is_super_admin?(@admin) %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('influencers') %>">
+              <li class="<%= is_active_controller('influencers') %>">
+                <a href="#"><i class="fa fa-user-circle"></i> <span class="nav-label">Influencers</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('influencers') %>">
+                  <li class="<%= is_active_controller('influencers') && is_active_action('list') %>"><%= link_to "All Influencers", influencer_list_path %></li>
+                  <li class="<%= is_active_controller('influencers') && is_active_action('requested_list') %>"><%= link_to "Requested Influencers", influencer_requested_list_path %></li>
+                  <li class="<%= is_active_controller('influencers') && is_active_action('rejected_list') %>"><%= link_to "Rejected Influencers", influencer_rejected_list_path %></li>
+                  <li class="<%= is_active_controller('influencers') && is_active_action('new') %>"><%= link_to "Add New Influencer", influencer_new_path %></li>
+                </ul>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) || @admin.class.find(@admin.id).check_role?("Tutorials") %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('posts') %>">
+              <li class="<%= is_active_controller('posts') %>">
+                <a href="<%= posts_path %>"><i class="fa fa-file-text"></i> <span class="nav-label">Tutorials</span></a>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) || @admin.class.find(@admin.id).check_role?("Events") %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('events') %>">
+              <li class="<%= is_active_controller('events') %>">
+                <a href="<%= events_path %>"><i class="fa fa-calendar-o"></i> <span class="nav-label">Events</span></a>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('branch_subscriptions') %> || <%= is_active_controller('report_subscriptions') %>">
+              <li class="<%= is_active_controller('branch_subscriptions') %> || <%= is_active_controller('report_subscriptions') %>">
+                <a href="#"><i class="fa fa-credit-card"></i> <span class="nav-label">Subscriptions</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('branch_subscriptions') %> || <%= is_active_controller('report_subscriptions') %>">
+                  <li class="<%= is_active_controller('branch_subscriptions') %>"><%= link_to "Branch Fee", branch_subscriptions_path %></li>
+                  <li class="<%= is_active_controller('report_subscriptions') %>"><%= link_to "Report Fee", report_subscriptions_path %></li>
+                </ul>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) || @admin.role_id == 1 %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('admin_offers') %>">
+              <li class="<%= is_active_controller('admin_offers') %>">
+                <a href="<%= admin_offers_path %>"><i class="fa fa-building-o"></i> <span class="nav-label">Offer Management</span></a>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) || @admin.check_role?("Influencer Coupons") || @admin.check_role?("Referral Coupons") || @admin.check_role?("Restaurant Coupons") %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('influencer_coupons') || is_active_controller('referral_coupons') || is_active_controller('restaurant_coupons') %>">
+              <li class="<%= is_active_controller('influencer_coupons') || is_active_controller('referral_coupons') || is_active_controller('restaurant_coupons') %>">
+                <a href="#"><i class="fa fa-tablet"></i> <span class="nav-label">Coupons</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('influencer_coupons') %>">
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Influencer Coupons") %>
+                    <li class="<%= is_active_controller('influencer_coupons') %>"><%= link_to "Influencer Coupons", influencer_coupons_path %></li>
+                  <% end %>
+                </ul>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('referral_coupons') %>">
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Referral Coupons") %>
+                    <li class="<%= is_active_controller('referral_coupons') %>"><%= link_to "Referral Coupons", referral_coupons_path %></li>
+                  <% end %>
+                </ul>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('restaurant_coupons') %>">
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Restaurant Coupons") %>
+                    <li class="<%= is_active_controller('restaurant_coupons') %>"><%= link_to "Promo Code", restaurant_coupons_path %></li>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+          <% end %>
+
+          <% if is_super_admin?(@admin) || @admin.check_role?("Districts") || @admin.check_role?("Zones") ||  @admin.check_role?("Coverage Areas") %>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+              <li class="<%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                <a href="#"><i class="fa fa-list"></i> <span class="nav-label">Area Management</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Districts") %>
+                    <li class="<%= is_active_controller('districts') %>"><%= link_to "Districts", districts_path %></li>
+                  <% end %>
+
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Zones") %>
+                    <li class="<%= is_active_controller('zones') %>"><%= link_to "Zones", zones_path %></li>
+                  <% end %>
+
+                  <% if is_super_admin?(@admin) || @admin.check_role?("Coverage Areas") %>
+                    <li class="<%= is_active_controller('areas') && is_active_action('all_coverage_areas') %>"><%= link_to "Coverage Areas", all_coverage_areas_path %></li>
+                    <li class="<%= is_active_controller('areas') && is_active_action('new_coverage_areas') %>"><%= link_to "New Coverage Areas", new_coverage_areas_path %></li>
+                  <% end %>
+                </ul>
+              </li>
+            </ul>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_controller('restaurants') %>">
+          <a href="#"><i class="fa fa-ship"></i> <span class="nav-label">Restaurant</span><span class="fa arrow"></a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('restaurants') %> && <%= is_active_action('all_restaurant') %>">
+            <li class="<%= is_active_action('all_restaurant') %>"><%= link_to "All Restaurant ", restaurant_list_path %></li>
+            <li class="<%= is_active_action('requested_restaurant') %>"><%= link_to "Requested Restaurant", new_restaurant_path %></li>
+            <li class="<%= is_active_action('rejected_restaurant') %>"><%= link_to "Rejected Restaurant",rejected_restaurant_path %></li>
+            <li class="<%= is_active_action("pending_update_request") %>"><%= link_to "Name Change Approval", restaurant_pending_update_request_path %></li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_controller('delivery_companies') %>">
+          <a href="#"><i class="fa fa-motorcycle"></i> <span class="nav-label">Delivery Company</span><span class="fa arrow"></a>
+          <ul class="nav nav-second-level collapse <%= is_active_controller('restaurants') %> && <%= is_active_action('all_restaurant') %>">
+            <li class="<%= is_active_action('index') %>"><%= link_to "All Company", delivery_companies_path %></li>
+            <li class="<%= is_active_action('requested_list') %>"><%= link_to "Requested Company", requested_list_delivery_companies_path %></li>
+            <li class="<%= is_active_action('rejected_list') %>"><%= link_to "Rejected Company", rejected_list_delivery_companies_path %></li>
+            <li class="<%= is_active_action('new') %>"><%= link_to "Add New Company", new_delivery_company_path %></li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_controller('categories') %> && <%= is_active_action('categories_list') %>">
+          <a href="<%= category_list_path %>"><i class="fa fa-book"></i> <span class="nav-label">Cuisine</span> <span class="badge badge-primary pull-right"></span></a>
+        </li>
+
+        <li class="<%= is_active_controller('users') %>">
+          <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Registered Users</span><span class="fa arrow"></span> </a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('users') %>">
+            <li class="<%= is_active_action('list') %>"><%= link_to "Business owners", user_list_path(role:"business") %> </li>
+            <li class="<%= is_active_action('list') %>"><%= link_to "Manager", user_list_path(role:"manager") %></li>
+            <li class="<%= is_active_action('list') %>"><%= link_to "Customers", user_list_path(role:"customer") %></li>
+            <li class="<%= is_active_action('list') %>"><%= link_to "Transporter", user_list_path(role:"transporter") %></li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_controller('orders') && is_active_action('order_list') %>">
+          <a href="<%= order_list_path %>"><i class="fa fa-building"></i> <span class="nav-label">Orders</span></a>
+        </li>
+
+        <li class="<%= is_active_controller('orders') && is_active_action('refund_order_list') %>">
+          <a href="<%= order_refund_list_path %>"><i class="fa fa-repeat"></i> <span class="nav-label">Order Refunds</span></a>
+        </li>
+
+        <li class="<%= is_active_controller('offers') %>">
+          <a href="#"><i class="fa fa-book"></i> <span class="nav-label">Ads Management</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('offers') %>">
+            <li class="<%= is_active_action('admin_advertisement_list') %>"><%= link_to "Advertisement List", admin_advertisement_list_path %></li>
+            <li class="<%= is_active_action('offers_list') %>"><%= link_to "New Ads", offers_list_path %></li>
+            <li class="<%= is_active_action('rejected_advertisement_list') %>"><%= link_to "Rejected Ads List", rejected_advertisement_path %></li>
+          </ul>
+        </li>
+
+        <% if is_super_admin?(@admin) %>
+          <li class="<%= is_active_controller('reports') %>">
+            <a href="#"><i class="fa fa-list"></i> <span class="nav-label">Reports</span><span class="fa arrow"></a>
+
+            <ul class="nav nav-second-level collapse <%= is_active_action('delivery_settle_amount_report') || is_active_action('restaurant_settle_amount_report') %>">
+              <li class="<%= is_active_action('delivery_settle_amount_report') || is_active_action('restaurant_settle_amount_report') %> ">
+                <a href="#"><i class="fa fa-recycle"></i> <span class="nav-label">Settlements</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-second-level collapse <%= is_active_action('delivery_settle_amount_report') || is_active_action('restaurant_settle_amount_report') %>">
+                  <li class="<%= is_active_action('delivery_settle_amount_report') || is_active_action('restaurant_settle_amount_report') %> ">
+                    <a href="#"><i class="fa fa-money"></i> <span class="nav-label">Food Club Delivery</span><span class="fa arrow"></span> </a>
+
+                    <ul class="nav nav-second-level collapse <%= is_active_action('delivery_settle_amount_report') %>">
+                      <li class="<%= is_active_action('delivery_settle_amount_report') %> ">
+                        <a href="#"><i class="fa fa-motorcycle"></i> <span class="nav-label">Company</span><span class="fa arrow"></span> </a>
+
+                        <ul class="nav nav-second-level collapse <%= is_active_action('delivery_settle_amount_report') %>">
+                          <li class="<%= 'active' if (params[:action] == 'delivery_settle_amount_report' && params[:type] == 'cash') %>"><%= link_to "Cash", delivery_settle_amount_report_path(type: "cash") %></li>
+                          <li class="<%= 'active' if (params[:action] == 'delivery_settle_amount_report' && params[:type] == 'online') %>"><%= link_to "Online", delivery_settle_amount_report_path(type: "online") %></li>
+                        </ul>
+                      </li>
+                    </ul>
+
+                    <ul class="nav nav-second-level collapse <%= is_active_action('restaurant_settle_amount_report') %>">
+                      <li class="<%= is_active_action('restaurant_settle_amount_report') %> ">
+                        <a href="#"><i class="fa fa-home"></i> <span class="nav-label">Restaurant</span><span class="fa arrow"></span> </a>
+
+                        <ul class="nav nav-second-level collapse <%= is_active_action('restaurant_settle_amount_report') %>">
+                          <li class="<%= 'active' if (params[:action] == 'restaurant_settle_amount_report' && params[:type] == 'cash') %>"><%= link_to "Cash", restaurant_settle_amount_report_path(type: "cash") %></li>
+                          <li class="<%= 'active' if (params[:action] == 'restaurant_settle_amount_report' && params[:type] == 'online') %>"><%= link_to "Online", restaurant_settle_amount_report_path(type: "online") %></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') && is_active_action('restaurant_delivery_transaction_report') %>">
+              <li class="<%= is_active_controller('reports') && is_active_action('restaurant_delivery_transaction_report') %>">
+                <a href="#"><span class="nav-label">Restaurant Delivery</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse">
+                  <li class="<%= 'active' if (params[:action] == 'restaurant_delivery_transaction_report' && params[:type] == 'cash') %>"><%= link_to "Cash", restaurant_delivery_transaction_report_path(type: "cash") %></li>
+                  <li class="<%= 'active' if (params[:action] == 'restaurant_delivery_transaction_report' && params[:type] == 'online') %>"><%= link_to "Online", restaurant_delivery_transaction_report_path(type: "online") %></li>
+                </ul>
+              </li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_action('admin_todays_report') || is_active_action('admin_most_selling_item_report') || is_active_action('admin_area_wise_report') || is_active_action('admin_top_customer_report') %>">
+              <li class="<%= is_active_controller('reports') && is_active_action('admin_todays_report') || is_active_action('admin_most_selling_item_report') || is_active_action('admin_area_wise_report') || is_active_action('admin_top_customer_report') %>">
+                <a href="#"><span class="nav-label">Sales Reports</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse">
+                  <li class="<%= is_active_action('admin_todays_report') %>"><%= link_to "Todays Report", admin_todays_report_path %></li>
+                </ul>
+
+                <ul class="nav nav-third-level collapse">
+                  <li class="<%= is_active_action('admin_most_selling_item_report') %>"><%= link_to "Top Selling Items", admin_most_selling_item_report_path %></li>
+                </ul>
+
+                <ul class="nav nav-third-level collapse">
+                  <li class="<%= is_active_action('admin_area_wise_report') %>"><%= link_to "Area Wise Orders", admin_area_wise_report_path %></li>
+                </ul>
+
+                <ul class="nav nav-third-level collapse">
+                  <li class="<%= is_active_action('admin_top_customer_report') %>"><%= link_to "Top Customers", admin_top_customer_report_path %></li>
+                </ul>
+              </li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_branch_charges_report') %>">
+              <li class="<%= is_active_action('admin_branch_charges_report') %>"><%= link_to "Branch Charges", admin_branch_charges_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_points_redeemed_report') %>">
+              <li class="<%= is_active_action('admin_points_redeemed_report') %>"><%= link_to "Points Settlement", admin_points_redeemed_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_approved_branches_report') %>">
+              <li class="<%= is_active_action('admin_approved_branches_report') %>"><%= link_to "Approved Branches", admin_approved_branches_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_free_delivery_branches_report') %>">
+              <li class="<%= is_active_action('admin_free_delivery_branches_report') %>"><%= link_to "Free Delivery Branches", admin_free_delivery_branches_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_suggested_restaurants_report') %>">
+              <li class="<%= is_active_action('admin_suggested_restaurants_report') %>"><%= link_to "Suggested Restaurants", admin_suggested_restaurants_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_amount_transfers_report') %>">
+              <li class="<%= is_active_action('admin_amount_transfers_report') %>"><%= link_to "Amount Transfers", admin_amount_transfers_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_user_cart_report') %>">
+              <li class="<%= is_active_action('admin_user_cart_report') %>"><%= link_to "User Carts", admin_user_cart_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') %> && <%= is_active_action('admin_calendar_report') %>">
+              <li class="<%= is_active_action('admin_calendar_report') %>"><%= link_to "Calendar Reports", admin_calendar_report_path %></li>
+            </ul>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('reports') && is_active_action('admin_transporter_timings_report') || is_active_action('admin_driver_review_report') || is_active_action('admin_driver_performance_report') %>">
+              <li class="<%= is_active_controller('reports') && is_active_action('admin_transporter_timings_report') || is_active_action('admin_driver_review_report') || is_active_action('admin_driver_performance_report') %>">
+                <a href="#"><span class="nav-label">Drivers Report</span><span class="fa arrow"></span> </a>
+
+                <ul class="nav nav-third-level collapse <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                  <li class="<%= is_active_action('admin_transporter_timings_report') %>"><%= link_to "Driver Shifts", admin_transporter_timings_report_path %></li>
+                  <li class="<%= is_active_action('admin_driver_review_report') %>"><%= link_to "Driver Reviews", admin_driver_review_report_path %></li>
+                  <li class="<%= is_active_action('admin_driver_performance_report') %>"><%= link_to "Driver Performance", admin_driver_performance_report_path %></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if @admin.class.find(@admin.id)[:role_id]!=1 %>
+          <li class="<%= is_active_controller('clubes') %>">
+            <a href="<%= club_list_path %>"><i class="fa fa-book"></i> <span class="nav-label">Club</span></a>
+          </li>
+        <%end %>
+
+        <% if is_super_admin?(@admin) || @admin.check_role?("Events") %>
+          <li class="<%= is_active_action('event_calendar') %>">
+            <a href="<%= event_calendar_events_path %>"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar</span></a>
+          </li>
+        <% end %>
+
+        <% if @admin.class.find(@admin.id)[:role_id]!=1 %>
+          <li class="<%= is_active_controller('subscriptions') %> hide">
+            <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Subscription Reports</span> <span class="fa arrow"></span></a>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('subscriptions') %>">
+              <li class="<%= is_active_action('all_subscribe_restaurant') %>"><%= link_to "Report Subscription", report_subscribe_restaurant_list_path %></li>
+              <li class="<%= is_active_action('subscribe_branch') %>"><%= link_to "Branch Subscription", subscribe_branch_list_path %></li>
+            </ul>
+          </li>
+        <% end %>
+
+        <li class="<%= is_active_controller('subscriptions') %> hide">
+          <a href="<%= restaurant_transfer_money_data_path %>"><i class="fa fa-money"></i> <span class="nav-label">Transaction Reports</span></a>
+        </li>
+
+        <% if @admin.class.find(@admin.id)[:role_id]!=1 %>
+          <li class="<%= is_active_controller('appsetings') %> && <%= is_active_action('settings') %>">
+            <a href="<%= app_settings_path %>"><i class="fa fa-cogs"></i> <span class="nav-label">App Settings </span></a>
+          </li>
+          <li class="<%= is_active_controller('documents') %> hide">
+            <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Documents </span></a>
+
+            <ul class="nav nav-second-level collapse <%= is_active_controller('documents') %>">
+              <li class="<%= is_active_action('document_list') %>"><%= link_to "Admin Documents", document_list_path %> </li>
+              <li class="<%= is_active_action('restaurant_document') %>"><%= link_to "Restaurant Documents", restaurant_document_path %> </li>
+            </ul>
+          </li>
+        <% end %>
+
+        <li class="<%= is_active_controller('notifications') %>">
+          <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Notifications </span></a>
+
+          <ul class="nav nav-second-level collapse <%= is_active_controller('notifications') %>">
+            <li class="<%= is_active_action('notification_list') %>"><%= link_to "All  Notifications", notification_list_path %> </li>
+            <li class="<%= is_active_action('notifications') %>"><%= link_to "Send Push", bulk_notification_path %> </li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_controller('welcome') %> hide">
+          <a href="<%= contact_list_path %>"><i class="fa fa-building"></i> <span class="nav-label">Contacts</span></a>
+        </li>
+
+        <li class="<%= is_active_controller('distance_delivery_charges') %>">
+          <%= link_to distance_delivery_charges_path do %>
+            <i class="fa fa-money"></i><span class="nav-label">Delivery Charges</span>
+          <% end %>
+        </li>
+
+        <% if is_super_admin?(@admin) || @admin.check_role?("Tax") %>
+          <li class="<%= is_active_controller('taxes') %>">
+            <%= link_to taxes_path do %>
+              <i class="fa fa-money"></i><span class="nav-label">Tax</span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <li class="<%= is_active_controller('super_admins') && is_active_action('edit_password') %>">
+          <a href="<%= admin_edit_password_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Change Password</span></a>
+        </li>
+
+      <% else %>
+
+        <li class="<%= is_active_controller('super_admins') && is_active_action('dashboard') %>">
+          <a href="<%= dashboard_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+        </li>
+
+        <% if @admin.check_role?("Roles & Privileges") ||  @admin.check_role?("Create user") || @admin.check_role?("Approve users") || @admin.check_role?("Districts") || @admin.check_role?("Zones") ||  @admin.check_role?("Coverage Areas") || @admin.check_role?("Tutorials") || @admin.check_role?("Influencer Coupons") || @admin.check_role?("Referral Coupons") || @admin.check_role?("Restaurant Coupons") || @admin.check_role?("Events") %>
+          <li class="<%= is_active_controller('roles') %> || <%= is_active_controller('users') %> || <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %> || <%= is_active_controller('posts') %> || <%= is_active_controller('influencer_coupons') %> || <%= is_active_controller('referral_coupons') %> || <%= is_active_controller('restaurant_coupons') %> || <%= is_active_controller('events') %>">
+            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Masters</span><span class="fa arrow"></span> </a>
+
+            <% if @admin.check_role?("Roles & Privileges") ||  @admin.check_role?("Create user") || @admin.check_role?("Approve users")%>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('roles') %>">
+                <li class="<%= is_active_controller('roles') %> || <%= is_active_controller('users') %> ">
+                  <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Users</span><span class="fa arrow"></span> </a>
+                  <ul class="nav nav-third-level collapse <%= is_active_controller('roles') %>">
+                    <%if @admin.check_role?("Roles & Privileges")%><li class="<%= is_active_action('roles_list') %>"><%= link_to "Roles & Privileges", roles_list_path %></li><% end %>
+                    <%if @admin.check_role?("Create user")%> <li class="<%= is_active_action('role_user_list') %>"><%= link_to "Create user", user_role_user_list_path %></li><% end %>
+                    <%if @admin.check_role?("Approve users")%> <li class="<%= is_active_action('unapproved_user_list') %>"><%= link_to "Approve users", user_unapproved_user_list_path %></li><% end %>
+                  </ul>
+                </li>
+              </ul>
+            <% end %>
+
+            <% if @admin.check_role?("Tutorials") %>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('posts') %>">
+                <li class="<%= is_active_controller('posts') %>">
+                  <a href="<%= posts_path %>"><i class="fa fa-file-text"></i> <span class="nav-label">Tutorials</span></a>
+                </li>
+              </ul>
+            <% end %>
+
+            <% if @admin.check_role?("Events") %>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('events') %>">
+                <li class="<%= is_active_controller('events') %>">
+                  <a href="<%= events_path %>"><i class="fa fa-calendar-o"></i> <span class="nav-label">Events</span></a>
+                </li>
+              </ul>
+            <% end %>
+
+            <% if @admin.check_role?("Influencer Coupons") || @admin.check_role?("Referral Coupons") || @admin.check_role?("Restaurant Coupons") %>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('influencer_coupons') || is_active_controller('referral_coupons') || is_active_controller('restaurant_coupons') %>">
+                <li class="<%= is_active_controller('influencer_coupons') || is_active_controller('referral_coupons') || is_active_controller('restaurant_coupons') %>">
+                  <a href="#"><i class="fa fa-tablet"></i> <span class="nav-label">Coupons</span><span class="fa arrow"></span> </a>
+
+                  <ul class="nav nav-third-level collapse <%= is_active_controller('influencer_coupons') %>">
+                    <% if @admin.check_role?("Influencer Coupons") %>
+                      <li class="<%= is_active_controller('influencer_coupons') %>"><%= link_to "Influencer Coupons", influencer_coupons_path %></li>
+                    <% end %>
+                  </ul>
+
+                  <ul class="nav nav-third-level collapse <%= is_active_controller('referral_coupons') %>">
+                    <% if @admin.check_role?("Referral Coupons") %>
+                      <li class="<%= is_active_controller('referral_coupons') %>"><%= link_to "Referral Coupons", referral_coupons_path %></li>
+                    <% end %>
+                  </ul>
+
+                  <ul class="nav nav-third-level collapse <%= is_active_controller('restaurant_coupons') %>">
+                    <% if @admin.check_role?("Restaurant Coupons") %>
+                      <li class="<%= is_active_controller('restaurant_coupons') %>"><%= link_to "Promo Code", restaurant_coupons_path %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              </ul>
+            <% end %>
+
+            <% if @admin.check_role?("Districts") || @admin.check_role?("Zones") ||  @admin.check_role?("Coverage Areas") %>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                <li class="<%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                  <a href="#"><i class="fa fa-list"></i> <span class="nav-label">Area Management</span><span class="fa arrow"></span> </a>
+
+                  <ul class="nav nav-third-level collapse <%= is_active_controller('districts') %> || <%= is_active_controller('zones') %> || <%= is_active_controller('areas') %>">
+                    <% if @admin.check_role?("Districts") %>
+                      <li class="<%= is_active_controller('districts') %>"><%= link_to "Districts", districts_path %></li>
+                    <% end %>
+
+                    <% if @admin.check_role?("Zones") %>
+                      <li class="<%= is_active_controller('zones') %>"><%= link_to "Zones", zones_path %></li>
+                    <% end %>
+
+                    <% if @admin.check_role?("Coverage Areas") %>
+                      <li class="<%= is_active_controller('areas') && is_active_action('all_coverage_areas') %>"><%= link_to "Coverage Areas", all_coverage_areas_path %></li>
+                      <li class="<%= is_active_controller('areas') && is_active_action('new_coverage_areas') %>"><%= link_to "New Coverage Areas", new_coverage_areas_path %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              </ul>
+            <% end %>
+          </li>
+        <% end %>
+
+        <%if  @admin.check_role?("All Restaurant") || @admin.check_role?("Requested Restaurant") || @admin.check_role?("Rejected Restaurant") ||  @admin.check_role?("Name Change Approval") %>
+          <li class="<%= is_active_controller('restaurants') %>">
+            <a href="#"><i class="fa fa-ship"></i> <span class="nav-label">Restaurant</span><span class="fa arrow"></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('restaurants') %> && <%= is_active_action('all_restaurant') %>">
+            <%if @admin.check_role?("All Restaurant")%><li class="<%= is_active_action('all_restaurant') %>"><%= link_to "All Restaurant ", restaurant_list_path %></li><% end%>
+            <%if @admin.check_role?("Requested Restaurant")%> <li class="<%= is_active_action('requested_restaurant') %>"><%= link_to "Requested Restaurant", new_restaurant_path %></li><% end%>
+            <%if @admin.check_role?("Rejected Restaurant")%> <li class="<%= is_active_action('rejected_restaurant') %>"><%= link_to "Rejected Restaurant",rejected_restaurant_path %></li><% end%>
+            <%if @admin.check_role?("Name Change Approval")%> <li class="<%= is_active_action("pending_update_request") %>"><%= link_to "Name Change Approval", restaurant_pending_update_request_path %></li><% end%>
+            </ul>
+          </li>
+        <% end %>
+
+        <%if  @admin.check_role?("All Company") || @admin.check_role?("Requested Company") || @admin.check_role?("Rejected Company") ||  @admin.check_role?("Add New Company") %>
+          <li class="<%= is_active_controller('delivery_companies') %>">
+            <a href="#"><i class="fa fa-motorcycle"></i> <span class="nav-label">Delivery Company</span><span class="fa arrow"></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('restaurants') %> && <%= is_active_action('all_restaurant') %>">
+              <%if @admin.check_role?("All Company")  %> <li class="<%= is_active_action('index') %>"><%= link_to "All Company", delivery_companies_path %></li><% end %>
+              <%if @admin.check_role?("Requested Company")  %> <li class="<%= is_active_action('requested_list') %>"><%= link_to "Requested Company", requested_list_delivery_companies_path %></li><% end %>
+              <%if @admin.check_role?("Rejected Company")  %> <li class="<%= is_active_action('rejected_list') %>"><%= link_to "Rejected Company", rejected_list_delivery_companies_path %></li><% end %>
+              <%if @admin.check_role?("Add New Company")  %>  <li class="<%= is_active_action('new') %>"><%= link_to "Add New Company", new_delivery_company_path %></li><% end %>
+            </ul>
+          </li>
+        <% end %>
+
+        <%if @admin.check_role?("Cuisine")  %>
+          <li class="<%= is_active_controller('categories') %> && <%= is_active_action('categories_list') %>">
+            <a href="<%= category_list_path %>"><i class="fa fa-book"></i> <span class="nav-label">Cuisine</span> <span class="badge badge-primary pull-right"></span></a>
+          </li>
+        <% end %>
+
+        <%if @admin.check_role?("Business owners") ||  @admin.check_role?("Manager") || @admin.check_role?("Customers") || @admin.check_role?("Transporter") %>
+          <li class="<%= is_active_controller('users') %>">
+            <a href="#"><i class="fa fa-users"></i> <span class="nav-label">Registered Users</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('users') %>">
+              <%if @admin.check_role?("Business owners") %> <li class="<%= is_active_action('list') %>"><%= link_to "Business owners", user_list_path(role:"business") %> </li><%end%>
+              <%if @admin.check_role?("Manager") %><li class="<%= is_active_action('list') %>"><%= link_to "Manager", user_list_path(role:"manager") %></li><% end %>
+              <%if @admin.check_role?("Customers") %><li class="<%= is_active_action('list') %>"><%= link_to "Customers", user_list_path(role:"customer") %></li><% end %>
+              <%if @admin.check_role?("Transporter") %><li class="<%= is_active_action('list') %>"><%= link_to "Transporter", user_list_path(role:"transporter") %></li><% end %>
+            </ul>
+          </li>
+        <%end%>
+
+        <%if @admin.check_role?("Orders") %>
+          <li class="<%= is_active_controller('orders') && is_active_action('order_list') %>">
+            <a href="<%= order_list_path %>"><i class="fa fa-building"></i> <span class="nav-label">Orders</span></a>
+          </li>
+        <%end %>
+
+        <% if @admin.check_role?("Refunds") %>
+          <li class="<%= is_active_controller('orders') && is_active_action('refund_order_list') %>">
+            <a href="<%= order_refund_list_path %>"><i class="fa fa-repeat"></i> <span class="nav-label">Order Refunds</span></a>
+          </li>
+        <% end %>
+
+        <% if is_call_center_executive?(@admin) %>
+          <li><%= link_to '<i class="fa fa-plus-circle"></i>'.html_safe + "Add Customer", customer_customer_signup_path, target: "_blank" %></li>
+        <% end %>
+
+        <% if @admin.check_role?("Advertisement List") || @admin.check_role?("New Ads") || @admin.check_role?("Rejected Ads List")%>
+          <li class="<%= is_active_controller('offers') %>">
+            <a href="#"><i class="fa fa-book"></i> <span class="nav-label">Ads Management</span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('offers') %>">
+              <%if @admin.check_role?("Advertisement List") %><li class="<%= is_active_action('admin_advertisement_list') %>"><%= link_to "Advertisement List", admin_advertisement_list_path %></li><%end %>
+              <%if @admin.check_role?("New Ads") %> <li class="<%= is_active_action('offers_list') %>"><%= link_to "New Ads", offers_list_path %></li><%end %>
+              <%if @admin.check_role?("Rejected Ads List") %> <li class="<%= is_active_action('rejected_advertisement_list') %>"><%= link_to "Rejected Ads List", rejected_advertisement_path %></li><%end %>
+            </ul>
+          </li>
+        <%end%>
+
+        <% if @admin.check_role?("Club")%>
+          <li class="<%= is_active_controller('clubes') %>">
+            <a href="<%= club_list_path %>"><i class="fa fa-book"></i> <span class="nav-label">Club</span></a>
+          </li>
+        <%end%>
+
+        <% if @admin.check_role?("Events") %>
+          <li class="<%= is_active_action('event_calendar') %>">
+            <a href="<%= event_calendar_events_path %>"><i class="fa fa-calendar"></i> <span class="nav-label">Calendar</span></a>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("Report Subscription") ||  @admin.check_role?("Branch Subscription")%>
+          <li class="<%= is_active_controller('subscriptions') %> hide">
+            <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Subscription Reports</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('subscriptions') %>">
+              <%if @admin.check_role?("Report Subscription")%><li class="<%= is_active_action('all_subscribe_restaurant') %>"><%= link_to "Report Subscription", report_subscribe_restaurant_list_path %></li><%end%>
+              <%if @admin.check_role?("Branch Subscription")%>  <li class="<%= is_active_action('subscribe_branch') %>"><%= link_to "Branch Subscription", subscribe_branch_list_path %></li><%end%>
+            </ul>
+          </li>
+        <%end %>
+
+        <% if @admin.check_role?("Transaction Details")%>
+          <li class="<%= is_active_controller('subscriptions') %> hide">
+            <a href="<%= restaurant_transfer_money_data_path %>"><i class="fa fa-money"></i> <span class="nav-label">Transaction Reports</span></a>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("App Settings")%>
+          <li class="<%= is_active_controller('appsetings') %> && <%= is_active_action('settings') %>">
+            <a href="<%= app_settings_path %>"><i class="fa fa-cogs"></i> <span class="nav-label">App Settings </span></a>
+          </li>
+        <%end%>
+
+        <% if @admin.check_role?("Admin Documents") ||  @admin.check_role?("Restaurant Documents")%>
+          <li class="<%= is_active_controller('documents') %> hide">
+            <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Documents </span></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('documents') %>">
+              <%if @admin.check_role?("Admin Documents")%><li class="<%= is_active_action('document_list') %>"><%= link_to "Admin Documents", document_list_path %> </li><%end%>
+              <%if @admin.check_role?("Restaurant Documents")%> <li class="<%= is_active_action('restaurant_document') %>"><%= link_to "Restaurant Documents", restaurant_document_path %> </li><%end%>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("All Notifications") ||  @admin.check_role?("Send Push")%>
+          <li class="<%= is_active_controller('notifications') %>">
+            <a href="#"><i class="fa fa-file"></i> <span class="nav-label">Notifications </span></a>
+            <ul class="nav nav-second-level collapse <%= is_active_controller('notifications') %>">
+              <%if @admin.check_role?("All Notifications") %> <li class="<%= is_active_action('notification_list') %>"><%= link_to "All  Notifications", notification_list_path %> </li><%end%>
+              <%if @admin.check_role?("Send Push") %> <li class="<%= is_active_action('notifications') %>"><%= link_to "Send Push", bulk_notification_path %> </li><%end%>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("Contacts") %>
+          <li class="<%= is_active_controller('welcome') %> hide">
+            <a href="<%= contact_list_path %>"><i class="fa fa-building"></i> <span class="nav-label">Contacts</span></a>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("Delivery Charges") %>
+          <li class="<%= is_active_controller('distance_delivery_charge') %>">
+            <%= link_to distance_delivery_charges_path do %>
+              <i class="fa fa-money"></i><span class="nav-label">Delivery Charges</span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <% if @admin.check_role?("Tax") %>
+          <li class="<%= is_active_controller('taxes') %>">
+            <%= link_to taxes_path do %>
+              <i class="fa fa-money"></i><span class="nav-label">Tax</span>
+            <% end %>
+          </li>
+        <% end %>
+
+        <li class="<%= is_active_controller('super_admins') && is_active_action('edit_password') %>">
+          <a href="<%= admin_edit_password_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Change Password</span></a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,187 @@
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<style type="text/css">
+  .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+  background: rgba(255, 0, 0, 0.13) !important;
+  color: red !important;
+  cursor: not-allowed !important;
+  }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-lg-3">
+      <h2><b>Review List</b></h2>
+    </div>
+    <div class="col-lg-2 pull-right">
+      <a href="#" style="margin-top: 22px;margin-left: 132px;" class="btn btn-primary btn-circle addclube " data-target="#add-category-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Review Table</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @reviews.present? %>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Review Category</th>
+                <th>Review For</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%@reviews.each do |review|%>
+              <tr >
+                <td><%=review.id%></td>
+                <td><%=review.review_type%></td>
+               	<td><%=review.review_for%></td>
+                <td>
+                  <a href="#" class="btn btn-xs btn-success" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>         
+                </td>
+              </tr>
+              <%end%>
+            </tbody>
+          </table>
+          <%else%>
+          <center>
+            <div class="alert alert-danger">No doc available yet.</div>
+          </center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+          <center> <%= will_paginate @reviews ,renderer: BootstrapPagination::Rails %></center>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="add-document-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center>
+        <div id="showimage"></div>
+      </center>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Review</h4>
+      </div>
+      <%=form_for :budget,url: review_category_path,:html=>{:multipart=> true} do |f| %>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom:10px;">
+          <div class="col-lg-6">
+            <h4>Review Category</h4>
+            <input type="text"  name="review_category" id="review_category"  placeholder="Review category" required="true" class="form-control" autocomplete="off">  
+          </div>
+          <div class="col-lg-6">
+          	<h4>Review For</h4>
+            <select name="review_for" id="review_for" class="form-control" style="height: 30%">
+              <option value="restaurant">Restaurant</option>
+              <option value="transporter">Transporter</option>
+            </select>
+          </div>
+        </div>       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+          <input type="submit" value ="Submit" class="btn theme-btn pull-right" id="add_budget">
+        </div>
+      </div>
+      <%end%>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+  
+    $(document).ready(function() {
+   $(document).on("click", '.addclube', function(event) { 
+    $('#add-document-modal').modal({backdrop: 'static', keyboard: false});
+    $('#add-document-modal').modal('show');
+  
+    })
+  
+  });
+  
+   $(function(){
+    var opened = false;
+    var dp = $('#datepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+  
+   $(function(){
+    var opened = false;
+    var dp = $('#enddatepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+  
+   $('#add_budget').on("click",function() {    
+    if($.trim($('#review_category').val())==="")
+    {
+      $('#review_category').focus();
+     swal("Review category can't be blank!","Please enter review category","warning")
+     return false;
+    }  
+    else
+    {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<img src='/assets/rest-loading.gif' width='20%'>",
+        showConfirmButton: false
+      });
+     
+    }
+  });
+</script>
+

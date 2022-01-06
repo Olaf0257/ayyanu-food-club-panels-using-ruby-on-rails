@@ -1,0 +1,19 @@
+<% if @error.present? %>
+    toastr.error('<%= @error %>');
+<% else %>
+    $('.selected_payment_detail').remove();
+    // var payment_amount = parseFloat($('#pos_total').text().replace('BHD', ''));
+    // var remain_amount = parseFloat($("#remain_payment_amount").val());
+    // var total_amount = (remain_amount + parseFloat('<%#= @pos_payment.paid_amount.to_f %>'));
+    // $('#pos_total').text((payment_amount + parseFloat('<%#= @pos_payment.paid_amount.to_f %>')).toFixed(3) + 'BHD');
+    // $("#remain_payment_amount").val(total_amount);
+    <% if @pos_payment.payment_method_id == 4 %>
+        $('.gift_coupon_btn, #discount_row').removeClass('selected_discount');
+    <% end %>
+    $('#remain_payment_amount').val('<%= number_with_precision(@sub_total, precision: 3) %>');
+    $('#discount_amount').empty().append('<%= number_with_precision(@discount, precision: 3)%>BHD');
+    $('#tax_amount').empty().append('<%= number_with_precision(@tax_amount, precision: 3)%>BHD');
+    $('#pos_sub_total').empty().append('<%= number_with_precision(@sub_total, precision: 3) %>BHD');
+    $('#pos_total').empty().append('<%= number_with_precision(@total_amount, precision: 3) %>BHD');
+<% end %>
+voidSelection();

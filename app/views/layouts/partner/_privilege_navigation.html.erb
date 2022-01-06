@@ -1,0 +1,383 @@
+<% privilage = check_user_privillage(@user) %>
+<% user_privilages = privilage.assign_privileges %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <div class="dropdown profile-element">
+        <li class="partner-nav-header">
+          <h3 class="block m-l-lg"><strong class="font-bold"><%= link_to "Delivery", business_partner_dashboard_path(restaurant_id: params[:restaurant_id]) %></strong></h3>
+        </li>
+      </div>
+
+      <% if @user.auths.first.role == "business" %>
+        <li class="displayNavigation <%= is_active_action('dashboard') %> &&  <%= is_active_controller('partners') %>">
+          <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i> <span class="nav-label">Online Panel</span><span class="fa arrow"></span></a>
+
+          <!-- <ul class="nav nav-second-level collapse"> -->
+            <%# @user.restaurants.each do |rest| %>
+              <!-- <li class="<%#= (decode_token(params[:restaurant_id]).to_i == rest.id) ? 'active' : "" %>"><%#= link_to rest.title, business_partner_dashboard_path(restaurant_id: encode_token(rest.id)) %></li> -->
+            <%# end %>
+          <!-- </ul> -->
+        </li>
+
+        <li class="displayNavigation <%= is_active_controller('ious' )%> &&  <%= is_active_action('iou_list') %>">
+          <a href="<%= business_branch_ious_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Manage I.O.U</span></a>
+        </li>
+
+        <li class="displayNavigation <%= is_active_action('requested_orders_list') %>">
+          <a href="<%= business_requested_orders_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-list" aria-hidden="true"></i> <span class="nav-label">On Demand List</span></a>
+        </li>
+
+        
+
+        <li class="displayNavigation <%= is_active_controller('business/reports') || is_active_order_controller('business/orders') %>">
+          <a href="#"><i class="fa fa-cutlery" aria-hidden="true"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= is_active_action('todays_reports') || is_active_action('top_selling_item') || is_active_action('area_wise_report') || is_active_action('revenue_growth_lost_report') || is_active_action('branch_over_all_reportes') || is_active_action('budget_sales_report') %>">
+              <a href="#"><span class="nav-label">Sales Reports</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('todays_reports') || is_active_action('top_selling_item') || is_active_action('area_wise_report') || is_active_action('revenue_growth_lost_report') || is_active_action('branch_over_all_reportes') || is_active_action('budget_sales_report') %>">
+                <li class="<%= is_active_action('todays_reports') %>"><%= link_to "Todays Report", business_todays_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('top_selling_item') %>"><%= link_to "Top Selling Item", business_top_selling_item_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('area_wise_report') %>"><%= link_to "Area Wise Order Report", business_area_wise_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('revenue_growth_lost_report') %>"><%= link_to "Revenue Growth / Lost Revenue", business_revenue_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('branch_over_all_reportes') %>"><%= link_to "Branch Performance Report",business_branch_over_all_reportes_path(restaurant_id:params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('budget_sales_report') %> hide"><%= link_to "Budget vs sales Report", business_budget_sales_report_path(restaurant_id: params[:restaurant_id]) %></li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_action('top_customer_reports') || is_active_action('new_customer_report') %>">
+              <a href="#"><span class="nav-label">Customer Reports</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('top_customer_reports') || is_active_action('new_customer_report') %>">
+                <li class="<%= is_active_action('top_customer_reports') %>"><%= link_to "Top Customer ", business_top_customer_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('new_customer_report') %>"><%= link_to "Monthly Customer ",  business_new_customer_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_controller('business/orders') && (is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list') || is_active_action('dine_in_orders_list') || is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') || is_active_action('foodclub_delivery_cancelled_orders_list')) %>">
+              <a href="#"><span class="nav-label">Order History</span><span class="fa arrow"></span></a>
+
+              <ul class="nav nav-second-level collapse">
+                <li class="<%= is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') || is_active_action('foodclub_delivery_cancelled_orders_list') %>">
+                  <a href="#"><span class="nav-label">FC Delivery</span><span class="fa arrow"></a>
+
+                  <ul class="nav nav-second-level collapse <%= is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') %>">
+                    <li class="<%= is_active_action('foodclub_delivery_orders_list') %>"><%= link_to "Order History", business_foodclub_delivery_orders_list_path(restaurant_id: params[:restaurant_id]) %></li>
+                    <li class="<%= is_active_action('foodclub_delivery_settle_amount') %> hide"><%= link_to "Settle Amount", business_foodclub_delivery_settle_amount_path(restaurant_id: params[:restaurant_id]) %></li>
+                    <li class="<%= is_active_action('foodclub_delivery_cancelled_orders_list') %>"><%= link_to "Cancelled Orders", business_foodclub_delivery_cancelled_orders_list_path(restaurant_id: params[:restaurant_id]) %></li>
+                  </ul>
+                </li>
+
+                <li class="<%= is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list') %>">
+                  <a href="#"><span class="nav-label">Restaurant Delivery</span><span class="fa arrow"></a>
+
+                  <ul class="nav nav-second-level collapse <%= is_active_controller('orders') && (is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list')) %>">
+                    <li class="<%= is_active_action('index') %> && <%= is_active_controller('orders') %>"><%= link_to "Settled Order", business_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+                    <li class="<%= is_active_action('cancel_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Rejected Order",business_cancel_orders_list_path(restaurant_id: params[:restaurant_id]) %></li>
+                    <li class="<%= is_active_action('admin_cancel_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Cancelled Order",business_admin_cancel_orders_list_path(restaurant_id: params[:restaurant_id]) %></li>
+                  </ul>
+                </li>
+
+                <li class="<%= is_active_action('dine_in_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Dine in Orders",business_dine_in_orders_list_path(restaurant_id: params[:restaurant_id]) %></li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_action('settlement_reports') || is_active_action('transaction_reports') %>">
+              <a href="#"><span class="nav-label">Settlement Reports</span><span class="fa arrow"></span></a>
+
+              <ul class="nav nav-second-level collapse">
+                <li class="<%= is_active_action('settlement_reports') %>">
+                  <a href="#"><span class="nav-label">FC Delivery</span><span class="fa arrow"></a>
+
+                  <ul class="nav nav-second-level collapse <%= is_active_action('settlement_reports') %>">
+                    <li class="<%= 'active' if (params[:action] == 'settlement_reports' && params[:type] == 'cash') %>"><%= link_to "Cash", business_settlement_reports_path(restaurant_id: params[:restaurant_id], type: "cash") %></li>
+                    <li class="<%= 'active' if (params[:action] == 'settlement_reports' && params[:type] == 'online') %>"><%= link_to "Online", business_settlement_reports_path(restaurant_id: params[:restaurant_id], type: "online") %></li>
+                  </ul>
+                </li>
+
+                <li class="<%= is_active_action('transaction_reports') %>">
+                  <a href="#"><span class="nav-label">Restaurant Delivery</span><span class="fa arrow"></a>
+
+                  <ul class="nav nav-second-level collapse <%= is_active_action('transaction_reports') %>">
+                    <li class="<%= 'active' if (params[:action] == 'transaction_reports' && params[:type] == 'cash') %>"><%= link_to "Cash", business_transaction_reports_path(restaurant_id: params[:restaurant_id], type: "cash") %></li>
+                    <li class="<%= 'active' if (params[:action] == 'transaction_reports' && params[:type] == 'online') %>"><%= link_to "Online", business_transaction_reports_path(restaurant_id: params[:restaurant_id], type: "online") %></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_action('delivery_reports') %>"><%= link_to "Delivery Report ", business_delivery_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li class="<%= is_active_action('review_reports') %>"><%= link_to "Review Report ", business_review_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+            <li class="<%= is_active_action('points_redeemed_reports') %>"><%= link_to "Points Redeemed ", business_points_redeemed_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+
+            <li class="<%= is_active_action('driver_timing_report') || is_active_action('driver_review_reports') %>">
+              <a href="#"><span class="nav-label">Drivers Reports</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('driver_timing_report') || is_active_action('driver_review_reports') %>">
+                <li class="<%= is_active_action('driver_review_reports') %>"><%= link_to "Driver Reviews", business_driver_review_reports_path(restaurant_id: params[:restaurant_id]) %></li>
+                <li class="<%= is_active_action('driver_timing_report') %>"><%= link_to "Driver Timings", business_driver_timing_report_path(restaurant_id: params[:restaurant_id]) %></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li class="displayNavigation <%= is_active_action('business_notifications') %>">
+          <a href="<%= business_notifications_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-bell" aria-hidden="true"></i> <span class="nav-label">Notifications</span></a>
+        </li>
+
+        <!-- <li class="displayNavigation <%#= is_active_action('resturant_branch')%>">
+          <a href="<%#= business_resturant_branch_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label">Restaurant Info</span></a>
+        </li> -->
+
+        <li class="displayNavigation <%= is_active_controller('business/users') && (is_active_action('all_kitchen_managers') || is_active_action('all_managers') || is_active_action('index')) %>">
+          <a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Employee</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= is_active_action('index') %>">
+              <a href="<%= business_transporters_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Transporters</span></a>
+            </li>
+
+            <li class="<%= is_active_action('all_kitchen_managers') %>">
+              <a href="<%= business_kitchen_managers_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Kitchen Managers</span></a>
+            </li>
+
+            <li class="<%= is_active_action('all_managers') %>">
+              <a href="<%= business_managers_path(restaurant_id:params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Managers</span></a>
+            </li>
+          </ul>
+        </li>
+
+        <!-- <li class="<%#= is_active_action('budget_list') %> &&  <%#= is_active_action('budget_list') %>">
+          <a href="<%#= business_budget_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Sales Budget</span></a>
+        </li> -->
+
+        <!-- <li class="displayNavigation <%#= is_active_action('restaurant')%>">
+          <a href="<%#= business_restaurant_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label"> Brand Info</span></a>
+        </li>
+ -->
+        <!-- business_card_details -->
+        <!-- <li class="<%#= is_active_action('payment') %>">
+          <a href="<%#= business_card_details_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label"> Card Info</span></a>
+        </li> -->
+        <!-- </li> -->
+
+        <!-- <li class="displayNavigation <%#= is_active_action('document_list') %> && <%#= is_active_action('document_list') %>">
+          <a href="<%#= business_document_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-file" aria-hidden="true"></i> <span class="nav-label">Documents</span></a>
+        </li> -->
+
+        <li class="displayNavigation <%= is_active_action('business_edit') %> &&  <%= is_active_action('business_edit') %>">
+          <a href="<%= business_user_edit_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-cog" aria-hidden="true"></i> <span class="nav-label">Settings</span></a>
+        </li>
+
+      <% elsif @user.auths.first.role == "manager" %>
+        <% restaurant_token_id = encode_token(@user.branch_managers.first.branch.restaurant_id) %>
+        <% unless user_privilages["FC"].include?("Dashboard").blank? %>
+          <li class="<%= is_active_action('manager_dashboard') %>">
+            <a href="<%= business_manager_dashboard_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a>
+          </li>
+        <% end %>
+
+        <% unless user_privilages["FC"].include?("Online panel").blank? %>
+          <li class="displayNavigation <%= is_active_action('dashboard') %> &&  <%= is_active_controller('partners') %>">
+          <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i> <span class="nav-label">Online Panel</span><span class="fa arrow"></span></a>
+        <% end %>
+
+        <% unless user_privilages["FC"].include?("Manage IOU").blank? %>
+          <li class="<%= is_active_controller('ious')%> &&  <%= is_active_action('iou_list') %>">
+            <a href="<%= business_branch_ious_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Manage I.O.U</span></a>
+          </li>
+        <% end %>
+
+        <% unless user_privilages["FC"].include?("On Demand").blank? %>
+          <li class="<%= is_active_action('requested_orders_list') %>">
+            <a href="<%= business_requested_orders_list_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-list" aria-hidden="true"></i> <span class="nav-label">On Demand List</span></a>
+          </li>
+        <% end %>
+
+        <%# unless user_privilages["FC"].include?("On Demand") %>
+          <!-- <li class="<%#= is_active_action('manager_restaurant_branch') %>">
+            <a href="<%= business_manager_restaurant_branch_path() %>"><i class="fa fa-building-o" aria-hidden="true"></i> <span class="nav-label">Branch Info</span></a>
+          </li> -->
+        <%# end %>
+
+        <li class="<%= is_active_controller('business/orders') && (is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list') || is_active_action('dine_in_orders_list') || is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') || is_active_action('foodclub_delivery_cancelled_orders_list')) %>">
+          <a href="#"><span class="nav-label"><i class="fa fa-cutlery"></i> Order History</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') || is_active_action('foodclub_delivery_cancelled_orders_list') %>">
+              <a href="#"><span class="nav-label">FC Delivery</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('foodclub_delivery_orders_list') || is_active_action('foodclub_delivery_settle_amount') %>">
+                <li class="<%= is_active_action('foodclub_delivery_orders_list') %>"><%= link_to "Order History", business_foodclub_delivery_orders_list_path(restaurant_id: restaurant_token_id) %></li>
+                <li class="<%= is_active_action('foodclub_delivery_settle_amount') %> hide"><%= link_to "Settle Amount", business_foodclub_delivery_settle_amount_path(restaurant_id: restaurant_token_id) %></li>
+                <li class="<%= is_active_action('foodclub_delivery_cancelled_orders_list') %>"><%= link_to "Cancelled Orders", business_foodclub_delivery_cancelled_orders_list_path(restaurant_id: restaurant_token_id) %></li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list') %>">
+              <a href="#"><span class="nav-label">Restaurant Delivery</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_controller('orders') && (is_active_action('index') || is_active_action('cancel_orders_list') || is_active_action('admin_cancel_orders_list')) %>">
+                <li class="<%= is_active_action('index') %> && <%= is_active_controller('orders') %>"><%= link_to "Settled Order", business_orders_path(restaurant_id: restaurant_token_id) %></li>
+                <li class="<%= is_active_action('cancel_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Rejected Order",business_cancel_orders_list_path(restaurant_id: restaurant_token_id) %></li>
+                <li class="<%= is_active_action('admin_cancel_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Cancelled Order",business_admin_cancel_orders_list_path(restaurant_id: restaurant_token_id) %></li>
+              </ul>
+            </li>
+
+            <li class="<%= is_active_action('dine_in_orders_list') %> && <%= is_active_action('orders') %>"><%= link_to "Dine in Orders",business_dine_in_orders_list_path(restaurant_id: restaurant_token_id) %></li>
+          </ul>
+        </li>
+
+        <!-- <li class="<%#= is_active_controller('offers') %> || <%#= is_active_action('advertisement_list') %> || <%#= is_active_action('offer_list') %> || <%#= is_active_action('pending_advertisement_list') %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Offers</span></a>
+
+          <ul class="nav nav-second-level collapse <%#= is_active_controller('offers') %>">
+            <%# unless user_privilages["FC"].include?("Sweet Deals").blank? %>
+              <li class="<%#= is_active_action('offer_list') %>"><%#= link_to "Sweet Deals", business_offer_list_path(branch: @user.branch_managers.pluck(:branch_id)) %>
+            <%# end %>
+            <%# unless user_privilages["FC"].include?("Pending Rejected Ads").blank? %>
+              <li class="<%#= is_active_action('pending_advertisement_list') %>"><%#= link_to "Pending / Rejected Ads", business_pending_advertisement_list_path(restaurant_id: params[:restaurant_id]) %>
+              </li>
+            <%# end %>
+          </ul>
+        </li> -->
+
+        <% unless user_privilages["FC"].include?("Employee").blank? %>
+          <li class="<%= is_active_controller('business/users') && (is_active_action('all_kitchen_managers') || is_active_action('index')) %>">
+            
+            <a href="#"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Employee</span><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse">
+              <li class="<%= is_active_action('index') %>">
+                <a href="<%= business_transporters_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Transporters</span></a>
+              </li>
+
+              <li class="<%= is_active_action('all_kitchen_managers')%>">
+                <a href="<%= business_kitchen_managers_path(restaurant_id: params[:restaurant_id]) %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Kitchen Managers</span></a>
+              </li>
+            </ul>
+          </li>
+        <% end %>
+
+        <!-- <li class="<%#= is_active_action('all_managers') %>">
+          <a href="<%= business_managers_path %>"><i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Managers</span></a>
+        </li> -->
+
+      <%# elsif @user.auths.first.role == "kitchen_manager" %>
+        <!-- <li class="<%#= is_active_controller('partners') %>">
+          <a href="<%=business_kitchen_managers_path()%>"><i class="fa fa-th-large"></i> <span class="nav-label">Kitchen Manager</span></a> -->
+        <!-- </li> -->
+
+      <% elsif @user.auths.first.role == "delivery_company" %>
+        <li class="<%= is_active_action('dashboard') %>">
+          <%= link_to delivery_company_dashboard_path do %>
+            <i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('transporters') %>">
+          <%= link_to delivery_company_transporters_path do %>
+            <i class="fa fa-users" aria-hidden="true"></i> <span class="nav-label">Transporters</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_controller('delivery_company/delivery_company_shifts') %>">
+          <%= link_to delivery_company_delivery_company_shifts_path do %>
+            <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-label">Shifts</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('ious_list') %>">
+          <%= link_to delivery_company_ious_list_path do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Manage I.O.U</span>
+          <% end %>
+        </li>
+
+        <li class="<%= is_active_action('settle_amount') %>">
+          <%= link_to delivery_company_settle_amount_path do %>
+            <i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Settle Amount</span>
+          <% end %>
+        </li>
+
+        <li class="<%= 'active' if (params[:action] == 'active_orders_list' && ['total', 'settled', 'returned', 'disputed'].include?(params[:state])) || is_active_action('driver_timing_report') || is_active_action('driver_review_report') %>">
+          <a href="#"><i class="fa fa-line-chart" aria-hidden="true"></i> <span class="nav-label">Reports</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'total' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'total') %>"><span class="nav-label">Total Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'settled' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'settled') %>"><span class="nav-label">Settled Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'returned' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'returned') %>"><span class="nav-label">Returned Orders</span></a></li>
+            <li class="<%= 'active' if params[:action] == 'active_orders_list' && params[:state] == 'disputed' %>"><a href="<%= delivery_company_active_orders_list_path(state: 'disputed') %>"><span class="nav-label">Disputed Orders</span></a></li>
+
+            <li class="<%= is_active_action('driver_review_report') || is_active_action('driver_timing_report') %>">
+              <a href="#"><span class="nav-label">Drivers Reports</span><span class="fa arrow"></a>
+
+              <ul class="nav nav-second-level collapse <%= is_active_action('driver_review_report') || is_active_action('driver_timing_report') %>">
+                <li class="<%= is_active_action('driver_timing_report') %>"><%= link_to "Driver Shifts", delivery_company_driver_timing_report_path %></li>
+                <li class="<%= is_active_action('driver_review_report') %>"><%= link_to "Driver Reviews", delivery_company_driver_review_report_path %></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li class="<%= is_active_action('edit_password') %>">
+          <%= link_to delivery_company_edit_password_path do %>
+            <i class="fa fa-cog" aria-hidden="true"></i> <span class="nav-label">Change Password</span>
+          <% end %>
+        </li>
+
+      <% elsif @user.influencer %>
+        <li class="<%= is_active_action('dashboard') %>">
+          <%= link_to influencer_dashboard_path do %>
+            <i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,1491 @@
+A,Assigned to,Article,Article No.,Item Group,Base Unit,Store Unit,Loss,Last Purchase Price,Sales Price,Ignore in Inventory,Article Code,Weight Factor,Barcode,Producer,Country of Origin,Article Folder/URL 1,Picture,Article Folder/URL 2,Visibility,Changed by,At
+,Expenses, (Catering)Brown Juice Container,10042,Catering,Each,Each,,15.78,0,0,,1,,,,,,,0,Shkakhwa,30/12/2020
+,Expenses, (Catering)Electric Hot Plate  ,10040,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Istikana Underliner,10044,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Juice Dispenser 5 Ltr,10038,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Juice Dispenser 8 Ltr,10039,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Kunafa Wooden Base,10041,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Laddle ,10051,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Mixed Cutlery Rack,10048,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Pepper Shaker Harmony,10054,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses, (Catering)Pro Chef Fork Big,10049,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Salad Tong,10050,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Salt Shaker Harmony,10047,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses, (Catering)Steel Bowl,10052,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses, (Catering)Water Pan,10043,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Profit Contribution, Brown Sugar Sachets,115003,Sugar,Each,Each,,0.012,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Expenses, Measure glass Pitcher (Bar Area),6166,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution, Not in use -White Flour ( Super ),118012,Baking Items,Kilogram,Kilogram,,0.11,0,1,,1,,,,,,,0,Shkakhwa,02/05/2016
+,Expenses,( Catering ) Forks ,10026,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,( Catering ) Knifs,10028,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,( Catering ) Spoons ,10027,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,( Catering )Adjustable Plates Holder,10031,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Aluminum Soup Pot,10011,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )chafing dish rectangular,10010,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Closed stainless spoon ( king ),10018,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Coffee Container 10.50 Ltr,10037,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Dessert Forks ,10030,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,( Catering )Eared Clay Pot 35 cm,10023,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Electric water heater Steel 30 Ltr,10034,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Food Container Gray Colour,10014,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Goblet Cups 450 ml,10033,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Hi Ball Cups,10032,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Insert Stainless 1/1*10 cm,10021,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Insert Stainless 1/1*6.5 cm,10019,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Insert Stainless 2/1*10 cm,10022,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Insert Stainless 2/1*6.5 cm,10020,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Juice Dispincer Sanix One tap 10 Ltr,10036,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )lamb chafing dish 60 cm,10012,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Menu stand stainless steel 20 cm,10013,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Order Holder 75 cm,10016,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Porcelain Plate 20 cm,10024,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Porcelain Plate 27 cm,10025,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Service Tray 40 Cm,10035,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Soup Spoon ,10029,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,( Catering )Veg Mandoulieen Stainless ,10015,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,( Catering )Wood Fork,10017,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,28/12/2017
+,Expenses,(zanolli ) dough sheeter ( Bakery ),5207,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,**Dont Use**Clear Cup 20Z W/Clear LI**Dont Use**,120026,Packaging,Each,Each,,15.5,0,0,,1,,,,,,,0,Shkakhwa,31/05/2016
+,Profit Contribution,**Dont Use**Kamerdeen 400 gm****Dont Use****,120059,Other Condiments,Kilogram,Kilogram,,3.75,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,**dont use**Spring Onion**dont use**,107057,Fresh Vegetables,Kilogram,Kilogram,,0.3,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,**Dont Use**White Sugar**Dont Use**,115005,Sugar,Kilogram,Kilogram,,0.4,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,1/1 stainless steel container 100mm ( Prep ),5038,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/1 stainless steel container 200mm ( Prep ),5040,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/2 plastic container 100mm ( Cold ),5197,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/2 plastic container 100mm ( Hot ),5122,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/2 plastic container 100mm ( Prep ),5041,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/2 plastic container 150mm ( Hot ),5121,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/2 stainless steel container 100mm ( Hot ),5133,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/2 stainless steel container 100mm ( Prep ),5042,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/2 stainless steel container 150mm ( Hot ),5134,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 plastic container 100mm,5037,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/3 plastic container 100mm ( Cold ),5196,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 plastic container 100mm ( Hot ),5123,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 stainless steel container 100mm ( Cold ),5195,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 stainless steel container 100mm ( Hot ),5129,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 stainless steel container 150mm ( Cold ),5198,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/3 stainless steel container 150mm ( Hot ),5132,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/4 plastic container 100mm ( Hot ),5124,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/4 plastic container 65mm ( Prep ),5034,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/6 plastic container 100mm ( Hot ),5131,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/6 plastic container 65mm ( Cold ),5191,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/6 plastic container 65mm ( Perp ),5035,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/6 stainless steel container 100mm ( Prep ),5036,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,1/6 stainless steel container 150mm ( Cold ),5190,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/6 stainless steel container 150mm ( Hot ),5130,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/6 stainless steel container 65mm ( Cold ),5192,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/9 plastic container 100mm ( Cold ),5194,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/9 plastic container 100mm ( Hot ),5125,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/9 stainless steel container 100mm ( Cold ),5193,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,1/9 stainless steel container 100mm ( Prep ),5043,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,12905-25 spatula plastic (Dishwasher),5266,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,12908-30 spatula plastic (Dishwasher),5267,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,12915-45 spatula plastic (Dishwasher),5268,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,12927-45 frusta balloon whisk (Dishwasher),5269,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18509-03 pauetta forata 15.6x8.7 (Dishwasher),5273,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18511-15 spatula pajnncuo pizza (Dishwasher),5274,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18518-30 spatula cuoco scalino  (Dishwasher),5275,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18519-15 spatula cuoco 15.5x3 (Dishwasher),5276,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18519-35 spatola cuoco 36x5 (Dishwasher),5277,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,18520-09 spatula triangular 12x4 (Dishwasher),5278,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,2 Cup Holder With Handle,5000015,Packaging,Each,Each,,0.038,0,0,,1,,,,,,,0,Shkakhwa,31/07/2017
+,Profit Contribution,2 Cup Holder With Handle (Dont Use ),118030,Baking Items,Each,Each,,0.027,0,0,,1,,,,,,,0,Shkakhwa,02/02/2017
+,Expenses,2/1 stainless steel container 100mm ( Prep ),5039,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,3 Seater Couch  (Dining Area Up),6073,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,4 ways grater (Dishwasher),5295,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,4oz Paper Ice Cream Cup 20X50 pcs,5000010,Packaging,Each,Each,,0.022,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,5 Seater Couch (Dining Area),6091,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,6 Channels Digital Timer,5336,Kitchen Assets,Each,Each,,30.35,0,0,,1,,,,,,,0,Vinay,28/02/2018
+,Expenses,6 Doors frizzer no 1 berja ( BBQ ) ,5061,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,A.F. CONT. 1025L- (8 X 125 PCS),5000020,Packaging,Each,Each,,0.016,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,A.F. CONT. 1198L - (6 X 50 PCS ),5000022,Packaging,Each,Each,,0.107,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,A4 Brother Printer ( old ),1000016,Others,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,A4 Paper,1000030,Others,Each,Each,,0.004,0,1,,1,,,,,,,0,Shkakhwa,13/09/2021
+,Profit Contribution,Abu Dhabi Flour NO.1 50 KG,118006,Baking Items,Kilogram,Kilogram,,0.082,0,0,,1,,,,,,,0,Shkakhwa,22/12/2016
+,Profit Contribution,Adonis All Spices Whole 1 kg ( sweet pepper ),112001,Spices,Kilogram,Kilogram,,5.882,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Anise Ground 1 kg,113008,Herbs,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Basil 400 gm,113004,Herbs,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Bay Leaves 100 gm,113003,Herbs,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Black Pepper ground 1 kg,112007,Spices,Kilogram,Kilogram,,4.278,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Black Pepper Whole 1 kg,112002,Spices,Kilogram,Kilogram,,2.381,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Black Sesame (Nigella) 1.2 KG,120008,Other Condiments,Kilogram,Kilogram,,1.906,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Caraway Ground 1 kg,113007,Herbs,Kilogram,Kilogram,,2.1,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Carbonate 2.5 kg,120003,Other Condiments,Kilogram,Kilogram,,1.323,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Cardamom 1 kg,112023,Spices,Kilogram,Kilogram,,14,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Cinnamon ground 1 kg,112008,Spices,Kilogram,Kilogram,,2.667,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Clove ground 1 kg,112015,Spices,Kilogram,Kilogram,,6.524,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Clove WHOLE 700g,112029,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Coriander Ground 1 kg,113006,Herbs,Kilogram,Kilogram,,1.524,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Coriander Seeds 700 gm,113001,Herbs,Kilogram,Kilogram,,1.591,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Crushed Red Pepper 1 kg,112021,Spices,Kilogram,Kilogram,,4.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Cumin Ground 1 kg,112009,Spices,Kilogram,Kilogram,,1.524,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Cumin Seeds 800gm,112004,Spices,Kilogram,Kilogram,,1.429,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Curry Powder Medium 1 kg,112024,Spices,Kilogram,Kilogram,,1.524,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Fennel Ground 1 kg,112019,Spices,Kilogram,Kilogram,,0.65,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Fennel Seeds 1 kg,112005,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Galangal Ground 1 kg,112027,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Garlic Powder 1.25 kg,112006,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Ginger Ground 1 kg,112017,Spices,Kilogram,Kilogram,,3.238,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Kishik Baladi 1.5 KG,113017,Herbs,Kilogram,Kilogram,,2.333,0,0,,1,,,,,,,0,Shkakhwa,30/10/2019
+,Profit Contribution,Adonis Mahlab Ground 1 kg,112016,Spices,Kilogram,Kilogram,,29.841,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Mahlab Whole 1 kg,120002,Other Condiments,Kilogram,Kilogram,,18.199,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Nutmeg Ground 1 kg,112014,Spices,Kilogram,Kilogram,,13.6,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Onion (Powder) 1.250 kg,112028,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Oregano 500 gm,113005,Herbs,Kilogram,Kilogram,,3.6,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Paprika 1 kg,112025,Spices,Kilogram,Kilogram,,2.9,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Red Pepper Powder 1 kg,112020,Spices,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,ADONIS SESAME ROASTED 1.25 KG,120015,Other Condiments,Kilogram,Kilogram,,3.04,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Seven Spices 1 kg,112026,Spices,Kilogram,Kilogram,,3.836,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis Sumac 1 kg,112011,Spices,Kilogram,Kilogram,,5.375,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Adonis Turmeric 1 kg,112038,Spices,Kilogram,Kilogram,,1.429,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis White Pepper 1 kg,112022,Spices,Kilogram,Kilogram,,1.905,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Adonis White Sesame 1.5  kg,120007,Other Condiments,Kilogram,Kilogram,,1.429,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,AKAWI CHEESE ,101002,Cheese,Kilogram,Kilogram,10.00%,2,0,0,,1,,,,,,,0,Shkakhwa,10/08/2016
+,Profit Contribution,Al Ain Water 1.500 Ml Bottle,144009,Bottled Water,Each,Each,,0.133,0,0,,1,,,,,,,0,Shkakhwa,22/01/2017
+,Profit Contribution,Al Ain Water 330 Ml Bottle,144010,Bottled Water,Each,Each,,0.081,0,0,,1,,,,,,,0,Shkakhwa,22/01/2017
+,Profit Contribution,Al Ain Water 500 Ml,144011,Bottled Water,Each,Each,,0.071,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Al Alali Lasagnia,110004,Pasta,Kilogram,Kilogram,,2.229,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Al Areesq Date for Date Cake 1 KG,118039,Baking Items,Kilogram,Kilogram,,1.15,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Profit Contribution,AL DAYAA HOT PEPPER PICKLE  3KG,128001,Pickles,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,18/02/2016
+,Profit Contribution,AL DAYAA JALLAB SYRUP 600ML X 12,116004,Syrups,Liter,Liter,,2.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Al Dayaa Lemon Flower ,118029,Baking Items,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Shkakhwa,12/01/2017
+,Profit Contribution,AL DAYAA Rose water 600ml,116005,Syrups,Liter,Liter,,0.317,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,AL DAYAA SLICED TURNIP PICKLE  1*10 KG,128003,Pickles,Kilogram,Kilogram,43.00%,0.786,0,0,,1,,,,,,,0,Shkakhwa,02/09/2017
+,Profit Contribution,AL DAYAA TAMARIND SYRUP 600ML X 12,116003,Syrups,Liter,Liter,,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Al Karama Kunafa Shredd 500 g,118007,Baking Items,Kilogram,Kilogram,,1.429,0,0,,1,,,,,,,0,Shkakhwa,18/01/2017
+,Profit Contribution,AL Madina Chicken Breast,139010,Frozen Chicken,Kilogram,Kilogram,,1.476,0,0,,1,,,,,,,0,Shkakhwa,22/11/2020
+,Profit Contribution,Al Madina Chicken Thigh B/L ,139009,Frozen Chicken,Kilogram,Kilogram,,1.46,0,0,,1,,,,,,,0,Shkakhwa,18/10/2020
+,Expenses,Al Manhal Water Gallons,1000024,Others,Liter,Liter,,0.04,0,0,,1,,,,,,,0,Shkakhwa,22/10/2019
+,Profit Contribution,AL Marai Long life milk,102002,Milk,Liter,Liter,,0.317,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,AL Moroj Fresh labna 7 Kg (Dont Use ),102003,Milk,Kilogram,Kilogram,,2.357,0,1,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Profit Contribution,Al Moroj Nabulsy Cheese 4 kg,101017,Cheese,Kilogram,Kilogram,,3.5,0,0,,1,,,,,,,0,Shkakhwa,26/03/2016
+,Profit Contribution,All Purpose Flour,134003,Dough,Kilogram,Kilogram,,0.1,0,0,,1,,,,,,,0,Shkakhwa,12/06/2021
+,Profit Contribution,ALMOND FLAKES 1KG,117002,Nuts,Kilogram,Kilogram,,5.4,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,ALMOND SLICED 1 KG,117003,Nuts,Kilogram,Kilogram,,5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,ALMOND WHOLE 1 KG,117001,Nuts,Kilogram,Kilogram,,6,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,ALU Ovel Tray  ( Small ) ( DONT USE ),120049,Packaging,Each,Each,,0.09,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,ALU Tray ( 7175 ) Round Big,120045,Packaging,Each,Each,,0.73,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALum Oval Tray Med - ov2,120052,Packaging,Each,Each,,0.051,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,ALum Oval Tray Small - ov1 6036 G,120051,Packaging,Each,Each,,0.049,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALuminium Container 1230 BIG,120055,Packaging,Each,Each,,0.298,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALuminium Container 3180 CODE 533,120040,Packaging,Each,Each,,0.029,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALuminium Container 5105 -5080 G,120042,Packaging,Each,Each,,0.028,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALuminium Container 5130L,120041,Packaging,Each,Each,,0.1,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,ALuminium Container 8342,120038,Packaging,Each,Each,,0.014,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,ALuminium Container 8389 (107),120039,Packaging,Each,Each,,0.019,0,0,,1,,,,,,,0,Shkakhwa,14/04/2020
+,Expenses,ALuminium Foil 45*2000 G,120034,Packaging,Each,Each,,2.45,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,aluminum tray ( BBQ ),5066,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Aluminum Tray 18x4,5246,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,aluminum tray big ( Prep ),5020,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Aluminum Tray Kunafa 17x2,5247,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Am Heat Menthol Fuel Jel ,120061,Other Condiments,Each,Each,,0.132,0,0,,1,,,,,,,0,Sandeep,28/06/2016
+,Profit Contribution,American Garden Worcestershire,121004,Vineger,Liter,Liter,,2.55,0,0,,1,,,,,,,0,Shkakhwa,25/07/2021
+,Profit Contribution,AMPALAYA,107068,Fresh Vegetables,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Sandeep,10/07/2016
+,Expenses,Amplifier (Recieption Area),6032,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Anchelot Onion,107043,Fresh Vegetables,Kilogram,Kilogram,20.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Anchovy,119014,Dry Food,Kilogram,Kilogram,,19.9,0,0,,1,,,,,,,0,Shkakhwa,25/07/2021
+,Profit Contribution,andeve red  ,107001,Fresh Vegetables,Kilogram,Kilogram,25.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,andeve white,107002,Fresh Vegetables,Kilogram,Kilogram,25.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Anees Loose 1 Kg,112046,Spices,Kilogram,Kilogram,,3.5,0,0,,1,,,,,,,0,Shkakhwa,06/09/2017
+,Profit Contribution,Animal Ghee (Q.B.B PURE GHEE) ,114003,Oils,Kilogram,Kilogram,,4.524,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Anticipations MB 3000 75ML,120066,Other Condiments,Each,Each,,2,0,0,,1,,,,,,,0,Shkakhwa,02/12/2016
+,Profit Contribution,Apple Vinegar,121003,Vineger,Liter,Liter,,3.595,0,0,,1,,,,,,,0,Shkakhwa,30/11/2019
+,Profit Contribution,Aquafina 330 ml,144012,Bottled Water,Each,Bottle 330 ML,,0.024,0,0,,1,,,,,,,0,Shkakhwa,19/04/2021
+,Expenses,Arabic Coffee Pot Medium,1073,Small Ware,Each,Each,,4.95,0,0,,1,,,,,,,0,Shkakhwa,08/02/2017
+,Expenses,Arabic Coffee Pot Small,1072,Small Ware,Each,Each,,3.4,0,0,,1,,,,,,,0,Shkakhwa,08/02/2017
+,Profit Contribution,Arabic Dough Prep 1.8 kg (PA),800029,Sub Reciepes,Kilogram,Kilogram,0.00%,0.193,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Arabic Ghee,114005,Oils,Kilogram,Kilogram,,10,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Arabic Ice Cream 1 kg,105010,Dairy Others,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Shkakhwa,18/04/2016
+,Profit Contribution,Arabic Lamb,125007,Fresh Meat,Kilogram,Kilogram,10.00%,0,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Arabic Rose Ice Cream 1 kg,105011,Dairy Others,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Shkakhwa,18/04/2016
+,Profit Contribution,Areesh Chicken Breast Prep 1 kg (PA),800022,Sub Reciepes,Kilogram,Kilogram,0.00%,3.641,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Areesh FLV tea Display jar (Bar Area),6132,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Areesh Kunafa Bites Base Prep 12 pcs (PA),800113,Sub Reciepes,Portion,Portion,0.00%,0.054,0,0,,1,,,,,,,,Shkakhwa,18/11/2019
+,Profit Contribution,Areesh Mohalabyah Prep 5 Portions (PA),800112,Sub Reciepes,Portion,Portion,0.00%,0.259,0,0,,1,,,,,,,,Shkakhwa,18/11/2019
+,Expenses,Areesh paper roll ( Cold ),5204,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Areesh paper roll holder ( Cold ),5203,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Areesh Rice Prep 5 kg (PA),800041,Sub Reciepes,Kilogram,Kilogram,0.00%,0.783,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Areesh Tea Jar,15019,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Profit Contribution,Asparagus,107082,Fresh Vegetables,Kilogram,Kilogram,,3.8,0,0,,1,,,,,,,0,Shkakhwa,31/01/2020
+,Profit Contribution,Australian Beef Sausage,125027,Fresh Meat,Kilogram,Kilogram,,3.956,0,0,,1,,,,,,,0,Shkakhwa,06/09/2017
+,Expenses,Auto Dishwasher - 5LTR,4008,Chicemicals,Liter,Liter,,0.159,0,0,,1,,,,,,,0,Shkakhwa,26/04/2018
+,Profit Contribution,Avacado Dont Use,107055,Fresh Vegetables,Kilogram,Kilogram,,3.1,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Avocado (USA )  ,106002,Fresh Fruits,Kilogram,Kilogram,,2.8,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,B.T Shrimps Hoso 13/15,140001,Frozen Fish,Kilogram,Kilogram,40.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,B.T Shrimps P&D Tail-On 16/20,140002,Frozen Fish,Kilogram,Kilogram,50.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,B/B RL Tea Bag 100s,142023,Coffee & Tea,Each,Each,,0.011,0,0,,1,,,,,,,0,Shkakhwa,08/08/2018
+,Profit Contribution,Baba Ganouge Prep 1.766 kg (PA)-Not in use,800005,Sub Reciepes,Each,Each,0.00%,1.594,0,0,,2.02,,,,,,,0,Sandeep,31/08/2016
+,Profit Contribution,Baba Ganouge Prep 1.860 kg (PA),800068,Sub Reciepes,Kilogram,Kilogram,0.00%,1.045,0,0,,1,,,,,,,0,Sandeep,31/08/2016
+,Expenses,Baby Chair (Dining Area),6081,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Baby Hamour Bahraini,127018,Fresh Fish,Kilogram,Kilogram,,6.5,0,0,,1,,,,,,,0,Vinay,18/10/2017
+,Profit Contribution,baby marrow ( Dont Use ),107048,Fresh Vegetables,Kilogram,Kilogram,,0.5,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Baby Potato,107034,Fresh Vegetables,Kilogram,Kilogram,20.00%,1.4,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Baby Tomato ( Dont Use ),107054,Fresh Vegetables,Kilogram,Kilogram,,0.5,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,BAHCIVAN KASHKAVAL CHEESE ECONOMIC 1 KG,101003,Cheese,Kilogram,Kilogram,,2.833,0,0,,1,,,,,,,0,Admin,18/02/2016
+,Expenses,Bahrain flags (Recieption Area),6064,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Bahraini Masala,112041,Spices,Kilogram,Kilogram,,2.9,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Bait Al Dana Rice 40KG ( basmati rice ),109002,Rice,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Shkakhwa,22/12/2016
+,Profit Contribution,Baitinjan Mushataha Prep 1 kg (PA) DONT USE,800012,Sub Reciepes,Kilogram,Kilogram,0.00%,0.35,0,0,,1,,,,,,,0,Shkakhwa,11/11/2018
+,Profit Contribution,Baitinjan Mushataha Prep 2 Portions (PA),800096,Sub Reciepes,Portion,Portion,0.00%,0.401,0,0,,1,,,,,,,,Shkakhwa,11/11/2018
+,Profit Contribution,BAKE WELL CRUMBS 750G Dont Use,120020,Other Condiments,Kilogram,Kilogram,,1.5,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Baked Eggplant 1 kg (PA),800061,Sub Reciepes,Kilogram,Kilogram,0.00%,2.188,0,0,,1,,,,,,,,Shkakhwa,01/06/2016
+,Profit Contribution,Balsamic Vineger,121005,Vineger,Liter,Liter,,2.505,0,0,,1,,,,,,,0,Shkakhwa,31/07/2021
+,Profit Contribution,Banana,106023,Fresh Fruits,Kilogram,Kilogram,,0.357,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Banana Leave,107042,Fresh Vegetables,Kilogram,Kilogram,,3,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Bar garnish holder (Bar Area),6133,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Bar Printer (Bar Area),6144,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Baraziq Dough Prep 2.100 KG (200 pcs) (PA),800107,Sub Reciepes,Kilogram,Kilogram,0.00%,1.599,0,0,,1,,,,,,,,Shkakhwa,26/09/2019
+,Profit Contribution,barber  ,107073,Fresh Vegetables,Kilogram,Kilogram,25.00%,0.6,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Barber ( Dont Use ),107056,Fresh Vegetables,Kilogram,Kilogram,,0.8,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,BARBERRY ( Dont Use ),107069,Fresh Vegetables,Kilogram,Kilogram,,0.8,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Barra Black lime,112037,Spices,Kilogram,Kilogram,,1.9,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Barra Black lime powder 1000 gm,112036,Spices,Kilogram,Kilogram,,2.75,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Basbosa Prep 1.500 KG (PA),800109,Sub Reciepes,Kilogram,Kilogram,0.00%,0.927,0,0,,1,,,,,,,,Shkakhwa,27/10/2019
+,Profit Contribution,basil leaves,107049,Fresh Vegetables,Kilogram,Kilogram,,1.25,0,0,,1,,,,,,,0,Admin,14/04/2016
+,Expenses,basket blue ( Cold ),5324,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,basket green ( Cold ),5323,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,basket red ( Cold ),5325,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,basket yellow ( Cold ),5322,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Profit Contribution,Baskin Robnsn Whipped 425 GM,103002,Cream,Liter,Liter,,5.356,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Profit Contribution,Batata Harra Prep 1 kg (PA) ( DONT USE),800034,Sub Reciepes,Kilogram,Kilogram,0.00%,0.834,0,0,,1,,,,,,,0,Shkakhwa,02/08/2018
+,Expenses,bayrics clear 19 cm,5048,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,bayrics clear 22 cm,15020,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,BBQ Sauce,116015,Syrups,Liter,Liter,,1.275,0,0,,1,,,,,,,0,Vinay,13/07/2018
+,Profit Contribution,Bean Sprouts,132011,Canned Vegetables,Kilogram,Kilogram,,1.521,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,BEEF MEAT,125024,Fresh Meat,Kilogram,Kilogram,,3,0,0,,1,,,,,,,0,Sandeep,30/07/2016
+,Profit Contribution,Beef Stock Powder,112032,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Beef Striploin,125020,Fresh Meat,Kilogram,Kilogram,35.00%,6.2,0,0,,1,,,,,,,0,Shkakhwa,19/04/2016
+,Profit Contribution,Beef Striploin Clean,125021,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,19/04/2016
+,Profit Contribution,Beef Tekka Areesh,800114,Sub Reciepes,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,19/11/2019
+,Profit Contribution,BEEF TENDELOIN CHILLED ( S/AMERICA),125001,Fresh Meat,Kilogram,Kilogram,20.00%,3,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,BEEF TENDERLOIN S.AF CHAIN OFF (CHIL),125002,Fresh Meat,Kilogram,Kilogram,20.00%,8.82,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Beef Topside-S/American,125003,Fresh Meat,Kilogram,Kilogram,15.00%,2.8,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,beetroot,107004,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.37,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Bell (Recieption Area),6051,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Bench (Recieption Area),6048,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Beriani Rice Plain 4.900 Kg (PA),800084,Sub Reciepes,Kilogram,Kilogram,0.00%,0.391,0,0,,1,,,,,,,,Shkakhwa,30/05/2018
+,Expenses,Bezzera coffee beans grinder (Bar Area),6116,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big  Cushions (Dining Area Up),6080,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,big burner ( prep ),5007,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Big Cooking Pot,15006,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Big Cooper Bowl,15045,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Big Electric Candle (Wall Display),6094,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Knife (Bar Area),6163,Dining Assets,Each,Each,,1.5,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,big knife for bone ( Butchery ),5151,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Big Kunafa Burner,15030,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Big Mnasaf Tray,15016,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Big Pot with Tap (Bar Area),6149,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Round Container,10002,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,Big Round Tray (Dining Area Up),6074,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Round Tray (Recieption Area),6049,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Round Tray stand (Dining Area Up),6075,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Table 10 Seater (Dining Area),6082,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big table 5 Seater (Dining Area),6083,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Big Tea Spoon,1070,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Bill Holder (Recieption Area),6038,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Biogene Citrus Rain 600ML,120065,Other Condiments,Each,Each,,3,0,0,,1,,,,,,,0,Shkakhwa,02/12/2016
+,Expenses,Biogene Orange Burst 600 ML,4010,Chicemicals,Each,Each,,3,0,0,,1,,,,,,,0,Shkakhwa,08/08/2018
+,Profit Contribution,Bissat Thahina 8 Kg ( Dont Use ),105012,Dairy Others,Kilogram,Kilogram,,2,0,1,,1,,,,,,,0,Shkakhwa,31/12/2016
+,Profit Contribution,Bitter Guard - Fresh,107079,Fresh Vegetables,Kilogram,Kilogram,,0.95,0,0,,1,,,,,,,0,Vikas.m,11/03/2019
+,Profit Contribution,Biwas Prep 2.7 kg (PA),800019,Sub Reciepes,Kilogram,Kilogram,0.00%,1.354,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Black Lemon (Dont Use ),128009,Pickles,Kilogram,Kilogram,,3,0,1,,1,,,,,,,0,Shkakhwa,31/12/2016
+,Expenses,Black Pepper Sachet,1000026,Others,Each,Each,,0.005,0,0,,1,,,,,,,0,Shkakhwa,20/08/2020
+,Expenses,black roasting pan  (Dishwasher),5231,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,blinder ( extreme) ( Prep ),5026,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Blusyl - 5Lit,4004,Chicemicals,Each,Each,,3.25,0,0,,1,,,,,,,0,Shkakhwa,11/01/2017
+,Profit Contribution,Boiled Hommus Prep 24 Kg (PA),800062,Sub Reciepes,Kilogram,Kilogram,0.00%,0.461,0,0,,1,,,,,,,,Shkakhwa,01/06/2016
+,Expenses,BOPP LIDS - 1198L - 300 PCS,5000023,Packaging,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,BOPP LIDS 1025L LT.WT 1X1000 PCS,5000021,Packaging,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,BOPP LIDS 5069/5080L - 600 PCS,5000024,Packaging,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,bosch mixer ( Cold ),5328,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,bread basket big ( Bakery ),5219,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Bread Baskets ( Bakery ),5214,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,Bread Crumps ( DONT USE ),118005,Baking Items,Kilogram,Kilogram,,1.8,0,0,,1,,,,,,,0,Shkakhwa,01/11/2019
+,Expenses,bread cutter ( Bakery ),5222,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,bread knife (Dishwasher),5232,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,bread oven ( Bakery ),5210,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Brema ice machine (Bar Area),6125,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Broccoli,107005,Fresh Vegetables,Kilogram,Kilogram,25.00%,1.8,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Bronz Cattle (Wall Display),6098,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Bronze Bucket small (Bar Area),6151,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Bronze Jug small (Bar Area),6152,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Bronze Tea Tray (Bar Area),6130,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,BROWN BORGOUL FINE KG,111006,Grain,Kilogram,Kilogram,,0.6,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,brown chopping board ( BBQ ),5071,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Brown Flour 1 kg ( Dont Use ) use W/MEAL ,118026,Baking Items,Kilogram,Kilogram,,0.25,0,0,,1,,,,,,,0,Shkakhwa,06/07/2018
+,Expenses,Brown Juice Container,10009,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,brown knife ( BBQ ),5072,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Brown Sugar 1KG,115008,Sugar,Kilogram,Kilogram,,1.352,0,0,,1,,,,,,,0,Shkakhwa,22/03/2017
+,Profit Contribution,BULOBERRY,106024,Fresh Fruits,Kilogram,Kilogram,,2.2,0,0,,1,,,,,,,0,Shkakhwa,17/04/2016
+,Expenses,C/B 11300318 Oval No1 Eared Dish 20x11cm,1080,Small Ware,Each,Each,,7.538,0,0,,1,,,,,,,0,Vinay,30/04/2018
+,Expenses,C/B 11300329 Roaster Square 25.5 cm,1077,Small Ware,Each,Each,,10.793,0,0,,1,,,,,,,0,Shkakhwa,01/08/2017
+,Expenses,C/B 11300372 Nouveau 27cm,1002,Small Ware,Each,Each,,5.3,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300400 Oval Baker 15.75 cm,1040,Small Ware,Each,Each,,4.214,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/B 11300501 Plate 37.5cm,1005,Small Ware,Each,Each,,10.54,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300524 Bowl 18cm,1008,Small Ware,Each,Each,,4.484,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300525 Bowl 13cm,1011,Small Ware,Each,Each,,3.077,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300550 Rectangle one 27x16.75 cm,1014,Small Ware,Each,Each,,8.37,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300553 Square One 27 x 27 cm,1017,Small Ware,Each,Each,,11.34,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300556 Rectangle Three 33x19 cm,1020,Small Ware,Each,Each,,10.29,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300566 Coupe Plate 25.25 cm,1025,Small Ware,Each,Each,,3.39,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11300575 Taste Dip 6.5 x 6.5 cm,1029,Small Ware,Each,Each,,1.885,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/B 11320400 Oval Baker 19.0 cm,1054,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,C/G 11300556 Rectangle Three 33x19 cm,1081,Small Ware,Each,Each,,10.29,0,0,,1,,,,,,,0,Shkakhwa,02/01/2020
+,Expenses,C/G 11310165 Saucer Doule Well Small 11.75 cm,1043,Small Ware,Each,Each,,0.96,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 11310225 Soup Stand Double Well Slimline16.5 cm,1038,Small Ware,Each,Each,,1.986,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 11310234 Cup Stacking 10.0 cl,1042,Small Ware,Each,Each,,1.41,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 11310317 Round Eared Dish 21.5 cm,1039,Small Ware,Each,Each,,6.959,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 11310372 Nouveau 27cm,1003,Small Ware,Each,Each,,5.218,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310379 Sugar Boullion 22.75 cl,1076,Small Ware,Each,Each,,2.182,0,0,,1,,,,,,,0,Shkakhwa,01/08/2017
+,Expenses,C/G 11310494 Lid 2 Club For 0367,1001,Small Ware,Each,Each,,2.44,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310501 Plate 37.5cm,1006,Small Ware,Each,Each,,10.913,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310524 Bowl 18cm,1009,Small Ware,Each,Each,,3.967,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310525 Bowl 13cm,1012,Small Ware,Each,Each,,3.074,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310550 Rectangle one 27x16.75 cm,1015,Small Ware,Each,Each,,7.667,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310553 Square One 27 x 27 cm,1018,Small Ware,Each,Each,,11.34,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310556 Rectangle Three 33x19 cm,1021,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310557 Pourer 8.5cl,1023,Small Ware,Each,Each,,3.249,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310566 Coupe Plate 25.25 cm,1026,Small Ware,Each,Each,,3.516,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310568 Coupe Plate 15.25 cm,1027,Small Ware,Each,Each,,1.57,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310575 Taste Dip 6.5 x 6.5 cm,1030,Small Ware,Each,Each,,1.885,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310592 Quench Mug 25.5 cl,1032,Small Ware,Each,Each,,2.64,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11310829 Lid For Casserole B 828,1037,Small Ware,Each,Each,,2.909,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 11310866 Presentation Pan 25.5 cm,1041,Small Ware,Each,Each,,15.31,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/G 1131B828 Casserole Base 42.5 cl,1036,Small Ware,Each,Each,,4.23,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/G 11550553 Square One 27x27 cm,1050,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,C/T 11330342 Roaster S/S 30.5 X 25.5 cm,1078,Small Ware,Each,Each,,15.698,0,0,,1,,,,,,,0,Shkakhwa,01/08/2017
+,Expenses,C/W 11330387 Jug Club 5 OZ,1049,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2016
+,Expenses,C/W 11550165 Saucer Doule Well Small 11.75 cm,1045,Small Ware,Each,Each,,0.96,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/W 11550234 Cup Stacking 10.0 cl,1044,Small Ware,Each,Each,,1.41,0,0,,1,,,,,,,0,Shkakhwa,21/05/2016
+,Expenses,C/W 11550372 Nouveau 27cm,1004,Small Ware,Each,Each,,5.218,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550387 Club Jug 5 oz,1053,Small Ware,Each,Each,,3.916,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,C/W 11550501 Plate 37.5cm,1007,Small Ware,Each,Each,,10.913,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550522 Plate Freestyle 15.5 cm,1075,Small Ware,Each,Each,,3.106,0,0,,1,,,,,,,0,Shkakhwa,01/08/2017
+,Expenses,C/W 11550524 Bowl 18cm,1010,Small Ware,Each,Each,,3.967,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550525 Bowl 13cm,1013,Small Ware,Each,Each,,2.622,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550550 Rectangle One 27 x 16.75 cm,1016,Small Ware,Each,Each,,7.667,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550553 Square One 27 x 27 cm,1019,Small Ware,Each,Each,,11.34,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550556 Rectangle Three 33x19 cm,1022,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550557 Pourer 8.5cl,1024,Small Ware,Each,Each,,3.249,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550566 Coupe Plate 25.25 cm,1052,Small Ware,Each,Each,,3.516,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,C/W 11550568 Coupe Plate 15.25 cm,1028,Small Ware,Each,Each,,1.57,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550575 Taste Dip 6.5 x 6.5 cm,1031,Small Ware,Each,Each,,1.885,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550592 Quench Mug 25.5 cl,1033,Small Ware,Each,Each,,2.64,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550841 Salt Shaker,1034,Small Ware,Each,Each,,3.166,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,C/W 11550842 Pepper Shaker,1035,Small Ware,Each,Each,,3.166,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Profit Contribution,Cabbage red ,107007,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.45,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Cabbage white,107008,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.25,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,cabinet ( Butchery ),5144,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,cabinet two door ( Prep ),5013,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Cadbury Cocoa Powder 250 GM,122008,Chocolates,Kilogram,Kilogram,,6.61,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Expenses,Cake Display (Bar Area),6141,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Calamari,127005,Fresh Fish,Kilogram,Kilogram,15.00%,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Calculator (Recieption Area),6039,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Callebaut Dark Chocolate,122005,Chocolates,Kilogram,Kilogram,,3.6,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Callebaut Milk Chocolate,122006,Chocolates,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,can opener ( Cold ),5206,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,can opener (Dishwasher),5299,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Cans 7up 355 Ml,133008,Canned Drinks,Each,Each,,0.175,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Cans Diet 7up 355 Ml,133009,Canned Drinks,Each,Each,,0.19,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Cans Diet Pepsi 355 Ml,133007,Canned Drinks,Each,Each,,0.19,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Cans M/Citrus 355 Ml,133010,Canned Drinks,Each,Each,,0.138,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Cans M/Orange 355 ML,133011,Canned Drinks,Each,Each,,0.19,0.138,0,,1,,,,,,,0,Sandeep,08/09/2016
+,Profit Contribution,Cans Pepsi 355 Ml,133006,Canned Drinks,Each,Each,,0.175,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Capers,128008,Pickles,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Capilano Honey SQ Pet Jar 1 kg,120017,Other Condiments,Kilogram,Kilogram,,3.625,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Carciofi A Spicchi ( Artichoke ) In Oil,132001,Canned Vegetables,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,card Holder (Monkeyman) (Recieption Area),6043,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Carrot,107010,Fresh Vegetables,Kilogram,Kilogram,15.00%,0.35,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Carrot Sauce For Carrot Cake Prep 480 GM (PA),800106,Sub Reciepes,Kilogram,Kilogram,0.00%,1.427,0,0,,1,,,,,,,,Shkakhwa,19/09/2019
+,Expenses,Cash Drawer (Recieption Area),6021,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Cash Register Roll Emigo-80x80 Thermal,1000005,Others,Each,Each,,0.46,0,0,,1,,,,,,,0,Shkakhwa,07/01/2017
+,Expenses,Cash Register Roll NCR 76X70,1000006,Others,Each,Each,,0.24,0,0,,1,,,,,,,0,Shkakhwa,07/01/2017
+,Expenses,casserole 21x23mm (Dishwasher),5250,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,casserole 29x17mm (Dishwasher),5243,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,casserole 33x10mm (Dishwasher),5259,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,casserole 33x13mm (Dishwasher),5260,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,casserole 42x19mm (Dishwasher),5261,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,casserole 51x48mm (Dishwasher),5262,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Catering Bread Oven,15048,Store Assets,Each,Each,,668.775,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Expenses,Catering Charcol Grill ,15047,Store Assets,Each,Each,,536.194,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Expenses,Catering Saj Bread Oven,15049,Store Assets,Each,Each,,178.225,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Profit Contribution,caulifawer ,107009,Fresh Vegetables,Kilogram,Kilogram,25.00%,0.4,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Celery   ,107070,Fresh Vegetables,Kilogram,Kilogram,10.00%,1.3,0,0,,1,,,,,,,0,Sandeep,03/09/2016
+,Profit Contribution,celery ( Dont Use ),107051,Fresh Vegetables,Kilogram,Kilogram,,1.5,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,Chafing Dish 1 Set,10005,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,Chair Black with Arm (Dining Area),6086,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Chair Black without Arm (Dining Area),6087,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Chair Brown with Arm (Dining Area),6085,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Chair Cushions (Outside Area),6006,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Chairs  (Outside Area),6003,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Chairs (White) (Outside Area),6005,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,charcoal container ( BBQ ),5069,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Charcol Bag 15 KG,120021,Other Condiments,Kilogram,Kilogram,,0.375,0,0,,1,,,,,,,0,Shkakhwa,22/12/2016
+,Profit Contribution,Charcol Fiber Box 10KG,120062,Other Condiments,Kilogram,Kilogram,,0.35,0,0,,1,,,,,,,0,Shkakhwa,22/12/2016
+,Profit Contribution,Chedder Cheese,101023,Cheese,Kilogram,Kilogram,,4.295,0,0,,1,,,,,,,0,Shkakhwa,21/07/2021
+,Profit Contribution,Cheese Burak Prep 12 pcs (PA) dont use,800071,Sub Reciepes,Portion,Portion,0.00%,0.486,0,1,,1,,,,,,,0,Shkakhwa,02/11/2017
+,Profit Contribution,Cheese Burak Prep 185 pcs (PA),800081,Sub Reciepes,Each,Each,0.00%,0.086,0,0,,0.031,,,,,,,,Shkakhwa,02/10/2017
+,Profit Contribution,Cheese Kunafa Prep 1 portion (PA),800049,Sub Reciepes,Portion,Portion,0.00%,0.838,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Chestnut Lebanese,117010,Nuts,Kilogram,Kilogram,,0.818,0,0,,1,,,,,,,0,Shkakhwa,09/12/2019
+,Profit Contribution,Chic Breast Iqf-Raw (6oz) frozen,139002,Frozen Chicken,Kilogram,Kilogram,20.00%,1.498,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chicken Breast 5 Oz Iqf frozen,139003,Frozen Chicken,Kilogram,Kilogram,20.00%,1.177,0,0,,1,,,,,,,0,Shkakhwa,09/09/2021
+,Profit Contribution,"Chicken Breast B/L , S/L (China) frozen",139001,Frozen Chicken,Kilogram,Kilogram,20.00%,1.15,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Chicken Breast b/less fresh,126004,Fresh Chicken,Kilogram,Kilogram,10.00%,4.033,0,0,,1,,,,,,,0,Sandeep,04/08/2016
+,Profit Contribution,Chicken For Staff,139006,Frozen Chicken,Kilogram,Kilogram,,0.856,0,0,,1,,,,,,,0,Shkakhwa,28/09/2020
+,Profit Contribution,Chicken Leg- B/L S/L frozen,139004,Frozen Chicken,Kilogram,Kilogram,20.00%,1.322,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chicken Legs For Butter Chicken Marinated 1kg (PA),800089,Sub Reciepes,Kilogram,Kilogram,0.00%,1.737,0,0,,1,,,,,,,,Shkakhwa,19/07/2018
+,Profit Contribution,Chicken legs fresh,126002,Fresh Chicken,Kilogram,Kilogram,10.00%,1.475,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Chicken liver fresh,126005,Fresh Chicken,Kilogram,Kilogram,25.00%,3.458,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,chicken Liver Prep 1 kg (PA),800038,Sub Reciepes,Kilogram,Kilogram,0.00%,1.582,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Chicken Stock Cubes,112031,Spices,Kilogram,Kilogram,,2.976,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chicken Stock Powder,112030,Spices,Kilogram,Kilogram,,2.924,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chicken Tender Prep 1 Portion (PA),800100,Sub Reciepes,Each,Each,0.00%,0.684,0,0,,1.24,,,,,,,,Shkakhwa,31/07/2019
+,Profit Contribution,Chicken Waste ,126030,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,04/08/2018
+,Profit Contribution,Chicken Wings Prep 1.250 KG (PA),800073,Sub Reciepes,Kilogram,Kilogram,0.00%,1.895,0,0,,1,,,,,,,,Shkakhwa,17/12/2016
+,Profit Contribution,Chickpeas 12/14 mm 25kg,111002,Grain,Kilogram,Kilogram,,0.648,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chili red,107013,Fresh Vegetables,Kilogram,Kilogram,10.00%,2.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,chiller  Berjaya 4 door ( prep ),5002,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,chiller a no 3 (sweet) ( Cold ),5168,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,chiller Berjaya 6 door (vegetable) ( Cold ),5166,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,chiller Berjaya no 2 (salad) ( Cold ),5167,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,chiller no 9 (jocaters) ( Bakery ),5220,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Chiller Under Counter 1 Door ( Hot ),5317,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,chiller under counter 3 doors ( Hot ),5087,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,chiller under counter Berjaya ( Prep ),5001,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,chiller under counter no 4 ( BBQ ),5058,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,chiller up right  no 5 berja ( BBQ ),5059,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Chinese soup strainer (Dishwasher),5294,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Chives,108019,Fresh Herbs,Each,Each,,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Chocolate Sauce 680 gm,122002,Chocolates,Liter,Liter,,2.43,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Profit Contribution,Chtoura Rose Syrup 0.600 ML,116018,Syrups,Liter,Liter,,2.159,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Profit Contribution,Cinnamon Stick Normal Size,112003,Spices,Kilogram,Kilogram,,1.905,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Citruss Tea Bag,142014,Coffee & Tea,Each,Each,,0.011,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Profit Contribution,CIVES,107050,Fresh Vegetables,Kilogram,Kilogram,,1.2,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,Clay Bowl 15 cm,15021,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Clay Bowl 9 cm,15022,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Clay Plate 19.50 cm,15039,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Clear Cup 1 oz W/Clear L 20X100 pcs,5000014,Packaging,Each,Each,,0.014,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,Clear Cup 2 oz W/CLEAR LI 1X2000 PCS,5000007,Packaging,Each,Each,,0.008,0,0,,1,,,,,,,0,Shkakhwa,13/04/2017
+,Expenses,Clear Salad Bowl (12. OZ) 1X300,5000008,Packaging,Each,Each,,0.058,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,Clear Salad Bowl (16 OZ ) SMALL,120044,Packaging,Each,Each,,0.047,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,Clear Salad Bowl RND 320 BIG,120043,Packaging,Each,Each,,0.08,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,Clear Salad Cont 8OZ W/L 1x250pcs,5000009,Packaging,Each,Each,,0.025,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,Cling Film ( 45*300 Mtr ) ,120035,Packaging,Each,Each,,3.333,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,Clip Board (Recieption Area),6062,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,CLOROX REG 3.78LT,4005,Chicemicals,Each,Each,,1.69,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Profit Contribution,Coca Cola Can 355 Ml,133001,Canned Drinks,Each,Each,,0.226,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Coca Cola Diet Can 355 Ml,133002,Canned Drinks,Each,Each,,0.138,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Cocoa Powder,122001,Chocolates,Kilogram,Kilogram,,10.111,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Coconut Milk Powder,119008,Dry Food,Kilogram,Kilogram,,2.997,0,0,,1,,,,,,,0,Shkakhwa,29/10/2019
+,Profit Contribution,Coconut Powder,107080,Fresh Vegetables,Kilogram,Kilogram,,0.857,0,0,,1,,,,,,,0,Shkakhwa,22/10/2019
+,Profit Contribution,Cofee Paper Cup 120Z (Dont Use) ,118023,Baking Items,Kilogram,Kilogram,,0.028,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,Coffe Trash Container (Bar Area),6119,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Coffee Handle Head Double (Bar Area),6117,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Coffee Handle Head Single (Bar Area),6118,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Coffee Hot Cup 16 oz,5000003,Packaging,Each,Each,,0,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Colmans Mustard Jar Dijon 2.250 KG,120012,Other Condiments,Kilogram,Kilogram,,1.762,0,0,,1,,,,,,,0,Shkakhwa,14/12/2016
+,Expenses,Coloring Pencil (Recieption Area),6059,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Compound Chocolate,122009,Chocolates,Kilogram,Kilogram,,1.7,0,0,,1,,,,,,,0,Shkakhwa,01/02/2020
+,Expenses,conical colander steel strainer (Dishwasher),5244,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,container 1/3  ( Bakery ),5216,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Conviction oven (sinmag) ( Prep ),5009,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,cooking pan big stainless steel ( Prep ),5021,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Cooking Pan for Sahlab (Bar Area),6159,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Cooler,15046,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Cooper pot with handle,15043,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Cooper whole Lamb Chafingdish,15032,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Coper Chi Lids,5000036,Packaging,Each,Each,,0.055,0,0,,1,,,,,,,0,Shkakhwa,16/08/2021
+,Expenses,Copper Base (Bar Area),6172,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Copper Jug (Wall Display),6097,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Copper Pot with leddle (Bar Area),6171,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Copper Tea Pot,1065,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Copper Tray,1068,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Profit Contribution,Coriander ( Dont Use ),107062,Fresh Vegetables,Kilogram,Kilogram,,1.5,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Coriander fresh   ,107076,Fresh Vegetables,Kilogram,Kilogram,20.00%,1.5,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Corn Can,132012,Canned Vegetables,Kilogram,Kilogram,,1.695,0,0,,1,,,,,,,0,Shkakhwa,31/07/2021
+,Profit Contribution,Corn Flour 400GM Herman Brand,118004,Baking Items,Kilogram,Kilogram,,1.036,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Expenses,Counter Top Salad Chiller ( Hot Section ),5338,Kitchen Assets,Each,Each,,337.323,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Profit Contribution,Cowpow Milk Powder 25 KG,102004,Milk,Kilogram,Kilogram,,1.12,0,0,,1,,,,,,,0,Shkakhwa,05/01/2017
+,Expenses,CPU (Recieption Area),6024,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Crab Meat Special,127002,Fresh Fish,Kilogram,Kilogram,5.00%,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Crab Sticks,140006,Frozen Fish,Kilogram,Kilogram,10.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Cream Soup Prep 6 ltr (PA),800001,Sub Reciepes,Liter,Liter,20.00%,0.534,0,0,,1,,,,,,,0,Shkakhwa,09/07/2019
+,Expenses,Creative Speaker Set  (Recieption Area),6030,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,credimax machiene roll (Recieption Area),6053,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Credit Card Machiene (Recieption Area),6029,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Crepe Machine ( Prep ),5019,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Crispy Cubes Herbs (Q89),137007,Frozen Vegetables,Kilogram,Kilogram,,1.15,0,0,,1,,,,,,,0,Shkakhwa,18/10/2017
+,Expenses,Cruet Set Loose (Black n White) (Wall Display),6113,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Crystal Plate RND 18 CM-10KG 330 Pcs,5000029,Packaging,Each,Each,,0.029,0,0,,1,,,,,,,0,Shkakhwa,27/04/2020
+,Profit Contribution,Cucumber,107015,Fresh Vegetables,Kilogram,Kilogram,42.00%,0.3,0,0,,1,,,,,,,0,Shkakhwa,09/02/2018
+,Profit Contribution,Cucumber Pickles ,128010,Pickles,Kilogram,Kilogram,43.00%,1.5,0,0,,1,,,,,,,0,Shkakhwa,18/09/2017
+,Profit Contribution,Cucumber Yoghurt Prep 1.2 kg (PA),800025,Sub Reciepes,Kilogram,Kilogram,0.00%,0.664,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,CusCus,111011,Grain,Kilogram,Kilogram,,1.188,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,cutlery container  (Dishwasher),5257,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Cutlery Set Black ( 4INI ) ,120046,Packaging,Each,Each,,0.029,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,cutter board blue ( Butchery ),5156,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,cutter heart shape ( Prep ),5055,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,cutter hexagonal shape ( Prep ),5056,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,cutter oval shape ( Prep ),5057,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,cutter round shape ( Prep ),5054,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Dakoos Powder,112042,Spices,Kilogram,Kilogram,,5,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Darna Mix Pickle Extra 1.8 kg,128002,Pickles,Kilogram,Kilogram,38.00%,0.985,0,0,,1,,,,,,,0,Shkakhwa,02/09/2017
+,Profit Contribution,Dates (Dont Use ),107017,Fresh Vegetables,Kilogram,Kilogram,25.00%,2.48,0,1,,1,,,,,,,0,Shkakhwa,25/06/2017
+,Profit Contribution,De Cecco Fettuccini,110008,Pasta,Kilogram,Kilogram,,2.743,0,0,,1,,,,,,,0,Shkakhwa,12/08/2021
+,Profit Contribution,DE Cecco- Penne Rigate #41,110006,Pasta,Kilogram,Kilogram,,2.095,0,0,,1,,,,,,,0,Shkakhwa,21/02/2020
+,Profit Contribution,De Cecco- Spaghetti #12,110007,Pasta,Kilogram,Kilogram,,2.095,0,0,,1,,,,,,,0,Shkakhwa,21/02/2020
+,Expenses,Deep Cooper Pot with handle,15041,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Delivery Menus (Recieption Area),6058,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Dell Monitor  (Recieption Area),6022,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Dell Monitor for Menu (Recieption Area),6023,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,dhill ,107078,Fresh Vegetables,Kilogram,Kilogram,20.00%,0.7,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,digestive biscuit,134002,Dough,Kilogram,Kilogram,,1.848,0,0,,1,,,,,,,0,Shkakhwa,24/01/2021
+,Expenses,Dis Plastic Gloves,120047,Packaging,Each,Each,,0.003,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,dishwasher (Dishwasher),5249,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Dishwasher Liquid 30 LTR,4011,Chicemicals,Each,Each,,5.5,0,0,,1,,,,,,,0,Shkakhwa,08/09/2018
+,Expenses,dishwasher table (Dishwasher),5252,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Disp Plastic Apron,120022,Packaging,Each,Each,,0.011,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,Display Box  (Wall Display),6092,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Display Chiller ( Bar Area ),6174,Dining Assets,Each,Each,,483.162,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Expenses,Display stand  menu (Recieption Area),6061,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,DOME LID FOR PET 14OZ&12OZ-1000PCS,5000016,Packaging,Each,Each,,0.009,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Profit Contribution,Dont Use**Dry Yeast*** Dont Use,118014,Baking Items,Kilogram,Kilogram,,1.667,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,dough machine big ( prep ),5006,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,dough machine Kenwood ( prep ),5005,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Dough Mixer 30 KG (Al Najjar ),5342,Kitchen Assets,Each,Each,,380,0,0,,1,,,,,,,0,Shkakhwa,10/05/2018
+,Expenses,Dough Mixer 45 KG ( Prep Area ),5337,Kitchen Assets,Each,Each,,748.324,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Expenses,dough proofing (sinmag) ( prep ),5004,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Dough Sheeter ( Prep ),5011,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Dried Mushrooms,119006,Dry Food,Kilogram,Kilogram,,13.947,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,driver bag ( Cold ),5202,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,driver bag heater ( Cold ),5201,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Dry Mint Loose 1kg,113002,Herbs,Kilogram,Kilogram,,5,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Durra Dry Kamerdeen 400 GM,118016,Baking Items,Kilogram,Kilogram,,2.119,0,0,,1,,,,,,,0,Sandeep,19/05/2016
+,Profit Contribution,Durra Dry Molukhia 400 GM,119003,Dry Food,Kilogram,Kilogram,,7.143,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Profit Contribution,DURRA GRENADINE MOLASSES 1000 Gmx6,116001,Syrups,Liter,Liter,,2,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Durra Makdous EGG PLANT 1400 ml,120069,Other Condiments,Kilogram,Kilogram,30.00%,3.5,0,0,,1,,,,,,,0,Shkakhwa,24/09/2017
+,Profit Contribution,DURRA TOMATO PASTE 1.375 G,130001,Paste,Kilogram,Kilogram,,0.423,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Dustbin (Recieption Area),6045,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,EGG (SAUDI),105002,Dairy Others,Each,Each,,0.045,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Eggplant large,107018,Fresh Vegetables,Kilogram,Kilogram,30.00%,0.33,0,0,,1,,,,,,,0,Shkakhwa,02/10/2017
+,Profit Contribution,Eggplant long,107019,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.75,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Eggplant small    ,107020,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.35,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Egypt rice (sunwhite),109001,Rice,Kilogram,Kilogram,,0.66,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,El Basha Cashew Nut,117009,Nuts,Kilogram,Kilogram,,2.35,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,Elactric Candle small (Wall Display),6093,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Electric Bone Saw ( Butchery ),5316,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,Electric Flat Grill,15034,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Electric Fryer Disk Top,15037,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Electric Hot Plate ( Kunafa ),10007,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,Ellisse bezzera espresso machine (Bar Area),6115,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Energizer Battery,1000018,Others,Each,Each,,1.393,0,0,,1,,,,,,,0,Shkakhwa,31/01/2018
+,Profit Contribution,ENG. Parsley  ,108012,Fresh Herbs,Kilogram,Kilogram,45.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Espresso Primo 500 GM,142015,Coffee & Tea,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Expenses,Esteem 5Ltr,4003,Chicemicals,Each,Each,,0.89,0,0,,1,,,,,,,0,Shkakhwa,11/01/2017
+,Expenses,Estikana Tea Spoon,1069,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Eurfrigor crush ice machine (Bar Area),6124,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Extension Wire (Recieption Area),6054,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,F-CS65 Lucerne 2 KG Bag (milk chocolate),118033,Baking Items,Kilogram,Kilogram,,7.2,0,0,,1,,,,,,,0,Shkakhwa,18/03/2017
+,Profit Contribution,Falafel Dough Prep 22.60 kg ( DONT USE ) (PA),800055,Sub Reciepes,Kilogram,Kilogram,0.00%,0.282,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Falafel Dough Prep 22.60 kg (NEW) (PA),800128,Sub Reciepes,Kilogram,Kilogram,0.00%,0.293,0,0,,1,,,,,,,,Shkakhwa,04/06/2020
+,Expenses,Falafel Fryer,15026,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Falafel Ready 1.1 kg (PA),800032,Sub Reciepes,Kilogram,Kilogram,0.00%,0.3,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Fandees Arabic Mastic Ice Cream 5 Liter Pack,105017,Dairy Others,Liter,Liter,,2.9,0,0,,1,,,,,,,0,Shkakhwa,29/08/2017
+,Profit Contribution,Fandees Chocolate Ice Cream 5 Liter Pack,105022,Dairy Others,Liter,Liter,,2.2,0,0,,1,,,,,,,0,Vinay,29/09/2017
+,Profit Contribution,Fandees Cream Qishta Ice Cream 2 Liter Pack,105018,Dairy Others,Liter,Liter,,2.5,0,0,,1,,,,,,,0,Shkakhwa,29/08/2017
+,Profit Contribution,Fandees Double Vanilla 5 Ltr Pack,105014,Dairy Others,Liter,Liter,,2.2,0,0,,1,,,,,,,0,Shkakhwa,22/04/2017
+,Profit Contribution,Fandees LotusIce Cream 5 Ltr Pack,105015,Dairy Others,Liter,Liter,,2.9,0,0,,1,,,,,,,0,Shkakhwa,22/04/2017
+,Profit Contribution,Fandees Rose Hagoum Ice Cream 5 Ltr Pack,105016,Dairy Others,Liter,Liter,,2.9,0,0,,1,,,,,,,0,Shkakhwa,22/04/2017
+,Profit Contribution,Fanta 355 Ml Can,133005,Canned Drinks,Each,Each,,0.138,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Faqoos,107083,Fresh Vegetables,Kilogram,Kilogram,,0.718,0,0,,1,,,,,,,0,Shkakhwa,05/07/2020
+,Profit Contribution,fennel ,108007,Fresh Herbs,Kilogram,Kilogram,15.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Fenugreek Leaves ( Methi ),112040,Spices,Kilogram,Kilogram,,7.905,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Feta Cheese,101009,Cheese,Kilogram,Kilogram,,3.725,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Firest Aid Box (Recieption Area),6068,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,first aid Kit ,5163,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,FISH FILLET DORIE FROZEN,140011,Frozen Fish,Kilogram,Kilogram,,1,0,0,,1,,,,,,,0,Sandeep,10/07/2016
+,Profit Contribution,Fish Fingers Prep 1 Portion (PA),800103,Sub Reciepes,Portion,Portion,0.00%,0.28,0,0,,1,,,,,,,,Shkakhwa,01/08/2019
+,Expenses,fish peeler ( Butchery ),5154,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Fish Stock Powder,112033,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Fish Waste,1000008,Others,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,15/01/2017
+,Expenses,Flafel Mold Small,15012,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,flat grill ( Hot ),5093,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,flat skewer 60cmx1.5cmx3mm ( BBQ ),5076,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,flat skewer 60cmx1cmx2mm ( BBQ ),5077,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Flexible Straws Wrapped ,120023,Packaging,Each,Each,,0.002,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Expenses,Floral Garden (Wall Display),6104,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,flour strainer (Dishwasher),5233,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Flower Pot Blue (Wall Display),6102,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pot Green (Wall Display),6101,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pot Set of 2 (Wall Display),6100,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pot White (Wall Display),6099,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pot white Big (Wall Display),6103,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pots long (Outside Area),6014,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Pots small (Outside Area),6013,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Flower Vase (Bar Area),6140,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Foam Lotion Soap- Reza,4002,Chicemicals,Each,Each,,0.952,0,0,,1,,,,,,,0,Shkakhwa,11/01/2017
+,Profit Contribution,Food Colour Red,131001,Coloring,Liter,Liter,,4.762,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,FOSTER CLARK'S BAKING POWDER 450 GM,118001,Baking Items,Kilogram,Kilogram,,2.44,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Foul California Grdens,132010,Canned Vegetables,Kilogram,Kilogram,35.00%,0.595,0,0,,1,,,,,,,0,Shkakhwa,01/07/2017
+,Profit Contribution,FREEKA SOFT (KHUDARY),111010,Grain,Kilogram,Kilogram,,1,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,freezer for ice cream ( Cold ),5174,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,French Fry Scoop Plain White,5000026,Packaging,Each,Each,,0.014,0,0,,1,,,,,,,0,Shkakhwa,30/05/2018
+,Profit Contribution,Fresh Basil ,108001,Fresh Herbs,Kilogram,Kilogram,20.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Fresh Cow Milk,102007,Milk,Liter,Liter,,0.4,0,0,,1,,,,,,,0,Shkakhwa,21/06/2020
+,Profit Contribution,Fresh Ginger,107022,Fresh Vegetables,Kilogram,Kilogram,0.00%,0.47,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Fresh Hamour Whole ,127012,Fresh Fish,Kilogram,Kilogram,15.00%,4,0,0,,1,,,,,,,0,Admin,01/03/2016
+,Profit Contribution,FRESH LABANA,105001,Dairy Others,Kilogram,Kilogram,,2.7,0,0,,1,,,,,,,0,Admin,18/02/2016
+,Profit Contribution,Fresh Salmon Fish,127022,Fresh Fish,Kilogram,Kilogram,,4,0,0,,1,,,,,,,0,Vinay,18/10/2017
+,Profit Contribution,Fresh Salmon-Norwegian.,127001,Fresh Fish,Kilogram,Kilogram,45.00%,4.6,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Friyer Basket,15023,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,frizzer under counter white for chicken  ( BBQ ),5060,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,frizzer up right  no 2 berja ( BBQ ),5062,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Frozen Blackberry 0.340 KG,141005,Frozen Fruits,Kilogram,Kilogram,,4.926,0,0,,1,,,,,,,0,Shkakhwa,06/12/2018
+,Profit Contribution,Frozen Broad Beans,137005,Frozen Vegetables,Kilogram,Kilogram,,1.686,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Frozen Raspberry 0.340 KG,141004,Frozen Fruits,Kilogram,Kilogram,,5.5,0,0,,1,,,,,,,0,Shkakhwa,06/12/2018
+,Profit Contribution,Frozen Strawberry,141006,Frozen Fruits,Kilogram,Kilogram,,1.038,0,0,,1,,,,,,,0,Shkakhwa,22/07/2021
+,Expenses,Fruit & Veg Chiller (Bar Area),6129,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Fruit Chopping Board (Bar Area),6162,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Fruit Display Glass Vase (Bar Area),6138,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,fryer 1 compartment electric,5306,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,fryer two compartment ( Hot ),5092,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Galss rack for dishwashing (Bar Area),6160,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,garbage  (Dishwasher),5254,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Garbage Bag 10GLN,120067,Other Condiments,Each,Each,,0.011,0,0,,1,,,,,,,0,Shkakhwa,02/12/2016
+,Profit Contribution,Garbage Bag 70GLN - Clea ,120068,Other Condiments,Each,Each,,0.082,0,0,,1,,,,,,,0,Shkakhwa,02/12/2016
+,Expenses,Garbage Bag 90 GLN ( 110*12),120024,Packaging,Each,Each,,0.048,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,Garbage Bag White 5 Glns,120064,Other Condiments,Each,Each,,0.3,0,0,,1,,,,,,,0,Shkakhwa,06/11/2016
+,Expenses,garbage small ( Bakery ),5226,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,Garlic  ,107021,Fresh Vegetables,Kilogram,Kilogram,5.00%,0.45,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Garlic Paste Prep 6.700 kg (PA),800046,Sub Reciepes,Kilogram,Kilogram,0.00%,0.806,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Garnish bowl size 1 cup ( Cold ),5199,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,gas 4 burner under oven ( Hot ),5096,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,gas 6 burner under oven ( Hot ),5095,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Gas Celinder,1000001,Others,Each,Each,,4.5,0,0,,1,,,,,,,0,Shkakhwa,10/12/2016
+,Expenses,gas cooker 6 burner ( prep ),5008,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Gas Cylinder (Bar Area),6155,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Gas Stove 3 Burner (Bar Area),6120,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Ghrayba Prep 2.200 KG (PA),800110,Sub Reciepes,Kilogram,Kilogram,0.00%,1.771,0,0,,1,,,,,,,,Shkakhwa,27/10/2019
+,Expenses,Gilden Plate Leaf Shape Big (Bar Area),6142,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Gilden Plate Leaf Shape Small (Bar Area),6143,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Glass Candle Box (Bar Area),6148,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Glass Candle Holder (Wall Display),6114,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Glass Sand Clock (Bar Area),6147,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Glass Stand (Bar Area),6168,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Glass Tube (Bar Area),6145,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Golda Macaroni Shell,110002,Pasta,Kilogram,Kilogram,,1.352,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,GOLDEN ALEX OKRA 400 gm,137002,Frozen Vegetables,Kilogram,Kilogram,,2.19,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Golden G Flour Stick,119009,Dry Food,Kilogram,Kilogram,,0.895,0,0,,1,,,,,,,0,Shkakhwa,30/10/2019
+,Profit Contribution,Green Apple  ,106011,Fresh Fruits,Kilogram,Kilogram,,0.65,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Green Beans,107006,Fresh Vegetables,Kilogram,Kilogram,15.00%,0.85,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,green capsicum ,107030,Fresh Vegetables,Kilogram,Kilogram,15.00%,0.45,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Green Chili,107012,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.85,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Green Color,131002,Coloring,Liter,Liter,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,green container ( Cold ),5181,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Green Grapes ,106010,Fresh Fruits,Kilogram,Kilogram,,1.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Green Lintle 1kg,111007,Grain,Kilogram,Kilogram,,0.762,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Green vence,107064,Fresh Vegetables,Kilogram,Kilogram,,1.6,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Green Zaatar,113016,Herbs,Kilogram,Kilogram,,1.872,0,0,,1,,,,,,,0,Shkakhwa,29/08/2019
+,Expenses,grey container ( Cold ),5182,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,grilled charcoal 3 meters ( BBQ ),5068,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Grilled Musakhan prep 1 KG (PA),800080,Sub Reciepes,Kilogram,Kilogram,0.00%,0.752,0,0,,1,,,,,,,,Shkakhwa,30/06/2017
+,Profit Contribution,Grilled Shrimp Prep 2 kg  (PA) ( Dont Use ),800078,Sub Reciepes,Portion,Portion,0.00%,7.963,0,0,,1,,,,,,,0,Shkakhwa,02/07/2018
+,Profit Contribution,Grilled Shrimp Prep 2 kg (PA),800023,Sub Reciepes,Kilogram,Kilogram,0.00%,7.97,0,0,,1,,,,,,,0,Shkakhwa,02/07/2018
+,Expenses,grilled tweezers stainless steel - (Dishwasher),5293,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Guava Frozen,141002,Frozen Fruits,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Hair Net ( MOB CAP ),120025,Packaging,Each,Each,,0.01,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,HAJDU HALLOUMI GRILL CHEESE 10KG,101011,Cheese,Kilogram,Kilogram,,6.25,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Halawa Chocolate,105020,Dairy Others,Kilogram,Kilogram,,2.395,0,0,,1,,,,,,,0,Shkakhwa,24/09/2017
+,Profit Contribution,Halawet El Juben Prep 1.3 kg (PA),800047,Sub Reciepes,Kilogram,Kilogram,0.00%,1.831,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Half Chicken Grilled Prep portion (PA),800072,Sub Reciepes,Portion,Portion,0.00%,0.766,0,0,,1,,,,,,,,Shkakhwa,17/12/2016
+,Profit Contribution,Hammor Fillet Frozen,140008,Frozen Fish,Kilogram,Kilogram,,2.5,0,0,,1,,,,,,,0,Shkakhwa,18/06/2016
+,Profit Contribution,Hamour Fish Harra Prep 1 kg (PA),800039,Sub Reciepes,Kilogram,Kilogram,0.00%,7.77,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Hand San 800 ML F/Automatic,4001,Chicemicals,Each,Each,,0.495,0,0,,1,,,,,,,0,Shkakhwa,11/01/2017
+,Expenses,Hand Sprayer,1000029,Others,Each,Each,,0.857,0,0,,1,,,,,,,0,Shkakhwa,30/03/2021
+,Expenses,Hanging Lamp  (Bar Area),6156,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,harish,119010,Dry Food,Kilogram,Kilogram,,0.625,0,0,,1,,,,,,,0,Shkakhwa,01/03/2020
+,Profit Contribution,Harra Sauce Prep 5.114 ltr (PA),800056,Sub Reciepes,Liter,Liter,0.00%,0.737,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Hazelnut 14-16 mm 1 KG,117008,Nuts,Kilogram,Kilogram,,6.076,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Healthy French fries Fryer,15004,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Hearb Garden (Wall Display),6105,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,heater big ( Hot ),5090,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Heater Line 90 cm with Light ( Line Area ),5341,Kitchen Assets,Each,Each,,204.741,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Expenses,Heinz Portion Ketchup,1000028,Others,Each,Each,,0.009,0,0,,1,,,,,,,0,Shkakhwa,20/08/2020
+,Profit Contribution,Hellmanns Sandwich Mayo,120011,Other Condiments,Kilogram,Kilogram,,3.69,0,0,,1,,,,,,,0,Shkakhwa,25/07/2021
+,Profit Contribution,Hersheys Syrup Choco 650 GM,122007,Chocolates,Kilogram,Kilogram,,2.199,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Profit Contribution,Hibiscus Tea Bag,142011,Coffee & Tea,Each,Each,,0.042,0,0,,1,,,,,,,0,Shkakhwa,31/03/2016
+,Expenses,Highball Glass ( Dining ),1047,Small Ware,Each,Each,,1.75,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,HINTZ POT CLEANER G,4007,Chicemicals,Each,Each,,0.395,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Profit Contribution,Home Made Halloumi Cheese Prep 1.350 KG (PA),800131,Sub Reciepes,Kilogram,Kilogram,0.00%,3.071,0,0,,1,,,,,,,,Shkakhwa,28/06/2020
+,Profit Contribution,Home Made Halloumi Marai Milk 1.45 KG (PA),800134,Sub Reciepes,Kilogram,Kilogram,0.00%,0,0,0,,1,,,,,,,,Shkakhwa,28/08/2020
+,Profit Contribution,Home Made Mixed Pixkles 13 KG (PA),800133,Sub Reciepes,Kilogram,Kilogram,0.00%,0.367,0,0,,1,,,,,,,,Shkakhwa,31/07/2020
+,Profit Contribution,Home Made Qashta Prep 0.950 KG (PA),800130,Sub Reciepes,Kilogram,Kilogram,0.00%,1.391,0,0,,1,,,,,,,,Shkakhwa,28/06/2020
+,Profit Contribution,Home Made Sausage Prep 10.500 KG (PA),800111,Sub Reciepes,Kilogram,Kilogram,0.00%,2.74,0,0,,1,,,,,,,,Shkakhwa,17/11/2019
+,Profit Contribution,Home Made Sundried Tomato 1.3 KG (PA),800135,Sub Reciepes,Kilogram,Kilogram,0.00%,4.212,0,0,,1,,,,,,,,Shkakhwa,01/11/2020
+,Profit Contribution,Home Made Yoghurt Prep 10 KG  (PA),800132,Sub Reciepes,Kilogram,Kilogram,0.00%,0.438,0,0,,1,,,,,,,,Shkakhwa,28/06/2020
+,Expenses,Horican glass,1046,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,10/09/2016
+,Profit Contribution,Hortex Green Peas 400 GM,137001,Frozen Vegetables,Kilogram,Kilogram,,2.106,0,0,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Profit Contribution,Hortex Leaf Spinach 400 GM,137004,Frozen Vegetables,Kilogram,Kilogram,,1.738,0,0,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Expenses,Hot Box,10001,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Profit Contribution,Hot Chilli Sauce,116016,Syrups,Liter,Liter,,1.831,0,0,,1,,,,,,,0,Shkakhwa,20/07/2018
+,Expenses,HP laserjet Printer (Recieption Area),6025,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Hummos Areesh Prep 1.3 kg (PA),800010,Sub Reciepes,Kilogram,Kilogram,0.00%,2.315,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Hummose Tahina Prep 3 kg (PA),800009,Sub Reciepes,Kilogram,Kilogram,0.00%,0.614,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Hummus Bayroti 1.2 KG (PA),800086,Sub Reciepes,Kilogram,Kilogram,0.00%,0.604,0,0,,1,,,,,,,,Shkakhwa,19/07/2018
+,Expenses,ice cream scoop (Dishwasher),5235,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,ice tong (Dishwasher),5236,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,Iceberg Lettuce,107084,Fresh Vegetables,Kilogram,Kilogram,,2.492,0,0,,1,,,,,,,0,Shkakhwa,27/07/2020
+,Profit Contribution,Icing Sugar 1 Kg,115007,Sugar,Kilogram,Kilogram,,1.614,0,0,,1,,,,,,,0,Sandeep,31/07/2016
+,Expenses,Impulse Sealer,5343,Kitchen Assets,Each,Each,,20,0,0,,1,,,,,,,0,Shkakhwa,27/09/2019
+,Expenses,Insect Killer (Recieption Area),6057,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Instikana 6 (Wall Display),6112,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Irani Bread 1 pcs,135003,Bread,Each,Each,,0.05,0,0,,1,,,,,,,0,Shkakhwa,20/05/2016
+,Expenses,Irish Coffee Cup 7.5 OZ,1048,Small Ware,Each,Each,,1.6,0,0,,1,,,,,,,0,Shkakhwa,22/12/2016
+,Profit Contribution,Jameed Jordan,105006,Dairy Others,Kilogram,Kilogram,,6.792,0,0,,1,,,,,,,0,Shkakhwa,23/04/2016
+,Profit Contribution,Jarrish 1 KG,111019,Grain,Kilogram,Kilogram,,0.525,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Jasmin Rice ( for staff ),109003,Rice,Kilogram,Kilogram,,0.325,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,JUICE APPLE PRM 300ML,124002,Bottled Juices,Each,Each,,0.202,0,0,,1,,,,,,,0,Shkakhwa,28/10/2017
+,Expenses,Juice Dispenser 5 Ltr,10003,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,Juice Dispenser 8 Ltr,10004,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Expenses,Juice Glass,1074,Small Ware,Each,Each,,0.19,0,0,,1,,,,,,,0,Shkakhwa,08/03/2017
+,Expenses,Juice Squeezer Machine (Bar Area),6123,Dining Assets,Each,Each,,204.741,0,0,,1,,,,,,,0,Shkakhwa,14/01/2018
+,Profit Contribution,K 2 Bread Improver 1 kg,118024,Baking Items,Kilogram,Kilogram,,1.7,0,0,,1,,,,,,,0,Sandeep,05/08/2016
+,Profit Contribution,Kabab Chicken Prep 17.100 kg (PA),800059,Sub Reciepes,Kilogram,Kilogram,0.00%,1.261,0,0,,1,,,,,,,0,Shkakhwa,14/06/2017
+,Profit Contribution,Kabab halabi Prep 19.2 kg (PA),800002,Sub Reciepes,Kilogram,Kilogram,0.00%,2.334,0,0,,1,,,,,,,,Shkakhwa,19/04/2016
+,Profit Contribution,Kabsah Rice 1.1 KG (PA),800074,Sub Reciepes,Kilogram,Kilogram,0.00%,0.623,0,0,,1,,,,,,,,Shkakhwa,28/12/2016
+,Profit Contribution,Karaja Chana Dal ,111014,Grain,Kilogram,Kilogram,,0.476,0,0,,1,,,,,,,0,Shkakhwa,26/03/2016
+,Profit Contribution,Kebbeh Cheese 1 Pcs (PA),800097,Sub Reciepes,Each,Each,0.00%,0.056,0,0,,0.038,,,,,,,,Shkakhwa,06/12/2018
+,Profit Contribution,Kebeh Borghol 1 pc (PA),800085,Sub Reciepes,Each,Each,0.00%,0.074,0,0,,0.042,,,,,,,,Shkakhwa,01/07/2018
+,Profit Contribution,Kebeh Borghol 1 pc (PA) DONT USE,800082,Sub Reciepes,Each,Each,0.00%,0.074,0,0,,0.042,,,,,,,0,Shkakhwa,02/05/2018
+,Profit Contribution,Kebeh Borghol 4 pcs (PA),800066,Sub Reciepes,Portion,Portion,0.00%,0.313,0,1,,1,,,,,,,0,Shkakhwa,02/11/2017
+,Profit Contribution,Kebeh Filling 6.500 kg (PA),800045,Sub Reciepes,Kilogram,Kilogram,0.00%,3.23,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Kentuky Mop Head,120031,Packaging,Each,Each,,1.33,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,Kentuky Mop Head S,120032,Packaging,Each,Each,,3.8,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Expenses,Key board (Recieption Area),6027,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,King Scallops - U.S. (U/10),140003,Frozen Fish,Kilogram,Kilogram,25.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,kitchen Cloth,1000020,Others,Each,Each,,0.19,0,0,,1,,,,,,,0,Shkakhwa,31/01/2018
+,Profit Contribution,Kiwi  ,106021,Fresh Fruits,Kilogram,Kilogram,,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Kiwi Frozen,141003,Frozen Fruits,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Kiwifruit,106025,Fresh Fruits,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,17/10/2019
+,Expenses,knife blue ( Butchery ),5148,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,knife green 27 cm ( Gold ),5178,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Knife magnet Holder ( Butchery ),5160,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,knife red ( Butchery ),5147,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Knife Wall magnet ( Prep ),5025,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,knife white 22 cm ( Cold ),5179,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,knife yellow ( Butchery ),5146,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Knorr Corn Oil,114001,Oils,Liter,Liter,,0.722,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Knorr Demi Glace,112034,Spices,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Knorr Frying Solution Oil 17.5,114006,Oils,Liter,Liter,,0.533,0,0,,1,,,,,,,0,Shkakhwa,01/04/2016
+,Profit Contribution,Knorr Hollandice Sauce 1LTR,105025,Dairy Others,Liter,Liter,,4.025,0,0,,1,,,,,,,0,Shkakhwa,26/07/2018
+,Profit Contribution,Knorr Seasoning shesh Tawook Mix,112039,Spices,Kilogram,Kilogram,,3.334,0,0,,1,,,,,,,0,Shkakhwa,04/01/2017
+,Expenses,Kunafa Burner 3 Burners,15029,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,kunafa stove ( Cold ),5333,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,Kunafa Wooden Base,10008,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Profit Contribution,kusa baby marrow,107014,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Labanah Areesh Prep 1.185 kg (PA),800004,Sub Reciepes,Kilogram,Kilogram,0.00%,2.557,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Labanah Home Made Prep 2.100 KG (PA),800104,Sub Reciepes,Kilogram,Kilogram,0.00%,1.786,0,0,,1,,,,,,,,Shkakhwa,30/08/2019
+,Expenses,ladle mfstolo soup spoon cm0.9 L.33 Lt.020 (Dishwasher),5280,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,ladle tube handle 11970-14 (Dishwasher),5283,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Lady Finger,107081,Fresh Vegetables,Kilogram,Kilogram,,0.85,0,0,,1,,,,,,,0,Shkakhwa,30/10/2019
+,Profit Contribution,Lahm Bel Ajeen Meat Prep 1 kg (PA),800052,Sub Reciepes,Kilogram,Kilogram,0.00%,1.552,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Lamb Back,125023,Fresh Meat,Kilogram,Kilogram,50.00%,2.5,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Lamb Chob,125006,Fresh Meat,Kilogram,Kilogram,,2.7,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Lamb Chop Prep 1 kg (PA),800024,Sub Reciepes,Kilogram,Kilogram,0.00%,1.828,0,0,,1,,,,,,,0,Shkakhwa,15/02/2018
+,Profit Contribution,lamb fat,125005,Fresh Meat,Kilogram,Kilogram,5.00%,2.6,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,lamb meat,125004,Fresh Meat,Kilogram,Kilogram,,2.5,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Expenses,Lamp Shade (Bar Area),6146,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,LD Transperrent Bag 8*12,120053,Other Condiments,Kilogram,Kilogram,,1.1,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,Leb Labneh w Olive Oil,105019,Dairy Others,Kilogram,Kilogram,,4,0,0,,1,,,,,,,0,Shkakhwa,24/09/2017
+,Profit Contribution,Lebanese Bread,135002,Bread,Each,Each,,0.02,0,0,,1,,,,,,,0,Admin,24/02/2016
+,Profit Contribution,Leeks,107072,Fresh Vegetables,Kilogram,Kilogram,5.00%,1.6,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Lemon fresh,107023,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.5,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Profit Contribution,Lemon Grass ,108008,Fresh Herbs,Kilogram,Kilogram,,0.667,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,lemon salt 1kg,120016,Other Condiments,Kilogram,Kilogram,,1.738,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Lentil Soup Prep 5.500 ltr (PA),800063,Sub Reciepes,Liter,Liter,20.00%,0.196,0,0,,1,,,,,,,0,Shkakhwa,09/07/2019
+,Expenses,Lid (5015),5000005,Packaging,Each,Each,,0.014,0,0,,1,,,,,,,0,Shkakhwa,04/02/2017
+,Expenses,Lid (5130),5000006,Packaging,Each,Each,,0.043,0,0,,1,,,,,,,0,Shkakhwa,04/02/2017
+,Expenses,Light Bulb (Recieption Area),6065,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Lime,107024,Fresh Vegetables,Kilogram,Kilogram,15.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,linnyu ladle sauce (Dishwasher),5282,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Lip.ENG:B/FAST STRONG PYMD 25S,142001,Coffee & Tea,Each,Each,,0.043,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON CAMMOMILE 30S PYRAMID,142002,Coffee & Tea,Each,Each,,0.05,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON EARL GREY 25S PYRAMID,142004,Coffee & Tea,Each,Each,,0.057,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON ENV CAMOMILE HONEY 30S,142003,Coffee & Tea,Each,Each,,0.065,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON ENVP FOREST FRUITS 25S,142005,Coffee & Tea,Each,Each,,0.077,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Lipton Lemon Tea Bag 25s,142010,Coffee & Tea,Each,Each,,0.057,0,0,,1,,,,,,,0,Shkakhwa,27/03/2016
+,Profit Contribution,LIPTON MINT T/BAG 30S PYRAMID,142008,Coffee & Tea,Each,Each,,0.053,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON PURE BLACK CEYLON 25S,142006,Coffee & Tea,Each,Each,,0.057,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,LIPTON PURE GT TEA BAGS 20S,142007,Coffee & Tea,Each,Each,,0.022,0,0,,1,,,,,,,0,Sandeep,01/10/2016
+,Profit Contribution,Lipton Rosehip T/BAG 25s,142009,Coffee & Tea,Each,Each,,0.057,0,0,,1,,,,,,,0,Shkakhwa,27/03/2016
+,Expenses,Lipton Tea Display Box (Bar Area),6131,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Lipton Yellow YLTP,142017,Coffee & Tea,Each,Each,,0.015,0,0,,1,,,,,,,0,Shkakhwa,23/07/2016
+,Profit Contribution,loacker loackini,104002,Youghurt,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,24/07/2021
+,Expenses,Log book (Recieption Area),6063,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Lollo Rosa (holen) lettuce,107025,Fresh Vegetables,Kilogram,Kilogram,10.00%,3.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,long Chilli Fresh ,107011,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.57,0,0,,1,,,,,,,0,Shkakhwa,28/08/2020
+,Expenses,Long Handle Dust Pan,1000025,Others,Each,Each,,7.5,0,0,,1,,,,,,,0,Shkakhwa,26/02/2020
+,Profit Contribution,long Lettuce,107026,Fresh Vegetables,Kilogram,Kilogram,30.00%,0.65,0,0,,1,,,,,,,0,Shkakhwa,14/06/2017
+,Expenses,long table stainless steel ( Cold ),5169,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Lotus Butter,118032,Baking Items,Kilogram,Kilogram,,6.238,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Lotus Caramalised Biscuit 1 KG,118031,Baking Items,Kilogram,Kilogram,,3.767,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,Low Chair,15001,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Low Pressure Regulator (Recieption Area),6055,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,MAEKRUA OYSTER SAUCE 600 ML,116013,Syrups,Liter,"Bottle 0,1l",,1.583,0,0,,1,,,,,,,0,Shkakhwa,06/09/2017
+,Profit Contribution,Mafrokeh Pistachio Dough 0.385 kg (PA),800048,Sub Reciepes,Kilogram,Kilogram,0.00%,4.164,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Maftool,111013,Grain,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,magnet for knife ( BBQ ),5084,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Mango ,106016,Fresh Fruits,Kilogram,Kilogram,,1.1,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Mango Frozen,141001,Frozen Fruits,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Mansaf Rice Prep 11.2 kg (PA),800036,Sub Reciepes,Kilogram,Kilogram,0.00%,0.453,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Mansaf Yoghurt Sauce Prep 5.500 ltr (PA),800037,Sub Reciepes,Liter,Liter,0.00%,1.516,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,mara arborio rice,109004,Rice,Kilogram,Kilogram,,2.181,0,0,,1,,,,,,,0,Shkakhwa,24/07/2021
+,Profit Contribution,Mara Sundried Tomato in oil 2.9KG,132003,Canned Vegetables,Kilogram,Kilogram,45.00%,3.812,0,0,,1,,,,,,,0,Shkakhwa,03/09/2017
+,Profit Contribution,Marai Fresh Milk,102008,Milk,Liter,Liter,,0.368,0,0,,1,,,,,,,0,Shkakhwa,28/08/2020
+,Profit Contribution,Marai Yoghurt ,105030,Dairy Others,Kilogram,Kilogram,,0.75,0,0,,1,,,,,,,0,Shkakhwa,28/08/2020
+,Profit Contribution,Marie Buescuit,118034,Baking Items,Kilogram,Kilogram,,1.762,0,0,,1,,,,,,,0,Shkakhwa,20/04/2017
+,Expenses,Marki Dishwash 30 LT,1000003,Others,Liter,Liter,,0.183,0,0,,1,,,,,,,0,Shkakhwa,24/12/2016
+,Profit Contribution,Marshmallow,120071,Other Condiments,Kilogram,Kilogram,,2.698,0,0,,1,,,,,,,0,Shkakhwa,09/09/2021
+,Profit Contribution,Masafi Mineral Water 330 Ml,144002,Bottled Water,Each,Each,,0.075,0,0,,1,,,,,,,0,Shkakhwa,25/03/2016
+,Profit Contribution,masafi minral water 1.5 L,144003,Bottled Water,Each,Each,,0.15,0,0,,1,,,,,,,0,Admin,14/04/2016
+,Profit Contribution,MASHMOLA CHEESE,101010,Cheese,Kilogram,Kilogram,,3.182,0,0,,1,,,,,,,0,Sandeep,03/08/2016
+,Profit Contribution,Mastekah,113015,Herbs,Kilogram,Kilogram,,100,0,0,,1,,,,,,,0,Shkakhwa,26/05/2016
+,Expenses,Maxi Roll Holder White,1079,Small Ware,Each,Each,,18,0,0,,1,,,,,,,0,Shkakhwa,30/11/2017
+,Expenses,Maxiroll Auto Cut,120036,Packaging,Each,Each,,0.792,0,0,,1,,,,,,,0,Sandeep,25/05/2016
+,Expenses,Mbm dishwasher (Bar Area),6126,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,mcvities biscuits,119013,Dry Food,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,24/07/2021
+,Expenses,measuring 1/4  tea spoon ( Hot ),5315,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,measuring half tea 1/2 spoon ( Hot ),5314,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,measuring table spoon 1 ( Hot ),5312,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,measuring tea spoon 1 ( Hot ),5313,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Profit Contribution,Meat intestine (Sausage),125032,Fresh Meat,Each,Each,,0.95,0,0,,1,,,,,,,0,Shkakhwa,16/11/2019
+,Profit Contribution,Meat Safeha Prep 1.90 kg (meat only ) (PA),800020,Sub Reciepes,Kilogram,Kilogram,0.00%,2.593,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Meat Sambosa 1 Pcs (PA),800099,Sub Reciepes,Each,Each,0.00%,0.138,0,0,,1.027,,,,,,,,Vinay,08/07/2019
+,Expenses,meat saw ( Butchery ),5145,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Meat Waste,125014,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Expenses,medium bowl ( Cold ),5205,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Medium Cooper Bowl,15044,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,medium table stainless steel ( Cold ),5170,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Menu (Recieption Area),6033,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Menu Display Touch Screen (Recieption Area),6037,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Merch Areesh Orange Oolong 250 GM,150013,Merchandise,Each,Each,,8.622,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Areesh Rose Green Tea 200 GM ,150010,Merchandise,Each,Each,,5.614,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Areesh Spiced Chai 500 GM,150011,Merchandise,Each,Each,,17.245,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Areesh Tranquili Tea 250 GM,150012,Merchandise,Each,Each,,8.622,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Coffee Cup With Color Only 1 pc,150006,Merchandise,Each,Each,,0.668,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Coffee Cup With Platinum Color set of 6 pcs,150005,Merchandise,Each,Each,,9.09,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Platinum Isteakana 701329 set 6 pcs,150001,Merchandise,Each,Each,,13.529,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Platinum Mug Set of 3 pcs,150002,Merchandise,Each,Each,,9.772,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Sugar Caddie,150004,Merchandise,Each,Each,,4.411,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Teabox 1 pc,150007,Merchandise,Each,Each,,16.336,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Teapot 1 pc,150003,Merchandise,Each,Each,,16.657,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch Tray 1 pcs,150008,Merchandise,Each,Each,,13.128,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Merch White Berry Delight Tea 250 GM ,150009,Merchandise,Each,Each,,7.018,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Expenses,Micro Cash POS (Recieption Area),6019,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Micro Tab (Recieption Area),6026,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Micros Printer ( Bakery ),5208,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Micros Printer ( Cold ),5184,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Micros Printer ( Prep ),5012,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Micros Tablet Charger (Recieption Area),6056,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,microwave menumaster ( Hot ),5098,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,microwave Panasonic ( Hot ),5097,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Mihyawa,112045,Spices,Liter,Liter,,2.786,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,milk fish,140009,Frozen Fish,Kilogram,Kilogram,,0.45,0,0,,1,,,,,,,0,Shkakhwa,26/06/2016
+,Profit Contribution,MILK POWDER 25KG ( Dont Use ),102001,Milk,Liter,Liter,,1.7,0,0,,1,,,,,,,0,Shkakhwa,05/01/2017
+,Profit Contribution,Millac Gold Cream,103003,Cream,Liter,Liter,,1.25,0,0,,1,,,,,,,0,Shkakhwa,31/01/2020
+,Expenses,minced machine ( Prep ),5015,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Mini Kebbeh Burgul 1 Pcs (PA),800117,Sub Reciepes,Each,Each,0.00%,0.048,0,0,,0.026,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Mini Kebbeh Cheese 1 Pcs (PA),800118,Sub Reciepes,Each,Each,0.00%,0.033,0,0,,0.026,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Mint Leaves,107077,Fresh Vegetables,Kilogram,Kilogram,20.00%,2.5,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Mira Black Olive Slice 1.4 KG,129004,Olives,Kilogram,Kilogram,,1.808,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Mira Green Olive Slice 1.4 KG,129003,Olives,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,mixing bowl stainless 21mm ( Hot ),5136,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,mixing bowl stainless 24mm ( Hot ),5135,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,mixing bowl stainless 27mm ( Hot ),5137,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,mixing bowl stainless 32mm ( Hot ),5139,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,mixing bowl stainless 39mm ( Hot ),5138,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Mob Box ( Bakery ),5228,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Mob Sink,15036,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Mohalabia Prep 1.400 kg (PA),800092,Sub Reciepes,Portion,Portion,0.00%,0.141,0,0,,1,,,,,,,,Shkakhwa,27/08/2018
+,Profit Contribution,Mohalabia Prep 1.450 kg (PA) Dont Use,800050,Sub Reciepes,Kilogram,Kilogram,0.00%,0.675,0,0,,1,,,,,,,0,Shkakhwa,27/08/2018
+,Profit Contribution,Mongo Seed,111017,Grain,Kilogram,Kilogram,,0.633,0,0,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Expenses,Mouse (Recieption Area),6028,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Mozarella Block,101004,Cheese,Kilogram,Kilogram,,1.957,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Muffin Tray ( Cold ),5188,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Mug Set of 3 (Wall Display),6107,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Muhammara Nuts Prep 1.500 kg (PA),800006,Sub Reciepes,Kilogram,Kilogram,0.00%,1.85,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Mushataha Filling 0.250 KG (PA),800095,Sub Reciepes,Kilogram,Kilogram,0.00%,2.972,0,0,,1,,,,,,,,Shkakhwa,21/09/2018
+,Profit Contribution,mushrom 500 gm (dont use ),107044,Fresh Vegetables,Kilogram,Kilogram,,0.35,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Mushroom fresh ,107027,Fresh Vegetables,Kilogram,Kilogram,10.00%,2.4,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Mushroom Sauce For Veal Cutlet 1.400 LTR (PA),800105,Sub Reciepes,Liter,Liter,0.00%,1.517,0,0,,1,,,,,,,,Shkakhwa,04/09/2019
+,Profit Contribution,MUSHROOM WHOLE 400GM G/FOODBRAND,132004,Canned Vegetables,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Mussels-Half Shell,140004,Frozen Fish,Kilogram,Kilogram,25.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Mustered Sauce For  Shrimp Salad 250 ML (PA),800108,Sub Reciepes,Liter,Liter,0.00%,0.437,0,0,,1,,,,,,,,Shkakhwa,11/10/2019
+,Profit Contribution,Mutabbal Areesh Prep 1.800 KG (PA),800007,Sub Reciepes,Kilogram,Kilogram,0.00%,1.294,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Mutabbal Prep 1.500 kg (PA),800008,Sub Reciepes,Kilogram,Kilogram,0.00%,1.069,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,MY DRY FIGS 5x2 KG,119001,Dry Food,Kilogram,Kilogram,5.00%,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,MY HOT CHILLI PASTE 1900 GM,130002,Paste,Kilogram,Kilogram,10.00%,1.212,0,0,,1,,,,,,,0,Shkakhwa,02/03/2018
+,Profit Contribution,MY SEMOLINA 750 G NO 0,111001,Grain,Kilogram,Kilogram,,0.333,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Naganag Bowl,1055,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Najjar Coffee Clasic 200 GM,142012,Coffee & Tea,Kilogram,Kilogram,,7.975,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Expenses,Napkin Bulk Pack 250 Pcs for toilet,5000001,Packaging,Each,Each,,0.001,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Natural Red Lintle Split 1 KG,111008,Grain,Kilogram,Kilogram,,0.444,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Nescafe Arabiana Sachet,142019,Coffee & Tea,Each,Each,,0.344,0,0,,1,,,,,,,0,Shkakhwa,22/02/2017
+,Profit Contribution,Nescafe My Cup 3in1 20 GM,142021,Coffee & Tea,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,13/07/2018
+,Expenses,Nescafe R/MUG ,1000011,Others,Kilogram,Kilogram,,11.19,0,0,,1,,,,,,,0,Shkakhwa,22/07/2017
+,Profit Contribution,Nescafe Red Mug Sachet 1.8 GM,142022,Coffee & Tea,Each,Each,,0.066,0,0,,1,,,,,,,0,Vinay,13/07/2018
+,Expenses,New Desert Fork,6175,Dining Assets,Each,Each,,0.46,0,0,,1,,,,,,,0,Shkakhwa,31/05/2021
+,Expenses,New Desert Spoon,6176,Dining Assets,Each,Each,,0.113,0,0,,1,,,,,,,0,Shkakhwa,31/05/2021
+,Expenses,New Dining Fork,6178,Dining Assets,Each,Each,,0.113,0,0,,1,,,,,,,0,Shkakhwa,31/05/2021
+,Expenses,New Dining Knife,6179,Dining Assets,Each,Each,,0.113,0,0,,1,,,,,,,0,Shkakhwa,31/05/2021
+,Expenses,New Dining Spoon,6177,Dining Assets,Each,Each,,0.113,0,0,,1,,,,,,,0,Shkakhwa,31/05/2021
+,Profit Contribution,New Sauce Butter Chicken 2.2 KG (PA),800102,Sub Reciepes,Liter,Liter,0.00%,1.348,0,0,,1,,,,,,,,Shkakhwa,01/08/2019
+,Profit Contribution,New Veal Cutlet Prep 1 Portion (PA),800101,Sub Reciepes,Portion,Portion,0.00%,0.531,0,0,,1,,,,,,,,Shkakhwa,01/08/2019
+,Profit Contribution,Nezo salt,120014,Other Condiments,Kilogram,Kilogram,,0.25,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Noodle Bowl 5 Pcs,5000032,Packaging,Each,Each,,0.095,0,0,,1,,,,,,,0,Shkakhwa,28/08/2020
+,Profit Contribution,Noodles,119007,Dry Food,Kilogram,Kilogram,,1.211,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Nutella Chocolate,122003,Chocolates,Kilogram,Kilogram,,3.67,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,nuts container drawer ( Cold ),5326,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,Nutty Maker,15005,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Oil Filter ( Hot ),5103,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,OKRA,107067,Fresh Vegetables,Kilogram,Kilogram,,1.4,0,0,,1,,,,,,,0,Sandeep,10/07/2016
+,Expenses,Old Dessert Fork,1061,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Serving Forks,1057,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Serving Knifs,1058,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Serving Spoons,1056,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Small Forks,1060,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Small Knifs,1063,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Small Spoons,1059,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Old Tea Spoons,1062,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Profit Contribution,Olive Oil,114002,Oils,Liter,Liter,,1.8,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Olive Oil Bottle,1064,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,ome piece spoon 38cm (Dishwasher),5286,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,ome plece meat fork 3 prongs (Dishwasher),5292,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,ome plece per forafed spatula 8x9.5 (Dishwasher),5289,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,ome plece skimmer 9cm-26L (Dishwasher),5288,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Orange Blossom ,116006,Syrups,Liter,Liter,,2.083,0,0,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Orange Egypt ( Dont Use ),106014,Fresh Fruits,Kilogram,Kilogram,,0.4,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Orange For Juice,106019,Fresh Fruits,Kilogram,Kilogram,,0.45,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,order holder ( BBQ ),5085,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Oval  Wooden Bowl,15007,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Oval Tay (Dining Area),6089,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,oven container aluminum,15031,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,oven container aluminum ( BBQ ),5086,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Oven Mob ( Bakery ),5227,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Oven Tray Wooden Base,15025,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,P/Zara Macaroni Coloured,110005,Pasta,Kilogram,Kilogram,,1.04,0,0,,1,,,,,,,0,Shkakhwa,04/09/2019
+,Profit Contribution,Padano Parmesan Cheese,101022,Cheese,Kilogram,Kilogram,,8.5,0,0,,1,,,,,,,0,Shkakhwa,27/07/2020
+,Expenses,paderno soup spoon 11983-38 (Dishwasher),5281,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Pakmaya Yeast 20x500 Gm,118002,Baking Items,Kilogram,Kilogram,,1.881,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Panco Bread Crumbs,135006,Bread,Kilogram,Kilogram,,1.81,0,0,,1,,,,,,,0,Shkakhwa,19/03/2017
+,Expenses,PAper Bag White ( 41*33*1 ) Handle,120058,Packaging,Each,Each,,0.104,0,0,,1,,,,,,,0,Shkakhwa,31/05/2016
+,Expenses,Paper Bag White NO#10 SMALL,120048,Packaging,Kilogram,Kilogram,,1.969,0,0,,1,,,,,,,0,Shkakhwa,13/03/2017
+,Expenses,Paper Bag White NO#20,120030,Packaging,Kilogram,Kilogram,,1.04,0,0,,1,,,,,,,0,Shkakhwa,13/03/2017
+,Expenses,Paper Box Plain Boat 1X500 pcs,5000011,Packaging,Each,Each,,0.103,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,Paper Foil Wrap - Silver,5000025,Packaging,Each,Each,,0.029,0,0,,1,,,,,,,0,Vinay,28/05/2018
+,Expenses,Paper Hot Cup 9 OZ ,5000028,Packaging,Each,Each,,0.009,0,0,,1,,,,,,,0,Vinay,13/07/2018
+,Expenses,paper napkin 33*33 2ply,5000002,Packaging,Each,Each,,0.004,0,0,,1,,,,,,,0,Sandeep,10/07/2016
+,Expenses,Paper Napkin 40*40 PLY,120037,Packaging,Each,Each,,0.004,0,0,,1,,,,,,,0,Sandeep,25/05/2016
+,Expenses,"Paper Plate 9""RD",120029,Packaging,Each,Each,,0.009,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,Paper Soup Bowl Cup,120054,Other Condiments,Each,Each,,0.1,0,0,,1,,,,,,,0,Sandeep,01/08/2016
+,Profit Contribution,Paprika Powder Grade A ( Sweet ),112043,Spices,Kilogram,Kilogram,,3.81,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Parmesan Cheese ,101018,Cheese,Kilogram,Kilogram,,10,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Expenses,parrillas (fish) ( BBQ ),5075,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,parrillas 37x26cm ( BBQ ),5074,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,parrillas 40x30cm ( BBQ ),5073,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Parsley,107075,Fresh Vegetables,Kilogram,Kilogram,44.00%,0.9,0,0,,1,,,,,,,0,Shkakhwa,16/09/2018
+,Expenses,pasta machine ( Prep ),5049,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Pasta Penne ,110003,Pasta,Kilogram,Kilogram,,1.895,0,0,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Profit Contribution,PASTRY PLAIN SHEET 550GM TEE YIH JI BRAND borak,118003,Baking Items,Kilogram,Kilogram,,1.69,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Patio Heaters Glass (Outside Area),6015,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Patio Heaters Glass Cylinder (Outside Area),6017,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Patio Heaters Top flame (Outside Area),6016,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Patio Heaters Top flame Cylinder (Outside Area),6018,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,PB Brown square Bottom 20X12X37cm 500 pcs,5000030,Packaging,Each,Each,,0.06,0,0,,1,,,,,,,0,Shkakhwa,18/07/2020
+,Profit Contribution,Peach Fresh,106017,Fresh Fruits,Kilogram,Kilogram,,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Pear,106018,Fresh Fruits,Kilogram,Kilogram,,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Peeled Tomatoes,132002,Canned Vegetables,Kilogram,Kilogram,,0.467,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,pepper container plastic ( BBQ ),5080,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Pepperoni,125033,Fresh Meat,Kilogram,Kilogram,,7.61,0,0,,1,,,,,,,0,Shkakhwa,25/07/2021
+,Expenses,Pepsi chiller ( Hot ),5089,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Perrier 330 ML,144006,Bottled Water,Each,Each,,0.406,0,0,,1,,,,,,,0,Shkakhwa,02/01/2017
+,Expenses,perto rated spoon stainless  (Dishwasher),5285,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Pet Clear Cup 12 oz 20x50 Pcs,5000004,Packaging,Each,Each,,0.021,0,0,,1,,,,,,,0,Shkakhwa,02/01/2017
+,Expenses,Pet Clear Cup 160z,120027,Packaging,Each,Each,,36,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,phelo pastry Karama,118008,Baking Items,Kilogram,Kilogram,,1.652,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Philadelphia Cheese 300 GM,101019,Cheese,Kilogram,Kilogram,,4.153,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Pineapple Fresh  ,106020,Fresh Fruits,Kilogram,Kilogram,,0.75,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,pinenuts pakistani,117007,Nuts,Kilogram,Kilogram,,25.357,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,PISTACHEW SLICE ,117006,Nuts,Kilogram,Kilogram,,20,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Pistachio 1 KG,117005,Nuts,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Pistachio Cream Prep 1 Portion (PA),800057,Sub Reciepes,Portion,Portion,0.00%,0.33,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Pistachio Essence,116011,Syrups,Liter,Liter,,0,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Expenses,pizza  tongue ( Bakery ),5224,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Pizza Box Large ,5000033,Packaging,Each,Each,,0.15,0,0,,1,,,,,,,0,Shkakhwa,23/07/2021
+,Expenses,pizza roll ( Bakery ),5215,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Pizza Underliner,5000034,Packaging,Each,Each,,0.042,0,0,,1,,,,,,,0,Shkakhwa,31/07/2021
+,Expenses,pizza wheel (Dishwasher),5298,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,plant Pot Big (Bar Area),6139,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,plastic basket ( Cold ),5183,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,plastic bowl for rice ( Hot ),5305,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,Plastic Box For Fruit (Bar Area),6134,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,plastic Brush (Dishwasher),5234,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,plastic container 1/1 200mm (Dishwasher),5258,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,plastic container gray (Dishwasher),5255,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Plastic Fruit & Veg Box (Bar Area),6157,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Plastic Glasses 100pcs,5000035,Packaging,Each,Each,,0.105,0,0,,1,,,,,,,0,Shkakhwa,16/08/2021
+,Expenses,plastic Jug (Bar Area),6169,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Plastic Juice Bottle 300 ML,5000027,Packaging,Each,Each,,0.24,0,0,,1,,,,,,,0,Vinay,16/06/2018
+,Expenses,plastic spatula  35cm (Dishwasher),5264,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,plastic spatula  9x10 (Dishwasher),5263,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Plastic Tray (Bar Area),6170,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,plate Warmer ( Hot ),5091,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Pomegranate,106003,Fresh Fruits,Kilogram,Kilogram,40.00%,0.9,0,0,,1,,,,,,,0,Shkakhwa,31/03/2016
+,Profit Contribution,pomegranate molasses ( DOnt Use ),116007,Syrups,Liter,Liter,,2.75,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,Portable Charger (Recieption Area),6072,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Potato,107033,Fresh Vegetables,Kilogram,Kilogram,20.00%,0.28,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Potato Cubes 1 KG (PA),800075,Sub Reciepes,Kilogram,Kilogram,0.00%,0.35,0,0,,1,,,,,,,,Shkakhwa,29/12/2016
+,Profit Contribution,Potato Filling Prep 1.4 KG (PA),800042,Sub Reciepes,Kilogram,Kilogram,0.00%,0.641,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,potato peeler (Dishwasher),5300,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Potato Peeler Machine,5335,Kitchen Assets,Each,Each,,663.88,0,0,,1,,,,,,,0,Shkakhwa,14/01/2018
+,Expenses,pressure cooking ban 10 ltr ( Prep ),5023,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,pressure cooking ban 30 ltr ( Prep ),5022,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,pressure cooking ban 8 ltr ( Prep ),5024,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,printer (micros) ( BBQ ),5070,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Puck Cream Cheese,101020,Cheese,Kilogram,Kilogram,,1.995,0,0,,1,,,,,,,0,Shkakhwa,25/09/2017
+,Profit Contribution,Purslane/Bakla,108013,Fresh Herbs,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Qaimar Thick Cream ,118040,Baking Items,Kilogram,Kilogram,,9.95,0,0,,1,,,,,,,0,Shkakhwa,30/04/2020
+,Profit Contribution,Qalayet Tomato Prep 7.000 KG (PA),800031,Sub Reciepes,Kilogram,Kilogram,0.00%,0.607,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,qashta qaymer ,105005,Dairy Others,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Qatayef 10 CM,118037,Baking Items,Each,Each,,0.035,0,0,,1,,,,,,,0,Vinay,18/05/2018
+,Profit Contribution,Radish red (BAH),107036,Fresh Vegetables,Kilogram,Kilogram,35.00%,2.4,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,"Rainbow Eva,Milk Small 10 ML",102006,Milk,Each,Each,,0.049,0,0,,1,,,,,,,0,Vinay,13/07/2018
+,Profit Contribution,Rainbow Evap Milk 160 ML ,105023,Dairy Others,Each,Each,,0.216,0,0,,1,,,,,,,0,Shkakhwa,10/11/2017
+,Profit Contribution,Rainbow Evap Milk 160 ML (DONT USE ),102005,Milk,Liter,Liter,,0.175,0,1,,1,,,,,,,0,Shkakhwa,10/11/2017
+,Profit Contribution,RAISIN GOLDEN-IRAN 10 KG,111015,Grain,Kilogram,Kilogram,,1.429,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Profit Contribution,Ready Beef For Staff,125030,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Vinay,29/10/2019
+,Profit Contribution,Ready Bonless Chicken With Skin,126015,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Breast With Skin,126013,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Breast Without Skin,126014,Fresh Chicken,Kilogram,Kilogram,,1.65,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Chicken Breast BL/SL,126028,Fresh Chicken,Kilogram,Kilogram,,1.381,0,0,,1,,,,,,,0,Sandeep,04/08/2016
+,Profit Contribution,Ready Chicken Cube With Bones,126020,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Chicken Legs BL/SL,126019,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Chicken Wings,126018,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Cube Beef,125026,Fresh Meat,Kilogram,Kilogram,,2.7,0,0,,1,,,,,,,0,Shkakhwa,10/08/2016
+,Profit Contribution,Ready Fillet Hamour,127013,Fresh Fish,Kilogram,Kilogram,50.00%,4.5,0,0,,1,,,,,,,0,Shkakhwa,06/08/2016
+,Profit Contribution,Ready Fish Fingers Dorie,140010,Frozen Fish,Kilogram,Kilogram,,1,0,0,,1,,,,,,,0,Admin,29/04/2018
+,Profit Contribution,Ready Half Chicken ',126029,Fresh Chicken,Kilogram,Kilogram,0.00%,1.26,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Half Chicken (Dont Use ),126026,Fresh Chicken,Portion,Portion,30.00%,0.819,0,1,,0.5,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Ready Jolian Beef,125025,Fresh Meat,Kilogram,Kilogram,0.00%,2.4,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Jolian Chicken,126024,Fresh Chicken,Kilogram,Kilogram,0.00%,1.26,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Jolian lamb,125016,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Ready Lamb Chob,125022,Fresh Meat,Kilogram,Kilogram,0.00%,0,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Meat for staff,125029,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,30/09/2019
+,Profit Contribution,Ready Minced Beef ,125008,Fresh Meat,Kilogram,Kilogram,,3.059,0,0,,1,,,,,,,0,Shkakhwa,20/02/2017
+,Profit Contribution,Ready Minced Lamb,125019,Fresh Meat,Kilogram,Kilogram,0.00%,2.5,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Ready Qatayef Dough,118035,Baking Items,Kilogram,Kilogram,,1.05,0,0,,1,,,,,,,0,Shkakhwa,15/05/2017
+,Profit Contribution,Ready Safi Fish,127016,Fresh Fish,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,20/07/2016
+,Profit Contribution,Ready Salmon ,127023,Fresh Fish,Kilogram,Kilogram,0.00%,4.8,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Sea Bass Fish,127027,Fresh Fish,Each,Each,,0,0,0,,0.5,,,,,,,0,Shkakhwa,11/04/2018
+,Profit Contribution,Ready Sea Bream Fish,127028,Fresh Fish,Each,Each,,0,0,0,,0.5,,,,,,,0,Shkakhwa,11/04/2018
+,Profit Contribution,Ready Shoulder Cuts with bones,125015,Fresh Meat,Kilogram,Kilogram,0.00%,2.5,0,0,,1,,,,,,,0,Shkakhwa,31/01/2019
+,Profit Contribution,Ready Shoulder Whole,125013,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Slice Hamour,127014,Fresh Fish,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,19/04/2016
+,Profit Contribution,Ready Sultan Ibrahim Portion,127029,Fresh Fish,Each,Each,,0,0,0,,0.36,,,,,,,0,Shkakhwa,11/04/2018
+,Profit Contribution,Ready Tekka Beef,800115,Sub Reciepes,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Shkakhwa,01/12/2019
+,Profit Contribution,Ready Tekka Chicken,126023,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,01/03/2016
+,Profit Contribution,Ready Tekka Lamb,125009,Fresh Meat,Kilogram,Kilogram,,3,0,0,,1,,,,,,,0,Shkakhwa,05/03/2017
+,Profit Contribution,Ready Whole Chicken,126017,Fresh Chicken,Kilogram,Kilogram,,1.26,0,0,,1,,,,,,,0,Sandeep,28/05/2016
+,Profit Contribution,Ready Whole Chicken BL,126021,Fresh Chicken,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Ready Whole Chicken BL/SL,126022,Fresh Chicken,Kilogram,Kilogram,,0.952,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Expenses,Recieption Table (Recieption Area),6034,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Rectangle Wooden Bowl,15009,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Profit Contribution,Red Apple ,106013,Fresh Fruits,Kilogram,Kilogram,,1.19,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Red Bull,143001,Energy Drinks,Each,Each,,1.2,0,0,,1,,,,,,,0,Shkakhwa,01/06/2016
+,Profit Contribution,red Capsicum   ,107031,Fresh Vegetables,Kilogram,Kilogram,15.00%,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Red Current ,106022,Fresh Fruits,Kilogram,Kilogram,,4.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Red Grapes ,106009,Fresh Fruits,Kilogram,Kilogram,,1.99,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Red Onion (IND ,107028,Fresh Vegetables,Kilogram,Kilogram,20.00%,0.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,red radish,107047,Fresh Vegetables,Kilogram,Kilogram,,2.4,0,0,,1,,,,,,,0,Admin,14/04/2016
+,Profit Contribution,RED VINEGAR 1 GL HERMAN BRAND ,121002,Vineger,Liter,Liter,,0.317,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Reserve Tag (Recieption Area),6069,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Retail Burak Cheese 1PC ( Halifa ) (PA),800119,Sub Reciepes,Each,Each,0.00%,0.031,0,0,,0.109,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Burak Potato 1 Pc ( Halifa ) (PA),800120,Sub Reciepes,Each,Each,0.00%,0.012,0,0,,0.053,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Meat Sambosa 1 Pcs (PA),800122,Sub Reciepes,Each,Each,0.00%,0.051,0,0,,0.03,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Mini Cheese Roll 370 Pcs (PA),800124,Sub Reciepes,Each,Each,0.00%,0.032,0,0,,0.015,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Mini Spinach Moajanat 1 Pcs (PA),800127,Sub Reciepes,Each,Each,0.00%,0.025,0,0,,0.022,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Musakhan Roll 1 Pcs (PA),800125,Sub Reciepes,Each,Each,0.00%,0.072,0,0,,0.31,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Shawarma Sambosa 1 Pcs (PA),800123,Sub Reciepes,Each,Each,0.00%,0.027,0,0,,0.03,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Retail Spring Roll 1 Pcs (PA),800126,Sub Reciepes,Each,Each,0.00%,0.028,0,0,,0.527,,,,,,,,Shkakhwa,16/04/2020
+,Expenses,Ribbon Print Rite-ERC-Black Red,1000022,Others,Each,Each,,1.3,0,0,,1,,,,,,,0,Shkakhwa,22/08/2018
+,Expenses,Ringer Watch (Recieption Area),6071,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Rinse Aid - 5 LTR,4009,Chicemicals,Liter,Liter,,2.968,0,0,,1,,,,,,,0,Shkakhwa,26/04/2018
+,Profit Contribution,Risotto Rice,111021,Grain,Kilogram,Kilogram,,2.848,0,0,,1,,,,,,,0,Shkakhwa,22/07/2021
+,Profit Contribution,Roast Beef Nabil,125028,Fresh Meat,Kilogram,Kilogram,,6.661,0,0,,1,,,,,,,0,Shkakhwa,25/09/2017
+,Expenses,robot coupe big 11 kg ( Cold ),5164,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,robot coupe big 3 kg ( Cold ),5165,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,robot coupe hand mixer ( Prep ),5014,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Robot Coupe Vegetables Slicer Machine ( Prep Area ),5339,Kitchen Assets,Each,Each,,1623.356,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Profit Contribution,rocca ( local ) ,107045,Fresh Vegetables,Kilogram,Kilogram,,0.8,0,0,,1,,,,,,,0,Admin,14/04/2016
+,Expenses,Rock Grill,15033,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Rocket/Rocca/Arugula (Dont Use ),108014,Fresh Herbs,Kilogram,Kilogram,25.00%,0.8,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,roller cutter ( Bakery ),5209,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,Rose Essence,116010,Syrups,Liter,Liter,,0,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Profit Contribution,Rosemary,108015,Fresh Herbs,Kilogram,Kilogram,,8,0,0,,1,,,,,,,0,Admin,14/04/2016
+,Profit Contribution,ROUBANA SHANGLISH AREESH CHEESE 18 KG,101015,Cheese,Kilogram,Kilogram,,3.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Round Alluminum Tray 19.50 cm,15024,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,round bowl big ( Prep ),5045,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,round bowl small ( Prep ),5044,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Round Seat big (Black n White) (Dining Area Up),6076,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Round Table (Outside Area),6001,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Round Tray  (Dining Area),6090,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Round Tray Stand (Recieption Area),6050,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Round Wooden Bowl,15008,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,rubber for burger bun 12cm ( Prep ),5051,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,rubber spatula big ( Cold ),5332,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,rubber spatula small ( Cold ),5331,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Profit Contribution,Sadia Chicken Breast,139007,Frozen Chicken,Kilogram,Kilogram,,2.376,0,0,,1,,,,,,,0,Shkakhwa,04/10/2020
+,Profit Contribution,Safee Fish,127004,Fresh Fish,Kilogram,Kilogram,15.00%,2.5,0,0,,1,,,,,,,0,Admin,03/03/2016
+,Profit Contribution,Saffron 6gms,112035,Spices,Kilogram,Kilogram,,1111.111,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Profit Contribution,Saffron Essence,116012,Syrups,Liter,Liter,,0,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Profit Contribution,Safiha Meat With Molasses Prep 1 kg (PA),800026,Sub Reciepes,Kilogram,Kilogram,0.00%,4.038,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Sahlab,105007,Dairy Others,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Saj Bread,135004,Bread,Each,Each,,0.05,0,0,,1,,,,,,,0,Sandeep,05/08/2016
+,Expenses,Salad Chiller ( Prep ),5334,Kitchen Assets,Each,Each,,743.42,0,0,,1,,,,,,,0,Shkakhwa,14/01/2018
+,Expenses,salamander ( Hot ),5094,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Salt Sachet,1000027,Others,Each,Each,,0.004,0,0,,1,,,,,,,0,Shkakhwa,20/08/2020
+,Profit Contribution,Sambosak Potato 1 Pc (PA),800116,Sub Reciepes,Each,Each,0.00%,0.016,0,0,,0.035,,,,,,,,Shkakhwa,13/04/2020
+,Expenses,Sand Turkish Coffee Maker,15028,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Santos Fruit & Veg Juicer (Bar Area),6127,Dining Assets,Each,Each,,703.65,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,sauce bottle ( Bakery ),5218,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,sauce bottle big ( Cold ),5185,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,sauce bottle small ( Cold ),5186,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Sauce Butter Chicken ( Dont Use ),800091,Sub Reciepes,Each,Each,0.00%,1.61,0,0,,1.039,,,,,,,0,Shkakhwa,01/08/2019
+,Expenses,Sauce Pot Big,15010,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Sauce Pot Small ,15011,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Profit Contribution,Sauteed Shrimp Prep 1 KG (PA),800053,Sub Reciepes,Kilogram,Kilogram,0.00%,4.298,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,scale (100 kg) ( Butchery ),5157,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,scale (20 kg) ( Butchery ),5158,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,scale (5 kg ) ( Butchery ),5159,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Scale 30 kg ( Prep ),5302,Kitchen Assets,Each,Each,,58.902,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,Scissors ( Butchery ),5153,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,scoop plastic big ( Prep ),5047,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,scoop plastic small ( Prep ),5046,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Sea Bass U/R Fish,127019,Fresh Fish,Kilogram,Kilogram,,4.3,0,0,,1,,,,,,,0,Vinay,18/10/2017
+,Profit Contribution,Sea Bream Fish,127020,Fresh Fish,Kilogram,Kilogram,,3.3,0,0,,1,,,,,,,0,Vinay,18/10/2017
+,Profit Contribution,Sea Scallop,140005,Frozen Fish,Kilogram,Kilogram,20.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Sellek/Swiss chard,108016,Fresh Herbs,Kilogram,Kilogram,35.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Sequeez Bottle (Bar Area),6161,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Sequre Table (Outside Area),6002,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Sequre Table (White ) (Outside Area),6004,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,serving tong (Dishwasher),5287,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Sesame Oil,114008,Oils,Liter,Liter,,5,0,0,,1,,,,,,,0,Shkakhwa,16/03/2017
+,Profit Contribution,Shallots,107037,Fresh Vegetables,Kilogram,Kilogram,40.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,sharpening steel ( Butchery ),5152,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,sharpening stone ( Butchery ),5150,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,shawarma knife ( Butchery ),5155,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Shawarma Machine,15027,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Shawerma Chicken Prep 30.600 kg (PA),800064,Sub Reciepes,Kilogram,Kilogram,35.00%,1.067,0,0,,1,,,,,,,0,Shkakhwa,03/08/2018
+,Profit Contribution,Shawerma Meat Prep 1.400 kg (PA),800077,Sub Reciepes,Kilogram,Kilogram,47.00%,2.102,0,0,,1,,,,,,,0,Shkakhwa,08/10/2018
+,Expenses,shelf heater ( Cold ),5329,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,shelf steel  (Dishwasher),5248,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Shelfs  trolley ( Prep ),5017,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Profit Contribution,Shesh Borak 1 Pcs (PA),800121,Sub Reciepes,Each,Each,0.00%,0.03,0,0,,0.017,,,,,,,,Shkakhwa,16/04/2020
+,Profit Contribution,Shesh Borak Spinach Prep 1 kg (PA),800033,Sub Reciepes,Kilogram,Kilogram,0.00%,1.03,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,shish skewer  ( BBQ ),5078,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Shish Taouk Marination 2.200 KG (PA),800054,Sub Reciepes,Kilogram,Kilogram,0.00%,0.827,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Shish Taouk Prep 1 kg (PA),800028,Sub Reciepes,Kilogram,Kilogram,0.00%,3.668,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Shish Tawook Masala ,112047,Spices,Kilogram,Kilogram,,7.067,0,0,,1,,,,,,,0,Shkakhwa,01/12/2019
+,Expenses,SHJ CONCRD GAS FLTR,1000015,Others,Each,Each,,0.533,0,0,,1,,,,,,,0,Shkakhwa,28/10/2017
+,Expenses,Shot Glass,1066,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Profit Contribution,Shoulder Cuts with bones,125012,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Shoulder Whole Prep 1 kg,125010,Fresh Meat,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,29/02/2016
+,Profit Contribution,Shrimp 20/30,127009,Fresh Fish,Kilogram,Kilogram,50.00%,0,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Shrimp 30/40,127008,Fresh Fish,Kilogram,Kilogram,50.00%,3.5,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Shrimp U15,127007,Fresh Fish,Kilogram,Kilogram,10.00%,7,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Side station (Outside Area),6008,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,silicon turner yellow ( Dishwasher ),5229,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Single Compartment Sink ( Hot ),5304,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,Single compartment sink ( Prep ),5018,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,Single Compartment Sink ( Store ),15035,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,sink 2 compartment ( Cold ),5189,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,sink big ( Butchery ),5143,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,sink right ( Butchery ),5142,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,skimmer stainless  (Dishwasher),5284,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Slice Chddr ,101021,Cheese,Kilogram,Pack 400 GM,,3.013,0,0,,1,,,,,,,0,Shkakhwa,29/02/2020
+,Profit Contribution,Sliced Jalapenos,128007,Pickles,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Slide Shelf ( Hot ),5318,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,Small Basket White (Recieption Area),6060,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,small bowl for salad ( Cold ),5175,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Small Cooper Bowl,15042,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Small Gas Cylinder,1000017,Others,Each,Each,,1.5,0,0,,1,,,,,,,0,Shkakhwa,07/01/2018
+,Expenses,Small Knife (Bar Area),6164,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Mansaf Tray,15017,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Small Measure glass (Bar Area),6165,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Plant (Recieption Area),6044,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Round Cushions (Dining Area Up),6079,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Stool (Black n White) (Dining Area Up),6078,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Stool (Black n white) (Recieption Area),6047,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Stool (Brown) (Dining Area Up),6077,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Small Stool (Brown) (Recieption Area),6046,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,small table stainless steel ( Cold ),5171,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Smoked Roasted Turkey 1X1KG Nabil,126027,Fresh Chicken,Kilogram,Kilogram,,7.31,0,0,,1,,,,,,,0,Shkakhwa,25/01/2017
+,Profit Contribution,Soffery Saudi Dates 1000g ( thermopack ),118017,Baking Items,Kilogram,Kilogram,,2.25,0,0,,1,,,,,,,0,Sandeep,19/05/2016
+,Profit Contribution,Soft Broom,120063,Other Condiments,Each,Each,,2.5,0,0,,1,,,,,,,0,Shkakhwa,06/11/2016
+,Expenses,Soft drink Chiller 3 Door (Bar Area),6128,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Songs CD (Recieption Area),6066,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Sony DVD (Recieption Area),6031,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Sony Remote (Recieption Area),6067,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,soup heater black ( Cold ),5173,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 13mmx5mm ( Hot ),5113,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 15mmx7mm ( Hot ),5115,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 19mmx11mm ( Hot ),5118,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 21mmx6mm ( Hot ),5114,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 23mmx9mm ( Hot ),5117,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 24mmx9mm ( Hot ),5120,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 25mmx14mm ( Hot ),5119,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,soup pan 27mmx12mm ( Hot ),5116,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Soup Taurine,10006,Catering,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,18/12/2017
+,Profit Contribution,Sour Cream 250 GM,105026,Dairy Others,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Shkakhwa,07/09/2019
+,Profit Contribution,Sour Yoghurt FF 1 KG,104001,Youghurt,Kilogram,Kilogram,,0.75,0,0,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Soy Sauce (Kikkoman),120009,Other Condiments,Liter,Liter,,1.183,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,Sparkling Water 330 Ml ( Dont Use ),144004,Bottled Water,Liter,Liter,,0.375,0,1,,1,,,,,,,0,Shkakhwa,02/01/2017
+,Expenses,spatula ( BBQ ),5065,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,spatula big for oven ( Bakery ),5211,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,Spices container 6 part ( Cold ),5187,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Spices container holder ( Prep ),5050,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Spinach Filling Prep 1 kg (PA),800043,Sub Reciepes,Kilogram,Kilogram,0.00%,2.259,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Spinach Fresh,107041,Fresh Vegetables,Kilogram,Kilogram,44.00%,0.9,0,0,,1,,,,,,,0,Shkakhwa,29/12/2016
+,Expenses,Spiral Note Book Sinar A7 80SHT,1000023,Others,Each,Each,,0.09,0,0,,1,,,,,,,0,Shkakhwa,22/08/2018
+,Expenses,Sponge ( Scoring Pad ) ,120057,Packaging,Each,Each,,0.175,0,0,,1,,,,,,,0,Shkakhwa,30/04/2016
+,Expenses,spoon big ( Cold ),5176,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,spoon big ( Hot ),5310,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,spoon small ( Cold ),5177,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,spoon small ( Hot ),5311,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,spoon spaghetti ladle (Dishwasher),5265,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Spring Beans Prep 2.150 KG (PA),800013,Sub Reciepes,Kilogram,Kilogram,0.00%,1.205,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Spring Onion   ,107074,Fresh Vegetables,Kilogram,Kilogram,5.00%,1.2,0,0,,1,,,,,,,0,Shkakhwa,10/09/2017
+,Profit Contribution,Sprite 355 Ml Can,133003,Canned Drinks,Each,Each,,0.204,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Profit Contribution,Sprite Diet 355 Ml Caned,133004,Canned Drinks,Each,Each,,0.138,0,0,,1,,,,,,,0,Shkakhwa,22/03/2016
+,Expenses,Square Glass Vase (Bar Area),6150,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,square pipe for stand kabab ( BBQ ),5082,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Square Table (Dining Area),6084,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Squid,140007,Frozen Fish,Kilogram,Kilogram,25.00%,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Staff Fish,127017,Fresh Fish,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Shkakhwa,05/01/2017
+,Expenses,Staff Food Container,1000021,Others,Each,Each,,0.45,0,0,,1,,,,,,,0,Shkakhwa,31/03/2018
+,Expenses,Stainer  (Bar Area),6153,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,stainless container 1/1 (Dishwasher),5245,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless container 1/2 (Dishwasher),5256,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless grater  (Dishwasher),5296,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless measure cup 1/2 /125ml (Dishwasher),5239,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless measure cup 1/250ml (Dishwasher),5238,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless measure cup 1/3  /80ml (Dishwasher),5240,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless measure cup 1/4  /60ml (Dishwasher),5241,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless pan 23cm ( Hot ),5111,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,stainless pan 25cm ( Hot ),5109,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,stainless pan 29cm ( Hot ),5108,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,stainless pan 35cm ( Hot ),5110,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,stainless spoon 1 cup ( Hot ),5308,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,stainless spoon 1/2 cup ( Hot ),5307,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,stainless steel 2/1  (Dishwasher),5242,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Stainless Steel Rack (Bar Area),6167,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Stainless steel table ( Prep ),5010,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,stainless table (Dishwasher),5251,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,stainless table small ( Cold ),5330,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,stainless tray ( BBQ ),5067,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,stand shelf 5 layer ( Prep ),5303,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,23/12/2017
+,Expenses,Stapler (Recieption Area),6040,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,stayro cutter ( Prep ),5053,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Stealth Fries Skin-On(9x9) S24,137003,Frozen Vegetables,Kilogram,Kilogram,,0.84,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,sTEEL WOOL ,120056,Packaging,Each,Each,,0.132,0,0,,1,,,,,,,0,Shkakhwa,30/04/2016
+,Expenses,storage container big white for flour + suger+rice ( Prep ),5027,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container clear big with led ( Prep ),5033,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container clear for spices ( Prep ),5030,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container clear medium  plastic with led ( Cold ),5200,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,storage container clear medium  plastic with led ( Hot ),5126,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,storage container clear medium  plastic with led green (Hot),5127,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,storage container clear medium  plastic with led red ( Hot ),5128,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,storage container clear medium with led ( Prep ),5031,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container clear small with led ( Prep ),5032,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container medium white for milk powder +chickpeas,5028,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,storage container small white for red lintel +white burgle,5029,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,strainer 26mm ( Hot ),5141,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,strainer double melt (Dishwasher),5297,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,strainer medium ( Cold ),5180,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Strawberry (Egypt),106004,Fresh Fruits,Kilogram,Kilogram,,7.58,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Strawberry jam,120019,Other Condiments,Kilogram,Kilogram,,2.273,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Strawberry Sauce 680 gm,122004,Chocolates,Liter,Liter,,1.5,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Expenses,Strirer (Bar Area),6154,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Sugar Canddie (Wall Display),6108,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Sugar Paste 6 KG,118027,Baking Items,Kilogram,Kilogram,,3.571,0,0,,1,,,,,,,0,Shkakhwa,14/12/2016
+,Profit Contribution,Sugar Syrup Prep 1.5 ltr (PA),800058,Sub Reciepes,Liter,Liter,0.00%,0.254,0,0,,1,,,,,,,,Shkakhwa,01/05/2016
+,Profit Contribution,Sultan Ibahim ( red mullet ) Fish ,127021,Fresh Fish,Kilogram,Kilogram,,1.8,0,0,,1,,,,,,,0,Shkakhwa,29/10/2017
+,Profit Contribution,Sundried Tomatoes (700g) Dont Use,114007,Oils,Each,Each,,4.2,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Sunflower Oil,114009,Oils,Liter,Liter,,1.085,0,0,,1,,,,,,,0,Shkakhwa,12/07/2020
+,Profit Contribution,Sunquick Pink Guava,124003,Bottled Juices,Liter,Liter,,1.899,0,0,,1,,,,,,,0,Shkakhwa,30/05/2018
+,Expenses,svanera stainless co.5 51 0.25 mm04 (Dishwasher),5279,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,Sweet Chilli Sauce,116017,Syrups,Liter,Liter,,0.785,0,0,,1,,,,,,,0,Shkakhwa,20/07/2018
+,Profit Contribution,Sweet Melon,106005,Fresh Fruits,Kilogram,Kilogram,,0.795,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Sweet N Low Sachet,115006,Sugar,Each,Each,,0.017,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Profit Contribution,Sweet Potato,107035,Fresh Vegetables,Kilogram,Kilogram,20.00%,0.65,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Sweet Potato Fries (LWF20),137008,Frozen Vegetables,Kilogram,Kilogram,,1.85,0,0,,1,,,,,,,0,Shkakhwa,18/10/2017
+,Profit Contribution,Sweet Soy Sauce,120010,Other Condiments,Liter,Liter,,2.5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Sweet Termos (Lupin) 1 kg,111016,Grain,Kilogram,Kilogram,,1,0,0,,1,,,,,,,0,Shkakhwa,26/05/2016
+,Profit Contribution,Sweetner Granulated 1000s SWE,115004,Sugar,Each,Each,,0.01,0,0,,1,,,,,,,0,Shkakhwa,01/04/2016
+,Profit Contribution,Switz Sambosa Leaves,118038,Baking Items,Each,Each,,0.013,0,0,,1,,,,,,,0,Shkakhwa,13/12/2018
+,Profit Contribution,Syrian Skinned Harees 1 kg,111009,Grain,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Tabasco Sauce (Dont Use),1000007,Others,Liter,Liter,,4.633,0,1,,1,,,,,,,0,Shkakhwa,25/01/2017
+,Expenses,Table Ringer  (Recieption Area),6070,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,table stainless ( BBQ ),5063,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,table stainless 120x70 ( Hot ),5100,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,table stainless 60x50 ( Hot ),5101,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,table stainless 70x40 ( Hot ),5099,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Tabsco 60 ML Bottle,1000010,Others,Each,Each,,0.7,0,0,,1,,,,,,,0,Shkakhwa,25/01/2017
+,Profit Contribution,Tahina al Rawabi,105004,Dairy Others,Kilogram,Kilogram,7.50%,1.095,0,0,,1,,,,,,,0,Shkakhwa,02/11/2017
+,Profit Contribution,Tahina Sauce Prep 5.100 kg (PA),800011,Sub Reciepes,Kilogram,Kilogram,0.00%,1.081,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Talabia clean fish,127015,Fresh Fish,Kilogram,Kilogram,,0.8,0,0,,1,,,,,,,0,Sandeep,19/07/2016
+,Profit Contribution,Tamarindi 1 kg,119005,Dry Food,Kilogram,Kilogram,,1.752,0,0,,1,,,,,,,0,Shkakhwa,31/05/2016
+,Profit Contribution,Tata Salt Crystal Iodised 1 KG,120070,Other Condiments,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Shkakhwa,06/09/2020
+,Expenses,Tawla,15018,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Tawla Game (Wall Display),6096,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Tea Box (Wall Display),6109,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Tea Estekana,1067,Small Ware,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,01/01/2017
+,Expenses,Tea pot (Wall Display),6111,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,tefal pan 20cm ( Hot ),5104,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,tefal pan 23cm ( Hot ),5105,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,tefal pan 29cm ( Hot ),5112,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,tefal pan 30cm ( Hot ),5106,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,tefal pan 35cm ( Hot ),5107,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Tekka Areesh Prep 1 kg (PA),800051,Sub Reciepes,Kilogram,Kilogram,0.00%,3.38,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Tekka Lome1.4 kg (PA),800015,Sub Reciepes,Kilogram,Kilogram,0.00%,2.773,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Profit Contribution,Tekka Shish Prep .1kg (PA),800079,Sub Reciepes,Kilogram,Kilogram,0.00%,2.546,0,0,,1,,,,,,,,Shkakhwa,04/05/2017
+,Expenses,Telephone (Recieption Area),6036,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Tesco Honey&Nut Cornflakes 500 GM,111020,Grain,Kilogram,Kilogram,,3.795,0,0,,1,,,,,,,0,Shkakhwa,14/06/2017
+,Profit Contribution,Thai Sweet Chilli Sauce,120018,Other Condiments,Liter,Liter,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Thermal Printer (Recieption Area),6020,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,thermal printer roll (Recieption Area),6052,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,thermometer,5344,Kitchen Assets,Each,Each,,3.5,0,0,,1,,,,,,,0,Shkakhwa,27/09/2019
+,Profit Contribution,Thyme fresh Holland  ,108017,Fresh Herbs,Kilogram,Kilogram,10.00%,2.832,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Thyme fresh Lebanese  ,108018,Fresh Herbs,Kilogram,Kilogram,,0,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,TIDE LS I REG 2*3,4006,Chicemicals,Each,Each,,1.264,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Expenses,Tip Box (Recieption Area),6035,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Toast Bread,135005,Bread,Each,Each,,0.45,0,0,,1,,,,,,,0,Shkakhwa,14/12/2016
+,Expenses,toaster grill ( BBQ ),5079,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Toilet Brush,1000019,Others,Each,Each,,1.3,0,0,,1,,,,,,,0,Shkakhwa,31/01/2018
+,Profit Contribution,Tomato,107039,Fresh Vegetables,Kilogram,Kilogram,10.00%,0.4,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Tomato cherry  ,107038,Fresh Vegetables,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Tomato Ketchup 300 gm Heinz,120060,Other Condiments,Kilogram,Kilogram,,0.56,0,0,,1,,,,,,,0,Shkakhwa,02/01/2017
+,Profit Contribution,Tomato Sauce For Shakshokah 2.900 KG (PA),800098,Sub Reciepes,Kilogram,Kilogram,20.00%,0.397,0,0,,1,,,,,,,0,Shkakhwa,09/07/2019
+,Expenses,tong stainless steel ( Prep ),5052,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Tooth Pick Paper Wrapped,120050,Packaging,Each,Each,,0.001,0,0,,1,,,,,,,0,Shkakhwa,28/04/2016
+,Profit Contribution,Topside gold long fed chilled,125018,Fresh Meat,Kilogram,Kilogram,,3.7,0,0,,1,,,,,,,0,Admin,16/03/2016
+,Expenses,tourney knife (Dishwasher),5301,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Trash Bucket (Bar Area),6158,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,trash Can ( BBQ ),5081,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,TRAVEL LID RECLOSABLE 12&16OZ 1000PCS,5000017,Packaging,Each,Each,,0.01,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Expenses,tray (Wall Display),6110,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,tray aluminum round for oven  ( Hot ),5140,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Tray Jack (Dining Area),6088,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,tray pan Clip (tong) (Dishwasher),5237,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,tray rack open green (Dishwasher),5230,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,trolley ( Bakery ),5221,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,trolley shelf ( Hot ),5102,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,trolly ( Cold ),5327,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Profit Contribution,Trumalt 1 kgs for Brown Bread,118025,Baking Items,Kilogram,Kilogram,,1.75,0,0,,1,,,,,,,0,Sandeep,05/08/2016
+,Expenses,Turkish Coffee Pot (Wall Display),6106,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Turkish coffee Pot Double,15014,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Turkish Coffee Pot Single,15015,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Profit Contribution,Turnip (Dont Use ),107016,Fresh Vegetables,Kilogram,Kilogram,10.00%,1.1,0,0,,1,,,,,,,0,Shkakhwa,29/12/2016
+,Expenses,Umbrealla  (Outside Area),6007,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,un salted Butter,114004,Oils,Kilogram,Kilogram,,0.82,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,Up right freezer ( prep ),5003,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,up right freezer Berjaya ( Hot ),5088,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,vacuum machine ( Cold ),5172,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Vanilla Essence,116008,Syrups,Liter,Liter,,5.952,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Vanilla Ice Cream Plain,105013,Dairy Others,Kilogram,Kilogram,,2.2,0,0,,1,,,,,,,0,Shkakhwa,14/12/2016
+,Profit Contribution,Vanilla Powder ,118028,Baking Items,Kilogram,Kilogram,,21.667,0,0,,1,,,,,,,0,Shkakhwa,31/12/2016
+,Profit Contribution,Varmasilli Rice Prep 4.900 kg (PA),800035,Sub Reciepes,Kilogram,Kilogram,0.00%,0.454,0,0,,1,,,,,,,,Shkakhwa,30/04/2016
+,Expenses,Vavin Cushions,15002,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Profit Contribution,Veal Cutlets Prep 1 kg ( Dont Use ) (PA),800069,Sub Reciepes,Kilogram,Kilogram,0.00%,5.325,0,0,,1,,,,,,,,Shkakhwa,12/12/2016
+,Expenses,vegetable dryer ( Butchery ),5149,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Profit Contribution,Vegetable For Oven Tray 4.2 KG (PA),800090,Sub Reciepes,Each,Each,0.00%,0.55,0,0,,0.894,,,,,,,,Shkakhwa,02/08/2018
+,Profit Contribution,Vegetable Soup Prep 4.800 ltr (PA),800030,Sub Reciepes,Liter,Liter,20.00%,0.412,0,0,,1,,,,,,,0,Shkakhwa,09/07/2019
+,Expenses,Vegetables Disk Slicer For Robot Coupe ( Prep ),5340,Kitchen Assets,Each,Each,,143.754,0,0,,1,,,,,,,0,Shkakhwa,21/04/2018
+,Profit Contribution,VERMICELLI 500 GM,110001,Pasta,Kilogram,Kilogram,,0.92,0,0,,1,,,,,,,0,Shkakhwa,28/12/2016
+,Profit Contribution,Vicenzi Long Finger ,119012,Dry Food,Kilogram,Kilogram,,3.643,0,0,,1,,,,,,,0,Shkakhwa,24/07/2021
+,Expenses,Vielda Glitzi 9 Pcs,1000014,Others,Each,Each,,2,0,0,,1,,,,,,,0,Shkakhwa,30/09/2017
+,Expenses,VILEDA FLOOR WIPER,1000013,Others,Each,Each,,2.1,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Profit Contribution,Vimto 710 Ml,124001,Bottled Juices,Liter,Liter,,1.173,0,0,,1,,,,,,,0,Shkakhwa,31/03/2016
+,Profit Contribution,vine leaves,132005,Canned Vegetables,Kilogram,Kilogram,3.00%,3.013,0,0,,1,,,,,,,0,Shkakhwa,02/09/2017
+,Expenses,Vinyl Gloves Medium ,120028,Packaging,Each,Each,,0.024,0,0,,1,,,,,,,0,Sandeep,25/05/2016
+,Profit Contribution,W/MEAL FLOUR ,118036,Baking Items,Kilogram,Kilogram,,0.1,0,0,,1,,,,,,,0,Vinay,22/03/2018
+,Profit Contribution,WAFEER PITTED BLACK OLIVES 2KG,129001,Olives,Kilogram,Kilogram,,4.314,0,0,,1,,,,,,,0,Shkakhwa,31/05/2016
+,Profit Contribution,WAFEER PITTED GREEN OLIVES 2KG,129002,Olives,Kilogram,Kilogram,,2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,wall hanging signboard (Outside Area),6011,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,wall lamp (Outside Area),6009,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Wall shelf ( Prep ),5016,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,11/12/2017
+,Expenses,wall shelf 120 cm ( Cold ),5320,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,wall shelf 60 cm  ( Cold ),5319,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Expenses,Wall shelfs ( BBQ ),5083,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Wall Shelfs ( butchery ),5162,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,wall sign board (Outside Area),6010,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,WALNUT NO 1 KG,117004,Nuts,Kilogram,Kilogram,,5,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Warak Areesh Prep 1 kg (PA) ( DONT USE ),800014,Sub Reciepes,Kilogram,Kilogram,0.00%,1.786,0,0,,1,,,,,,,0,Shkakhwa,02/08/2018
+,Expenses,washing sink (Dishwasher),5253,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,water,116009,Syrups,Liter,Liter,,0,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Expenses,Water Clay Jar,15038,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Profit Contribution,Water Melon,106006,Fresh Fruits,Kilogram,Kilogram,,0.25,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Wax Paper,1000002,Others,Each,Each,,2.225,0,0,,1,,,,,,,0,Shkakhwa,14/12/2016
+,Expenses,Wax Pot (Wall Display),6095,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Wet Wipes,1000004,Others,Each,Each,,0.023,0,0,,1,,,,,,,0,Shkakhwa,25/12/2016
+,Profit Contribution,Whip Cream 1L,103001,Cream,Liter,Liter,,2.186,0,0,,1,,,,,,,0,Shkakhwa,20/04/2016
+,Expenses,whisk large (Dishwasher),5272,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,whisk medium (Dishwasher),5271,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,whisk small (Dishwasher),5270,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Profit Contribution,White Basmati Rice Prep 2.3 KG (PA),800076,Sub Reciepes,Kilogram,Kilogram,0.00%,0.945,0,0,,1,,,,,,,,Shkakhwa,01/02/2017
+,Profit Contribution,White Beans,111012,Grain,Kilogram,Kilogram,,1.133,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,White Borgoul Big kg,111003,Grain,Kilogram,Kilogram,,0.6,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,White Borgoul fine kg,111004,Grain,Kilogram,Kilogram,,0.524,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,WHITE CRYSTAL SUGAR #1 (renuka) ,115001,Sugar,Kilogram,Kilogram,,0.19,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Expenses,white knife ( Bakery ),5223,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,White Onion,107029,Fresh Vegetables,Kilogram,Kilogram,20.00%,0.45,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,WHITE PAMKING ( Dont Use ),107066,Fresh Vegetables,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Shkakhwa,29/12/2016
+,Expenses,WHITE PLAIN PAPER HD CUP 12OZ 1000PCS,5000018,Packaging,Each,Each,,0.013,0,0,,1,,,,,,,0,Shkakhwa,31/08/2017
+,Profit Contribution,White Pumpkin,107071,Fresh Vegetables,Kilogram,Kilogram,,0.5,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Profit Contribution,White Radish,107085,Fresh Vegetables,Kilogram,Kilogram,,0.165,0,0,,1,,,,,,,0,Shkakhwa,31/07/2020
+,Expenses,white scale 7 kg ( Cold ),5321,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,24/12/2017
+,Profit Contribution,White Sugar Sachet,115002,Sugar,Each,Each,,0.009,0,0,,1,,,,,,,0,Shkakhwa,01/05/2016
+,Expenses,White Tissue Box Cube,1000012,Others,Each,Each,,0.197,0,0,,1,,,,,,,0,Shkakhwa,31/07/2017
+,Profit Contribution,White Tissue Box Cube ( Dont Use ),118020,Baking Items,Each,Each,,0.25,0,0,,1,,,,,,,0,Shkakhwa,31/07/2017
+,Expenses,white tray for dough ( Bakery ),5213,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Profit Contribution,WHITE VINEGAR 1GL HERMAN BRAND ,121001,Vineger,Liter,Liter,,0.189,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,Whole chicken fresh,126001,Fresh Chicken,Kilogram,Kilogram,25.00%,1.1,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Profit Contribution,Whole Turkey 12-16,126031,Fresh Chicken,Kilogram,Kilogram,,2.31,0,0,,1,,,,,,,0,Shkakhwa,05/12/2019
+,Expenses,Wifi Adopter (Recieption Area),6041,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Wifi Booster (Recieption Area),6042,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Wings fresh,126003,Fresh Chicken,Kilogram,Kilogram,20.00%,1.033,0,0,,1,,,,,,,0,Admin,19/02/2016
+,Expenses,Wodden Ice Cream Spoon 1X50 pcs,5000012,Packaging,Each,Each,,0.05,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,wood bread tray ( Bakery ),5217,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,wood cutting board ( Bakery ),5212,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,wood mixing spoon (Dishwasher),5290,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,wood roll ( Bakery ),5225,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,14/12/2017
+,Expenses,wood spatula (Dishwasher),5291,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,15/12/2017
+,Expenses,Wooden Box for plants (Outside Area),6012,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Wooden Bread Tong,15040,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,31/12/2017
+,Expenses,Wooden Fork 1X100 pcs,5000013,Packaging,Each,Each,,0.025,0,0,,1,,,,,,,0,Shkakhwa,03/06/2017
+,Expenses,Wooden Hummer ( Butchery ),5161,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Wooden Item ( Mamoul Mold ),15003,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Wooden Soatula,15013,Store Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,30/12/2017
+,Expenses,Wooden Stirrer 14CM,5000031,Packaging,Each,Each,,0.002,0,0,,1,,,,,,,0,Shkakhwa,09/08/2020
+,Expenses,Xtreme bar blender (Bar Area),6121,Dining Assets,Each,Each,,297.548,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Expenses,Xtreme bar blender jar (Bar Area),6122,Dining Assets,Each,Each,,0,0,0,,1,,,,,,,0,Vinay,20/12/2017
+,Profit Contribution,Yalangi Areesh Prep 1 kg (PA),800083,Sub Reciepes,Kilogram,Kilogram,0.00%,2.087,0,0,,1,,,,,,,,Shkakhwa,12/02/2018
+,Profit Contribution,Yalangi Areesh Prep 394 pcs (PA),800094,Sub Reciepes,Each,Each,0.00%,0.077,0,0,,0.004,,,,,,,,Shkakhwa,10/09/2018
+,Profit Contribution,Yello Borgol DONT USE,111005,Grain,Kilogram,Kilogram,,0.367,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,Yellow Apple ,106012,Fresh Fruits,Kilogram,Kilogram,,0.7,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,yellow Capsicum,107032,Fresh Vegetables,Kilogram,Kilogram,15.00%,1.2,0,0,,1,,,,,,,0,Admin,20/02/2016
+,Profit Contribution,yellow lemon ( DOnt Use ),107046,Fresh Vegetables,Kilogram,Kilogram,,0.65,0,1,,1,,,,,,,0,Shkakhwa,26/12/2016
+,Profit Contribution,YELLOW PAMKING ( Dont Use ),107065,Fresh Vegetables,Kilogram,Kilogram,,0.6,0,0,,1,,,,,,,0,Shkakhwa,29/12/2016
+,Profit Contribution,Yellow Pumpkin,107040,Fresh Vegetables,Kilogram,Kilogram,35.00%,0.45,0,0,,1,,,,,,,0,Shkakhwa,12/12/2016
+,Expenses,zanoli (chicken roasted) ( BBQ ),5064,Kitchen Assets,Each,Each,,0,0,0,,1,,,,,,,0,Shkakhwa,13/12/2017
+,Expenses,Zenet Twin Tub Washer,1071,Small Ware,Each,Each,,27,0,0,,1,,,,,,,0,Shkakhwa,11/01/2017

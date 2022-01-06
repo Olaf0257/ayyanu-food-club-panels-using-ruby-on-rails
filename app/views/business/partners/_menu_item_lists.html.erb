@@ -1,0 +1,21 @@
+<% menu_items.each do |menu_item| %>
+<!-- business_add_pos_transaction_path(params[:restaurant_id], menu_item.id, pos_table_id: pos_table_id),  method: :post , remote: true-->
+  <%= link_to 'javascript:void(0)', 'data-menu-item-id' => menu_item.id, 'data-pos-table-id' => pos_table_id, class: 'add_menu_item' do  %>
+    <div class="card" style="display: inline-block;
+      height: auto;
+      width: 32%;
+      text-align: center;
+      vertical-align: middle;">
+          <div class="card-body">
+            <img src="<%= menu_item.item_image %>" style="width: 80px; height: 80px;padding: 5px; border-radius: 10px;">
+            <span style="color: black;text-align: center;display: block">
+              <%= menu_item.item_name %>
+            </span>
+            <span style="color: black;text-align: center;">
+              <%= menu_item.price_per_item %>
+              <span>BHD</span>
+            </span>
+          </div>
+    </div>
+  <% end %>
+<% end %>

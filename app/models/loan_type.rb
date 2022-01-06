@@ -1,0 +1,2 @@
+class LoanType < ApplicationRecord
+end

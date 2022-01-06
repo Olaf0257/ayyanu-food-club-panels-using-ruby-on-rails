@@ -1,0 +1,222 @@
+<div class="col-md-12">
+	<label>HRMS:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("DashBoard") %>
+			<input type="checkbox"  name="hrms[dashboard]" value="DashBoard" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[dashboard]" value="DashBoard">
+		<%end%>
+		<label class="label_color">DashBoard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Add Employee") %>
+			<input type="checkbox"  name="hrms[add_employee]" value="Add Employee" checked="">	
+		<%else%>
+			<input type="checkbox"  name="hrms[add_employee]" value="Add Employee">
+		<%end%>
+		<label class="label_color">Add Employee</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Employee Approve") %>
+			<input type="checkbox"  name="hrms[employee_approve]" value="Employee Approve" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[employee_approve]" value="Employee Approve">
+		<%end%>
+		<label class="label_color">Employee Approve</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Rejected Employee") %>
+			<input type="checkbox"  name="hrms[rejected_employee]" value="Rejected Employee" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[rejected_employee]" value="Rejected Employee">
+		<%end%>
+		<label class="label_color">Rejected Employee</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Add Family") %>
+			<input type="checkbox"  name="hrms[add_family]" value="Add Family" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[add_family]" value="Add Family">
+		<%end%>
+		<label class="label_color">Add Family</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Assign Assets") %>
+			<input type="checkbox"  name="hrms[assign_assets]" value="Assign Assets" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[assign_assets]" value="Assign Assets">
+		<%end%>
+		<label class="label_color">Assign Assets</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Handover Assets") %>
+			<input type="checkbox"  name="hrms[handover_assets]" value="Handover Assets" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[handover_assets]" value="Handover Assets">
+		<%end%>
+		<label class="label_color">Handover Assets</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Add Salary") %>
+			<input type="checkbox"  name="hrms[add_salary]" value="Add Salary" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[add_salary]" value="Add Salary">
+		<%end%>
+		<label class="label_color">Add Salary</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Loan") %>
+			<input type="checkbox"  name="hrms[loan]" value="Loan" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[loan]" value="Loan">
+		<%end%>
+		<label class="label_color">Loan</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Loan Approve") %>
+			<input type="checkbox"  name="hrms[loan_approve]" value="Loan Approve" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[loan_approve]" value="Loan Approve">
+		<%end%>
+		<label class="label_color">Loan Approve</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Rejected Loans") %>
+			<input type="checkbox"  name="hrms[rejected_loans]" value="Rejected Loans" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[rejected_loans]" value="Rejected Loans">
+		<%end%>
+		<label class="label_color">Rejected Loans</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Loan Revise") %>
+			<input type="checkbox"  name="hrms[loan_revise]" value="Loan Revise" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[loan_revise]" value="Loan Revise">
+		<%end%>
+		<label class="label_color">Loan Revise</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Loan Settlement") %>
+			<input type="checkbox"  name="hrms[loan_settlement]" value="Loan Settlement" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[loan_settlement]" value="Loan Settlement">
+		<%end%>
+		<label class="label_color">Loan Settlement</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Add Reimbursement") %>
+			<input type="checkbox"  name="hrms[add_reimbursement]" value="Add Reimbursement" checked=""> 
+		<%else%>
+			<input type="checkbox"  name="hrms[add_reimbursement]" value="Add Reimbursement">
+		<%end%>
+		<label class="label_color">Add Reimbursement</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Reimbursement Approve") %>
+			<input type="checkbox"  name="hrms[reimbursement_approve]" value="Reimbursement Approve" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[reimbursement_approve]" value="Reimbursement Approve">
+		<%end%>
+		<label class="label_color">Reimbursement Approve</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Rejected Reimbursement") %>
+			<input type="checkbox"  name="hrms[rejected_reimbursement]" value="Rejected Reimbursement" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[rejected_reimbursement]" value="Rejected Reimbursement">
+		<%end%>
+		<label class="label_color">Rejected Reimbursement</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Final Settlement") %>
+			<input type="checkbox"  name="hrms[final_settlement]" value="Final Settlement" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[final_settlement]" value="Final Settlement">
+		<%end%>
+		<label class="label_color">Final Settlement</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Revise Salary") %>
+			<input type="checkbox"  name="hrms[revise_salary]" value="Revise Salary" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[revise_salary]" value="Revise Salary">
+		<%end%>
+		<label class="label_color">Revise Salary</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Grant Leave") %>
+			<input type="checkbox"  name="hrms[grant_leave]" value="Grant Leave" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[grant_leave]" value="Grant Leave">
+		<%end%>
+		<label class="label_color">Grant Leave</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Holiday List") %>
+			<input type="checkbox"  name="hrms[holiday_list]" value="Holiday List" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[holiday_list]" value="Holiday List">
+		<%end%>
+		<label class="label_color">Holiday List</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Prepare Letter") %>
+			<input type="checkbox"  name="hrms[prepare_letter]" value="Prepare Letter" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[prepare_letter]" value="Prepare Letter">
+		<%end%>
+		<label class="label_color">Prepare Letter</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Cancel Invoice") %>
+			<input type="checkbox"  name="hrms[cancel_invoice]" value="Cancel Invoice" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[cancel_invoice]" value="Cancel Invoice">
+		<%end%>
+		<label class="label_color">Cancel Invoice</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Applications") %>
+			<input type="checkbox"  name="hrms[applications]" value="Applications" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[applications]" value="Applications">
+		<%end%>
+		<label class="label_color">Applications</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Approved Applications") %>
+			<input type="checkbox"  name="hrms[approved_applications]" value="Approved Applications" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[approved_applications]" value="Approved Applications">
+		<%end%>
+		<label class="label_color">Approved Applications</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("On Hold Applications") %>
+			<input type="checkbox"  name="hrms[on_hold_applications]" value="On Hold Applications" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[on_hold_applications]" value="On Hold Applications">
+		<%end%>
+		<label class="label_color">On Hold Applications</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Rejected Applications") %>
+			<input type="checkbox"  name="hrms[rejected_applications]" value="Rejected Applications" checked>
+		<%else%>
+			<input type="checkbox"  name="hrms[rejected_applications]" value="Rejected Applications">
+		<%end%>
+		<label class="label_color">Rejected Applications</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.hrms.include?("Resumes & Letters") %>
+			<input type="checkbox"  name="hrms[resumes_&_letters]" value="Resumes & Letters" checked="">
+		<%else%>
+			<input type="checkbox"  name="hrms[resumes_&_letters]" value="Resumes & Letters">
+		<%end%>
+		<label class="label_color">Resumes & Letters</label>
+	</div>
+
+</div>

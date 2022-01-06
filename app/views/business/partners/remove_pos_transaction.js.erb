@@ -1,0 +1,30 @@
+<% if @isDeleteTransaction %>
+	$('.selected_transaction').remove();
+	<% @transaction_ids.each do |transaction_id| %>
+		$('.parent_id_<%= transaction_id %>') ? $('.parent_id_<%= transaction_id %>').remove() : '';
+		$('.comment_heading_<%= transaction_id %>').remove();
+		$('.comment_<%= transaction_id %>').remove();
+	<% end %>
+	if($('#selected_menu_item_id').val() == "<%= params[:menu_item_id] %>"){
+		var count = $('#addon_item_count').val()
+		var new_count = count - parseFloat("<%= @qty %>");
+		$('#addon_item_count').val(new_count);
+		if($('.menuitem_addon_count').length > 0) {
+			$('.menuitem_addon_count').text(new_count);
+		}
+	}
+	// var sub_total = parseFloat($('#pos_total').text().replace('BHD', '')) - parseFloat('<%= @select_ids.sum %>');
+	// $('#pos_total').empty().append(sub_total.toFixed(3) + 'BHD');
+	// $('#remain_payment_amount').val(sub_total.toFixed(3));
+	// var taxable_amount = (sub_total * parseFloat($("#tax_percentage").val())/100);
+	// $('#tax_amount').empty().append(taxable_amount.toFixed(3) + 'BHD');
+	// $('#pos_sub_total').empty().append((sub_total - taxable_amount).toFixed(3) + 'BHD');
+	$('#pos_total').empty().append('<%= number_with_precision(@total_amount, precision: 3) %>BHD');
+	$('#remain_payment_amount').val('<%= number_with_precision(@sub_total, precision: 3) %>');
+	$('#discount_amount').empty().append('<%= number_with_precision(@discount, precision: 3)%>BHD');
+	$('#tax_amount').empty().append('<%= number_with_precision(@tax_amount, precision: 3)%>BHD');
+	$('#pos_sub_total').empty().append('<%= number_with_precision(@sub_total, precision: 3) %>BHD');
+<% end %>
+if($('#pos_transactions_list td').length === 0) {
+	$('.noMenu').addClass('disabled');
+}

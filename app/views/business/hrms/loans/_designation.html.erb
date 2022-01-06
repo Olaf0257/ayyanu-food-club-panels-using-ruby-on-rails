@@ -1,0 +1,8 @@
+<div class="col-xs-6 col-md-6">
+  <label for="loan_employee">Department</label>
+  <%= text_field_tag :department, @user.user_detail&.department&.name, class: 'form-control', readonly: true, placeholder: 'Enter Department', name: 'loan[department]' %>
+</div>
+<div class="col-xs-6 col-md-6">
+  <label for="loan_employee">Designation</label>
+  <%= text_field_tag :designation, @user.user_detail&.designation&.capitalize, class: 'form-control', readonly: true, placeholder: 'Enter Designation', name: 'loan[designation]' %>
+</div>

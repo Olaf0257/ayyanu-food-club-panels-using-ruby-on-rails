@@ -1,0 +1,86 @@
+<div class="panel-body">
+<div class="row form-group" id="DivIdToPrint">
+<div class="col-md-8" style="border: 1px solid;padding: 3%;padding-left: 0;" >
+        <div class="col-md-6 col-md-6" id="qr_code_container">
+          <%= asset.barcode_url.html_safe %>
+          <p style="width: 300px;">Scan Serial# <%=asset.serial_number%><%#= find_scan_serial(document_upload)  %></p>
+        </div>
+        <div class="col-md-6 col-md-6">
+        	<div>
+         <strong>Brand:</strong><p><%=asset.brand.name%><p>
+         <strong>Model:</strong><p><%=asset.model%><p>
+          <strong>Name:</strong><p><%= asset.name %></p>
+          <p><%= asset.created_at.strftime("%B") + "_" + asset.created_at.strftime("%Y") %></p>
+      </div>
+        </div>
+</div>
+<br/>
+
+  <div class="col-md-3" style="text-align: right;padding-right: 0;">
+     <a href="#" class="btn btn-info" id="print_qr_code" onclick="printJS('DivIdToPrint', 'html')">Print</a>
+  <script src="https://printjs-4de6.kxcdn.com/print.min.js
+  "></script>
+   <link rel="stylesheet" type="text/css" href="  https://printjs-4de6.kxcdn.com/print.min.css
+  ">
+  </div>
+</div>
+
+<style type="text/css">
+  svg {
+  height: 120px;
+  width: 120px;
+  }
+  .qr-code-container {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  padding: 20px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+  }
+  .qr-code-image {
+  margin: 70px 30px 40px 30px;
+  }
+
+
+  @media print {
+    .col-md-6{
+      width: 50%;
+    }
+    #qr_code_container svg{
+      width: 500px !important;
+    }
+    #DivIdToPrint{
+      display: flex;
+    }
+
+    svg {
+        width: 200px !important;
+        height: 200px !important;
+    }
+}
+
+</style>
+
+<script type="text/javascript">
+  // $('#print_qr_code').click(function(){
+  //   $('#print_qr_code_container').print();
+  // })
+
+  function printDiv() 
+{
+
+  var divToPrint=document.getElementById('DivIdToPrint');
+
+  var newWin=window.open('','Print-Window');
+
+  newWin.document.open();
+
+  newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+  newWin.document.close();
+
+  setTimeout(function(){newWin.close();},10);
+
+}
+</script>

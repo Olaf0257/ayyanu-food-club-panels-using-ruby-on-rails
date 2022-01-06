@@ -1,0 +1,3 @@
+$(".target-row").after('<%= escape_javascript render(partial: 'new_restaurant_row', locals: { count: @count }) %>');
+$(".target-row").removeClass("target-row");
+$(".coupon-restaurant-select").select2();

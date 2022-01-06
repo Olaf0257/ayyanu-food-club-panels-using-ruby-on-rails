@@ -1,0 +1,16 @@
+<% if params[:page] == "1" %>
+	$("#<%= params[:modal_id] %> tbody").empty();
+<% end %>
+$('#customerAddressDetails').addClass('d-none')
+$("#customerDetails").removeClass('d-none');
+$('#minimum_amount_data').addClass('d-none')
+$('#check_order_type').addClass('d-none');
+<% if @customers.present? %>
+	<% @customers.each do |customer| %>
+		$("#<%= params[:modal_id] %> tbody").append("<%= j render partial: 'customer_data', locals: { customer: customer, modal_id: params[:modal_id]  } %>");
+	<% end %>
+<% end %>
+<% if params[:page] == "1" && !@customers.present?  %>
+	$("#<%= params[:modal_id] %> tbody").append("<tr><td colspan='3' style='text-align: center;font-size: 21px;height: 290px;font-weight: bold;'>Customer Not Found. Kindly Click On New Customer To Add</tr>");
+<% end %>
+beginCheckByNamePopup();

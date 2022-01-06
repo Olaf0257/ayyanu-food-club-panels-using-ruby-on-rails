@@ -1,0 +1,32 @@
+<div class="container-fluid blank-container"></div>
+
+<script>
+  swal({
+    html: true,
+    title: "Placing Order...",
+    text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+    showConfirmButton: false
+  });
+
+  $.ajax({
+    type: "POST",
+    url: "/customer/place_order?order_mode=" + "<%= @order_mode %>" + "&is_redeem=" + "<%= @redeem %>" + "&address_id=" + "<%= @address_id %>" + "&user_id=" + "<%= @user_id %>" + "&note=" + "<%= @note %>" + "&coupon_code=" + "<%= @coupon_code %>" + "&transaction_id=" + "<%= @charge_id %>",
+    dataType: "JSON",
+    success: function(data) {
+      if (data.code == 200) {
+        swal("Success", "Order Placed Successfully!", "success")
+        window.location = "/customer/dashboard";
+      }
+    },
+    error: function() {
+      swal("Error", data.message, "error")
+    }
+  });
+</script>
+
+<style>
+  .blank-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+  }
+</style>

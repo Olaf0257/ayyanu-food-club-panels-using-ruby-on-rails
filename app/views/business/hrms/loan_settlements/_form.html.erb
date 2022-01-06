@@ -1,0 +1,77 @@
+<%#= form_with(url: business_hrms_loan_revises_path(@loan_settlements), class: 'form-horizontal', local:true)  do |f| %>
+<%= form_for(@loan_settlement, url: (params[:id].blank? ? business_hrms_loan_settlements_path : edit_business_hrms_loan_settlement_path(@loan_settlement).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :employee %>
+      <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @loan_settlement.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6" id="loan_id_container">
+      <label>Loan</label>
+      <% if params[:action] == "edit" %>
+        <%= select_tag(:loan_id, options_from_collection_for_select(Loan.where(id: @loan_settlement.loan_id, status: Loan::STATUS[:approved]), :id, :id, @loan_settlement.loan_id), {class: 'form-control', style: 'height: 40px!important;', include_blank: "Select Loan", name: 'loan_revise[loan_id]', id: 'loan_revise_loan_id', required: true}) %>
+      <% else %>
+        <%= f.select(:loan_id, options_for_select([]), {include_blank: "Select Loan"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="loan_detail_container">
+    <%= render 'loan_detail' if params[:action] == "edit" %>
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <label> Remaining Amount </label>
+      <%= f.number_field :remaining_amount, step: :any, class: 'form-control', placeholder: ' Remaining Amount', required: true, oninput: "validate(this)" %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Loan Period</label>
+      <%= f.date_field :when_to_settle_date, class: 'form-control', placeholder: 'When To Settle date', required: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <label for="new_interest_rate">Payment Mode</label>
+      <%#= f.number_field :payment_mode, step: :any, class: 'form-control', placeholder: 'Payment Mode', required: true  %>
+      <%= f.select(:payment_mode, options_for_select(User::PAYMENT_MODE, @loan_settlement.payment_mode), {include_blank: "Select Payment Mode"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+  </div>
+
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'loan_settlement[restaurant_id]', params[:restaurant_id] %>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+
+  <br>
+  <% if params[:action] == "edit" %>
+    <%= f.submit 'Update Loan Settlement', class: 'btn btn-lg btn-primary btn-block' %>
+  <% else %>
+    <%= f.submit 'Add Loan Settlement', class: 'btn btn-lg btn-primary btn-block' %>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+  $('#loan_settlement_user_id').change(function(){
+    if(this.value != ""){
+      $('#loan_detail_container').addClass('display-none');
+      $.ajax({
+        type: "GET",
+        url: "/business/hrms/loan_settlements/loan_list",
+        dataType: 'script',
+        data: {id: $(this).val()}
+      });
+    }
+    else{
+      // $('#loan_id_container').addClass('display-none');
+    }
+  })
+
+   var validate = function(e) {
+    var t = e.value;
+    e.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 4)) : t;
+  }
+</script>

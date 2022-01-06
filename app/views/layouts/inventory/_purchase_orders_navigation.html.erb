@@ -1,0 +1,98 @@
+<% selected_user = @selected_user || @user %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+          <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+          </span>
+          <% elsif @user.auths.first.role=="manager" %>
+          <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+          <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+          </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+          <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+          <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+          </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+          <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= @user.name %></span>
+          </span>
+          <% elsif @user.influencer %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+          <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+          </span>
+          <% end %>
+        </div>
+      </li>
+      <div class="dropdown profile-element">
+        <li class="partner-nav-header">
+          <h3 class="block m-l-lg"><strong class="font-bold"><%= link_to "Material Control", dashboard_inventory_restaurant_purchase_orders_path(restaurant_id: params[:restaurant_id]) %></strong></h3>
+        </li>
+      </div>
+
+      <li class="displayNavigation openDashboardNewTransactipnPopup <%= params[:action].eql?('dashboard') ? 'active' : '' %>">
+        <a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Dashboard</span></a>
+      </li>
+      <li class="displayMaster <%= ['inventory/purchase_orders'].include?(params[:controller]) ? 'active' : nil %>">
+        <a href="javascript:void(0);"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Purchase</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_controller('inventory/purchase_orders') && is_active_action('index') %>"><%= link_to "Purchase Order", inventory_restaurant_purchase_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('book_orders') %>"><%= link_to "Book Order", book_orders_inventory_restaurant_purchase_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+        </ul>
+      </li>
+      <li class="displayMaster <%= is_active_controller('inventory/receive_orders') ? 'active' : nil %>">
+        <a href="javascript:void(0);"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Receiving</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_action('receive_po_orders') %>"><%= link_to "With PO", receive_po_orders_inventory_restaurant_receive_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('index') %>"><%= link_to "Without PO", inventory_restaurant_receive_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('reject_orders') %>"><%= link_to "Cancel Invoice", reject_orders_inventory_restaurant_receive_orders_path(restaurant_id: params[:restaurant_id]) %></li>
+        </ul>
+      </li>
+      <li class="displayMaster <%= is_active_controller('inventory/transfer_orders') || is_active_controller('inventory/inventories') ? 'active' : nil %>">
+        <a href="javascript:void(0);"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Store</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_action('index') && is_active_controller('inventory/transfer_orders') %>"><%= link_to "Issue Requests", inventory_restaurant_transfer_orders_path %></li>
+          <li class="<%= is_active_action('approve_orders') %>"><%= link_to "Approve Requests", approve_orders_inventory_restaurant_transfer_orders_path %></li>
+          <li class="<%= is_active_action('process_transfer_orders') %>"><%= link_to "Transfer", process_transfer_orders_inventory_restaurant_transfer_orders_path %></li>
+          <li class="<%= is_active_action('index') && is_active_controller('inventory/inventories') %>"><%= link_to "Inventory Log", inventory_restaurant_inventories_path %></li>
+          <li class="<%= is_active_action('soh') && is_active_controller('inventory/inventories') %>"><%= link_to "Stock On Hand Control", soh_inventory_restaurant_inventories_path %></li>
+        </ul>
+      </li>
+
+      <li class="displayMaster <%= is_active_customer('customers_list') ? nil : 'deactive' %>">
+        <a href="/business/hrms/employees/dashboard"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Production</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_action('index') && is_active_controller('inventory/recipes') %>"><%= link_to "Recipe", inventory_restaurant_recipes_path %></li>
+          <li><%= link_to "Search Recipe", '#' %></li>
+          <li><%= link_to "Production Tool", '#' %></li>
+          <li><%= link_to "Yield Management", '#' %></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<script src="/assets/select2.full.min.js"></script>

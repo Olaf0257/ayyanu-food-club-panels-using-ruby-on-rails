@@ -1,0 +1,83 @@
+<style type="text/css">
+  .dropdown-toggle::after {
+     border-right: 0em solid transparent;
+     border-left: 0em solid transparent;
+  }
+</style>
+<div class="row border-bottom">
+  <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+    </div>
+    <ul class="nav navbar-top-links navbar-right">
+      <li>
+
+        <span class="m-r-sm text-muted welcome-message">Welcome to Food Club Admin Panel.</span>
+      </li>
+        <li class="dropdown">
+            <a class="dropdown count-info" data-toggle="dropdown" href="#" style="right: 0px;" id="noti-change"> <i class="fa fa-bell"></i> <span class="label label-warning" id="notification-count" style="right: -5px;top: 8px;display: block"></span>
+            </a>
+            <% #if @admin.class.name =='SuperAdmin' || @admin.class.find(@admin.id)[:role_id]==1%>
+            <% if @admin.class.name =='SuperAdmin'%>
+            <ul class="dropdown-menu dropdown-alerts" id="notifications-dropdown" style="height: 600px;overflow: auto;white-space: nowrap;">
+                <%=render :partial=>"notifications/admin_notifications_lists.html.erb"%>
+            </ul>
+            <% else %>
+            <% if false %>
+               <% if @admin.check_role?("Advertisement List") || @admin.check_role?("New Ads") || @admin.check_role?("Cuisine") || @admin.check_role?("All Company") || @admin.check_role?("Requested Company") || @admin.check_role?("Rejected Company") ||  @admin.check_role?("Add New Company") ||  @admin.check_role?("All Restaurant") || @admin.check_role?("Requested Restaurant") || @admin.check_role?("Rejected Restaurant") ||  @admin.check_role?("Name Change Approval")%>
+                   <ul class="dropdown-menu dropdown-alerts" id="notifications-dropdown" style="height: 600px;overflow: auto;white-space: nowrap;">
+                 <%=render :partial=>"notifications/admin_notifications_lists.html.erb"%>
+                </ul>
+              <% end %>
+              <% end %>
+            <% end %>
+          </li>
+      <li>
+        <a href="<%=admin_logout_path%>">
+          <i class="fa fa-sign-out"></i> Log out
+        </a>
+      </li>
+
+      <% unless is_super_admin?(@admin) %>
+        <li>
+          <span class="btn btn-sm btn-danger help-button">
+            <% user_role = @admin.role.role_name == "Call Center" ? "call_center" : "admin" %>
+            <%= link_to "HELP", list_posts_path(user_role: user_role), target: "_blank" %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>
+
+
+
+<script type="text/javascript">
+  $.ajax({
+    type: "POST",
+    url: "/admin/noti/count",
+    dataType: "JSON",
+    success:function(data){
+      $("#notification-count").text(data.notifications);
+    },
+    error: function(){
+      swal("Error","Something went wrong","Error");
+    }
+  });
+
+  $("#noti-change").on("click",function(){
+    $.ajax({
+      type: "POST",
+      url: "/update/notification",
+      dataType: "script",
+      success:function(data){
+        // if(data.notifications==true){
+         $("#notification-count").text(0)
+        // }
+      },
+      error: function(){
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  })
+</script>

@@ -1,0 +1,4 @@
+$("#cancel_order_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'cancel_order_modal') %>");
+$("#cancel_order_modal").modal({backdrop: "static", keyboard: false});
+$("#cancel_order_modal").modal("show");

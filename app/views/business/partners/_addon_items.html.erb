@@ -1,0 +1,19 @@
+<div style="padding-top: 10px;">
+  <% @addon_menu.each do |menu| %>
+    <div class="card add-on-card add_menu_item <%= menu.item_addon_category_id %>" data-menu-item-id= <%= menu.id %> data-pos-table-id = <%= params[:pos_table_id]  %> data-comments="<%= getComment(menu, params[:pos_table_id] ) %>"
+      data-parent-pos-transaction-id= <%= pos_transaction_id %> style="display: inline-block;
+      height: 60px;
+      width: 32%;
+      cursor: pointer;
+      border-radius: 27px;
+      text-align: center;
+      vertical-align: middle;">
+          <div class="card-body">
+            <p style="color: black;top: 15px;position: relative;text-align: center;"><%= menu.addon_title %>
+            </p>
+            <p style="color: black;top: 12px;position: relative;text-align: center;"><%= number_with_precision(menu.addon_price, precision: 3) %>BHD
+            </p>
+          </div>
+    </div>
+  <% end %>
+</div>

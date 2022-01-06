@@ -1,0 +1,9 @@
+wb = xlsx_package.workbook
+  wb.add_worksheet(name: "Coverage Area Upload Format") do |sheet|
+    sheet.add_row ["ID" , "Area Name", "Delivery Charges", "Minimum Amount", "Delivery Time", "Third Party Delivery", "Third Party Delivery Type", "Cash On Delivery", "Accept Cash", "Accept Card", "Closed", "Busy", "Far menu"]
+      if @areas.present?
+        @areas.each do|area|
+          sheet.add_row [area[:id], area[:area], area[:delivery_charges], area[:minimum_amount], area[:delivery_time], area[:third_party_delivery], area[:third_party_delivery_type], area[:cash_on_delivery], area[:accept_cash], area[:accept_card], area[:is_closed], area[:is_busy], area[:far_menu]]
+      end
+    end
+  end

@@ -1,0 +1,108 @@
+<footer class="footer">
+  <div class="subscribe-now line">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col-lg-5 col-md-6">
+          <div class="subscribe-newsletter">
+            <div class="sub-text">
+              <p>Connect with us for update and offers.</p>
+            </div>
+
+            <form>
+              <input class="input-subscribe" name="newsletter" type="text" placeholder="Enter your email address">
+              <div class="subscribe-btn">
+                <div class="s-n-btn">
+                  <button class="newsletter-btn btn-link">Subscribe Now</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">
+        <div class="link-title">
+          <h4>Food Club Areas</h4>
+
+          <ul class="links">
+            <% @areas.first(7).each do |area| %>
+              <li><%= link_to area.area, customer_restaurants_list_path(search: area.area) %></li>
+            <% end %>
+
+            <li><i><%= link_to "More areas...", sitemap_path(country_id: encode_token(@selected_country_id), anchor: "sitemap_areas") %></i></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-12">
+        <div class="link-title">
+          <h4>Cuisines</h4>
+
+          <ul class="links">
+            <% @categories.first(7).each do |category| %>
+              <% category_path = category.color == "true" ? customer_party_points_list_path : customer_restaurants_list_path(cuisine_id: encode_token(category.id)) %>
+
+              <li><%= link_to category.title, category_path %></li>
+            <% end %>
+
+            <li><i><%= link_to "More cuisines...", sitemap_path(country_id: encode_token(@selected_country_id), anchor: "sitemap_cuisines") %></i></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-12">
+        <div class="link-title">
+          <h4>Brands with us</h4>
+
+          <ul class="links">
+            <% @restaurants.first(7).each do |restaurant| %>
+              <li><%= link_to restaurant.title, customer_restaurants_list_path(restaurant_id: encode_token(restaurant.id)) %></li>
+            <% end %>
+
+            <li><i><%= link_to "More restaurants...", sitemap_path(country_id: encode_token(@selected_country_id), anchor: "sitemap_restaurants") %></i></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-sm-3 col-xs-12">
+        <div class="link-title">
+          <h4>Register With Us</h4>
+          <ul class="links">
+            <li><%= link_to "For Customers", customer_customer_signup_path %></li>
+            <li><%= link_to "For Restaurants", "https://backend.foodclubapp.com/onboarding", target: "blank" %></li>
+          </ul>
+          <div class="social-btns">
+            <a href="https://www.facebook.com/foodclub.bh" target="_blank"><div class="social-btn soc-btn"><i class="fa fa-facebook-official"></i></div></a>
+            <a href="https://www.instagram.com/foodclub.bh/" target="_blank"><div class="social-btn soc-btn"><i class="fa fa-instagram"></i></div></a>
+            <a href="https://www.youtube.com/watch?v=lVOViYNEXHM" target="_blank"><div class="social-btn soc-btn"><i class="fa fa-youtube-play"></i></div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="privacy-cards">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="privacy-terms">
+            <ul>
+              <li><%= link_to "Privacy Policies", root_path + "privacy/policies/true" %></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="privacy-terms">
+            <ul>
+              <li><a><font color="orange">Contact us: <big>00973 - 16003600</big></font></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

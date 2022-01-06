@@ -1,0 +1,6 @@
+<option value="">Select Portion Unit</option>
+<% if @portion_units.present? && @portion_units.is_a?(Array) %>
+	<% @portion_units.each do |portion_unit| %>
+		<option value="<%= portion_unit %>"><%= portion_unit %></option>
+	<% end %>
+<% end %>

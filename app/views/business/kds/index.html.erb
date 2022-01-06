@@ -1,0 +1,243 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-2">
+    <h2 class="font-bold ">KDS</h2>
+  </div>
+
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New KDS" href="<%= new_business_kd_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @kds.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Country</th>
+                  <th>Branch</th>
+                  <th>Station</th>
+                  <th>KDS Name</th>
+                  <th>KDS TYPE</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @kds.each do |kd| %>
+                  <%# next if employee.user_detail.blank? %>
+                  <tr id="trans-<%=kd.id %>">
+                    <td><%= kd.id %></td>
+                    <td><%=kd.countries.pluck(:name).join(",") %></td>
+                    <td id="<%=kd.id %>-id"><%= kd.branches.pluck(:address).join(",") %></td>
+                     <td><%= kd.station %></td>
+                    <td id="<%=kd.id %>-id"><%=kd.name%></td>
+                    <td><%= kd.kds_type %></td>
+                    <td><%= created_by(kd) %></td>
+                    <td><%= kd.created_at %></td>
+                    <td>
+                       <a href="#" class="btn btn-sm btn-primary kdsItem_kds" style="font-size: 13px; color: white;" data-kds-type='<%= kd.kds_type %>'><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit KDS'.html_safe, edit_business_kd_path(kd, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove KDS'.html_safe, business_kd_path(kd, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <!-- <div class="row">
+            <div class="col-lg-12">
+             <center><%#= will_paginate @employees ,renderer: BootstrapPagination::Rails %></center>
+            </div>
+          </div> -->
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No KDS List available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<div id="kdsMenuPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" style="width: 100%;display: contents;">
+    <input type="hidden" name="current_check_id" value="<%= @pos_check&.id %>">
+    <div class="modal-content" style="background-color: #f3f3f4">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">KDS MENU</h4>
+      </div>
+      <div class="modal-body">
+        <%= render partial: 'layouts/partner/kds_menu_data' %>
+      </div>
+
+      <div class="modal-footer">
+        <div class="divData bump-btn">
+          <i class="icons fa fa-check" aria-hidden="true"></i>
+          <div class="text-data">Bump</div>
+        </div>
+        <!-- <div class="divData">
+          <i class="icons fa fa-angle-left"></i>
+          <div class="text-data">Left</div>
+        </div>
+        <div class="divData">
+          <i class="icons fa fa-angle-right"></i>
+          <div class="text-data">Right</div>
+        </div>
+
+        <div class="divData">
+          <i class="icons fa fa-home" aria-hidden="true"></i>
+          <div class="text-data">Home</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-angle-double-right"></i>
+          <div class="text-data">Tag</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">Recall</div>
+        </div>
+
+        <div class="divData">
+          <i class="icons fa fa-check" aria-hidden="true"></i>
+          <div class="text-data">Unbump</div>
+        </div>
+        
+        <div class="divData">
+          <i class="icons fa fa-angle-double-right"></i>
+          <div class="text-data">Recipe</div>
+        </div> -->
+        
+        <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">Cancel</div>
+        </div>
+        
+        <!-- <div class="divData">
+          <i class="icons fa fa-circle-o" aria-hidden="true"></i>
+          <div class="text-data">ItemSum</div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style type="text/css">
+  .icons {
+    font-size: 76px;
+  }
+  .text-data {
+    font-size: 20px;
+  }
+  .divData {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+    width: 6%;
+  }
+</style>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+
+  $('.kdsItem_kds').on('click', function(e) {
+    $('#kdsMenuPopup').modal('show');
+    var element = $(this).attr('data-kds-type');
+    if(element == "Customer"){
+      $(".modal-footer").hide();
+      $('.kds_div_slot').each(function(e) {
+        m = $(this).attr('class'); 
+        if (m.includes("Customer")){
+           $(this).hide();
+        }
+        else{
+          $(this).removeClass('hide');  
+        }
+        if(m.includes("Expo")){
+          $(this).first().children().children()[2].innerHTML = "Ready In";
+        }
+        else{
+          $(this).first().children().children()[2].innerHTML = "In progress";
+        }
+      });
+    }
+    else if(element == "Manager"){
+      $(".modal-footer").show();
+     $('.kds_div_slot').each(function(e) {
+        m = $(this).attr('class'); 
+        if (m.includes("Customer")){
+           $(this).hide();
+        }
+        else{
+          $(this).removeClass('hide');  
+        }
+        if(m.includes("Expo")){
+          $(this).first().children().children()[2].innerHTML = "Ready In";
+        }
+        else{
+          $(this).first().children().children()[2].innerHTML = "In progress";
+        }
+      });
+    }
+    else{
+      $(".modal-footer").show();
+      $('.kds_div_slot').addClass('hide');
+      $('.order_status1').text("In progress");
+
+    }
+
+    var title_name = element.toUpperCase() + " KDS"
+    $(".modal-title").html(title_name);
+    $("."+element).removeClass('hide');
+    $('.pos_kds_data').val(element);
+    $('.kds-container').attr("id", "kds-container-" + element);
+    $('.kds_div_slot').removeClass('active_kds');
+    $('.total_order_count_kds').text($("."+element).length);
+    e.stopImmediatePropagation();
+  });
+
+
+  //  setInterval(function()
+  // { 
+  //     var trans_val = $(".transaction_val").attr('data-value');
+  //     trans_val = JSON.parse(trans_val)
+  //     trans_val.forEach(myFunction)
+  //     debugger;
+  //     function myFunction(item) {
+  //       $.ajax({
+  //         type:"GET",
+  //         url: "/business/kds/change_order_color",
+  //         data: {transaction_id: item},
+  //         success:function(data)
+  //         {
+  //           $("#" + data["transaction_id"]).css({"background-color": data["color"][0],"color" : data["color"][1]});
+  //             //do something with response data
+  //         }
+  //       });
+  //     }
+  // }, 20000);
+
+</script>

@@ -1,0 +1,429 @@
+<style type="text/css">
+  .setheight{
+    height:100% !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-sm-3">
+      <h2>Club List</h2>
+    </div>
+
+    <div class="col-sm-6">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Club Name, Sub Category", autocomplete: :off) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="col-sm-3">
+      <h2 class="pull-right">
+        <%= link_to club_list_path(format: :csv, keyword: params[:keyword]) do  %>
+          <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+        <% end %>
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+        <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+          <a href="" class="btn btn-primary btn-xs addclube "  data-target="#add-category-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Add new Club</a>
+        </span>
+        <h5>Club Table</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @clubes.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Club Name (English)</th>
+                  <th>Club Name (Arabic)</th>
+                  <th>Club Description(English)</th>
+                  <th>Club Description (Arabic)</th>
+                  <th>Club Sub Categories</th>
+                  <th>Action</th>
+                  <th>Notification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@clubes.each do |b|%>
+                  <tr id="card-<%=b.id%>">
+                    <td><%=b.id%></td>
+                    <td ><img src="<%=b.img_url.present? ? b.img_url : '/assets/ic_placeholder.png' %>" style="border-radius: 10px;width: 60px;height: 60px;" id="club-title-image-<%=b.id%>"></td>
+                    <%p b%>
+                    <td id="club-title-<%=b.id%>"><%=b.title.present? ? b.title : "N/A"%></td>
+                    <td id="club-title-ar-<%=b.id%>"><%=b.title_ar.present? ? b.title_ar : "N/A"%></td>
+                    <td id="club-description-<%=b.id%>"><%=b.description.present? ? b.description : "N/A"%></td>
+                    <td id="club-description-ar-<%=b.id%>"><%=b.description_ar.present? ? b.description_ar : "N/A"%></td>
+                    <td><%if b.club_sub_categories.present?%>
+                    <% b.reload.club_sub_categories.each do |sub_cat|%>
+                    <%=sub_cat.title%>,
+                    <%end%> <%else%>N/A<%end%>
+
+                    </td>
+                    <td>
+                   <a href="#" class="btn btn-xs btn-warning editclub" id="<%=b.id%>-edit" style="font-size: 13px; color: white;"><i class="fa fa-edit" aria-hidden="true" > Edit Club Category </i> </a>
+                    <a href="<%=club_users_path(encode_token(b.id))%>" class="btn btn-xs btn-success editcategories " style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View User </i> </a>
+                     <a href="<%=club_sub_category_path(encode_token(b.id))%>" class="btn btn-xs btn-info editcategories " style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View Sub Club </i> </a>
+
+                    </td>
+                    <td>
+                      <a class="label label-success" href="<%=club_bulk_notification_path(:club_id=>b.id,:cat=>"club")%>" style="font-size: 15px;color:white;padding:5px;"> Send Push</a>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No club available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%= will_paginate @clubes ,renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="edit-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Club</h4>
+        </div>
+        <%=form_for :club,url: add_sub_category_path,:html=>{:multipart=> true} do |f| %>
+         <div class="modal-body">
+          <form action="#" class="form-horizontal" method="post" data-remote="true">
+            <input type="hidden" name="club_id" id="club_id"  value="" autocomplete="off">
+
+            <div class="row" style="margin-bottom:10px;">
+              <p>Club Title</p>
+              <input type="text"  name="club_title" id="club_title" disabled="disabled" placeholder="Week name" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Sub Title (English)</p>
+              <input type="text"  name="club_sub_title" id="club_sub_title"  placeholder="Club sub title" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Sub Title(Arabic)</p>
+              <input type="text"  name="club_sub_title_ar" id="club_sub_title_ar"  placeholder="Club sub title" required="true" class="form-control" autocomplete="off">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn theme-btn pull-right" value="Update" id="">
+            </div>
+          </form>
+        </div>
+         <%end%>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add-club-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Club</h4>
+        </div>
+        <%=form_for :club,url: add_new_club_path,:html=>{:multipart=> true} do |f| %>
+        <div class="modal-body">
+            <div class="row" style="margin-bottom:10px;">
+              <p>Club Title (English)</p>
+              <input type="text"  name="club_title" id="club_name" placeholder="Club name (english)" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Description (English) Max Length 150</p>
+              <input type="text"  name="club_description" id="club_description" placeholder="Club description (english)"  class="form-control" autocomplete="off">
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+              <p>Club Title (Arabic)</p>
+              <input type="text"  name="club_title_ar" id="club_name_ar" placeholder="Club name (arabic)" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Description (Arabic) Max Length 150</p>
+              <input type="text"  name="club_description_ar" id="club_description_ar" placeholder="Club description (arabic)"  class="form-control" autocomplete="off">
+            </div>
+            <div class="row">
+              <p>Category Image</p>
+                <div style="position: relative;">
+                <a href='javascript:;'>
+                  <img src="/assets/upload_image.png" class="add-img-tag" height="100vh">
+                  <button type="button" class="btn-tag val" style="display: none;">Hello</button><br><br>
+                 <label class="file">
+                  <input type="file" id='add-img-tag' name="club_image" onchange='addreadURL(event)' aria-label="File browser example">
+                  <span class="file-custom"></span>
+                </label>
+                </a>
+              </div>
+              <p style="margin-top:-10px;"><b>Image size :</b> 500X500</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn theme-btn pull-right" id="add_club">
+            </div>
+          </div>
+        <%end%>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade" id="edit-club-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <center><div id="showimage"></div></center>
+        <div class="modal-header">
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Club Category Update</h4>
+        </div>
+        <%=form_for :club,url: edit_club_category_path,:html=>{:multipart=> true} do |f| %>
+        <div class="modal-body">
+            <div class="row" style="margin-bottom:10px;">
+              <p>Club Title (English)</p>
+               <input type="hidden" name="club_category_id" id="club_category_id"  value="">
+              <input type="text"  name="club_title" id="edit_club_name" placeholder="Club name (english)" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Description (English) Max Length 150</p>
+              <input type="text"  name="club_description" id="edit_club_description" placeholder="Club description (english)" class="form-control" >
+
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+              <p>Club Title (Arabic)</p>
+              <input type="text"  name="club_title_ar" id="edit_club_name_ar" placeholder="Club name (arabic)" required="true" class="form-control" autocomplete="off">
+            </div>
+             <div class="row" style="margin-bottom:10px;">
+              <p>Club Description (Arabic) Max Length 150</p>
+              <input type="text"  name="club_description_ar" id="edit_club_description_ar" placeholder="Club description (arabic)" class="form-control" >
+            </div>
+            <div class="row">
+              <p>Category Image</p>
+                <div style="position: relative;"
+                <a href='javascript:;'>
+                  <img src="/assets/upload_image.png" class="edit-img-tag" id="edit-image" width="200vh" height="100vh">
+                  <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                  <br>
+                  <label class="file">
+                  <input type="file" id='edit-img-tag'  name="club_image" onchange='addreadURL(event)' aria-label="File browser example">
+                  <span class="file-custom"></span>
+                </label>
+                </a>
+                 <p style="margin-top:-10px;"><b>Image size :</b> 500X500</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+              <input type="submit" class="btn theme-btn pull-right" id="update_club">
+            </div>
+          </div>
+        <%end%>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+ <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+  $("#update_club").on("click",function()
+  {
+    if($('#edit_club_name').val().length >=41 || $('#edit_club_name').val().length ==0)
+    {
+      $('#edit_club_name').focus()
+      swal("Warning","Please enter valid title (English)","warning");
+      return false;
+    }
+    else if($('#edit_club_name_ar').val().length >=41 || $('#edit_club_name_ar').val().length ==0)
+    {
+      $('#edit_club_name_ar').focus();
+      swal("Warning","Please enter valid title (Arabic)","warning");
+      return false;
+    }
+    else if ($.trim($('#edit_club_name').val())==="")
+    {
+      $('#edit_club_name').focus();
+      swal("Warning","English title can't be blank","warning");
+      return false;
+    }
+    else if ($.trim($('#edit_club_name_ar').val())==="")
+    {
+      $('#edit_club_name_ar').focus();
+      swal("Warning","Arabic title can't be blank","warning");
+      return false;
+    }
+    else if($.trim($('#edit_club_description').val())==="" || $.trim($('#edit_club_description').val()).length>150)
+    {
+      $('#edit_club_description').focus();
+     swal("Warning","Please enter a valid description(English)","warning")
+     return false;
+    }
+    else if($.trim($('#edit_club_description_ar').val())==="" || $.trim($('#edit_club_description_ar').val()).length>150)
+    {
+      $('#edit_club_description_ar').focus();
+     swal("Warning","Please enter a valid description(Arabic)","warning")
+     return false;
+    }
+    else
+    {
+      return true;
+    }
+  });
+
+
+
+  $(document).ready(function() {
+   $(document).on("click", '.addsubcategory', function(event) {
+
+      var id = $(this).attr("id").split('-')[0]
+      var title = $("#club-title-"+id).text();
+      $('#club_title').val(title);
+      $('#club_id').val(id);
+      $('#edit-category-modal').modal({backdrop: 'static', keyboard: false});
+      $('#edit-category-modal').modal('show');
+
+    })
+
+  });
+
+  $(document).ready(function() {
+   $(document).on("click", '.editclub', function(event) {
+
+      var id = $(this).attr("id").split('-')[0]
+      var title = $("#club-title-"+id).text();
+      var title_ar = $("#club-title-ar-"+id).text();
+      var description = $("#club-description-"+id).text();
+      var description_ar = $("#club-description-ar-"+id).text();
+      // var title = $("#club-title-"+id).text();
+      var image = $("#club-title-image-"+id).attr('src');
+      $('#edit-image').attr('src',image);
+      $('#edit_club_name').val(title);
+      $('#edit_club_name_ar').val(title_ar);
+      $('#edit_club_description').val(description);
+      $('#edit_club_description_ar').val(description_ar);
+      $('#club_category_id').val(id);
+      // $('#edit_club_name').val(title);
+      $('#edit-club-modal').modal({backdrop: 'static', keyboard: false});
+      $('#edit-club-modal').modal('show');
+
+    })
+
+  });
+
+   $(document).ready(function() {
+   $(document).on("click", '.addclube', function(event) {
+    $('#add-club-modal').modal({backdrop: 'static', keyboard: false});
+    $('#add-club-modal').modal('show');
+
+    })
+
+  });
+
+   $(document).ready(function() {
+   $(document).on("click", '.addsubcategory', function(event) {
+    $('#edit-category-modal').modal({backdrop: 'static', keyboard: false});
+    $('#edit-category-modal').modal('show');
+
+    })
+
+  });
+
+  //  $(document).ready(function() {
+
+  //   $(document).on("click", '.editcategories', function(event) {
+  //     var id = $(this).attr("id").split('-')[0]
+  //     $('#category_id').val(id);
+  //     var name = $("#cat-name-"+id).val();
+  //     $('#category_name').val(name);
+
+  //     var image = $("#cat-image-"+id).attr('src');
+  //     $('#catimage').attr('src',image);
+
+  //     $('#cat_index').val($("#cat_index-"+id).val());
+  //     $('#edit-category-modal').modal({backdrop: 'static', keyboard: false});
+  //     $('#edit-category-modal').modal('show');
+  //   })
+  // });
+// $('#club_sub_title').val().length >= 41 || $('#club_sub_title').val().length <= 0
+
+  //
+// $('#club_name_ar').val().length >= 41 || $('#club_name_ar').val().length <= 0
+   $('#add_club').on("click",function() {
+    // console.log($('#club_name').val())
+    if($('#club_name').val().length >= 41 || $('#club_name').val().length <= 0)
+    {
+      $('#club_name').focus();
+     swal("Club name can't be blank or not more than 40 character","Please enter club name","warning")
+     return false;
+    } else if($('#club_name_ar').val().length >= 41 || $('#club_name_ar').val().length <= 0)
+    {
+      $('#club_name_ar').focus();
+     swal("Arabic club name can't be blank or not more than 40 character","Please enter club name arabic","warning")
+     return false;
+    }
+    else if($.trim($('#club_name').val())==="")
+    {
+      $('#club_name').focus();
+     swal("Warning","English club name can't be blank!","warning")
+     return false;
+    }
+    else if($.trim($('#club_description').val())==="" || $.trim($('#club_description').val()).length>150)
+    {
+      $('#club_description').focus();
+     swal("Warning","Please enter a valid description(English)","warning")
+     return false;
+    }
+    else if($.trim($('#club_description_ar').val())==="" || $.trim($('#club_description_ar').val()).length>150)
+    {
+      $('#club_description_ar').focus();
+     swal("Warning","Please enter a valid description(Arabic)","warning")
+     return false;
+    }
+    else if($.trim($('#club_name_ar').val())==="")
+    {
+      $('#club_name_ar').focus();
+     swal("Warning","Arabic club name can't be blank!","warning")
+     return false;
+    }
+    else
+    {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<img src='/assets/rest-loading.gif' width='20%'>",
+        showConfirmButton: false
+      });
+
+    }
+  });
+
+   function readURL(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src", getImagePath);
+  }
+
+  function addreadURL(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src", getImagePath);
+  }
+</script>

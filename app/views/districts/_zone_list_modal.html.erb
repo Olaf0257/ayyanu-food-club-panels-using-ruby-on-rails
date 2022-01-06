@@ -1,0 +1,26 @@
+<div class="modal fade" id="district_zones_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Zones under <%= @district.name %> (<%= @zones.count %>)</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <ul>
+            <% @zones.each do |zone| %>
+              <div class="col-sm-6">
+                <li><%= zone.name %></li>
+              </div>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

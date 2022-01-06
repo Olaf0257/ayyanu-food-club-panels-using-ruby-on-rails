@@ -1,0 +1,29 @@
+<div class="modal fade" id="event_date_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Dates for <%= @event.title %> Event</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <% if @dates.present? %>
+            <ul>
+              <% @dates.each do |date| %>
+                <div class="col-sm-12">
+                  <li><%= date.start_date.strftime("%d/%m/%Y").to_s + "#{date.end_date ? ' - ' : ''}" + date.end_date&.strftime("%d/%m/%Y").to_s %></li>
+                </div>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="text-center"><b>No Dates Added</b></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger zone-area-modal-close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

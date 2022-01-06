@@ -1,0 +1,7 @@
+<% if @schedule.present? %>
+	$('#CateringEditPopup').empty().append('<%= j render partial: "form", locals: {catering: @schedule}%>');
+	$('#CateringEditPopup #current_time_zone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+	setTimeout(function(){ $('#scheduleEditCatering').modal(); }, 100);
+<% else %>
+	toastr.error('Schedule event not found');
+<% end %>

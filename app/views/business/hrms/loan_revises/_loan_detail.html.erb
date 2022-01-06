@@ -1,0 +1,64 @@
+<%#= form_for(@loan, url: (params[:id].blank? ? business_hrms_loans_path : edit_business_hrms_loan_path(@loan).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+       <label for="loan_employee">Department</label>
+      <%#= text_field_tag :department, Department.find_by_id(@loan.department)&.name, class: 'form-control', placeholder: 'Enter Department', readonly: true  %>
+      <%= text_field_tag :department, @loan.department, class: 'form-control', placeholder: 'Enter Department', readonly: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Designation</label>
+       <%#= text_field_tag :designation, Designation.find_by_id(@loan.designation)&.name, class: 'form-control', placeholder: 'Enter Designation', readonly: true  %>
+       <%= text_field_tag :designation, @loan.designation, class: 'form-control', placeholder: 'Enter Designation', readonly: true  %>
+     
+    </div>
+  </div>
+    
+  <div class="row">
+    
+     <div class="col-xs-6 col-md-6">
+      <%= label_tag :loan_type_id %>
+      <%= select_tag(:loan_type_id, options_from_collection_for_select(LoanType.all, :id, :name, @loan.loan_type_id), {class: 'form-control', style: 'height: 40px!important;', disabled: true, include_blank: "Select Loan Type"}) %>
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Loan date</label>
+      <%= date_field_tag :loan_date, @loan.loan_date, class: 'form-control',  disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6">
+      <%= label_tag :deducted_from %>
+      <%= select_tag(:deducted_from, options_for_select(Loan::DEDUCTED_FROM, @loan.deducted_from), {class: 'form-control', style: 'height: 40px!important;', disabled: true, include_blank: "Select Deducted from"}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="loan_employee">Amount</label>
+      <%= number_field_tag :amount, @loan.amount, step: :any, class: 'form-control', placeholder: 'Amount', disabled: true %>
+    </div>
+  </div>
+
+  <div class="row">
+    
+    
+     <div class="col-xs-6 col-md-6">
+      <%= label_tag :interest_rate %>
+      <%= number_field_tag :interest_rate, @loan.interest_rate, step: :any, class: 'form-control', placeholder: 'Interest Rate',  disabled: true %>
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <%= label_tag :installments %>
+      <%= number_field_tag :installments, @loan.installments, class: 'form-control', placeholder: 'Installments',  disabled: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+   
+    <div class="col-xs-6 col-md-6">
+      <%= label_tag :created_date %>
+      <%= date_field_tag :created_date, @loan.created_date, class: 'form-control', placeholder: 'Created Date',  disabled: true %>
+    </div>
+  </div>
+  
+  <br>
+ 

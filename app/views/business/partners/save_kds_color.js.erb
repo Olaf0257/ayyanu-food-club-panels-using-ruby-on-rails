@@ -1,0 +1,9 @@
+<% if @kds_setting.present? %>
+	toastr.success("KDS color setting updated successfully");
+	$("tr[data-color-id="+"<%= @kds_setting.id %>"+"]").find('.actual-text').text("<%= @kds_setting.minutes %>");
+	$("tr[data-color-id="+"<%= @kds_setting.id %>"+"]").find('.input-color').val("<%= @kds_setting.minutes %>");
+	$("tr[data-color-id="+"<%= @kds_setting.id %>"+"]").find('.color-user-input').addClass('hide');
+    $("tr[data-color-id="+"<%= @kds_setting.id %>"+"]").find('.color-text').removeClass('hide');
+<% else %>
+	toastr.error("KDS color not found");
+<% end %>

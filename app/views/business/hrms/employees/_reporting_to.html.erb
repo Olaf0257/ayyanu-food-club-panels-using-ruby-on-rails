@@ -1,0 +1,2 @@
+<label for="user_reporting_to">Reporting to</label>
+<%= select_tag('reporting_to', options_from_collection_for_select(@managers.flatten, 'id', 'name', @employee&.user_detail&.reporting_to), prompt: "Select Reporting to", class: 'form-control', style: 'height: 40px!important;', name: 'user[user_detail_attributes][reporting_to]', id: "user_user_detail_attributes_reporting_to" ) %>

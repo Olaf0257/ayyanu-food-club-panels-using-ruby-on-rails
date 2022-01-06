@@ -1,0 +1,7 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Budget vs Sales") do |sheet| 
+	  sheet.add_row ['Branch Address','Total Order Count','Start Dater','End Date','Total Order Amount','Total Budget Amount','Amount Difference','Status'] 
+		@data.each do |report| 
+			sheet.add_row [report[:address],report[:order_count],report[:start_date],report[:end_date],report[:total_order_amount],report[:budget_total_amount],report[:diffrence_amount],report[:status]] 
+		end 
+	end

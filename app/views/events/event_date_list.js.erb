@@ -1,0 +1,3 @@
+$("#event_date_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'event_date_modal') %>");
+$("#event_date_modal").modal("show");

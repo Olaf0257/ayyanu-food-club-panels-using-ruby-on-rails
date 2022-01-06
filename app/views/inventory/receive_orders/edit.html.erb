@@ -1,0 +1,120 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Material Control >> Receive Order >> Edit</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, inventory_restaurant_receive_orders_path, class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Update Receive Order</h3>
+		</div>
+
+		<div class="panel-body">
+			<%= form_for @receive_order, url: inventory_restaurant_receive_order_path do |f| %>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :country_id %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.collection_select :country_id, Country.order(:name),:id,:name, {prompt: 'Select Country'}, {class: "form-control", required: true, include_hidden: false} %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :branch_id %>
+				</div>
+
+				<div class="col-sm-10">
+					<% if params[:action].eql?('edit') %>
+					<%= f.collection_select :branch_id, @restaurant.branches, :id, :address, {prompt: 'Select Branch'}, {class: "form-control", required: true, include_hidden: false} %>
+					<% else %>
+					<%= f.collection_select :branch_id, Branch.where(id: 0), :id, :address, {prompt: 'Select Branch'}, {class: "form-control", required: true, include_hidden: false} %>
+					<% end %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :invoice_no %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:invoice_no, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :van_temp %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.text_field(:van_temp, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :store_id %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.collection_select :store_id, @restaurant.stores, :id, :name, {prompt: 'Select Store'}, {class: "form-control", required: true} %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :vendor_id %>
+				</div>
+
+				<div class="col-sm-10">
+					<%= f.collection_select :vendor_id, @restaurant.vendors.active, :id, :company_name, {prompt: 'Select Vendor'}, {class: "form-control", required: true} %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%= f.label :delivery_date %>
+				</div>
+
+				<div class="col-sm-3">
+					<%= f.date_field(:delivery_date, required: true, class: "form-control") %>
+				</div>
+			</div>
+			<h3 class="text-success">Update items to receive order</h3>
+			<hr style="border: 1px solid;">
+			<div class='receive_articles'>
+				<%= f.fields_for :receive_articles do |receive_article| %>
+				<%= render 'receive_article_fields', :f => receive_article %>
+				<% end %>
+			</div>
+			<div class="form-actions">
+				<%= link_to_add_association 'Add More Articles', f, :receive_articles, class: 'btn btn-warning btn-sm' %>
+			</div>
+			<div class="row form-group">
+				<center><%= f.submit "Update Receive Order", class: "btn btn-success btn-sm" %></center>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$(".add-article").select2();
+	});
+	$('form').on('cocoon:after-insert', function() {
+		$(".add-article").select2();
+	});
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+</script>

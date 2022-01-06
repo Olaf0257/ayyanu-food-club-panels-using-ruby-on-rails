@@ -1,0 +1,77 @@
+<div class="col-md-12">
+	<label>POS ORDER TRACKING:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("DashBoard") %>
+			<input type="checkbox"  name="pos_order_tracking[dashboard]" value="DashBoard" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[dashboard]" value="DashBoard">
+		<%end%>
+		<label class="label_color">DashBoard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Begin Check") %>
+			<input type="checkbox"  name="pos_order_tracking[begin_check]" value=">Begin Check" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[begin_check]" value="Begin Check">
+		<%end%>
+		<label class="label_color">Begin Check</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Pickup Check") %>
+			<input type="checkbox"  name="pos_order_tracking[pickup_check]" value="Pickup Check" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[pickup_check]" value="Pickup Check">
+		<%end%>
+		<label class="label_color">Pickup Check</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Begin Table") %>
+				<input type="checkbox"  name="pos_order_tracking[begin_table]" value="Begin Table" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[begin_table]" value="Begin Table">
+		<%end%>
+		<label class="label_color">Begin Table</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Pickup Table") %>
+			<input type="checkbox"  name="pos_order_tracking[pickup_table]" value="Pickup Table" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[pickup_table]" value="Pickup Table">
+		<%end%>
+		<label class="label_color">Pickup Table</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Cover") %>
+			<input type="checkbox"  name="pos_order_tracking[cover]" value="Cover" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[cover]" value="Cover">
+		<%end%>
+		<label class="label_color">Cover</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Seat") %>
+			<input type="checkbox"  name="pos_order_tracking[seat]" value="Seat" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[seat]" value="Seat">
+		<%end%>
+		<label class="label_color">Seat</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Void") %>
+			<input type="checkbox"  name="pos_order_tracking[void]" value="Void" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[void]" value="Void">
+		<%end%>
+		<label class="label_color">Void</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.pos_order_tracking.include?("Cancel") %>
+			<input type="checkbox"  name="pos_order_tracking[cancel]" value="Cancel" checked="">
+		<%else%>
+			<input type="checkbox"  name="pos_order_tracking[cancel]" value="Cancel">
+		<%end%>
+		<label class="label_color">Cancel</label>
+	</div>
+</div>

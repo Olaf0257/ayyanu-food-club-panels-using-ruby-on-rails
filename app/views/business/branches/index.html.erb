@@ -1,0 +1,56 @@
+<div class="row white-bg ">
+  <div class="col-lg-12" style="padding:5px 0px;">
+    <div class="col-lg-1" style="padding-top:8px;">
+      <img class="img-circle" src="<%=@branches.first.restaurant.images.present? ? @branches.first.restaurant.logo : 'https://dummyimage.com/50x50/55595c/fff'%>" /> 
+    </div>
+    <div class="col-lg-11">
+      <span style="color:grey;">Restaurant Title</span>
+      <h4><b><%=@branches.first.restaurant.title%> Branches</b></h4>
+      <h5>Total Branches : <%=@branches.count%></h5>
+    </div>  
+  </div>
+</div>
+<br>  
+
+<div class="row white-bg">  
+  
+  <div class="col-lg-12">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Address</th>
+            <th scope="col">Contact</th>
+            <th scope="col">&nbsp;City</th>
+            <th scope="col">Cash On Delivery</th>
+            <th scope="col">Delivery Charges</th>
+            <th scope="col">Delivery Time</th>
+            <th scope="col">Daily Timing</th>
+            <th scope="col">Min Order <br>Amount</th>
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%@branches.each do |b|%>
+            <tr>
+              <td><%=b.address%></td>
+              <td><%=b.contact.present? ? b.contact : 'Not Available'%></td>
+              <td><%=b.city%> <%=b.state.present? ? ',' + b.state : ''%></td>
+              <td><%=b.cash_on_delivery ? 'Available' : 'Not Available'%></td>
+              <td><%=b.delivery_charges.present? ? b.delivery_charges : 'Not Available'%> BD</td>
+              <td><%=b.delivery_time.present? ? b.delivery_time : 'Not Available'%> minutes</td>
+              <td><%=b.daily_timing.present? ? b.daily_timing : 'Not Available'%> </td>
+              <td><%=b.min_order_amount.present? ? b.min_order_amount : 'Not Available'%> BD </td>
+              <td class="text-right"><a class="btn btn-sm btn-danger" href="<%=business_branchshow_path(b.id)%>">View Branch</a> </td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-lg-12">
+    <center> <%= will_paginate @branches ,renderer: BootstrapPagination::Rails %></center><br>
+  </div>
+  <br> 
+</div>

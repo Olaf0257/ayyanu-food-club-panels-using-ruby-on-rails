@@ -1,0 +1,89 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Loan Revise Details</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%= new_business_hrms_loan_revise_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @loan_revises.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Employee</th>
+                  <th>Department</th>
+                  <th>Designation</th>
+                  <th>Loan Date</th>
+                  <th>Amount (BHD)</th>
+                  <th>Deducted From</th>
+                  <th>Interest Rate(%)</th>
+                  <th>Created Date</th>
+                  <th>Installments</th>
+                  <!-- <th>Loan Type</th> -->
+
+                  <th>Topup amount (BHD)</th>
+                  <th>Loan period</th>
+                  <th>New interest rate(%)</th>
+                  <th>Created by</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @loan_revises.each do |loan_revise| %>
+                  <% loan = loan_revise.loan %>
+                    <td><%= loan_revise.id %></td>
+                    <td><%= loan.user.name %></td>
+                    <td><%= loan.department %></td>
+                    <td><%= loan.designation %></td>
+                    <td><%= loan.loan_date %></td>
+                    <td><%= amount_three_decimal loan.amount %></td>
+                    <td><%= loan.deducted_from %></td>
+                    <td><%= amount_three_decimal loan.interest_rate %></td>
+                    <td><%= loan.created_date %></td>
+                    <td><%= loan.installments %></td>
+
+
+                    <td><%= loan_revise.topup_amount %></td>
+                    <td><%= loan_revise.loan_period %></td>
+                    <td><%= loan_revise.new_interest_rate %></td>
+                    <td><%= created_by(loan_revise) %></td>
+                    <td><%= loan_revise.created_at %></td>
+                    <td>
+                      <%= link_to '<i class="fa fa-pencil"></i> Edit loan revise'.html_safe, edit_business_hrms_loan_revise_path(loan_revise, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      <%= link_to '<i class="fa fa-remove"></i> Remove Loan Revise'.html_safe, business_hrms_loan_revise_path(loan_revise, restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Loan revises List available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

@@ -1,0 +1,49 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Material Control >> Receive Order >> New</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, inventory_restaurant_receive_orders_path, class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Add New Receive Order</h3>
+		</div>
+		<% if @purchase_order.present? %>
+		  <%= render 'with_po' %>
+		<% else %>
+		  <%= render 'without_po' %>
+		<% end %>
+	</div>
+	
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$(".add-article").select2();
+	});
+	$('form').on('cocoon:after-insert', function() {
+		$(".add-article").select2();
+	});
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+	$(function() {
+		$("select#branch_country_id").on("change", function() {
+			$.ajax({
+				url:  "<%= restaurant_filter_branch_by_country_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { country_id: $("select#branch_country_id").val() }
+			});
+		});
+	});
+</script>

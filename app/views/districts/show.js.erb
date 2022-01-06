@@ -1,0 +1,3 @@
+$("#district_zones_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'zone_list_modal') %>");
+$("#district_zones_modal").modal("show");

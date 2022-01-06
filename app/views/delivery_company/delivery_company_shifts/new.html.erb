@@ -1,0 +1,47 @@
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-5">
+    <h2 style="margin-top:20px;"><b>Add Shift</b></h2>
+  </div>
+
+  <div class="col-xs-7">
+    <h2 style="margin-top:20px;"><a href="<%= delivery_company_delivery_company_shifts_path %>"><button class="btn btn-danger pull-right">Back <i class="fa fa-arrow-right"></i> </button></a></h2>
+  </div>
+</div><br>
+
+<div class="wrapper wrapper-content animated fadeInRight new-delivery-transporter">
+  <div class="row">
+    <br>
+
+    <div class="col-sm-7 col-sm-offset-2 well well-sm bg-white">
+      <h3 class="text-center"> Add Shift</h3>
+      <hr>
+
+      <%= form_for @shift, url: delivery_company_delivery_company_shifts_path, class: "form-horizontal" do |f| %>
+        <div class="row">
+          <div class="col-sm-6">
+            <%= f.select(:day, options_for_select(DeliveryCompanyShift::DAY_LIST), { prompt: "Select Day" }, { class: "form-control", required: true, style: "height: 34px;" }) %>
+          </div>
+        </div><br>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <%= f.select(:start_time, options_for_select(DeliveryCompanyShift::TIME_LIST), { prompt: "Select Start Time" }, { class: "form-control", required: true, style: "height: 34px;" }) %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.select(:end_time, options_for_select(DeliveryCompanyShift::TIME_LIST), { prompt: "Select End Time" }, { class: "form-control", required: true, style: "height: 34px;" }) %>
+          </div>
+        </div>
+
+        <br>
+        <%= f.submit "Create Shift", class: "btn btn-block btn-success", data: { confirm: "Are you sure?" } %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

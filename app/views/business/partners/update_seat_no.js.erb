@@ -1,0 +1,11 @@
+<% if @error.present? %>
+    toastr.error('<%= @error %>');
+<% else %>
+	$('.validated_field').addClass('pending_transaction');
+    $('#transaction_data_<%= @pos_transaction.id %>').empty().append("<%= j render partial: 'transaction_list', locals: { transaction: @pos_transaction }%>");
+<% end %>
+voidSelection();
+tableRowSelection();
+addOnItemRightSideSelect();
+addOnTransaction();
+editSeatNumber();

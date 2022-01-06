@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  offer_type: MyString
+  discount_percentage: MyString
+  start_date: 2018-08-11 12:00:29
+  end_date: 2018-08-11 12:00:29
+  offer_title: MyString
+  branch: one
+  menu_item: one
+
+two:
+  offer_type: MyString
+  discount_percentage: MyString
+  start_date: 2018-08-11 12:00:29
+  end_date: 2018-08-11 12:00:29
+  offer_title: MyString
+  branch: two
+  menu_item: two

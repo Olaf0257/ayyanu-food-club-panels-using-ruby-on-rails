@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2><b>Club Users <%= "in " + @club_category.title if @club_category.present? %></b></h2>
+    </div>
+
+    <div class="col-sm-6">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <% if @club_category.class.name == "ClubSubCategory" %>
+            <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+            <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+          <% end %>
+
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "User Name", autocomplete: :off) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="col-sm-3">
+      <h2 class="pull-right">
+        <%= link_to club_users_path(format: :csv, keyword: params[:keyword], start_date: params[:start_date], end_date: params[:end_date], id: params[:id]) do  %>
+          <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+        <% end %>
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <%if @users.present?%>
+      <%@users.each do |user|%>
+        <div class="col-lg-4 col-md-12">
+          <div class="contact-box" style="min-height: 250px !important; padding-left: 0;padding-right: 0;">
+            <a href="<%=profile_path(encode_token(user.id))%>">
+              <div class="col-sm-4">
+                <div class="text-center">
+                  <img alt="image" class="img-circle m-t-xs" src="<%=user.image.present? ? user.image : "/assets/user.png" %>" style="width:90px;height: 90px;">
+                  <div class="m-t-xs font-bold"><%=user.name%></div>
+
+                  <div class="m-t-xs font-bold">
+                    <% if @club_category.class.name == "ClubSubCategory" %>
+                      Joined: <%= user.user_clubs.select { |uc| uc.club_sub_category_id == @club_category.id }.first&.created_at&.strftime("%d/%m/%Y") %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <h3><strong><%=user.name%></strong></h3>
+                <p><strong>User Name:</strong> <%=user.user_name.present? ? user.user_name : "N/A"%></p>
+                <% if ClubCategory.all.map(&:title).include?(@club_category.title) %>
+                  <p>
+                    <strong>Clubs:</strong>
+                    <%= user.user_clubs.includes(club_sub_category: :club_category).map { |club| club.club_sub_category.title if club.club_sub_category.club_category_id == @club_category.id }.reject(&:blank?).join(", ") %>
+                  </p>
+                <% end %>
+                <address>
+                  <strong><i class="fa fa-envelope"></i> <%=user.email%></strong><br>
+                  <%#=user.name%>
+                  <abbr title="Phone">P:</abbr> <%=user.contact.present? ? user.contact : "Not Available"%>
+                </address>
+                <div class="clearfix">
+                  <a class="label label-success" href="/bulk/notification?email=<%=user.email%>" style="font-size: 15px;color:white;padding:5px;"> Send Push</a>
+                </div>
+              </div>
+
+            </a>
+          </div>
+        </div>
+      <%end%>
+      <div class="col-lg-12">
+        <center> <%= will_paginate @users ,renderer: BootstrapPagination::Rails %></center><br>
+      </div>
+    <%else%>
+      <div class="alert alert-danger text-center">No User available yet.</div>
+    <%end%>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

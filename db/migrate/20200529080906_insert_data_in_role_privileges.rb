@@ -1,0 +1,28 @@
+class InsertDataInRolePrivileges < ActiveRecord::Migration[5.1]
+  def self.up
+    RolePrivilege.create(:role_id=>1, :privilege_id=>1)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>2)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>3)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>4)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>5)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>6)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>7)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>8)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>9)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>10)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>11)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>12)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>13)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>14)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>15)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>16)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>17)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>18)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>19)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>20)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>21)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>22)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>23)
+    RolePrivilege.create(:role_id=>1, :privilege_id=>24)
+  end
+end

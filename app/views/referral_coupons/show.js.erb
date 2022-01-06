@@ -1,0 +1,3 @@
+$("#coupon_restaurant_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'coupon_restaurant_modal') %>");
+$("#coupon_restaurant_modal").modal("show");

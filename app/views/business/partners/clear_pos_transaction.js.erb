@@ -1,0 +1,10 @@
+$('#pos_transactions_list').empty();
+$('#pos_sub_total').text(0.0.toFixed(3) + 'BHD');
+$('#tax_amount').text(0.0.toFixed(3) + 'BHD');
+$('#pos_total').text(0.0.toFixed(3) + 'BHD')
+$('#remain_payment_amount').val(0.0.toFixed(3));
+$('#addon_item_count').val(0);
+$('.add-on-item').attr('data-current-count', 0)
+if($('.menuitem_addon_count') && $('.menuitem_addon_count').length > 0) {
+	$('.menuitem_addon_count').text("0");
+}

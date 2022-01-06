@@ -1,0 +1,37 @@
+<div id="transferCheckDetail" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Check</h4>
+      </div>
+      <div class="modal-body">
+        <input type='hidden' id = 'parent_check_id' value= '<%= parent_check_id %>' >
+        <input type='hidden' id = 'child_check_id' value= '<%= child_check.id %>' >
+        <table class="table">
+          <tbody style="height: 75%;overflow-y: auto;">
+            <tr>
+              <td>Check</td>
+              <td class="check_no"><%= child_check.check_id %></td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td class="current_time"><%= DateTime.now.strftime('%m/%d/%Y %I:%M %p')%></td>
+            </tr>
+            <tr>
+              <td>Amount</td>
+              <td class="total_amount"><%= number_with_precision(child_check.pos_transactions.sum(&:total_amount), precision: 3) %></td>
+            </tr>
+            <tr>
+              <td>Employee</td>
+              <td class="employee_name=">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default form-button submitTransferCheck"  style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

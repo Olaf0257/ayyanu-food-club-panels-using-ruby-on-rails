@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  review_title: MyString
+  review: MyString
+  description: MyString
+  rating: MyString
+  user: one
+  branche: one
+
+two:
+  review_title: MyString
+  review: MyString
+  description: MyString
+  rating: MyString
+  user: two
+  branche: two

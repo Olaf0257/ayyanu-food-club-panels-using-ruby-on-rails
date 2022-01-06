@@ -1,0 +1,86 @@
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :country_ids, 'Country' %>
+		<span style="color:#ff0000">*</span>
+	</div>
+
+	<div class="col-sm-10">
+		<%= f.select(:country_ids, options_for_select(Country.pluck(:name, :id), f.object.country_ids), { prompt: "Select Country", include_hidden: false }, { required: true, class: "form-control", style: "height: 34px", id: 'branches_country_id', multiple: true }) %>
+	</div>
+</div>
+
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :branch_ids, 'Branches' %>
+		<span style="color:#ff0000">*</span>
+	</div>
+
+	<div class="col-sm-10">
+		<% if params[:action].eql?('edit') %>
+		  <%= f.collection_select :branch_ids, current_restaurant.branches, :id, :address, {prompt: 'Search Branch', include_hidden: false}, {class: "form-control", required: true, multiple: true, id: 'branch_ids'} %>
+		<% else %>
+		  <%= f.collection_select :branch_ids, Branch.where(id: 0), :id, :address, {prompt: 'Search Branch', include_hidden: false}, {class: "form-control", required: true, multiple: true, id: 'branch_ids'} %>
+		<% end %>
+	</div>
+</div>
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :major_group_type %>
+		<span style="color:#ff0000">*</span>
+	</div>
+
+	<div class="col-sm-10">
+		<%= f.select :operation_type, options_for_select(["Profit Contribution", "Expenses"]), {prompt: "Select Major Group Type"}, {class: 'form-control'} %>
+	</div>
+</div>
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :over_group_id %>
+		<span style="color:#ff0000">*</span>
+	</div>
+
+	<div class="col-sm-10">
+		<% if params[:action].eql?('edit') %>
+		  <%= f.collection_select :over_group_id, @over_groups, :id, :name, {prompt: 'Select Over Group'}, {class: "form-control", required: true} %>
+		<% else %>
+		  <%= f.collection_select :over_group_id, OverGroup.where(id: 0), :id, :name, {prompt: 'Select Over Group'}, {class: "form-control", required: true} %>
+		<% end %>
+	</div>
+</div>
+<div class="row form-group">
+	<div class="col-sm-2">
+		<%= f.label :name %>
+		<span style="color:#ff0000">*</span>
+	</div>
+
+	<div class="col-sm-10">
+		<%= f.text_field(:name, required: true, class: "form-control") %>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var mypage_id = <%= @restaurant.id %>;
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+	$(function() {
+		$("#branch_ids").select2();
+		$("#branches_country_id").select2();
+		$("select#major_group_operation_type").on("change", function() {
+			$.ajax({
+				url:  "<%= master_restaurant_filter_over_groups_by_type_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { operation_type: $("select#major_group_operation_type").val(), country_ids: $("select#branches_country_id").val() }
+			});
+		});
+		$("select#branches_country_id").on("change", function() {
+			$.ajax({
+				url:  "<%= restaurant_filter_branches_by_country_path(restaurant_id: params[:restaurant_id])%>",
+				type: "GET",
+				data: { country_ids: $("select#branches_country_id").val() }
+			});
+		});
+	});
+</script>

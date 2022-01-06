@@ -1,0 +1,56 @@
+<div class="tab-pane fade" id="my-bookings">
+  <div class="tabs-wrp brd-rd5">
+    <h4 itemprop="headline">REFER TO EARN</h4>
+    <h4 itemprop="headline" class="pull-right"><span class="btn btn-md btn-primary" data-target="#my_referral_modal" data-toggle="modal">My Referrals</span></h4>
+
+    <div class="featured-restaurant-box style3 brd-rd5">
+      <h4 itemprop="headline"><a href="#" title="" itemprop="url">Your referral code is: <%= @user.referral %></a></h4>
+
+      <div class="view-menu-liks">
+        <a class="brd-rd3" href="#" title="" itemprop="url" onclick="copyReferralCode()">Copy</a>
+        <input type="text" value="<%= referral_url(referral_code: @user.referral) %>" id="referral_code_link" class="hide">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="my_referral_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">My Referrals</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="tabs-wrp brd-rd5">
+          <div class="statement-table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>SL NO.</th>
+                  <th>NAME</th>
+                  <th>EMAIL</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @referrals.each_with_index do |referral, i| %>
+                  <tr>
+                    <td><%= i + 1 %></td>
+                    <td><%= referral.name %></td>
+                    <td><%= referral.email %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

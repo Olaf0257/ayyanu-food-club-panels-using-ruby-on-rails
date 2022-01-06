@@ -1,0 +1,576 @@
+<style type="text/css">
+  .flex{
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .flex .text-right{
+    width: 100%;
+    text-align: right;
+  }
+.checkbox label:after,
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+</style>
+
+<div class="ibox-title">
+    <div class="row">
+     <div class="col-sm-4 col-xs-4">
+      <h2 style="margin-top:20px;"><b>Dashboard</b></h2>
+    </div>
+      <div class="col-sm-6 col-xs-8">
+      <input type="submit" value="Refresh" onclick="refresh()" style="margin-top: 2px;width: 91px;height: 63px;" class="btn btn-danger btn-m pull-right">
+      <button type="submit" value="Busy Restaurant" style="margin-top: 2px;width: 211px;height: 63px; margin-right: 12px;" data-target="#add-transporter-model" data-toggle="modal"  data-backdrop="static" data-keyboard="false" class="btn btn-primary btn-lg pull-right">Busy Restaurant <span style="height: 40px;width: 40px;background: #fff;color: #000; margin-left: 5px;"> &nbsp; <%=@busyCount%> &nbsp;</span> </button>
+      <% restaurant_id = @user.branch_managers.first&.branch&.restaurant_id %>
+      <%= link_to "On-Demand Delivery", business_manual_order_path(restaurant_id: encode_token(restaurant_id)), class: "btn btn-lg btn-success pull-right", style: "margin-top: 2px; margin-right: 10px; height: 63px; padding-top: 18px;" %>
+    </div>
+      <div class="col-sm-2 col-xs-4">
+        <div class="dashboard-timer">25</div>
+
+      </div>
+    </div>
+  </div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class="">
+              <i class="fa fa-cubes fa-2x"></i>
+            </div>
+            <div class=" text-right ">
+              <div class="huge"><%=@branches.count%></div>
+              <div>Total Branches</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_manager_restaurant_branch_path()%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-info" title="Managers">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class="">
+              <i class="fa fa-users fa-2x"></i>
+            </div>
+            <div class="text-right">
+              <div class="huge"><%=@managers.count%></div>
+              <div>Total Managers</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_managers_path()%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-danger" title="Transporters">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class="">
+              <i class="fa fa-users fa-2x"></i>
+            </div>
+            <div class=" text-right">
+              <div class="huge"><%=@transporters.count%></div>
+              <div>Total Transporters</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_transporters_path()%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-warning" title="Orders">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class=" ">
+              <i class="fa fa-pencil fa-2x"></i>
+            </div>
+            <div class=" text-right">
+              <div class="huge"><%=@orders.count%></div>
+              <div>Total Settled Orders</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_branch_order_path()%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!-- rohit code -->
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-primary" title="Orders">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class="">
+              <i class="fa fa-user fa-2x"></i>
+            </div>
+            <div class="text-right">
+              <div class="huge"><%=@busy.present? ? @busy.count: "0"%></div>
+              <div>Total Busy Area</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_manager_busy_restaurants_path(branch_id:encode_token(@manager_branch.id))%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-6">
+      <div class="panel panel-danger" title="Orders">
+        <div class="panel-heading">
+          <div class="row flex">
+            <div class="">
+              <i class="fa fa-user fa-2x"></i>
+            </div>
+            <div class="text-right">
+              <div class="huge"><%=@close.present? ? @close.count: "0"%></div>
+              <div>Total Close Area</div>
+            </div>
+          </div>
+        </div>
+        <a href="<%=business_manager_close_restaurants_path(branch_id:encode_token(@manager_branch.id))%>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <!-- rohit code -->
+  </div>
+
+  <!-- /.row -->
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>New Orders</h5>
+          </div>
+          <div class="ibox-content table-responsive">
+            <%if @newOrders.present?%>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>Branch</th>
+                  <th>Customer Name</th>
+                  <th>Customer Mobile</th>
+                  <th>Customer Phone</th>
+                  <th>Order Time</th>
+                  <th>Total Amount</th>
+                  <th>Payment By</th>
+                  <th>Order Type</th>
+                  <th>Table No.</th>
+                  <th>Last Stage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@newOrders.each do |o|%>
+                <tr id="order-<%=o.id%>" class="<%= 'pending-order-row' if (Time.now - o.created_at).to_i > 300 %>">
+                  <td>
+                    <p ><%=o.id%></p>
+                  </td>
+                  <td>
+
+                      <%=o.branch.present? ? o.branch.address : 'Not available'%>
+                  </td>
+                  <td><p ><%=o.user.name%></p></td>
+                  <td><p ><%=o.contact.present? ? o.contact : 'Not available'%></p></td>
+                  <td><p ><%=o.landline.present? ? o.landline : 'Not available'%></p></td>
+                  <td><p ><%=o.created_at.strftime('%B %d %Y %I:%M%p')%></p></td>
+                  <td><p ><%=number_with_precision(o.total_amount,:precision => 3)%> BD</p></td>
+                  <td><p ><%=o.payment_mode=='online' ? 'Online' : o.payment_mode=='COD' ? 'CASH' : 'CREDIT CARD MACHINE '%></p></td>
+
+                  <td>
+                    <% if o.dine_in %>
+                      <span class="label <%= o.table_number.present? ? 'label-success' : 'label-info' %>"><%= o.table_number.present? ? "DINE IN" : "TAKEAWAY" %></span>
+                    <% else %>
+                      <span class="label label-primary">NORMAL</span>
+                    <% end %>
+                  </td>
+
+                  <td><b><%= o.table_number %></b></td>
+
+                  <td><%=o.is_settled==true ? '<label class="label" style=" background-color:#086608; color:white; padding: 3px 23px 3px 23px;">SETTLED</label>'.html_safe : o.is_delivered ==true ? '<label class="label" style=" background-color:#3FECA8; color:white; padding: 3px 18px 3px 18px;">DELIVERED</label>'.html_safe : o.pickedup ==true ? '<label class="label" style=" background-color:#DD1A80; color:white; padding: 3px 23px 3px 27px;">ONWAY</label>'.html_safe  : o.is_ready ==true ? '<label class="label" style=" background-color:#17a2b8; color:white; padding: 3px 23px 3px 22px;">COOKING</label>'.html_safe : o.is_accepted==true ? '<label class="label  label-warning" style=" color:white; padding: 3px 7px 3px 7px; ">Order Accepted</label>'.html_safe : o.is_rejected==true ? '<label class="label " style=" background-color:#F1B950; color:white; padding: 3px 23px 3px 27px;">Order Rejected</label>'.html_safe : '<label class="label " style=" background-color:#5DBCD2; color:white; padding: 3px 23px 3px 16px;">INITIALIZE</label>'.html_safe  %></td>
+                  <td>
+                 <a href="<%=business_manager_order_invoice_path(o.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 1px;" class="btn btn-sm btn-primary pull-right"><i class="fa fa-print"></i> View </a>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+            <%else%>
+            <div class="alert alert-danger">
+              <center>
+                <h4>No New Orders Received</h4>
+              </center>
+            </div>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>On Going Orders</h5>
+          </div>
+          <div class="ibox-content">
+            <%if @punchedOrders.present?%>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>Branch</th>
+                  <th>Customer Name</th>
+                  <th>Customer Mobile</th>
+                  <th>Customer Phone</th>
+                  <th>Order Time</th>
+                  <th>Total Amount</th>
+                  <th>Payment By</th>
+                  <th>Order Type</th>
+                  <th>Table No.</th>
+                  <th>Last Stage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@punchedOrders.each do |o|%>
+                <tr id="order-<%=o.id%>" class="<%= 'changed-delivery-order' if o.changed_delivery %>">
+                  <td>
+                    <p ><%=o.id%></p>
+                  </td>
+                  <td>
+                   <%=o.branch.present? ? o.branch.address : 'Not available'%>
+                  </td>
+                  <td><p ><%=o.user.name%></p></td>
+                  <td><p ><%=o.contact.present? ? o.contact : 'Not available'%></p></td>
+                  <td><p ><%=o.landline.present? ? o.landline : 'Not available'%></p></td>
+                  <td><p ><%=o.created_at.strftime('%B %d %Y %I:%M%p')%></p></td>
+                  <td><p ><%=number_with_precision(o.total_amount,:precision => 3)%> BD</p></td>
+                  <td><p ><%=o.payment_mode=='online' ? 'Online' : o.payment_mode=='COD' ? 'CASH' : 'CREDIT CARD MACHINE '%></p></td>
+
+                  <td>
+                    <% if o.dine_in %>
+                      <span class="label <%= o.table_number.present? ? 'label-success' : 'label-info' %>"><%= o.table_number.present? ? "DINE IN" : "TAKEAWAY" %></span>
+                    <% else %>
+                      <span class="label label-primary">NORMAL</span>
+                    <% end %>
+                  </td>
+
+                  <td><b><%= o.table_number %></b></td>
+
+                  <td><%=o.is_settled==true ? '<label class="label" style=" background-color:#086608; color:white; padding: 3px 23px 3px 23px;">SETTLED</label>'.html_safe : o.is_delivered ==true ? '<label class="label" style=" background-color:#3FECA8; color:white; padding: 3px 18px 3px 18px;">DELIVERED</label>'.html_safe : o.pickedup ==true ? '<label class="label" style=" background-color:#DD1A80; color:white; padding: 3px 23px 3px 27px;">ONWAY</label>'.html_safe  : o.is_ready ==true ? '<label class="label" style=" background-color:#17a2b8; color:white; padding: 3px 23px 3px 22px;">COOKING</label>'.html_safe : o.is_accepted==true ? '<label class="label  label-warning" style=" color:white; padding: 3px 7px 3px 7px; ">Order Accepted</label>'.html_safe : o.is_rejected==true ? '<label class="label " style=" background-color:#F1B950; color:white; padding: 3px 23px 3px 27px;">Order Rejected</label>'.html_safe : '<label class="label " style=" background-color:#5DBCD2; color:white; padding: 3px 23px 3px 16px;">INITIALIZE</label>'.html_safe  %></td>
+                  <td>
+                  <a href="<%=business_view_order_path(o.id)%>" class="btn btn-sm btn-danger" style="font-size: 13px;"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+            <%else%>
+            <div class="alert alert-danger">
+              <center>
+                <h4>No Punched Orders Received</h4>
+              </center>
+            </div>
+            <%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <br>
+
+
+
+<div class="modal fade " id='add-transporter-model' role="dialog">
+  <div class="modal-dialog modal-lg" >
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none;background-color: #efeaf2;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Restaurant Branch Status</h4>
+      </div>
+      <div class="modal-body">
+        <div class="card p-2">
+          <div class="container card p-2">
+            <div class="col-sm-4">
+              <div class="checkbox">
+                <label style="font-size: 1.5em">
+                  <input type="checkbox" value="" name="input[]"    onclick="toggle(this);" >
+                  <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+
+                </label>
+              </div>
+            </div>
+             <div class="ui selection dropdown col-sm-4">
+              <select class="form-control" style="height: 35px !important" id="all-branch-status" >
+                <option value="false">Open</option>
+                <option value="true">Busy</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+             <button type="submit" style="background-color: green;width: 100%;height: 35px;" class="btn btn-primary btn-sm pull-right" onclick="busy_all_branch()"><h3>Save All</h3></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="card p-2">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th style="width: 50px;"></th>
+                  <th>Restaurant Name</th>
+                  <th>Branch Name</th>
+                  <th>Branch Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@branches.each do |b|%>
+
+                  <tr>
+                    <td>
+                      <div class="checkbox">
+                        <label style="font-size: 1.5em">
+                          <input type="checkbox" value="<%=b.branch_id%>" name="input[]"     >
+                          <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+
+                        </label>
+                     </div>
+                    </td>
+                    <%p b%>
+                    <td><%=b.branch.restaurant.title%></td>
+                    <td><%=b.branch.address%></td>
+                    <td><div id="branch-status-<%=b.branch_id%>" style="justify-content: center;display: flex;align-items: center; color: green;"><%=b.branch.is_busy ==true ? 'Busy' : 'Open'%><i class="fa fa-pencil-square fa-2x" style="color:#762a32;margin-left: 15px;" aria-hidden="true" onclick="change_branch_status(<%=b.branch_id%>,'branch-status')"></i></div>
+                      <div id="branch-change-<%=b.branch_id%>" class="ui selection dropdown" hidden >
+                        <select class="form-control" id="branch-busy-status<%=b.branch_id%>"  style="height: 35px !important">
+                          <option value="false"<%=b.branch.is_busy ==false ? 'selected' : ''%>>Open</option>
+                          <option value="true" <%=b.branch.is_busy ==true ? 'selected' : ''%>>Busy</option>
+                        </select><i class="fa fa-check-square fa-2x" style="color: #5AA262;" onclick="branch_status(<%=b.branch_id%>)"></i><i class="fa fa-window-close fa-2x" style="color: #ed5565;margin-left: 15px;"  onclick="change_branch_status(<%=b.branch_id%>,'dropdown-status')"></i>
+                      </div>
+                    </td>
+                  </tr>
+                <%end%>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+function refresh(){
+   location.reload();
+};
+
+
+  var timer = 25;
+  var interval = setInterval(function() {
+    timer--;
+    $('.dashboard-timer').text(timer);
+    if (timer === 0){
+      clearInterval(interval);
+      $.ajax({
+      url: "/business/manager/dashboard?agex=true",
+      type: 'GET',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      dataType: "script",
+      success: function(response) {
+
+      }
+    });
+
+    }
+    window.setInterval(timer, 1000);
+  },
+  1000);
+
+  function change_branch_status(branch_id,status){
+    if (status=="branch-status"){
+      document.getElementById("branch-change-"+branch_id).hidden = "";
+      document.getElementById("branch-status-"+branch_id).hidden = "hidden";
+    }else{
+      document.getElementById("branch-change-"+branch_id).hidden = "hidden";
+      document.getElementById("branch-status-"+branch_id).hidden = "";
+    }
+  };
+
+  function busy_all_branch(){
+    var branch = []
+    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+     var selectedValue = document.getElementById("all-branch-status");
+    var status = selectedValue.options[selectedValue.selectedIndex].value
+      for (var i = 0; i < checkboxes.length; i++) {
+        if (i != 0){
+          branch.push(checkboxes[i].value)
+        }
+      }
+      if (branch.length > 0){
+        swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+        });
+        $.ajax({
+          type: "POST",
+          url: '/business/branch/status/change',
+          dataType: "JSON",
+          data: {
+            branch_id:branch,
+            status:status
+          },
+          success:function(data) {
+            console.log(data)
+            if(data.code==200){
+               swal("Success",data.message,"success")
+               location.reload();
+            }
+          },
+          error: function() {
+            swal("Error","Something went wrong","Error")
+          }
+        });
+      }else{
+        swal("Error","please select a branch!!","error")
+      }
+    }
+
+
+
+
+  function toggle(source) {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != source)
+            checkboxes[i].checked = source.checked;
+    }
+  }
+
+  function branch_status(branch_id){
+    var branch = []
+    var selectedValue = document.getElementById("branch-busy-status"+branch_id);
+    branch.push(branch_id)
+    var status = selectedValue.options[selectedValue.selectedIndex].value
+    $.ajax({
+      type: "POST",
+      url: '/business/branch/status/change',
+      dataType: "JSON",
+      data: {
+        branch_id:branch,
+        status:status
+
+      },
+      success:function(data) {
+        console.log(data)
+        if(data.code==200){
+           swal("Success",data.message,"success")
+           location.reload();
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+</script>

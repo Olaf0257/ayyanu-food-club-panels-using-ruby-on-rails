@@ -1,0 +1,270 @@
+<%= form_for(@reimbursement, url: (params[:id].blank? ? business_hrms_reimbursements_path : edit_business_hrms_reimbursement_path(@reimbursement).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <%= hidden_field_tag 'reimbursement[country_code]', '', id: 'country-code' %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :employee %>
+      <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @reimbursement.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :reimbursement_type %>
+      <%= f.select(:reimbursement_type_id, options_from_collection_for_select(ReimbursementType.all, :id, :name, @reimbursement.reimbursement_type_id), {include_blank: "Select Reimbursement Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+       <%= f.label :reimbursement_date %>
+        <%= f.date_field :reimbursement_date, class: 'form-control', name: 'reimbursement[reimbursement_date]', required: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+       <%= f.label :amount %>
+        <%= f.number_field :amount, step: 'any', class: 'form-control', placeholder: 'Amount', name: 'reimbursement[amount]', required: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :remarks %>
+        <%= f.text_field :remarks, class: 'form-control', placeholder: 'Remarks', name: 'reimbursement[remarks]', required: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label :status_of_confirmation %>
+         <%#= f.text_field :status, class: 'form-control', placeholder: 'Status', name: 'reimbursement[status]', required: true  %>
+    </div>
+  </div>
+  <%#= hidden_field_tag 'reimbursement[created_by_id]', value: @user.id %>
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'reimbursement[restaurant_id]', params[:restaurant_id] %>
+
+  <br>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+  <% if params[:action] == "edit" %>
+    <%= f.submit 'Update Reimbursement', class: 'btn btn-lg btn-primary btn-block', id: 'add_family' %>
+  <% else %>
+    <%= f.submit 'Add Reimbursement', class: 'btn btn-lg btn-primary btn-block', id: 'add_family' %>
+  <% end %>
+<% end %>
+<script type="text/javascript">
+  <% if flash[:error].present? %>
+    swal("Warning", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  $(".select2_branch").select2();
+
+  $("#mobilenumber").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+  $("#add_family").on("click",function(){
+    var cpr_number= /^\d*$/
+
+    if (('<%=params[:type]%>') == 'transporter') {
+      var cpr = document.getElementById('cpr_number').value;
+    }
+
+    // var emp_name = document.getElementById('name').value;
+    var country_code = $("#mobilenumber").intlTelInput("getSelectedCountryData");
+    // var file = document.getElementById('add-img-tag').files[0];
+
+    // if (file !== undefined) {
+    //  var file_type = file.type.split('/').pop().toLowerCase();
+    //  var file_size = file.size;
+    // }
+
+    $("#country-code").val($('.selected-dial-code').text())
+
+    // if($.trim($('#name').val())==="") {
+    //   swal({
+    //     title: "Please Enter valid Name",
+    //     type: "warning",
+    //     confirmButtonColor: "#DD6B55",
+    //     confirmButtonText: "Ok",
+    //   }),
+    //   $('#name').focus();
+    //   return false;
+    // }
+
+    // if (('<%=params[:type]%>') == 'transporter' && cpr.length >= 11) {
+    //   swal({
+    //     title: "Please Enter valid cpr_number",
+    //     type: "warning",
+    //     confirmButtonColor: "#DD6B55",
+    //     confirmButtonText: "Ok",
+    //   }),
+    //   $('#cpr_number').focus();
+    //   return false;
+    // }
+
+    // if (emp_name.length >= 41 || emp_name.length <= 0) {
+    //   swal({
+    //     title: "Please Enter valid Name",
+    //     type: "warning",
+    //     confirmButtonColor: "#DD6B55",
+    //     confirmButtonText: "Ok",
+    //   }),
+    //   $('#name').focus();
+    //   return false;
+    // }
+
+    
+  //   if($.trim($('#email').val()) == '' && ('<%=params[:type]%>') == 'manager') {
+  //     swal({
+  //       title: "Please Enter Email",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //     $('#email').focus();
+  //     return false;
+  //   } else if($.trim($('#cpr_number').val()) == '' && ('<%=params[:type]%>') == 'transporter') {
+  //     swal({
+  //       title: "Please Enter cpr number",
+  //       type: "warning",
+  //       confirmButtonColor: "#DD6B55",
+  //       confirmButtonText: "Ok",
+  //     }),
+  //      $('#cpr_number').focus();
+  //     return false;
+  //   } else if($.trim($("#mobilenumber").val())==="") {
+  //     $('#mobilenumber').focus();
+  //     swal("Warning","Please enter phone number","warning")
+  //     return false;
+  //   } else if(!testContact()) {
+  //     $('#mobilenumber').focus();
+  //     swal("Warning","Please enter a valid phone number","warning")
+  //     return false;
+  //   } else if($.trim($('#password').val())==="") {
+  //     $('#password').focus();
+  //     swal("Warning","Please enter password","warning")
+  //     return false;
+  //   } else if($.trim($('#branch').val()) == 'Select Branch' || $.trim($('#branch').val()) == '') {
+  //     swal({
+  //         title: "Please Select Branch",
+  //         type: "warning",
+  //         confirmButtonColor: "#DD6B55",
+  //         confirmButtonText: "Ok",
+  //     }),
+  //      $('#branch').focus();
+  //     return false;
+  //   } else if(file && file_size > 1024000) {
+  //     $('#add-img-tag').focus();
+  //     swal("Warning","Failed to upload an image. The image maximum size is 1MB.","warning")
+  //     return false;
+  //   } else if(file && file_type != "jpeg" && file_type != "jpg" && file_type != "png" ) {
+  //       $('#add-img-tag').focus();
+  //       swal("Warning","Failed to upload an image. Please upload file having extensions .jpeg/.jpg/.png only..","warning")
+  //       return false;
+  //   } else {
+  //     return true;
+  //   }
+  });
+
+  var telInput = $("#mobilenumber"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function() {
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
+  var readURL = function(event) {
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    var file = event.target.files[0]
+  }
+
+  function myFunction() {
+    var checkBox = document.getElementById("myCheck");
+    var text = document.getElementById("text");
+    if (checkBox.checked == true){
+      text.style.display = "block";
+    } else {
+      text.style.display = "none";
+    }
+  }
+
+  function myoneFunction() {
+    var checkBox = document.getElementById("myCheckone");
+    var text = document.getElementById("textone");
+    if (checkBox.checked == true){
+      text.style.display = "block";
+    } else {
+      text.style.display = "none";
+    }
+  }
+
+</script>

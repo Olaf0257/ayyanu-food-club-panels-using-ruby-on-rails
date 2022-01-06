@@ -1,0 +1,137 @@
+<%= form_for(@kds, url: (params[:action] == "edit" ? business_kd_path : business_kds_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+	<%= f.hidden_field :restaurant_id, value: params[:restaurant_id]%>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :country %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.select(:country_ids, options_from_collection_for_select(Country.all, :id, :name, @kds.country_ids), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+		</div>
+  </div>
+
+  <div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :branch %>
+		</div>
+
+		<div class="col-sm-10" id="branch_container">
+			<% if params[:action] == "edit"%>
+				<%= f.select(:branch_ids, options_from_collection_for_select(@restaurant.branches.where(country: Country.where(id: @kds.country_ids).map(&:name)), :id, :address, find_location_assign_ids(@kds)), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:branch_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<label>KDS Name</label>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:name, required: true, class: "form-control") %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<label>KDS Type</label>
+		</div>
+
+		<div class="col-sm-10">
+				<%= f.select(:kds_type, options_for_select(['Station', 'Expo', 'Runner', 'Customer', 'Manager'], @kds.kds_type), {:include_blank => "Select KDS Type"}, {class: 'form-control setheight', style: 'height: 40px!important;',  required: true}) %>
+		</div>
+	</div>
+
+	<div class="row form-group check_station <%= @kds.kds_type == "Station" ? '' : 'hide_station' %>">
+		<div class="col-sm-2">
+			<%= f.label :station %>
+		</div>
+
+		<div class="col-sm-10" id="station_container">
+			<% if params[:action] == "edit"%>
+				<%= f.select(:station_id, options_from_collection_for_select(Station.where(branch_id: @kds.branch_ids), :id, :name, @kds.station_id), {:include_blank => "Select Station"}, {class: 'form-control setheight', style: 'height: 40px!important;'}) %>
+			<%else%>
+				<%= f.select(:station_id, options_for_select([]), {:include_blank => "Select Station"}, {class: 'form-control setheight', style: 'height: 40px!important;'}) %>
+			<%end%>
+		</div>
+  </div>
+
+
+	
+
+ 	<%#= f.hidden_field :created_by_id, value: @user.id %>
+ 	<%= f.hidden_field :created_by_id, value: @user.id %>
+  <%= f.hidden_field :restaurant_id, value: params[:restaurant_id] %>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update KDS", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create KDS", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+<style type="text/css">
+	.hide_station{
+		display: none;
+	}
+</style>
+
+<script type="text/javascript">
+	$("#kds_country_ids").select2({
+    	placeholder: "Select Country",
+    	allowClear: true
+	});
+
+	$('#kds_country_ids').change(function(){
+		var select = $('#kds_country_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_country_based_branch_business_kds_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { country_name: selected_options }
+		});
+	});
+
+	$("#kds_branch_ids").select2({
+    	placeholder: "Select Branch",
+    	allowClear: true
+	});
+
+	$('#kds_kds_type').change(function(){
+		var select = $('#kds_kds_type option:selected').text()
+		if (select == "Station"){
+			$(".check_station").show();
+			var select = $('#kds_branch_ids option:selected')
+			var selected_options = []
+			for (var i = 0; i < select.length; i++){
+				selected_options.push(select[i].value)
+			}
+			$.ajax({
+			  type: "GET",
+			  url: "<%= find_branch_based_station_business_kds_path(restaurant_id: params[:restaurant_id]) %>",
+			  data: { branch_id: selected_options, restaurant_id: $('#assign_task_restaurant_id').val() }
+			})
+			$("#kds_station_id").prop('required',true);
+		}
+
+		else{
+			$(".check_station").hide();
+			$("#kds_station_id").prop('required',false);
+		}
+
+	});
+
+
+
+</script>
+

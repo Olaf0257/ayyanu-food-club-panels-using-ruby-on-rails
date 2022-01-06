@@ -1,0 +1,187 @@
+<%= render 'reject_modal' %>
+<%= render 'loan_revise_reject_modal' %>
+<%= render 'loan_settlement_reject_modal' %>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Loans Approval</h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+         <!--  <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Card Type" href="<%#= new_business_hrms_loan_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div> -->
+        </div>
+        <div class="ibox-content">
+          <% if @loans.present? || @loan_revises.present? %>
+            <div class="full-height-scroll">
+             <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Employee</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Loan Date</th>
+                    <th>Amount (BHD)</th>
+                    <th>Deducted From</th>
+                    <th>Interest Rate(%)</th>
+                    <th>Created Date</th>
+                    <th>Installments</th>
+                    <th>Loan Type</th>
+                    <!-- <th>Account Number</th> -->
+                    <th>Topup amount</th>
+                    <th>Loan period</th>
+                    <th>New interest rate</th>
+
+                    <th>Remaining Amount (BHD)</th>
+                    <th>Settle Date</th>
+                    <th>Payment Mode</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @loans.each do |loan| %>
+                    <tr id="trans-<%=loan.id %>">
+                      <td id="<%=loan.id %>-id"><%=loan.id%></td>
+                      <td><%= loan.user&.name %></td>
+                      <td><%= loan.department %></td>
+                      <td><%= loan.designation %></td>
+                      <td><%= loan.loan_date %></td>
+                      <td><%= amount_three_decimal loan.amount %></td>
+                      <td><%= loan.deducted_from %></td>
+                      <td><%= amount_three_decimal loan.interest_rate %></td>
+                      <td><%= loan.created_date %></td>
+                      <td><%= loan.installments %></td>
+                      <td><%= loan.loan_type&.name %></td>
+                      <!-- <td><%#= loan.account_number %></td> -->
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                      <td></td>
+                      <td></td>
+                      <td></td>
+
+                      <td>Added Loan</td>
+                      <td>
+                        <%= link_to '<i class="fa fa-check"></i> Approve'.html_safe, approve_loan_business_hrms_loans_path(loan, restaurant_id: params[:restaurant_id], id: loan.id), method: :patch, confirm: 'Are you sure?', class: 'btn btn-success btn-sm approve_employee' %>
+                        <%= link_to '<i class="fa fa-remove"></i> Reject'.html_safe, '#', confirm: 'Are you sure?', class: 'btn btn-danger btn-sm reject_employee_btn', 'data-toggle': 'modal', 'data-target': "#reject_modal", loan_id: loan.id %>
+                        <%= link_to '<i class="fa fa-pencil"></i> Show Detail'.html_safe, business_hrms_loan_path(loan, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      </td>
+
+                    </tr>
+                  <%end%>
+
+                  <% @loan_revises.each do |loan_revise| %>
+                    <% loan = loan_revise.loan %>
+                    <tr id="trans-<%=loan.id %>">
+                      <td id="<%=loan.id %>-id"><%=loan.id%></td>
+                      <td><%= loan.user.name %></td>
+                      <td><%= Department.find_by_id(loan.department)&.name %></td>
+                      <td><%= Designation.find_by_id(loan.designation)&.name %></td>
+                      <td><%= loan.loan_date %></td>
+                      <td><%= amount_three_decimal loan.amount %></td>
+                      <td><%= loan.deducted_from %></td>
+                      <td><%= amount_three_decimal loan.interest_rate %></td>
+                      <td><%= loan.created_date %></td>
+                      <td><%= loan.installments %></td>
+                      <td><%= loan.loan_type.name %></td>
+                      <!-- <td><%#= loan.account_number %></td> -->
+
+                      <td><%= amount_three_decimal loan_revise.topup_amount %></td>
+                      <td><%= loan_revise.loan_period %></td>
+                      <td><%= amount_three_decimal loan_revise.new_interest_rate %></td>
+                      
+
+                      <td></td>
+                       <td></td>
+                        <td></td>
+                        <td>Loan Revise</td>
+
+                       <td>
+                        <%= link_to '<i class="fa fa-check"></i> Approve'.html_safe, approve_loan_revise_business_hrms_loan_revises_path(loan_revise, restaurant_id: params[:restaurant_id], id: loan_revise.id), method: :patch, confirm: 'Are you sure?', class: 'btn btn-success btn-sm approve_employee' %>
+                        <%= link_to '<i class="fa fa-remove"></i> Reject'.html_safe, '#', confirm: 'Are you sure?', class: 'btn btn-danger btn-sm loan_revise_reject_employee_btn', 'data-toggle': 'modal', 'data-target': "#loan_revise_reject_modal", loan_id: loan_revise.id %>
+                        <%= link_to '<i class="fa fa-pencil"></i> Show Detail'.html_safe, business_hrms_loan_revise_path(loan_revise, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      </td>
+            
+      
+                    </tr>
+                  <% end %>
+
+                  <% @loan_settlements.each do |loan_settlement| %>
+                    <% loan = loan_settlement.loan %>
+                    <tr id="trans-<%=loan.id %>">
+                      <td id="<%=loan.id %>-id"><%=loan.id%></td>
+                      <td><%= loan.user.name %></td>
+                      <td><%= Department.find_by_id(loan.department)&.name %></td>
+                      <td><%= Designation.find_by_id(loan.designation)&.name %></td>
+                      <td><%= loan.loan_date %></td>
+                      <td><%= amount_three_decimal loan.amount %></td>
+                      <td><%= loan.deducted_from %></td>
+                      <td><%= amount_three_decimal loan.interest_rate %></td>
+                      <td><%= loan.created_date %></td>
+                      <td><%= loan.installments %></td>
+                      <td><%= loan.loan_type.name %></td>
+                      <!-- <td><%#= loan.account_number %></td> -->
+
+                      <td><%#= loan_settlement.topup_amount %></td>
+                      <td><%#= loan_settlement.loan_period %></td>
+                      <td><%#= loan_settlement.new_interest_rate %></td>
+                      <td><%= amount_three_decimal loan_settlement.remaining_amount %></td>
+                      <td><%= loan_settlement.when_to_settle_date %></td>
+                      <td><%= loan_settlement.payment_mode %></td>
+                      <td>Loan Settellment</td>
+
+                       <td>
+                        <%= link_to '<i class="fa fa-check"></i> Approve'.html_safe, approve_loan_settelment_business_hrms_loan_settlements_path(loan_settlement, restaurant_id: params[:restaurant_id], id: loan_settlement.id), method: :patch, confirm: 'Are you sure?', class: 'btn btn-success btn-sm approve_employee' %>
+                        <%= link_to '<i class="fa fa-remove"></i> Reject'.html_safe, '#', confirm: 'Are you sure?', class: 'btn btn-danger btn-sm loan_settlement_reject_employee_btn', 'data-toggle': 'modal', 'data-target': "#loan_settlement_reject_modal", loan_id: loan_settlement.id %>
+                        <%= link_to '<i class="fa fa-pencil"></i> Show Detail'.html_safe, business_hrms_loan_settlement_path(loan_settlement, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                      </td>
+            
+      
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+        </div>
+        <%else%>
+          <center><div class="alert alert-danger">No loan list available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+
+  $(document).ready(function(){
+    $('.reject_employee_btn').click(function(){
+      $('#loan_id').val(this.getAttribute('loan_id'));
+    })
+
+    $('.loan_revise_reject_employee_btn').click(function(){
+      $('#revise_loan_id').val(this.getAttribute('loan_id'));
+    })
+
+    $('.loan_settlement_reject_employee_btn').click(function(){
+      $('#loan_settlement_id').val(this.getAttribute('loan_id'));
+    })
+  })
+</script>

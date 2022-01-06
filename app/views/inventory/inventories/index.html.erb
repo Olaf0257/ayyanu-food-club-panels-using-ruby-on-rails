@@ -1,0 +1,64 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Inventories</h2>
+  </div>
+</div>
+<%= render "master/common_filters", path: inventory_restaurant_inventories_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <% if @inventories.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Article</th>
+                  <th>Unit</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Source</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @inventories.each do |group| %>
+                <tr>
+                  <td><%= group.id %></td>
+                  <td><%= group.article.try(:name) %></td>
+                  <td><%= group.article.try(:base_unit_name) %></td>
+                  <td><%= group.article.try(:purchase_price) %></td>
+                  <td><%= group.stock %></td>
+                  <td><%= group.inventoryable.try(:name) %></td>
+                  <td><%= set_time_formated(group.created_at) %></td>
+                  <td><%= group.user.name %></td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Inventory available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <center> <%= will_paginate @inventories ,renderer: BootstrapPagination::Rails %></center><br>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

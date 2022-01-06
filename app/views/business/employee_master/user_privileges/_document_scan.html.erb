@@ -1,0 +1,42 @@
+<div class="col-md-12">
+	<label>Document Scan:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.document_scan.include?("DashBoard") %>
+			<input type="checkbox"  name="document_scan[dashboard]" value="DashBoard" checked>
+		<%else%>
+			<input type="checkbox"  name="document_scan[dashboard]" value="DashBoard">
+		<%end %>
+		<label class="label_color">DashBoard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.document_scan.include?("Initiate Scan") %>
+			<input type="checkbox"  name="document_scan[initiate_scan]"  value="Initiate Scan" checked="">
+		<%else%>
+			<input type="checkbox"  name="document_scan[initiate_scan]"  value="Initiate Scan">
+		<%end%>
+		<label class="label_color">Initiate Scan</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.document_scan.include?("Document Upload") %>
+			<input type="checkbox"  name="document_scan[document_upload]"  value="Document Upload" checked="">
+		<%else%>
+			<input type="checkbox"  name="document_scan[document_upload]"  value="Document Upload">
+		<%end%>
+		<label class="label_color">Document Upload</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.document_scan.include?("Folder List") %>
+			<input type="checkbox"  name="document_scan[folder_list]"  value="Folder List" checked="">
+		<%else%>
+			<input type="checkbox"  name="document_scan[folder_list]"  value="Folder List">
+		<%end%>
+		<label class="label_color">Folder List</label>
+	</div>
+</div>
+
+
+
+
+

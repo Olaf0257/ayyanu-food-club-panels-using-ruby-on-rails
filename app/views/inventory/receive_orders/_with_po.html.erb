@@ -1,0 +1,85 @@
+<div class="panel-body">
+	<%= form_for @receive_order, url: inventory_restaurant_receive_orders_path do |f| %>
+	<%= f.hidden_field :purchase_order_id, value: @purchase_order.try(:id) %>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :country_id %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.collection_select :country_id, Country.order(:name),:id,:name, {prompt: 'Select Country', selected: @purchase_order.country_id}, {class: "form-control", required: true, include_hidden: false, readonly: true} %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :branch_id %>
+		</div>
+
+		<div class="col-sm-10">
+			<% if params[:action].eql?('edit') %>
+			<%= f.collection_select :branch_id, @restaurant.branches, :id, :address, {prompt: 'Select Branch'}, {class: "form-control", required: true, include_hidden: false} %>
+			<% else %>
+			<%= f.collection_select :branch_id, @restaurant.branches, :id, :address, {prompt: 'Select Branch', selected: @purchase_order.branch_id}, {class: "form-control", required: true, include_hidden: false, readonly: true} %>
+			<% end %>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :invoice_no %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:invoice_no, required: true, class: "form-control") %>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :van_temp %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:van_temp, required: true, class: "form-control") %>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :store_id %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.hidden_field :store_id %>
+			<%= f.collection_select :store_id, @restaurant.stores, :id, :name, {prompt: 'Select Store'}, {class: "form-control", required: true, disabled: true} %>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :vendor_id %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.hidden_field :vendor_id %>
+			<%= f.collection_select :vendor_id, @restaurant.vendors, :id, :company_name, {prompt: 'Select Vendor'}, {class: "form-control", required: true, disabled: true} %>
+		</div>
+	</div>
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :delivery_date %>
+		</div>
+
+		<div class="col-sm-3">
+			<%= f.date_field(:delivery_date, value: Date.today, required: true, class: "form-control") %>
+		</div>
+	</div>
+	<h3 class="text-success">Add items to receive order with PO</h3>
+	<hr style="border: 1px solid;">
+	<div class='receive_articles'>
+		<%= f.fields_for :receive_articles do |receive_article| %>
+		<%= render 'receive_article_fields_disabled', :f => receive_article %>
+		<% end %>
+	</div>
+	<div class="row form-group">
+		<center><%= f.submit "Create Receive Order", class: "btn btn-success" %></center>
+	</div>
+	<% end %>
+</div>

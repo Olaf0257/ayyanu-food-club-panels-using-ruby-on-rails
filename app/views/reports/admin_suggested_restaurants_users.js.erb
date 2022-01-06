@@ -1,0 +1,3 @@
+$("#suggested_restaurant_users_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'suggested_restaurant_users_modal') %>");
+$("#suggested_restaurant_users_modal").modal("show");

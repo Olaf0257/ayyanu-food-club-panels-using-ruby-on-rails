@@ -1,0 +1,38 @@
+<div class="modal fade" id="suggested_restaurant_send_push" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Push Notification</h4>
+      </div>
+
+      <%= form_tag send_suggested_restaurants_user_push_notification_path do %>
+        <div class="modal-body">
+          <div>
+            <p>Restaurant: <b><%= @restaurant.title %></b></p>
+            <p>Area: <b><%= @area.area %></b></p>
+          </div>
+          <hr>
+
+          <%= hidden_field_tag(:restaurant_id, @restaurant.id) %>
+          <%= hidden_field_tag(:area_id, @area.id) %>
+
+          <div class="row">
+            <%= label_tag :title %>
+            <%= text_field_tag(:title, "", placeholder: "Enter title", class: "form-control", required: true, autocomplete: :off) %>
+          </div>
+
+          <div class="row">
+            <%= label_tag :description %>
+            <%= text_area_tag(:description, "", placeholder: "Enter description", class: "form-control", required: true, autocomplete: :off) %>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <%= submit_tag "Send Push Notification", class: "btn btn-success" %>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

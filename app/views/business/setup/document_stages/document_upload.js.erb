@@ -1,0 +1,7 @@
+var x =<%=@document_upload.stage.id%>;
+var document_upload =<%=@document_upload.id%>;
+var stage =<%=@document_upload.stage.id%>;
+var url = "/business/setup/document_stages/"+document_upload+"/edit_document_upload?stage="+stage
+$("#document_attach_"+x).
+html("<a class='btn btn-primary' data-toggle='modal' data-target='#exampleModal' data-remote='true' href="+url+">Attached</a>");
+$("#exampleModal").modal('hide');

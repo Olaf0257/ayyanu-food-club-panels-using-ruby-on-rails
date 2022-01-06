@@ -1,0 +1,99 @@
+<style type="text/css">
+  .bg-white{
+    background-color: white;
+  }
+  .form-control { 
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+  .setheight{
+    height:40px !important;
+  }
+  .clients-list .tab-pane {
+    position: relative;
+    max-height: 300px !important; 
+  }
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-10">
+  <h2 style="margin-top:20px;"><b>Offers</b></h2></div>
+  <div class="col-xs-2">
+  <span class="pull-right" style="margin-top:20px;">
+    
+      <a href="<%=branch_offer_path(:id=>encode_token(@restaurant.id))%>" class="btn btn-primary btn-circle" title="Add New offer"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    </span></div>
+
+</div>
+<br>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">    
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content" style="border:none;">
+          <%if@offers.present?%> 
+            <div class="full-height-scroll">
+               <div class="table-responsive">
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>Sno</th>
+                        <th>Image</th>
+                        <th>Offer Title</th>
+                        <th>Menu Item Title</th>                        
+                        <th>Restaurant Name</th>
+                        <th>Branch Address</th>
+                        <th>Discount Percentage</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%@offers.each do |o|%>
+                         <tr id="order-<%=o.id%>">
+                          <td><p ><%=o.id%></p></td>
+                          <td><img src="<%=o.offer_image.present? ? o.offer_image : '/assets/ic_placeholder.png'%>"  alt="sdksjdkjskdj" style="width: 75px;height: 55px; object-fit: cover;"></td>
+                          <td><p ><%=o.offer_title%></p></td>
+                          <td><p ><%=o.menu_item.present? ? o.menu_item.item_name : "N/A"%></p></td>
+                          <td><p ><%=o.branch.present? ? o.branch.restaurant.title : "N/A"%></p></td>
+                         
+                          <td><p ><%=o.branch.present? ? o.branch.address.present? ? o.branch.address : "" : "" %></p></td>
+                          <td><p ><%=o.discount_percentage.present? ? o.discount_percentage : "0"%></p></td>
+                          <td><p ><%=o.start_date%></p></td>
+                          <td><p ><%=o.end_date%></p></td>
+                          <td> 
+                                            
+                          <% if (o.start_date <= Date.today and o.end_date >= Date.today)%>
+                            <label class="label label-sm" style=" background-color:#086608; color:white;">Running</label>
+                          <% elsif (o.start_date > Date.today)%>
+                            <label class="label label-sm" style=" background-color:#3FECA8; color:white;">Upcoming</label>  
+                          <%else%>
+                            <label class="label label-sm label-warning" style=" color:white;">Closing</label>
+                          <%end%> 
+                          </td>
+                          <td>              
+                            <a href="#" class="btn btn-sm btn-danger" style="font-size: 13px;"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+                          </td>
+                        </tr>
+                      <%end%>     
+                    </tbody>
+                  </table>
+               </div>
+            </div>
+            <div class="col-lg-12">
+              <center> <%= will_paginate @offers ,renderer: BootstrapPagination::Rails %></center><br>
+            </div> 
+          <%else%>
+            <center><div class="alert alert-danger">Offer not available yet.</div></center>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

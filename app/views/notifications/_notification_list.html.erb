@@ -1,0 +1,7 @@
+<%p @noti%>
+<td class="check-mail"><%=@noti.id%></td>
+<td class="mail-ontact"><%=@noti.notification_type%></td>
+<td class="mail-subject"><%=@noti.message%></td>
+<td><%=@noti.user.present? ? @noti.user.name: "N/A"%></a></td>
+<td><%=@noti.receiver.present? ? @noti.receiver.name : "N/A"%></a></td>
+<td class="text-right mail-date"><%=@noti.created_at.strftime("%d %B, %Y")%></td>

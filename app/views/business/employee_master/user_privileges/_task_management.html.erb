@@ -1,0 +1,21 @@
+<div class="col-md-12">
+	<label>TASK MANAGEMENT:</label>
+</div>
+<div style="margin-left: 10px">
+	<div class="col-md-3">
+		<% if @privilege.task_management.include?("Dashboard") %>
+			<input type="checkbox"  name="task_management[dashboard]" value="Dashboard" checked="">
+		<%else%>
+			<input type="checkbox"  name="task_management[dashboard]" value="Dashboard">
+		<%end%>
+		<label class="label_color">Dashboard</label>
+	</div>
+	<div class="col-md-3">
+		<% if @privilege.task_management.include?("Assign Task") %>
+			<input type="checkbox"  name="task_management[assign_task]"  value="Assign Task" checked="">
+		<%else%>
+			<input type="checkbox"  name="task_management[assign_task]"  value="Assign Task">
+		<%end%>
+		<label class="label_color">Assign Task</label>
+	</div>
+</div>

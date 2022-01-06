@@ -1,0 +1,43 @@
+<div id="select_branch" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" style="color: #ed5565;"><b>Please select the country and branch.</b></h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for :branch, url: business_set_branch_path, method: :post, html: { autocomplete: :off } do |f| %>
+          <%= hidden_field_tag :restaurant_id, params[:restaurant_id] %>
+          <% if @user.auth_role == "business" %>
+            <%= select_tag(:country, options_from_collection_for_select(Country.all, :name, :name), {id: 'pos_country', class: 'form-control', prompt: "Select Country", style: 'height: 40px !important', required: true}) %>
+          <% else %>
+            <%= select_tag(:country, options_from_collection_for_select(Country.where(id: @user.user_detail&.country_ids), :name, :name), {id: 'pos_country', class: 'form-control', prompt: "Select Country", style: 'height: 40px !important', required: true}) %>
+          <% end %><br/>
+          <div id="branch_container">
+             <%= select_tag(:branch, options_for_select([]), prompt: "Select Branch", class: "form-control", id: 'pos_branch', style: 'height: 40px !important') %>
+          </div><br/></br>
+          <div class="row" style="padding-right: 3%;">
+            <%= submit_tag "Submit", class: "btn btn-info form-button pull-right", style: "height: 38px;width: 27%;", id: "proceed_branch"%>&nbsp;&nbsp;
+             <button type="button" class="btn btn-secondary form-button pull-right" style="height: 38px;width: 27%;background-color: #5a6268!important;color: white;" id="proceed_branch" data-dismiss="modal">Cancel</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('#pos_country').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "<%= business_find_branches_based_country_path %>",
+      data: { country_name: this.value, restaurant_id: "<%= params[:restaurant_id]%>" }
+    })
+  })
+
+  // $('#proceed_branch').click(function(){
+  //   $.ajax({
+  //     type: "GET",
+  //     url: "<%= business_set_branch_path %>",
+  //     data: { branch_id: $('#pos_country').val(), restaurant_id: "<%= params[:restaurant_id]%>" }
+  //   })
+  // })
+</script>

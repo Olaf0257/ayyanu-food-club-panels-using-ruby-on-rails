@@ -1,0 +1,41 @@
+<div class="modal fade" id="point_detail_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4><%= @branch.restaurant.title %> - <%= @branch.address %></h4>
+        <h4 class="modal-title">TOTAL POINTS: <%= @total_point.to_f.round(3) %></h4>
+      </div>
+
+      <div class="modal-body user-point-detail-container">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ORDER ID</th>
+              <th>TYPE</th>
+              <th>POINT</th>
+              <th>START DATE</th>
+              <th>END DATE</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @points.each do |point| %>
+              <tr>
+                <td><%= point.order_id %></td>
+                <td class="<%= point.point_type == 'Credit' ? 'text-success' : 'text-danger' %>"><%= point.point_type %></td>
+                <td class="<%= point.point_type == 'Credit' ? 'text-success' : 'text-danger' %>"><%= point.user_point %></td>
+                <td><%= point.created_at.strftime("%d/%m/%Y") %></td>
+                <td><%= point.expired_date&.strftime("%d/%m/%Y") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

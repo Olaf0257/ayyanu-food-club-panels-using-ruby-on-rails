@@ -1,0 +1,92 @@
+<style>
+  .form-inline {
+    display: inline;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>Events</h2>
+  </div>
+
+  <div class="col-sm-8">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Title", autocomplete: :off) %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+
+      <%= link_to events_path(format: :csv, searched_country_id: params[:searched_country_id], keyword: params[:keyword]) do  %>
+        <button class="btn btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Events</h5>
+
+          <span class="pull-right">
+            <%= link_to "Add New Event", new_event_path, class: "btn btn-xs btn-success", style: "margin-right: 20px;" %>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @events.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Countries</th>
+                  <th>Dates</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @events.each do |event| %>
+                  <tr>
+                    <td><%= event.title %></td>
+                    <td><%= event.description %></td>
+                    <td><%= event.reload.countries.pluck(:name).sort.join(", ") %></td>
+                    <td><%= link_to "View Dates", event_date_list_event_path(event.id), class: "btn btn-xs btn-info", remote: true %></td>
+
+                    <td>
+                      <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_event_path(event.id), class: "btn btn-xs btn-info" %>
+
+                      <% if is_super_admin?(@admin) %>
+                        <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", event, method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete?" } %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Event available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

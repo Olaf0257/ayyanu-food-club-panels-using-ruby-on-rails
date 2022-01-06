@@ -1,0 +1,8 @@
+<div class="row form-group">
+  <div class="col-sm-2">
+    <label>Available Stock</label>
+  </div>
+  <div class="col-sm-10">
+    <input required="required" class="form-control" type="text" disabled="true" value="<%= @article.inventories.where(restaurant_id: current_restaurant.id).sum(:stock) %>" >
+  </div>
+</div>

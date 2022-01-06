@@ -1,0 +1,79 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Transfer Requests</h2>
+  </div>
+</div>
+<%= render "master/common_filters", path: inventory_restaurant_transfer_orders_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Transfer Request" href="<%= new_inventory_restaurant_transfer_order_path %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @transfer_orders.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Country</th>
+                  <th>Branch</th>
+                  <th>Source</th>
+                  <th>Destination</th>
+                  <th>Delivery Date</th>
+                  <th>No. of Items</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @transfer_orders.each do |group| %>
+                <tr>
+                  <td><%=group.id%></td>
+                  <td><%=group.country.name%></td>
+                  <td><%= group.branch.address %> </td>
+                  <td><%= group.source %> </td>
+                  <td><%= group.destination %> </td>
+                  <td><%= set_time_formated(group.delivery_date)%></td>
+                  <td><%= group.transfer_articles.count %> </td>
+                  <td><%=set_time_formated(group.created_at)%></td>
+                  <td><%=group.user.name%></td>
+                  <td>
+                    <%# if group.status.eql?('pending') || group.status.eql?('rejected') %>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Transfer Request'.html_safe, edit_inventory_restaurant_transfer_order_path(group, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Transfer Request'.html_safe, inventory_restaurant_transfer_order_path(group, restaurant_id: params[:restaurant_id]), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm' %>
+                    <%# end %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Transfer Request available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <center> <%= will_paginate @transfer_orders ,renderer: BootstrapPagination::Rails %></center><br>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

@@ -1,0 +1,110 @@
+<% selected_user = @selected_user || @user %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if @user.auths.first.role == "business" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            </span>
+          <% elsif @user.auths.first.role=="manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_managers.first.branch.restaurant.title %> Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "kitchen_manager" %>
+            <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+            </span>
+          <% elsif @user.auths.first.role == "delivery_company" %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %></span>
+            </span>
+          <% elsif @user.influencer %>
+            <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+            <br><b><%= @user.get_country_name.to_s.upcase %></b>
+
+            <span class="clear">
+              <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+              <span class="text-muted text-xs block"><%= @user.name %> (Influencer)</span>
+            </span>
+          <% end %>
+        </div>
+      </li>
+
+      <li class="displayNavigation openDashboardNewTransactipnPopup">
+        <a href="javascript:void(0);"><i class="fa fa-money" aria-hidden="true"></i> <span class="nav-label">Dashboard</span></a>
+      </li>
+
+      <li class="displayNavigation <%= is_active_action('dashboard') %> &&  <%= is_active_controller('partners') %>">
+          <a href="#"><i class="fa fa-th-large" aria-hidden="true"></i> <span class="nav-label">Brands</span><span class="fa arrow"></span></a>
+
+          <ul class="nav nav-second-level collapse">
+            <% @user.restaurants.each do |rest| %>
+              <li class="<%= (decode_token(params[:restaurant_id])&.to_s== rest.id.to_s) ? 'active' : "" %>"><%= link_to rest.title, business_partner_dashboard_path(restaurant_id: encode_token(rest.id)) %></li>
+            <% end %>
+
+            <%# if @user.auth_role != "business" %>
+              <%# find_location_ids_user(@user).each do |location| %>
+                <%# rest = location.branch&.restaurant %>
+                <!-- <li class="<%#= (decode_token(params[:restaurant_id])&.to_s== rest.id.to_s) ? 'active' : "" %>"><%#= link_to rest.title, business_partner_dashboard_path(restaurant_id: encode_token(rest.id)) %></li> -->
+              <%# end %>
+            <%# end %>
+
+            <% if @user.auth_role != "business" %>
+              <% find_location_ids_user(@user).map{|loc| loc.branch&.restaurant}.compact.uniq.each do |rest| %>
+                <%# rest = location.branch&.restaurant %>
+                <li class="<%= (decode_token(params[:restaurant_id])&.to_s== rest.id.to_s) ? 'active' : "" %>"><%= link_to rest.title, business_partner_dashboard_path(restaurant_id: encode_token(rest.id)) %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+  $("#address_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "address_contact_number",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: 'bh',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+</script>

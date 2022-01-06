@@ -1,0 +1,76 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-3">
+    <h2 class="font-bold ">Rejected Applications</h2>
+  </div>
+
+  <div class="col-sm-9">
+  	<%= render 'filter' %>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <% if @job_openings.present? %>
+	          <div class="full-height-scroll">
+	           <div class="table-responsive">
+	            <table class="table table-striped table-hover">
+	              <thead>
+	                <tr>
+	                	<th>ID</th>
+	                  <th>Job Title</th>
+	                  <th>Department</th>
+	                  <th>Designation</th>
+	                  <th>Current Country</th>
+	                  <th>Candidate Name</th>
+	                  <th>Candidate Email</th>
+	                  <th>Candidate Phone No.</th>
+	                  <th>Status</th>
+	                  <th>Rejected Reason</th>
+	                  <th>Created by</th>
+	                  <th>Created at</th>
+	                  <th>Actions</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	                <% @job_openings.each do |job_opening| %>
+	                  <tr id="trans-<%=job_opening.id %>">
+	                    <td id="<%=job_opening.id %>-id"><%= job_opening.id %></td>
+	                    <td><%= job_opening&.job_position&.title %></td>
+	                    <td><%= job_opening&.job_position&.department&.name&.titleize %></td>
+	                    <td><%= job_opening&.job_position&.designation&.name&.titleize %></td>
+	                    <td><%= job_opening.country&.name&.titleize %></td>
+	                    <td id="<%=job_opening.id %>-id"><%= "#{job_opening.first_name} #{job_opening.last_name}" %></td>
+	                    <td><%= job_opening.email %></td>
+	                    <td><%= job_opening.country_code.to_s + job_opening.phone_number %></td>
+	                    <td id="<%=job_opening.id %>-id"><%= job_opening&.status.titleize %></td>
+	                    <td id="<%=job_opening.id %>-id"><%= job_opening&.rejected_reason %></td>
+	                    <td><%= created_by(job_opening&.job_position) unless job_opening&.job_position.blank? %></td>
+	                    <td><%= job_opening.created_at %></td>
+	                    <td>
+	                      <%= link_to '<i class="fa fa-check"></i> Approve'.html_safe, approve_application_business_hrms_job_application_path(job_opening.id, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+	                    </td>
+	                  </tr>
+	                <%end%>
+	              </tbody>
+	            </table>
+	          </div>
+	        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Rejected Applications Available Yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	<%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

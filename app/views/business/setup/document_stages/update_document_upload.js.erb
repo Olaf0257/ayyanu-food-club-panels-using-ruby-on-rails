@@ -1,0 +1,7 @@
+var x =<%=@document_upload.stage.id%>;
+var document_upload =<%=@document_upload.id%>;
+var stage =<%=@document_upload.stage.id%>;
+var url = "/business/setup/document_stages/"+document_upload+"/show_upload_document?stage="+stage
+$("#document_stage_"+document_upload).
+html("<a class='btn btn-success' data-toggle='modal' data-target='#exampleModal' data-remote='true' href="+url+">Booked</a>");
+$("#exampleModal").modal('hide');

@@ -1,0 +1,54 @@
+<div class="login-page">
+  <div style="text-align: center;height: 150px;margin-top: 2%;">
+    <%= link_to root_path do %>
+      <img src="/assets/food_club_logo.png" style="height: 100%;"></img>
+    <% end %>
+  </div>
+
+  <div class="modal-dialog" style="margin-top: 2%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3> Log In </h3>
+      </div>
+
+      <%= form_for :admin, url: admin_auth_path, html: { class: "form-horizontal" } do |f| %>
+        <div class="modal-body">
+          <div class="extra-items">
+            <% if flash[:success].present? %>
+              <div class="alert alert-success">
+                <%= flash[:success] %>
+              </div>
+            <% elsif flash[:error].present? %>
+              <div class="alert alert-danger">
+                <%= flash[:error] %>
+              </div>
+            <% end %>
+          </div>
+
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input type="email" name="email" class="form-control" placeholder="Username or Email" required="true">
+          </div>
+
+          <div style="margin-bottom: 25px" class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input type="password" name="password" class="form-control" placeholder="Password" required="true">
+          </div>
+
+          <div class="input-group">
+            <input type="checkbox" name="remember" id="remember-chk" autocomplete="off" style="display: inline-block;">&emsp;
+            <label for="remember-chk" style="font-size: 18px;">Remember me</label>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div style="margin-top:10px" class="form-group">
+            <div class="col-sm-12 controls">
+              <input type="submit" value="Login" class="btn btn-success" name="Login">
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+	wb = xlsx_package.workbook 
+	wb.add_worksheet(name: "Cancel Order") do |sheet| 
+	  sheet.add_row ['Branch Address','Current Cancel Order Counts','Last Cancel Order Counts','Current Cancel Total Amount','Last Cancel Total Amount', '%'] 
+		@data.each do |report| 
+			sheet.add_row [report[:address],report[:current_order],report[:last_order],report[:total_revenue_current_month],report[:total_revenue_last_month],report[:percentage]] 
+		end 
+	end

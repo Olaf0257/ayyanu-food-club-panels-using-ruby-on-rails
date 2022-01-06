@@ -1,0 +1,126 @@
+<style type="text/css">
+  .flex {
+    display: flex;
+    padding-left: .5em;
+    padding-right: .5em;
+  }
+
+  .flex .text-right {
+    width: 100%;
+    text-align: right;
+  }
+
+  .fa-5x {
+    font-size: 3em;
+  }
+</style>
+
+<div class="ibox-title">
+  <div class="row">
+    <div class="col-sm-4 col-xs-4">
+      <h2 style="margin-top:20px;"><b>Dashboard</b></h2>
+    </div>
+
+    <div class="col-sm-6 col-xs-8">
+      <input type="submit" value="Refresh" onclick="refresh()" style="margin-top: 2px;width: 91px;height: 63px;" class="btn btn-danger btn-m pull-right">
+    </div>
+
+    <div class="col-sm-2 col-xs-4">
+      <div class="timer">25</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <div class="panel panel-danger" title="Transporters">
+        <div class="panel-heading min-height80">
+          <div class="row flex">
+            <div class=" text-right">
+              <div class="huge"><%= number_with_precision(@available_points, precision: 3) %></div>
+              <div>Available Points</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="<%= influencer_available_points_path %>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <div class="panel panel-warning" title="Orders">
+        <div class="panel-heading min-height80">
+          <div class="row flex">
+            <div class=" text-right">
+              <div class="huge"><%= @referrals %></div>
+              <div>Referred Persons</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="<%= influencer_referrals_path %>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-6">
+      <div class="panel panel-primary" title="Orders">
+        <div class="panel-heading min-height80">
+          <div class="row flex">
+            <div class=" text-right">
+              <div class="huge">0</div>
+              <div>Sold Points</div>
+            </div>
+          </div>
+        </div>
+
+        <a href="<%= influencer_sold_points_path %>">
+          <div class="panel-footer white-bg">
+            <span class="pull-left">View Details</span>
+            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+            <div class="clearfix"></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function refresh() {
+    location.reload();
+  };
+
+  var timer = 25;
+  var interval = setInterval(function() {
+  timer--;
+  $('.timer').text(timer);
+
+  if (timer === 0) {
+    clearInterval(interval);
+    $.ajax({
+      url: "/influencer/dashboard?agex=true?",
+      type: 'GET',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      dataType: "script",
+      success: function(response) {
+      }
+    });
+  }
+    window.setInterval(timer, 1000);
+  },
+  1000);
+</script>

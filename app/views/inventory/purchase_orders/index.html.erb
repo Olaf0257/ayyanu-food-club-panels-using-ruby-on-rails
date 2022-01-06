@@ -1,0 +1,89 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-xs-6">
+    <h2 class="font-bold ">Purchase Orders</h2>
+  </div>
+</div>
+<%= render "master/common_filters", path: inventory_restaurant_purchase_orders_path %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Purchase Order" href="<%= new_inventory_restaurant_purchase_order_path %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @purchase_orders.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Country</th>
+                  <th>Branch</th>
+                  <th>Store</th>
+                  <th>Vendor</th>
+                  <th>Delivery Date</th>
+                  <th>No. of Items</th>
+                  <th>Total Amount</th>
+                  <th>Status</th>
+                  <th>Rejected Reason</th>
+                  <th>Created At</th>
+                  <th>Modified By</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @purchase_orders.each do |group| %>
+                <tr>
+                  <td><%=group.id%></td>
+                  <td><%=group.country.try(:name)%></td>
+                  <td><%= group.branch.try(:address) %> </td>
+                  <td><%=group.store.name%></td>
+                  <td><%= group.vendor.company_name %> </td>
+                  <td><%=set_time_formated(group.delivery_date)%></td>
+                  <td><%= group.purchase_articles.count %> </td>
+                  <td><%= number_with_precision((group.purchase_articles.sum(:net_amount).to_f), precision: 3) || 0.000 %></td>
+                  <td><%= group.status.humanize %> </td>
+                  <td><%= group.rejected_reason || 'NA' %> </td>
+                  <td><%=set_time_formated(group.created_at)%></td>
+                  <td><%=group.user.name%></td>
+                  <td>
+                    <% if group.status.eql?('pending') || group.status.eql?('rejected') %>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Purchase Order'.html_safe, edit_inventory_restaurant_purchase_order_path(group, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-remove"></i> Remove Purchase Order'.html_safe, inventory_restaurant_purchase_order_path(group, restaurant_id: params[:restaurant_id]), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-danger btn-sm' %>
+                    <% end %>
+                    <% if ['booked', 'received'].include?(group.status) %>
+                    <%= link_to '<i class="fa fa-check"></i> Check Details'.html_safe, inventory_restaurant_purchase_order_path(group, restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                    <%= link_to '<i class="fa fa-list"></i> Download CSV'.html_safe, inventory_restaurant_purchase_order_path(group, restaurant_id: params[:restaurant_id], format: :csv), class: 'btn btn-primary btn-sm' %>
+                    <% end %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Purchase Order available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-12">
+  <center> <%= will_paginate @purchase_orders ,renderer: BootstrapPagination::Rails %></center><br>
+</div>
+<br> 
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+  swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

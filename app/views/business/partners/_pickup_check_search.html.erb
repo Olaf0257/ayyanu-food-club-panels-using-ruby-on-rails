@@ -1,0 +1,14 @@
+<%= form_for '', url: business_search_check_path, method: :post, remote: true do |f| %>
+	<%= hidden_field_tag :is_pickup_check, pickup_check %>
+	<%= hidden_field_tag :pos_check_ids, pos_checks.pluck(:id) %>
+	<% data = fetch_order_status(pos_checks) %>
+	<%= select '', 'check_id', data[:check_id].uniq, {prompt: 'Select Check Id'}, class: 'dropdownList' %>
+	<%= select '', 'order_type_id', data[:order_type].uniq, {prompt: 'Select Order Type'}, class: 'dropdownList'%>
+	<% if ActiveModel::Type::Boolean.new.cast(params[:is_pickup_check]) %>
+		<%= select '', 'driver_id', data[:driver].uniq, {prompt: 'Select Driver'}, class: 'dropdownList' %>
+	<% end %>
+	<%= select '', 'order_status_id', options_for_select(data[:status]), {prompt: 'Select Order Status'}, class: 'dropdownList' %>
+	<%= select '', 'order_amount', options_for_select(data[:amount]), {prompt: 'Select Order Amount'}, class: 'dropdownList' %>
+	<%= select '', 'table_no', options_for_select(data[:table_no]), {prompt: 'Select Table Number'}, class: 'dropdownList' %>
+  	<%= f.submit "Search", class: 'btn btn-primary' %>
+<% end %>

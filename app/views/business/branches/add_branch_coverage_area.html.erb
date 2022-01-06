@@ -1,0 +1,650 @@
+<style type="text/css">
+  .mb-2{
+    margin-bottom:2%;
+  }
+  .private_dock{
+    display: none;
+  }
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+}
+.form-group select{
+  height: 34px !important;
+}
+.form-group input[type="radio"]{
+    height: 36px;
+    vertical-align: middle;
+    margin-top: 0;
+}
+.intl-tel-input {
+    width: 100% !important;
+}
+
+</style>
+<div>
+
+  <div class="col-sm-12">
+    <h2 class="pull-right">
+    <% if @user.auths.first.role == "business"%>
+    <a href="<%=business_branch_coverage_area_path(branch_id: params[:branch_id],restaurant_id: params[:restaurant_id])%>"> <button class="btn btn-danger">Back to Coverage Area <i class="fa fa-arrow-right"></i> </button></a>
+    <% else %>
+    <a href="<%=business_branch_coverage_area_path(branch_id: params[:branch_id])%>"> <button class="btn btn-danger">Back to Coverage Area<i class="fa fa-arrow-right"></i> </button></a>
+    <% end %>
+ 
+  </div>
+</div>
+<div class="container">
+ 
+  <%=form_for :area,url: business_branch_new_coverage_area_path,:html=>{id: "add-marina-form",:class=>"form-vertical",:multipart => true} do |f|%> 
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;">
+          <div class="panel-heading"><center><h3>Add Coverage Area</h3></center></div>
+          <div class="panel-body">
+            <div class="row mb-2">
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Restaurant Name</label> 
+                  <input type="text"  name="restaurant_name" class="form-control" value="<%=@branches.first.restaurant.title%>" disabled  >
+                </div>
+                <input type="hidden" name="restaurant_id" value="<%=params[:restaurant_id]%>">
+              </div>
+              <div class="col-lg-4">
+               <div class="form-group">
+                 <label>Branch (*Required)</label>
+                  <select class="form-control setheight" name="branch">
+                    <%=@branches.each do |b|%>
+                      <option value="<%=b.id%>" <%=@branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.address%></option>
+                    <%end%>
+                  </select>
+               </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Branch Primary Contact Number (*Required)</label>
+                  <input type="text" name="contact" placeholder="041234567" id="user_contact" class="form-control" autocomplete="off">
+
+              <span id="valid-msg" class="hide">✓ Valid</span>
+              <span id="error-msg" class="hide">Invalid number</span>
+                </div>
+
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Max Delivery Time</label> 
+                  <select name="max_delivery_time" id="marina_type" class="form-control">        
+                    <option value=10>10 Min</option>
+                    <option value=15>15 Min</option>
+                    <option value=20>20 Min</option>
+                    <option value=25>25 Min</option>
+                    <option value=30>30 Min</option>
+                    <option value=35>35 Min</option>
+                    <option value=40>40 Min</option>
+                    <option value=45>45 Min</option>
+                    <option value=50>50 Min</option>
+                    <option value=55>55 Min</option>
+                    <option value=60>60 Min</option>
+                    <option value=65>65 Min</option>
+                    <option value=70 >70 Min</option>
+                    <option value=75 >75 Min</option>
+                    <option value=80>80 Min</option>
+                    <option value=85 >85 Min</option>
+                    <option value=90 >90 Min</option>
+                    <option value=95 >95 Min</option>
+                    <option value=100>100 Min</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Minimum Order Amount</label> 
+                  <input type="text" name="minimum_order_amount" placeholder="Minimum order amount" class="form-control" value="" id="minimum_order_amount" >
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Delivery charge </label> 
+                  <input type="text" name="delivery_charges" placeholder="Delivery charges" value=""  id="delivery_charges" class="form-control" >
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Cash on Delivery</label><br>
+                  <input type="radio"  value="true" checked="checked" name="cash_on_delivery" style="margin-right: 6px;">Yes
+                  <input type="radio" value="false"  name="cash_on_delivery" style="margin-left: 120px;margin-right: 12px;">No<br>
+                </div>
+              </div>
+             <!--  <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Accept Card </label><br> 
+                  <input type="radio" value="true"  name="accept_card" checked="checked" style="margin-right: 6px;">Yes
+                  <input type="radio" value="false"  name="accept_card" style="margin-left: 120px;margin-right: 12px;">No
+                </div>
+              </div>
+ -->
+                 <div class="col-lg-4">  
+              <div class="form-group">
+                <label> Credit Card Machine </label><br> 
+                <input type="radio" value="true" checked="checked"  checked="checked"  name="accept_cash" style="margin-right: 6px;">Yes
+                <input type="radio" value="false"   name="accept_cash" style="margin-left: 120px;margin-right: 12px;">No 
+              </div>
+            </div> 
+
+            </div><!--row-->                     
+            <div class="row">
+              <div class="col-lg-12">
+                <label> Choose Location </label> 
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Country</label> 
+                  <select class="form-control"  name="country" id="country" style="height:30%;" >
+                    <option value="bahrain">Bahrain</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Area</label> 
+                  <select class="form-control setheight" name="area" id="area" style="height: 30%;">
+                    <option>Select Area</option>
+                    <%=@areas.each do |b|%>
+                    <option value="<%=b.id%>" <%=@area.present? ? @area.id == b.id ? 'selected' : 'false' : 'false' %>><%=b.area%></option>
+                    <%end%>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label> Tax Percentage </label> 
+                  <input type="text" name="tax_percentage" placeholder="Tax percentage" value="5.0"  class="form-control" id="tax_percentage" disabled>
+                </div>
+              </div>
+              
+            <!--   <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Opening Time</label> 
+                  <select class="form-control" name="opening_time" id="checkin">
+                    <option value="12:00 AM">12:00 AM</option>
+                    <option value="12:15 AM">12:15 AM</option>
+                    <option value="12:30AM">12:30 AM</option>
+                    <option value="12:45AM">12:45 AM</option>
+                    <option value="01:00AM">01:00 AM</option>
+                    <option value="01:15AM">01:15 AM</option>
+                    <option value="01:30AM">01:30 AM</option>
+                    <option value="01:45AM">01:45 AM</option>
+                    <option value="02:00AM">02:00 AM</option>
+                    <option value="02:15AM">02:15 AM</option>
+                    <option value="02:30AM">02:30 AM</option>
+                    <option value="02:45AM">02:45 AM</option>
+                    <option value="03:00AM">03:00 AM</option>
+                    <option value="03:15AM">03:15 AM</option>
+                    <option value="03:30AM">03:30 AM</option>
+                    <option value="03:45AM">03:45 AM</option>
+                    <option value="04:00AM">04:00 AM</option>
+                    <option value="04:15AM">04:15 AM</option>
+                    <option value="04:30AM">04:30 AM</option>
+                    <option value="04:45AM">04:45 AM</option>
+                    <option value="05:00AM">05:00 AM</option>
+                    <option value="05:15AM">05:15 AM</option>
+                    <option value="05:30AM">05:30 AM</option>
+                    <option value="05:45AM">05:45 AM</option>
+                    <option value="06:00AM">06:00 AM</option>
+                    <option value="06:15AM">06:15 AM</option>
+                    <option value="06:30AM">06:30 AM</option>
+                    <option value="06:45AM">06:45 AM</option>
+                    <option value="07:00AM">07:00 AM</option>
+                    <option value="07:15AM">07:15 AM</option>
+                    <option value="07:30AM">07:30 AM</option>
+                    <option value="07:45AM">07:45 AM</option>
+                    <option value="08:00AM">08:00 AM</option>
+                    <option value="08:15AM">08:15 AM</option>
+                    <option value="08:30AM">08:30 AM</option>
+                    <option value="08:45AM">08:45 AM</option>
+                    <option value="09:00AM">09:00 AM</option>
+                    <option value="09:15AM">09:15 AM</option>
+                    <option value="09:30AM">09:30 AM</option>
+                    <option value="09:45AM">09:45 AM</option>
+                    <option value="10:00AM">10:00 AM</option>
+                    <option value="10:15AM">10:15 AM</option>
+                    <option value="10:30AM">10:30 AM</option>
+                    <option value="10:45AM">10:45 AM</option>
+                    <option value="11:00AM">11:00 AM</option>
+                    <option value="11:15AM">11:15 AM</option>
+                    <option value="11:30AM">11:30 AM</option>
+                    <option value="11:45AM">11:45 AM</option>
+                    <option value="12:00PM">12:00 PM</option>
+                    <option value="12:15PM">12:15 PM</option>
+                    <option value="12:30PM">12:30 PM</option>
+                    <option value="12:45PM">12:45 PM</option>
+                    <option value="01:00PM">01:00 PM</option>
+                    <option value="01:15PM">01:15 PM</option>
+                    <option value="01:30PM">01:30 PM</option>
+                    <option value="01:45PM">01:45 PM</option>
+                    <option value="02:00PM">02:00 PM</option>
+                    <option value="02:15PM">02:15 PM</option>
+                    <option value="02:30PM">02:30 PM</option>
+                    <option value="02:45PM">02:45 PM</option>
+                    <option value="03:00PM">03:00 PM</option>
+                    <option value="03:15PM">03:15 PM</option>
+                    <option value="03:30PM">03:30 PM</option>
+                    <option value="03:45PM">03:45 PM</option>
+                    <option value="04:00PM">04:00 PM</option>
+                    <option value="04:15PM">04:15 PM</option>
+                    <option value="04:30PM">04:30 PM</option>
+                    <option value="04:45PM">04:45 PM</option>
+                    <option value="05:00PM">05:00 PM</option>
+                    <option value="05:15PM">05:15 PM</option>
+                    <option value="05:30PM">05:30 PM</option>
+                    <option value="05:45PM">05:45 PM</option>
+                    <option value="06:00PM">06:00 PM</option>
+                    <option value="06:15PM">06:15 PM</option>
+                    <option value="06:30PM">06:30 PM</option>
+                    <option value="06:45PM">06:45 PM</option>
+                    <option value="07:00PM">07:00 PM</option>
+                    <option value="07:15PM">07:15 PM</option>
+                    <option value="07:30PM">07:30 PM</option>
+                    <option value="07:45PM">07:45 PM</option>
+                    <option value="08:00PM">08:00 PM</option>
+                    <option value="08:15PM">08:15 PM</option>
+                    <option value="08:30PM">08:30 PM</option>
+                    <option value="08:45PM">08:45 PM</option>
+                    <option value="09:00PM">09:00 PM</option>
+                    <option value="09:15PM">09:15 PM</option>
+                    <option value="09:30PM">09:30 PM</option>
+                    <option value="09:45PM">09:45 PM</option>
+                    <option value="10:00PM">10:00 PM</option>
+                    <option value="10:15PM">10:15 PM</option>
+                    <option value="10:30PM">10:30 PM</option>
+                    <option value="10:45PM">10:45 PM</option>
+                    <option value="11:00PM">11:00 PM</option>
+                    <option value="11:15PM">11:15 PM</option>
+                    <option value="11:30PM">11:30 PM</option>
+
+                      </select>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Closing Time</label> 
+                  <select class="form-control" name="closing_time" id="checkout">
+                    <option value="12:00 AM">12:00 AM</option>
+                    <option value="12:15 AM">12:15 AM</option>
+                    <option value="12:30AM">12:30 AM</option>
+                    <option value="12:45AM">12:45 AM</option>
+                    <option value="01:00AM">01:00 AM</option>
+                    <option value="01:15AM">01:15 AM</option>
+                    <option value="01:30AM">01:30 AM</option>
+                    <option value="01:45AM">01:45 AM</option>
+                    <option value="02:00AM">02:00 AM</option>
+                    <option value="02:15AM">02:15 AM</option>
+                    <option value="02:30AM">02:30 AM</option>
+                    <option value="02:45AM">02:45 AM</option>
+                    <option value="03:00AM">03:00 AM</option>
+                    <option value="03:15AM">03:15 AM</option>
+                    <option value="03:30AM">03:30 AM</option>
+                    <option value="03:45AM">03:45 AM</option>
+                    <option value="04:00AM">04:00 AM</option>
+                    <option value="04:15AM">04:15 AM</option>
+                    <option value="04:30AM">04:30 AM</option>
+                    <option value="04:45AM">04:45 AM</option>
+                    <option value="05:00AM">05:00 AM</option>
+                    <option value="05:15AM">05:15 AM</option>
+                    <option value="05:30AM">05:30 AM</option>
+                    <option value="05:45AM">05:45 AM</option>
+                    <option value="06:00AM">06:00 AM</option>
+                    <option value="06:15AM">06:15 AM</option>
+                    <option value="06:30AM">06:30 AM</option>
+                    <option value="06:45AM">06:45 AM</option>
+                    <option value="07:00AM">07:00 AM</option>
+                    <option value="07:15AM">07:15 AM</option>
+                    <option value="07:30AM">07:30 AM</option>
+                    <option value="07:45AM">07:45 AM</option>
+                    <option value="08:00AM">08:00 AM</option>
+                    <option value="08:15AM">08:15 AM</option>
+                    <option value="08:30AM">08:30 AM</option>
+                    <option value="08:45AM">08:45 AM</option>
+                    <option value="09:00AM">09:00 AM</option>
+                    <option value="09:15AM">09:15 AM</option>
+                    <option value="09:30AM">09:30 AM</option>
+                    <option value="09:45AM">09:45 AM</option>
+                    <option value="10:00AM">10:00 AM</option>
+                    <option value="10:15AM">10:15 AM</option>
+                    <option value="10:30AM">10:30 AM</option>
+                    <option value="10:45AM">10:45 AM</option>
+                    <option value="11:00AM">11:00 AM</option>
+                    <option value="11:15AM">11:15 AM</option>
+                    <option value="11:30AM">11:30 AM</option>
+                    <option value="11:45AM">11:45 AM</option>
+                    <option value="12:00PM">12:00 PM</option>
+                    <option value="12:15PM">12:15 PM</option>
+                    <option value="12:30PM">12:30 PM</option>
+                    <option value="12:45PM">12:45 PM</option>
+                    <option value="01:00PM">01:00 PM</option>
+                    <option value="01:15PM">01:15 PM</option>
+                    <option value="01:30PM">01:30 PM</option>
+                    <option value="01:45PM">01:45 PM</option>
+                    <option value="02:00PM">02:00 PM</option>
+                    <option value="02:15PM">02:15 PM</option>
+                    <option value="02:30PM">02:30 PM</option>
+                    <option value="02:45PM">02:45 PM</option>
+                    <option value="03:00PM">03:00 PM</option>
+                    <option value="03:15PM">03:15 PM</option>
+                    <option value="03:30PM">03:30 PM</option>
+                    <option value="03:45PM">03:45 PM</option>
+                    <option value="04:00PM">04:00 PM</option>
+                    <option value="04:15PM">04:15 PM</option>
+                    <option value="04:30PM">04:30 PM</option>
+                    <option value="04:45PM">04:45 PM</option>
+                    <option value="05:00PM">05:00 PM</option>
+                    <option value="05:15PM">05:15 PM</option>
+                    <option value="05:30PM">05:30 PM</option>
+                    <option value="05:45PM">05:45 PM</option>
+                    <option value="06:00PM">06:00 PM</option>
+                    <option value="06:15PM">06:15 PM</option>
+                    <option value="06:30PM">06:30 PM</option>
+                    <option value="06:45PM">06:45 PM</option>
+                    <option value="07:00PM">07:00 PM</option>
+                    <option value="07:15PM">07:15 PM</option>
+                    <option value="07:30PM">07:30 PM</option>
+                    <option value="07:45PM">07:45 PM</option>
+                    <option value="08:00PM">08:00 PM</option>
+                    <option value="08:15PM">08:15 PM</option>
+                    <option value="08:30PM">08:30 PM</option>
+                    <option value="08:45PM">08:45 PM</option>
+                    <option value="09:00PM">09:00 PM</option>
+                    <option value="09:15PM">09:15 PM</option>
+                    <option value="09:30PM">09:30 PM</option>
+                    <option value="09:45PM">09:45 PM</option>
+                    <option value="10:00PM">10:00 PM</option>
+                    <option value="10:15PM">10:15 PM</option>
+                    <option value="10:30PM">10:30 PM</option>
+                    <option value="10:45PM">10:45 PM</option>
+                    <option value="11:00PM">11:00 PM</option>
+                    <option value="11:15PM">11:15 PM</option>
+                    <option value="11:30PM">11:30 PM</option>
+                      </select>
+                </div>
+              </div> -->
+            </div><!--row-->
+         
+          
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Save </strong> </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>    
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<link rel="stylesheet" href="/assets/formValidation.min.css">
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UNzzgG2Ng8uQduSSO_nlspaP31orqRc&libraries=places&sensor=false"></script>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script type="text/javascript">
+<%if flash[:success].present?%>
+  swal("success","<%=flash[:success]%>","success")
+<%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning")
+<%end%>
+
+
+  
+  var readURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+ 
+
+  $('#marina_type').on('change', function(){
+    if($(this).val() == 'private'){
+      $(".private_dock").css("display","block")
+    }
+    else{
+      $(".private_dock").css("display","none")
+    }
+  });
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+
+  
+
+
+  $('#email-error').hide()
+  var ownerEmailErrorMessage=""
+  function validateOwnerEmailAddress(){
+    $('#email-error').hide()
+    enteredEmail = $('#email').val()
+    isValidEm = validateEmail(enteredEmail)
+    if(isValidEm){
+      if (isExistingEmail(enteredEmail)){
+        ownerEmailErrorMessage = "Email has already been taken! Please try another email."
+        $('#email-error').show()
+        return false;
+      }else{
+        return true;
+      }
+    }else{
+      ownerEmailErrorMessage = "Please enter a correct Owner Email!"
+      return false;
+    }
+  }
+
+  var isExistingEmail = function(newEmail){
+    var jqXHR =  $.ajax({
+      async: false,
+      type: "POST",
+      url: '/api/v1/user/email',
+      data: {email: newEmail},
+      dataType: "JSON",
+      success:function(result){
+      },
+      error: function() {  
+      }
+    }); 
+    var jsonResponse = JSON.parse(jqXHR.responseText);
+    return jsonResponse.code==208;
+  }
+  
+  function validateEmail(reqEmail) {
+    var re = /\S+@\S+\.\S+/;
+    return re.test(reqEmail);
+  }
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+      $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+
+
+
+
+   $("#user_contact").intlTelInput({
+
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%=@user.country_code.present? ? @user.country_code.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+
+
+
+  $("#saveBtn").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var tax_percentage =  /^\d+(\.\d{1,2})?$/
+    var country_code = $("#user_contact").intlTelInput("getSelectedCountryData");
+    var countrycode = "+"+country_code.dialCode
+
+    if($('#area').val()=="Select Area"){
+      $('#area').focus();
+      swal("Warning","Please Select a Area","warning");
+      return false;
+    }
+     else if(!testContact()) {
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid phone number","warning")
+      return false;
+    }
+    else if($('#minimum_order_amount').val()<0)
+    {
+     $('#minimum_order_amount').focus();
+      swal("Warning","Please Enter valid minimum order amount","warning");
+      return false; 
+    }
+    else if($('#delivery_charges').val()<0)
+    {
+     $('#delivery_charges').focus();
+      swal("Warning","Please enter valid delivery charges","warning");
+      return false; 
+    }
+
+    
+    else if(!contact.test($('#user_contact').val())){
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid contact No. for Branch.","warning");
+      return false;
+    } else if(($.trim($('#country').val())==="") || ($.trim($('#country').val())=='Select Country')){
+      $('#country').focus();
+      swal("Warning","Please Select a Country","warning");
+      return false;
+    }
+    else if(($.trim($('#minimum_order_amount').val())==="")){
+      $('#minimum_order_amount').focus();
+      swal("Warning","Please Enter the minimum order amount","warning");
+      return false;
+    } else if(!tax_percentage.test($('#tax_percentage').val())){
+      $('#tax_percentage').focus();
+      swal("Warning","Please enter valid tax percentage","warning")
+      return false;
+    }else if($.trim($('#delivery_charges').val())===""){
+      $('#delivery_charges').focus();
+      swal("Warning","Please enter valid delivery charges","warning");
+      return false;
+    }
+    else if($.trim($("#user_contact").val())===""){
+      $('#user_contact').focus();
+      swal("Warning","Please enter phone number","warning")
+      return false;
+    }
+    else{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true;
+    }
+  });  
+
+
+  var telInput = $("#user_contact"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  }; 
+  
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();    
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;   
+        
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+          break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+
+</script>

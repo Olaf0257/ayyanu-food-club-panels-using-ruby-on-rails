@@ -1,0 +1,3 @@
+$("#point_detail_modal").remove();
+$(".tab-content").append("<%= escape_javascript render(partial: 'point_detail_modal') %>");
+$("#point_detail_modal").modal("show");

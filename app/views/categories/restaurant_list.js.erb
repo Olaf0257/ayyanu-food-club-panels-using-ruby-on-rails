@@ -1,0 +1,3 @@
+$("#cuisine_restaurants_modal").remove();
+$(".page-heading").append("<%= escape_javascript render(partial: 'cuisine_restaurants_list_modal') %>");
+$("#cuisine_restaurants_modal").modal("show");

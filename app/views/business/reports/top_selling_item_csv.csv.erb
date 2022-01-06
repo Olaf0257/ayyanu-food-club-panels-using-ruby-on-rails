@@ -1,0 +1,2 @@
+<%headers = ['Item Name','Amount','Rating','Total Order','% Order']%> <%= CSV.generate_line headers %>
+ <%@data.each do |report| -%> <%= CSV.generate_line([report[:item_name],report[:price_per_item],report[:item_rating],report[:totalItemCount],report[:percentage]])-%> <%end%>

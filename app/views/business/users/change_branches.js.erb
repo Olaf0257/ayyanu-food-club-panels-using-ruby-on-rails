@@ -1,0 +1,3 @@
+$("#update-manager-branch").remove();
+$(".wrapper-content").after("<%= escape_javascript render(partial: 'change_branches') %>");
+$("#update-manager-branch").modal("show");

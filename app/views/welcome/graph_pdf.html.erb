@@ -1,0 +1,168 @@
+<style type="text/css">
+	#sparkline7{
+/*	  box-sizing: unset !important;
+	  -webkit-box-sizing: inherit;*/
+	}
+	body{
+		background-color: #0e0e10;
+	}
+	.morris-hover-row-label{
+		color: #fff;
+	}
+</style>
+<div class="row">
+	<h3 class="text-center" style="color: #fff;">Branch Data</h3>
+</div>
+<br>
+<br>
+
+
+<div class="container">
+	<div class="row" style="margin-top: 20px;">
+	  <div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	      <div class="ibox-title text-center">
+	        <h4 style="color: #fff;">Area Wise Order</h4>
+	      </div>
+	      <div class="ibox-content">
+	            <div>
+		        	<canvas id="doughnutChart" height="100"></canvas>
+		        </div>
+	       
+	        <br><br>
+	     </div>
+	   </div>
+	</div>   
+</div>
+</div>
+
+
+<div class="container">
+	<div class="row" style="margin-top: 20px;">
+		<center>
+	  <div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	      <div class="ibox-title text-center">
+	        <h4 style="color: #fff;">Monthly Order</h4>
+	      </div>
+	      <div class="ibox-content">
+	      	<div>
+	      	<div id="monthly-order-chart"></div>
+	      	</div>
+	      </div>
+	    </div>
+	  </div>
+	</center>
+	</div>
+</div>
+<br>
+<br>
+
+<div class="container">
+	<div class="row" style="margin-top: 20px;">
+		<center>
+	  <div class="col-lg-12">
+	    <div class="ibox float-e-margins">
+	      <div class="ibox-title text-center">
+	        <h4 style="color: #fff;">Monthly Customer</h4>
+	      </div>
+	      <div class="ibox-content">
+	      	<div>
+	      	<div id="morris-line-chart_order_data_graph"></div>
+	      	</div>
+	      </div>
+	    </div>
+	  </div>
+	</center>
+	</div>
+</div>
+<br>
+<br>
+<br><br>
+<br>
+<br>
+<br><br>
+
+
+<script src="/assets/raphael-2.1.0.min.js"></script>
+<script src="/assets/morris/morris.js"></script>
+
+<script type="text/javascript">
+
+	var orderData=[]
+	var orderKey=[]
+	// var area = <%=@areas%>
+
+	'<%@orders.each do |order|%>'
+		orderKey.push('<%=order["key"]%>')
+		orderData.push('<%=order["value"]%>')
+	'<%end%>'
+
+	// Simple pie chart
+
+  
+
+    //target radar chart
+
+    var doughnutData = []
+    '<%@areas.each_with_index do |area,index|%>'
+    	doughnutData.push({
+			value: <%=area["value"]%>,
+			color: "#8AB3DF",
+            highlight: "#1ab394",
+            label: "<%=area["key"]%>"
+        })
+	'<%end%>' 
+
+    var doughnutOptions = {
+        segmentShowStroke: true,
+        segmentStrokeColor: "#fff",
+        segmentStrokeWidth: 2,
+        percentageInnerCutout: 45, // This is 0 for Pie charts
+        animationSteps: 100,
+        animationEasing: "easeOutBounce",
+        animateRotate: true,
+        animateScale: false,
+        responsive: true,
+    };
+
+    <%#if @areas!=0%>
+    	var ctx = document.getElementById("doughnutChart").getContext("2d");
+    	var myNewChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+    <%#end%>
+    var customer_graph_data = []
+  
+   "<%=@customers.each do |d|%>"
+      customer_graph_data.push({y: '<%=d["key"]%>',a:'<%=d["value"]%>'})
+   "<%end%>"
+   $(function() {
+       Morris.Bar({
+       element: 'morris-line-chart_order_data_graph',
+       data: customer_graph_data,
+       parseTime: false,
+       xkey: 'y' ,
+       ykeys: ['a'],
+       labels: ['Monthly Customer Count'],
+     	resize: false,
+       barColors: ['#8AB3DF'],
+     });
+      });
+   var branch_orders_graph_data = []
+  
+   "<%=@orders.each do |d|%>"
+       branch_orders_graph_data.push({y: '<%=d["key"]%>',a:'<%=d["value"]%>'})
+   "<%end%>"
+
+   $(function() {
+       Morris.Bar({
+       element: 'monthly-order-chart',
+       data: branch_orders_graph_data,
+       parseTime: false,
+       xkey: 'y' ,
+       ykeys: ['a'],
+       labels: ['Monthly Order Count'],
+       resize: false,
+       barColors: ['#8AB3DF'],
+     });
+      });
+</script>

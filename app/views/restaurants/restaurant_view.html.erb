@@ -1,0 +1,292 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Restaurants Managements</h2>
+  </div>
+  <div class="col-lg-10">
+    <ol class="breadcrumb">
+      <li class="active">
+        <strong><%=@restaurant.title.titleize%></strong>
+      </li>
+      <li>
+        <a href="<%=branch_show_path(encode_token(@restaurant.id))%>">Branches</a>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox product-detail">
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="product-images">
+                <div>
+                  <div class="image-imitation">
+                    <img style = "width: 100%;" src='<%=@restaurant.logo.present? ? "#{@restaurant.logo}" : "/assets/placeholder.png"%>'>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <div class="col-md-8">
+                  <h2 class="font-bold m-b-xs">
+                    <%=@restaurant.title%>
+                  </h2>
+                </div>
+                <div class="col-md-4">
+                  <h4 class="font-bold m-b-xs pull-right">
+                    Food Club Joined date:  <%=@restaurant.created_at.strftime("%Y-%m-%d")%>
+                  </h4>
+                </div>
+              </div>
+              <small>Login Id :  <%=@restaurant.login_id.present? ? @restaurant.login_id : "N/A" %></small><br>
+              <small>Restaurant Id :  <%=@restaurant.id.present? ? @restaurant.id : "N/A" %></small>
+              <div class="row">
+                <div class="m-t-md col-lg-4">
+                  <h2 class="product-main-price">BD <%=@taotal_sales%> <small class="text-muted">Total Sales</small> </h2>
+                </div>
+              </div>
+              <hr>
+              <h4>Restaurant Details</h4>
+              <h5>Total Available Branches :  <%=@restaurant.branches.present? ? @restaurant.branches.count : 0 %></h5>
+              <div class="row">
+                <div class="col-md-4">
+                  <h5>Current opened branches : <%=@open_branches.present? ? @open_branches : 0 %></h5>
+                </div>
+                <div class="col-md-4">
+                  <h5>Current closed branches: <%=@closed_branches.present? ? @closed_branches : 0 %></h5>
+                </div>
+                <div class="col-md-4">
+                  <h5>Current busy branches :   <%=@busy_branches.present? ? @busy_branches : 0 %></h5>
+                </div>
+              </div>
+              <hr>
+              <div>
+                <div class="btn-group">
+                  <a class="btn btn-primary btn-sm" href="<%=branch_show_path(encode_token(@restaurant.id))%>"><i class="fa fa-cart-plus"></i> View Branch</a>
+                  <a class="btn btn-primary btn-sm" style="margin-left: 10px;" href="<%=admin_edit_restaurant_details_path(encode_token(@restaurant.id))%>" ><i class="fa fa-pencil"></i> Edit Restaurant</a>
+                <%if @restaurant.is_signed == true%>
+                  <a class="btn btn-info btn-sm hide" style="margin-left: 10px;" href="<%=branch_offer_list_path(:restaurant_id=>encode_token(@restaurant.id))%>"><i class="fa fa-gift"></i> Offer </a>
+                <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row m-t-sm">
+            <div class="col-lg-12">
+              <div class="panel blank-panel">
+                <div class="panel-heading">
+                  <div class="panel-options">
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a href="#tab-1" data-toggle="tab">Ratings</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="tab-1">
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <%= form_for :search, method: :get, html: { class: "form-inline" }, authenticity_token: true do |f| %>
+                            <div class="col-sm-1">
+                              <div class="form-group pull-right">
+                                <%= hidden_field_tag(:restaurant_id, params[:id]) %>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                              <div class="form-group pull-right">
+                                <strong style="line-height: 2.5;">Filter</strong>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                              <div class="form-group" style="width: 100%;">
+                                <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", style: "width: 100%;", placeholder: "start date", id: "start_datepicker") %>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                              <div class="form-group" style="width: 100%;">
+                                <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", style: "width: 100%;", placeholder: "end date", id: "end_datepicker") %>
+                              </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                              <%= submit_tag "SEARCH", class: "btn btn-success btn-sm", style: "padding: 6px;" %>
+                            </div>
+                          <% end %>
+                        </div>
+
+                        <div class="col-sm-2">
+                          <h2>
+                            <%= link_to restaurant_details_path(format: :csv, restaurant_id: params[:id], start_date: params[:start_date], end_date: params[:end_date]) do %>
+                              <button class="btn btn-sm btn-info" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+                            <% end %>
+                          </h2>
+                        </div>
+                      </div>
+
+                      <div class="wrapper animated fadeInRight">
+                        <div class="row white-bg">
+                          <div class="col-sm-12">
+                            <div class="ibox float-e-margins">
+                              <div class="ibox-title" style="border:none; padding-left: 0px;">
+                                <span class="pull-left"><%= page_entries_info @ratings %></span>
+                              </div>
+                              <div class="ibox-content" style="padding: 15px 0px;">
+                                <%if @ratings.present? %>
+                                  <div class="full-height-scroll">
+                                    <div class="table-responsive">
+                                      <table class="table table-striped table-hover">
+                                        <thead>
+                                          <tr>
+                                            <th>Order Id</th>
+                                            <th>Branch</th>
+                                            <th>User</th>
+                                            <th>Review</th>
+                                            <th>Quantity of Food Rating</th>
+                                            <th>Food Taste Rating</th>
+                                            <th>Value for Money Rating</th>
+                                            <th>Order Packaging Rating</th>
+                                            <th>Order Seal Rating</th>
+                                            <th>Overall Rating</th>
+                                            <th>Time</th>
+                                            <th>Action</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <%@ratings.each do |rating|%>
+                                            <tr id="rating-<%= rating.id %>">
+                                              <td><%= rating.order_id %></td>
+                                              <td><%= rating.branch.address.present? ? rating.branch.address : 'N/A' %></td>
+                                              <td><%= rating.user.present? ? rating.user.name.present? ? rating.user.name : 'N/A' : 'N/A' %></td>
+                                              <td><%= rating.review_description.present? ? rating.review_description : 'N/A' %></td>
+                                              <td><%= rating.food_quantity_rating.presence || "NA" %></td>
+                                              <td><%= rating.food_taste_rating.presence || "NA" %></td>
+                                              <td><%= rating.value_rating.presence || "NA" %></td>
+                                              <td><%= rating.packaging_rating.presence || "NA" %></td>
+                                              <td><%= rating.seal_rating.presence || "NA" %></td>
+                                              <td><%= rating.rating.presence || "NA" %></td>
+                                              <td><%= rating.created_at.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                                              <td><a onclick="review_remove(<%=rating.id%>)"><button class="btn btn-sm pull-right" ><i class="fa fa-trash " style="color: red;"></i></button></a></td>
+                                            </tr>
+                                          <% end %>
+                                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-12">
+                                    <center> <%= will_paginate @ratings ,renderer: BootstrapPagination::Rails %></center><br>
+                                  </div>
+                                <% else %>
+                                  <center><div class="alert alert-danger">No orders ratings available yet.</div></center>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="ibox-footer">
+          Food Club Partner Copyright
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.subscribe_report').click(function() {
+   swal({
+      title: "Are you sure?",
+      text: "Do you want to subscribe report!! if you want to subscribe report monthly charges is 5BD.",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No, cancel plz!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function(isConfirm){
+      if (isConfirm) {
+        $.ajax({
+          type: "GET",
+          url: "/business/subscribe/report",
+          dataType: "JSON",
+          success:function(data){
+
+            if(data.code==200){
+              swal("Success",data.message,"success")
+                window.location.reload()
+            }
+          },
+          error: function() {
+            swal("error",data.response_message,"error")
+          }
+        });
+      }
+      else
+      {
+        swal("Cancelled", "No subscribe report", "error");
+      }
+    });
+  });
+
+  function review_remove(review_id){
+    swal({
+      title: "Are you sure?",
+      text: "Do you want to delete this review",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Delete it!",
+      cancelButtonText: "No, cancel plz!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function(isConfirm){
+      if (isConfirm) {
+        $.ajax({
+          type: "GET",
+          url: '/remove/restaurant/rating/'+review_id+'',
+          dataType: "JSON",
+          success:function(data) {
+            if (data.code==200){
+              swal("Deleted!", "review has been deleted.", "success");
+              window.location.reload();
+            }
+          },
+          error: function() {
+            swal("Error","Something went wrong","Error")
+          }
+        });
+
+      }else {
+        swal("Cancelled", "No change in review", "error");
+      }
+    });
+  };
+
+  <% if flash[:success].present? %>
+    swal("Done!", "<%= flash[:success] %>", "success");
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning");
+  <% end %>
+
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

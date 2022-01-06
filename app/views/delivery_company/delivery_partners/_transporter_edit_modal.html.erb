@@ -1,0 +1,80 @@
+<style>
+  .select2-container {
+    z-index: 9999 !important;
+    width: 100% !important;
+  }
+
+  .setheight{
+    height:35px !important;
+  }
+</style>
+
+<div class="modal fade" id='edit-content' role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="padding-bottom: none !important;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><center>Edit Employee</center></h4>
+      </div>
+
+      <div class="modal-body">
+        <%= form_tag delivery_company_update_transporters_path, multipart: :true, id: "edit_transporter_form" do %>
+          <div class="row">
+            <%= hidden_field_tag(:user_id, "", id: "emp_id") %>
+
+            <div class="col-sm-7">
+              <%= text_field_tag(:firstname, "", placeholder: "User Name", class: "form-control", id: "name") %>
+            </div>
+
+            <div class="col-sm-5">
+              <%= hidden_field_tag(:country_code, "", id: "country-code") %>
+              <input type="tel" id="delivery_transporter_mobile_number" placeholder="Telephone / Mobile" required="true" name="contact" class="form-control">
+              <span id="valid-msg" class="hide">✓ Valid</span>
+              <span id="error-msg" class="hide">Invalid number</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <%= text_field_tag(:cpr_number, "", placeholder: "Your email", class: "form-control", id: "email", readonly: true) %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <%= select_tag(:vehicle_type, options_for_select(User::VEHICLE_TYPE), prompt: "Select Vehicle Type", required: true, id: "vehicle_type", class: "form-control setheight") %>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-2">
+              <%= label_tag :zones, "Zones: ", class: "pull-right" %>
+            </div>
+
+            <div class="col-sm-10">
+              <%= select_tag("zone_ids[]", options_for_select(@zones), class: "select2_zone form-control", multiple: true) %>
+            </div><br>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <label>User Image</label><br>
+                <a href='javascript:;'>
+                  <img src="/assets/add_user.png" class="img-tag add-img-tag" style="height:15vh;">
+                  <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                  <label class="file">
+                  <input type="file" id='add-img-tag' name="image" onchange='readURL(event)' aria-label="File browser example">
+                  <span class="file-custom"></span>
+                </label>
+              </a>
+                <p style="margin-top:-10px;"><b>Image size:</b> 300X300</p>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-md pull-right" type="submit" id="update_transporter">Update</button>
+          <br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

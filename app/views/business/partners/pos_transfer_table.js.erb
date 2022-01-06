@@ -1,0 +1,17 @@
+$('#transferTable').modal('hide');
+$('.entered_table_no').val('');
+<% if @table_will_merge.present? && @current_pos_check.present? %>
+	<% pos_checks = @table_will_merge.pos_checks.where("order_type_id = ? AND is_new_merged = ? AND id != ?", 1, false, @current_pos_check.id) %>
+	<% if pos_checks.present? %>
+	    $('.driver-th').addClass('hide');
+		$('#transferTableDineInList .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: pos_checks, is_display_driver: false }%>");
+		selectSinglePickupCheckRow();
+		$('#transferTableDineInList').modal('show');
+	<% else %>
+		$('#errorMessagePickupCheckPopup .errorMessage').text("Check Not Found.");
+		$('#errorMessagePickupCheckPopup').modal('show');
+	<% end %>
+<% else %>
+	$('#errorMessagePickupCheckPopup .errorMessage').text("Table Not Found.");
+	$('#errorMessagePickupCheckPopup').modal('show');
+<% end %>

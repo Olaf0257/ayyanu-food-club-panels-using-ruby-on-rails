@@ -1,0 +1,14 @@
+<% merged_checks = @check.reload.merged_checks.where(check_status: 1) if @check.present? %>
+<% if @check.present? && merged_checks.present? %>
+	$('#splitCheckPopup .modal-body').empty().append("<%= j render partial: 'split_check_list', locals: { current_check: @check.reload } %>");
+	$('#splitCheckPopup').modal('show');
+	checkTableTrSelect();
+	splitCheck();
+	shareItemPopup();
+<% elsif @check.present? && !@check.pos_transactions.present? %>
+	$('#errorMessagePickupCheckPopup .errorMessage').text("Please Add Items For Split.");
+	$('#errorMessagePickupCheckPopup').modal('show');
+<% else %>
+	$('#errorMessagePickupCheckPopup .errorMessage').text("Check Not Found.");
+	$('#errorMessagePickupCheckPopup').modal('show');
+<% end %>

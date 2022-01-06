@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NF0H2Z3F5K"></script>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NF0H2Z3F5K');
+  </script>
+
+    <title>Food Club</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <%= csrf_meta_tags %>
+
+    <link rel="shortcut icon" type="ico" href="/assets/favicon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application'%>
+
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <link href="/assets/publicapp/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+
+    <style type="text/css">
+
+      body {
+        background: url(/assets/iweb/body.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+        .nav-txt{
+          color: #F59630;
+        }
+        #mainNav {
+            background-color: #212529;
+             padding-top: 0px;
+            padding-bottom: 0px;
+
+        }
+        @media (min-width: 768px){
+          section {
+              padding: 80px 0;
+          }
+        }
+
+      .box-shadow{
+        -webkit-box-shadow: -2px 3px 31px 3px rgba(0,0,0,0.34);
+        -moz-box-shadow: -2px 3px 31px 3px rgba(0,0,0,0.34);
+        box-shadow: -2px 3px 31px 3px rgba(0,0,0,0.34);
+      }
+
+
+      .tags {
+        list-style: none;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .tags li {
+        float: left;
+      }
+
+      .tag {
+        background: #F59630;
+        border-radius: 3px 0 0 3px;
+        color: white;
+        display: inline-block;
+        height: 26px;
+        line-height: 25px;
+        padding: 0 20px 0 23px;
+        position: relative;
+        margin: 0 5px 5px 0;
+        text-decoration: none;
+        -webkit-transition: color 0.2s;
+        font-size: 14px;
+      }
+
+      .tag::before {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+        content: '';
+        height: 6px;
+        left: 10px;
+        position: absolute;
+        width: 6px;
+        top: 10px;
+      }
+
+      .tag::after {
+        background: #fff;
+        border-bottom: 13px solid transparent;
+        border-left: 10px solid #F59630;
+        border-top: 13px solid transparent;
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+
+      /*.tag:hover {
+        background-color: crimson;
+        color: white;
+      }
+
+      .tag:hover::after {
+         border-left-color: crimson;
+      }
+*/
+      .portfolio-hover:after, .portfolio-link:after {
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        content: "";
+        background: url(/assets/iweb/zig-zag.png);
+        width: 100%;
+        height: 5px;
+      }
+
+      .btn {
+          margin-bottom: 5px;
+      }
+
+    </style>
+  </head>
+
+  <body id="page-top">
+    <%= render "layouts/navbar" %>
+  	<%= yield %>
+
+    <footer class="web-footer">
+      <div class="container">
+        <div class="row">
+          <span class="copyright">Copyright &copy; Food Club 2020</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

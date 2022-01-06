@@ -1,0 +1,105 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% role = is_super_admin?(@admin) ? "Super Admin" : @admin.role&.role_name.titleize %>
+    <title><%= role %> | Food Club</title>
+
+    <%= stylesheet_link_tag 'admin_application', media: 'all', 'data-turbolinks-track' => true %>
+    <link href="/assets/publicapp/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.css" rel="stylesheet" type="text/css">
+
+    <%= javascript_include_tag 'admin_application', 'data-turbolinks-track' => true %>
+
+    <%= csrf_meta_tags %>
+
+    <!-- firebase  js file-->
+    <script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyACAG0hdhzYNaX80y68Fsn2D5-jQnSGm-Q",
+        authDomain: "foodclub-34cb3.firebaseapp.com",
+        databaseURL: "https://foodclub-34cb3.firebaseio.com",
+        projectId: "foodclub-34cb3",
+        storageBucket: "foodclub-34cb3.appspot.com",
+        messagingSenderId: "645844769050"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <!--  -->
+
+    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+    <script>
+
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+
+      var pusher = new Pusher("<%=web_pusher(Rails.env)[:key]%>", {
+        cluster: 'ap2',
+        encrypted: true
+      });
+
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {
+
+          document.getElementById("sound").innerHTML='<audio autoplay="autoplay"><source src="/assets/Short-ascending-bell-gliss.mp3" type="video/mp4" /><source src="/assets/Short-ascending-bell-gliss.mp3" type="video/mp4" /><embed hidden="true" autostart="true" loop="false" src="/assets/Short-ascending-bell-gliss.mp3" /></audio>';
+
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/noti/count",
+                dataType: "JSON",
+                success:function(data){
+                  console.log(data);
+                  $("#notification-count").text(data.notifications);
+                },
+                error: function(){
+                  swal("Error","Something went wrong","Error");
+                }
+              });
+      });
+    </script>
+</head>
+<body>
+
+<!-- Skin configuration box -->
+
+<%= render 'layouts/admin/skinconfig' %>
+<div id="sound"></div>
+    <!-- Wrapper-->
+    <div id="wrapper" class="<%= params[:controller] %>.<%= params[:action] %>">
+
+        <!-- Navigation -->
+        <%= render 'layouts/admin/navigation' %>
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg">
+
+            <!-- Page wrapper -->
+            <%= render 'layouts/admin/topnavbar' %>
+
+            <!-- Main view  -->
+            <%= yield %>
+
+            <!-- Footer -->
+            <%= render 'layouts/admin/footer' %>
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+
+    <!-- Include javascript per-controller - vendor plugins -->
+    <%#= javascript_include_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.js") %>
+
+    <!-- Include javascript per-view -->
+    <!-- For demo purpose we include javascript in view but you can easily start SeedProject and organize it with Rails asset pipeline as you want -->
+    <%= yield :javascript %>
+
+</body>
+</html>

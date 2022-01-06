@@ -1,0 +1,175 @@
+<style type="text/css">
+  .mb-2{
+    margin-bottom:2%;
+  }
+  .private_dock{
+    display: none;
+  }
+  .iradio_square-green.checked {
+    background-position: -168px 0;
+   
+}
+</style>
+
+<div class="container">
+  <%=form_for :marina,url: admin_update_restaurant_details_path(:restaurant_id=>params[:restaurant_id]),:html=>{id: "add-marina-form",:multipart => true} do |f|%> 
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;">
+          <div class="panel-heading"><center><h3>Details</h3></center></div>
+          <div class="panel-body">
+            <div class="row mb-2">
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Restaurant Name</label> 
+                <input type="text"  name="restaurant_name" id="restaurant_name" class="form-control" value="<%=@restaurant.title%>" autocomplete="off" placeholder="Restaurant name">
+              </div> 
+
+              <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Restaurant Owner Name</label> 
+                <input type="text" placeholder="Restaurant owner name" name="owner_name" class="form-control" value="<%=@restaurant.user.present? ? @restaurant.user.name : "" %>">
+                <input type="hidden"  name="restaurant_id" value="<%=@restaurant.id%>" /> 
+              </div>             
+            </div>
+            <div class="row mb-2">
+             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <label>Arabic Restaurant Name</label> 
+                <input type="text" placeholder="Restaurant name in arabic"  name="restaurant_name_ar" id="restaurant_name" class="form-control" value="<%=@restaurant.title_ar%>" autocomplete="off">
+              </div> 
+            </div>          
+         <!-- </div> -->
+            <div class="row">
+              <div class="col-lg-4">
+                <h4>Upload Restaurant Logo</h4>
+                 <div style="position: relative;">
+                  <a href='javascript:;'>
+                    <img src="<%=@restaurant.logo.present? ? @restaurant.logo : "/assets/logo-upload.png"%>" class="img-tag add-logo-tag" width="85%" height="150vh">
+                    <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                  <br><br>
+                  <label class="file">
+                    <input type="file" id='add-logo-tag' name="restaurant_logo" onchange='readURL(event)' aria-label="File browser example">
+                    <span class="file-custom"></span>
+                  </label>
+                   </a>
+                </div>  
+                <p style="margin-top:-10px;"><b>Image size :</b> 300X300</p>              
+              </div> 
+            </div>
+          
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong>Submit</strong> </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <%end%>
+</div>    
+
+
+
+<script type="text/javascript">
+
+<%if flash[:success].present?%>
+  swal("success","<%=flash[:success]%>","success")
+<%elsif flash[:error].present?%>
+  swal("warning","<%=flash[:error]%>","warning")
+<%end%>
+
+  
+  var readURL = function(event){
+    var componentId = event.target.id
+    console.log(componentId)
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  // var readImageURL = function(event){
+  //   var componentId = event.target.id
+  //   console.log(componentId)
+  //   var getImagePath = URL.createObjectURL(event.target.files[0]);
+  //   console.log(getImagePath)
+  //   $('.'+componentId).attr("src",getImagePath );
+  // }
+
+  // var readmapURL = function(event){
+  //   var componentId = event.target.id
+  //   // console.log(componentId)
+  //   var getImagePath = URL.createObjectURL(event.target.files[0]);
+  //   $('.'+componentId).attr("src",getImagePath );
+  //   $('#map-'+componentId).val(componentId)
+  // }
+
+ 
+
+  // $('#email-error').hide()
+  // var ownerEmailErrorMessage=""
+  // function validateOwnerEmailAddress(){
+  //   $('#email-error').hide()
+  //   enteredEmail = $('#email').val()
+  //   isValidEm = validateEmail(enteredEmail)
+  //   console.log(isValidEm)
+  //   if(isValidEm){
+  //     if (isExistingEmail(enteredEmail)){
+  //       ownerEmailErrorMessage = "Email has already been taken! Please try another email."
+  //       $('#email-error').show()
+  //       return false;
+  //     }else{
+  //       return true;
+  //     }
+  //   }else{
+  //     ownerEmailErrorMessage = "Please enter a correct Owner Email!"
+  //     return false;
+  //   }
+  // }
+
+  // var isExistingEmail = function(newEmail){
+  //   var jqXHR =  $.ajax({
+  //     async: false,
+  //     type: "POST",
+  //     url: '/api/v1/user/email',
+  //     data: {email: newEmail},
+  //     dataType: "JSON",
+  //     success:function(result){
+  //     },
+  //     error: function() {  
+  //     }
+  //   }); 
+  //   var jsonResponse = JSON.parse(jqXHR.responseText);
+  //   return jsonResponse.code==208;
+  // }
+  
+  // function validateEmail(reqEmail) {
+  //   var re = /\S+@\S+\.\S+/;
+  //   return re.test(reqEmail);
+  // }
+
+  // function getLatLng() {
+  //   var country = $('#country').val()
+  //   var city = $('#city').val()
+  //   var geocoder =  new google.maps.Geocoder();
+  //   geocoder.geocode( { 'address': city,country}, function(results, status) {
+  //     if (status == google.maps.GeocoderStatus.OK) {
+  //       latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+  //       console.log(latlng)
+  //       $("#marinalatlng").val(latlng)
+  //     } else {
+  //       console.log("Something got wrong" + status)
+  //     }
+  //   });
+  // }
+
+
+  // $("#saveBtn").on("click",function(){
+  //   var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    
+
+  //   else{
+  //     swal({
+  //       html:true,
+  //       title: "Please wait...",
+  //       text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+  //       showConfirmButton: false
+  //     });
+  //     return true
+  //   }
+  // });  
+</script>

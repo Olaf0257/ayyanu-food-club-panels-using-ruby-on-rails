@@ -1,0 +1,8 @@
+$(".order-list-inner").html("");
+$(".order-list-inner").html("<%= j render(partial: 'cart_details') %>")
+
+if($(".order-list-inner li").length == 0) {
+  $(".checkout-btn").addClass("hide");
+} else {
+  $(".checkout-btn").removeClass("hide");
+}

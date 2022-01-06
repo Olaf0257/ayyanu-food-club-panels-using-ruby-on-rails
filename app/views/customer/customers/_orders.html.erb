@@ -1,0 +1,66 @@
+<div class="tab-pane fade in active" id="my-orders">
+  <div class="tabs-wrp brd-rd5">
+    <h4 itemprop="headline">MY ORDERS</h4>
+
+    <div class="order-list">
+      <% if @orders.present? %>
+        <% @orders.each do |order| %>
+          <div class="order-item brd-rd5">
+            <div class="order-thumb brd-rd5">
+              <%= link_to customer_restaurants_list_path(restaurant_id: encode_token(order.branch.restaurant_id)) do %>
+                <%= image_tag(order.branch.restaurant.logo) %>
+              <% end %>
+
+              <% if order.rating %>
+                <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> <%= order.rating.rating %></span>
+              <% end %>
+            </div>
+
+            <div class="order-info">
+              <div class="order-details">
+                <span>Order #<%= order.id %></span>
+
+                <span class="pull-right">
+                  <%= order.created_at.strftime("%d/%m/%Y at %H:%M %p") %>
+
+                  <% if !order.is_delivered && !order.is_cancelled %>
+                    <% bca = BranchCoverageArea.find_by(coverage_area_id: order.coverage_area_id, branch_id: order.branch_id) %>
+                    <% time_elapsed = (Time.now - order.created_at).to_i %>
+
+                    <% if bca && (time_elapsed <= (bca.delivery_time.to_i * 60)) && !order.is_rejected %>
+                      <span class="order-countdown"><%= (bca.delivery_time.to_i * 60 - time_elapsed) / 60 %>:<%= (bca.delivery_time.to_i * 60 - time_elapsed) % 60 %></span>
+                    <% end %>
+                  <% end %>
+                </span>
+              </div>
+
+              <span class="red-clr"><%= order.branch.address %></span>
+
+              <h4 itemprop="headline">
+                <%= link_to order.branch.restaurant.title, customer_restaurants_list_path(restaurant_id: encode_token(order.branch.restaurant_id)) %>
+              </h4>
+
+              <span class="price"><%= order.total_amount %> <%= order.currency_code_en %></span>
+              <span class="processing brd-rd3"><%= order.customer_order_status %></span>
+              <a class="order-details-link brd-rd2" href="#" title="" itemprop="url" data-id="<%= order.id %>">Details</a>
+
+              <% if @user.present? %>
+                <br><%= link_to "Re Order", "#", class: "brd-rd2 reorder-items-btn", data: { id: order.id } %>
+              <% end %>
+
+              <% if order.current_status == "ONWAY" %>
+                <%= link_to "Live Tracking", customer_live_order_tracking_path(id: order.id), class: "brd-rd2 live-tracking-btn", target: "_blank" %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <h4>No Orders Present</h4>
+      <% end %>
+    </div>
+
+    <div class="pagination-wrapper text-center style2">
+      <%= will_paginate @orders, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+</div>

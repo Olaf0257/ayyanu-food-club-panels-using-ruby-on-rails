@@ -1,0 +1,180 @@
+<%= form_for(@assign_task, url: (params[:action] == "edit" ? business_task_management_restaurant_assign_task_path : business_task_management_restaurant_assign_tasks_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+	<%= f.hidden_field :restaurant_id, value: params[:restaurant_id]%>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :country %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.select(:country_ids, options_from_collection_for_select(Country.all, :id, :name, @assign_task.country_ids&.split(",")), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+		</div>
+  </div>
+
+  <div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :branch %>
+		</div>
+
+		<div class="col-sm-10" id="branch_container">
+			<% if params[:action] == "edit"%>
+				<%= f.select(:branch_ids, options_from_collection_for_select(@restaurant.branches.where(country: Country.where(id: @assign_task.country_ids.split(",")).map(&:name)), :id, :address, find_location_assign_ids(@assign_task)), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:branch_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :department %>
+		</div>
+
+		<div class="col-sm-10" id="department_container">
+			<!-- @assign_task.department_ids -->
+			<%#= f.select :department_ids, @restaurant.departments.map{|c| [c.name,c.id]}, {:include_hidden => false}, {class: "form-control setheight", style: 'height: 40px!important;', multiple: true, required: true} %>
+			<%= f.select(:department_ids, options_from_collection_for_select(@restaurant.departments, :id, :name, @assign_task.department_ids&.split(",")), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :designation %>
+		</div>
+
+		<div class="col-sm-10" id="designation_container">
+			<% if params[:action] == "edit" %>
+				<%= f.select(:designation_ids, options_from_collection_for_select(Designation.where(id: @assign_task.designation_ids&.split(",")), :id, :name, @assign_task.designation_ids.split(",")), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:designation_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :employee %>
+		</div>
+
+		<div class="col-sm-10" id="employee_container">
+			<% if params[:action] == "edit" %>
+				<%= f.select(:employee_ids, options_from_collection_for_select(User.where(id: @assign_task.employee_ids.split(",")), :id, :name, @assign_task.employee_ids&.split(",")), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select(:employee_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% end %>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label :task_list %>
+		</div>
+
+		<!-- <div class="col-sm-10" id="task_activity_container"> -->
+		<div class="col-sm-10" id="task_container">
+			<% if params[:action] == "edit" %>
+				<%= f.select(:task_list_ids, options_from_collection_for_select(@restaurant.task_lists, :id, :name, @assign_task.task_list_ids&.split(",")), {:include_hidden => false}, {class: 'form-control setheight', style: 'height: 40px!important;', multiple: true, required: true}) %>
+			<% else %>
+				<%= f.select :task_list_ids, options_for_select([]), {:include_hidden => false}, {class: "form-control setheight", style: 'height: 40px!important;', multiple: true, required: true} %>
+			<% end %>
+
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<div class="col-sm-2">
+			<%= f.label 'Assign date/time' %>
+		</div>
+
+		<div class="col-sm-10">
+			<%= f.text_field(:assign_date_time, required: true, class: "form-control", id: "datetimepicker") %>
+		</div>
+	</div>
+
+	<!-- <div class="row form-group">
+		<div class="col-sm-2">
+			<%#= f.label :assign_time %>
+		</div>
+
+		<div class="col-sm-10">
+			<%#= f.text_field(:assign_time, required: true, class: "form-control") %>
+		</div>
+	</div>
+ -->
+ 	<%= f.hidden_field :created_by_id, value: @user.id %>
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update Assign Task", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create Assign Task", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+ <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script> -->
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css"> 
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker-standalone.css"> 
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
+
+<script type="text/javascript">
+	$("#assign_task_country_ids").select2({
+    	placeholder: "Select Country",
+    	allowClear: true
+	});
+
+	$('#assign_task_country_ids').change(function(){
+		var select = $('#assign_task_country_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_country_based_branch_business_task_management_restaurant_assign_tasks_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { country_name: selected_options }
+		});
+	});
+
+	$("#assign_task_branch_ids").select2({
+    	placeholder: "Select Branch",
+    	allowClear: true
+	});
+
+	$("#assign_task_department_ids").select2({
+    	placeholder: "Select Department",
+    	allowClear: true
+	});
+
+	$('#assign_task_department_ids').change(function(){
+    $.ajax({
+      type: "GET",
+      url: "<%= find_designation_based_department_business_task_management_restaurant_assign_tasks_path(restaurant_id: params[:restaurant_id]) %>",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  });
+
+  $("#assign_task_designation_ids").select2({
+    	placeholder: "Select Designation",
+    	allowClear: true
+	});
+
+	$("#assign_task_employee_ids").select2({
+    	placeholder: "Select Employee",
+    	allowClear: true
+	});
+
+	$("#assign_task_task_list_ids").select2({
+    	placeholder: "Select Task List",
+    	allowClear: true
+	});
+
+	$("#datepicker").datepicker({ dateFormat: "dd/mm/yy" });
+
+	$('#datetimepicker').datetimepicker();
+
+</script>
+

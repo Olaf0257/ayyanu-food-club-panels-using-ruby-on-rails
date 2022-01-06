@@ -1,0 +1,127 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-9" style="height: 4%;">
+    <h2><b>Offer</b></h2>
+  </div>
+
+  <div class="col-sm-3" style="height: 4%;">
+    <h2><a href="<%= business_pending_advertisement_list_path(restaurant_id: params[:restaurant_id]) %>"><button class="btn btn-danger pull-right">Back <i class="fa fa-arrow-right"></i> </button></a></h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-9">
+    <div class="wrapper wrapper-content animated fadeInUp">
+      <div class="ibox">
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="m-b-md">
+
+                <h2>Offer for Position <%=@offer.position.present? ? @offer.position : "" %></h2>
+              </div>
+              <dl class="dl-horizontal">
+                <dt>Status:</dt>
+                <dd><% if (@offer.is_accepted == true and @offer.is_reject == false)%>
+                  <span class="label label-primary">Accepted</span>
+                <%elsif (@offer.is_accepted == false and @offer.is_reject == true)%>
+                  <span class="label label-danger">Rejected</span>
+                <%else%>
+                  <span class="label label-danger">Pending</span>
+                <%end%></dd>
+              </dl>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-5">
+              <dl class="dl-horizontal">
+                <dt>Created by Branch:</dt>
+                <dd><%=@offer.branch.address%></dd>
+                <dt>Restaurant:</dt>
+                <dd> <%=@offer.branch.restaurant.title%></dd>
+
+              </dl>
+            </div>
+            <div class="col-lg-7" id="cluster_info">
+              <dl class="dl-horizontal">
+
+                <dt>Created:</dt>
+                <%p @offer.created_at.strftime("%m %B, %Y")%>
+                <dd> <%=@offer.created_at.strftime("%m %B, %Y")%> </dd>
+
+              </dl>
+            </div>
+          </div>
+
+          <div class="row m-t-sm">
+            <div class="col-lg-12">
+              <div class="panel blank-panel">
+                <div class="panel-heading">
+                  <div class="panel-options">
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a href="#tab-1" data-toggle="tab">Advertisement</a></li>
+
+                    </ul>
+                  </div>
+                </div>
+                <div class="panel-body">
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="tab-1">
+                      <div class="feed-activity-list">
+                        <div class="feed-element">
+                          <a href="#" class="pull-left">
+
+                          </a>
+                          <div class="media-body ">
+                            <small class="pull-right">2h ago</small>
+                            <strong>Advertisement Request</strong> created at <strong><%=@offer.created_at.strftime("%m %B, %Y")%></strong> <br>
+
+                            <small class="text-muted">Week <%=@offer.week.start_date%> to <%=@offer.week.end_date%></small>
+
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-3">
+    <div class="wrapper wrapper-content project-manager">
+      <h4>Branch description</h4>
+      <img src="<%=@offer.branch.restaurant.logo.present? ? @offer.branch.restaurant.logo : "/assets/placeholder.png"%>" class="img-responsive">
+      <br>
+      <h3><%=@offer.branch.restaurant.title%></h3>
+      <h4><%=@offer.branch.address%></h4>
+
+      <p>
+        <%if @offer.branch.avg_rating ==5%>
+        <%(1..5).each do |s|%>
+          <i class="fa fa-star"></i>
+        <%end%>
+      <%else%>
+        <%(1..@offer.branch.avg_rating).each do |s|%>
+          <i class="fa fa-star"></i>
+        <%end%>
+      <%end%>
+      </p>
+
+      <p class="small font-bold">
+        <span><i class="fa fa-circle text-warning"></i> Daily Timing:- <%=@offer.branch.daily_timing%></span><br>
+        <span><i class="fa fa-circle text-danger"></i> Minimum Order Amount:- <%=@offer.branch.min_order_amount%></span>
+      </p>
+
+      <div class="text-center m-t-md">
+        <a href="<%=business_resturant_branch_path(restaurant_id:params[:restaurant_id])%>" class="btn btn-xs btn-primary">View Branch</a>
+
+      </div>
+    </div>
+  </div>
+</div>

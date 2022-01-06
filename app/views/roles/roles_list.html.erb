@@ -1,0 +1,547 @@
+
+<style type="text/css">
+select.form-control:not([size]):not([multiple]) {
+  height: calc(2.5rem - 5px);
+}
+.glyphicon-refresh-animate {
+  -animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
+}
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
+}
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
+}
+#loading {
+text-align: center;
+  background:#ccc;
+  opacity: 0.85;
+  margin-bottom:10px;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position:absolute;
+  display:none;
+  z-index: 999999;
+}
+
+/* The ghost, nudged to maintain perfect centering */
+#loading:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+   also be of any width and height */
+#loading > div {
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+}
+th{
+ font-size: 15px;
+font-weight: bold;
+}
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+<div class="col-sm-4" style="padding-top: 2%">
+  <h2>Roles list</h2>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12">
+  <div class="wrapper wrapper-content animated fadeInUp">
+    <div >
+      <center><h4 class="alert alert-info" id="successMessage" ></h4></center>
+    </div>
+    <div class="ibox">
+      <div class="ibox-title">
+        <h5><b>All Roles </b></h5>
+        <div class="ibox-tools">
+          <a href="" class="btn btn-primary btn-xs"  data-target="#add-role-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Add new Role</a>
+        </div>
+      </div>
+      <div class="ibox-content">
+
+        <%if @roles.present?%>
+          <div class="project-list table-responsive" id="add-cat">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>S.No.</th>
+                  <th>Name</th>
+
+                  <th>Privileges</th>
+                  <th><center>Actions</center></th>
+                </tr>
+              </thead>
+              <tbody id="all-students">
+                <%@roles.each_with_index do |role,role_index|%>
+                  <tr id="role-<%=role.id%>">
+                    <td><%=role_index.to_i+1%>
+                      <input type="hidden" value="<%=role_index%>" id="role_index-<%=role.id%>">
+                    </td>
+                    <td>
+                      <span><%=role.role_name%></span>
+                      <input type="hidden" value="<%=role.role_name%>" id="role-name-<%=role.id%>">
+                    </td>
+                     <td style="width:50%">
+                     <% str = []
+                        strId =''
+                     %>
+                      <% role.privileges.each do |privilege|%>
+                        <% str.push(privilege[:privilege_name]) %>
+                        <% strId=strId+','+privilege[:id].to_s %>
+                      <% end %>
+                      <%= str.join(',') %>
+                      <input type="hidden" value="<%= strId %>" id="role-id-<%=role.id%>">
+                     </td>
+
+                    <td class="project-actions">
+                      <center>
+                        <a href="javascript:void(0)" class="btn btn-white btn-sm editroles" id="<%=role.id%>-edit"> <i class="fa fa-folder" ></i> Edit </a>
+
+                        <% if role.id!=1 && is_super_admin?(@admin) %>
+                          <a href="javascript:void(0)" class="btn btn-white btn-sm delete_role" value="<%=role.id%>" > <i class="fa fa-folder"></i> Remove </a>
+                        <% end %>
+                      </center>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+             <center><%= will_paginate @roles ,renderer: BootstrapPagination::Rails %></center>
+            </div>
+          </div>
+        <%else%>
+          <center><div class="alert alert-danger">Roles are not available right now.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="add-role-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Role and Privileges</h4>
+      </div>
+      <div class="modal-body">
+      <%=form_for :role,url: add_role_path,html: {:id=>"add-role_privilege_form"}, :authenticity_token => true do |f|%>
+          <div class="row">
+            <input type="hidden" name="index" id="index" value="">
+            Role Name :
+            <input type="text" value="" name="name" placeholder="Name" id="add_role_name" class="form-control" autocomplete="off">
+            </div><br>
+          <%p params[:restaurant_id]%>
+          <p><strong>Assign Privileges </strong></p>
+          <br>
+          <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> User </strong><br />
+                <%= check_box_tag 'privilege[]', 1%> Create User <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Approval </strong><br />
+                <%= check_box_tag 'privilege[]', 2%> Approval <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Restaurant </strong><br />
+                <%= check_box_tag 'privilege[]', 3%> All Restaurant <br />
+                <%= check_box_tag 'privilege[]', 4%> Requested Restaurant<br />
+                <%= check_box_tag 'privilege[]', 5%> Rejected Restaurant<br />
+                <%= check_box_tag 'privilege[]', 6%> Name Change Approval<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Cuisine </strong><br />
+                <%= check_box_tag 'privilege[]', 7%> Cuisine <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Users </strong><br />
+                <%= check_box_tag 'privilege[]', 8%> Business owners <br />
+                <%= check_box_tag 'privilege[]', 9%> Manager<br />
+                <%= check_box_tag 'privilege[]', 10%> Customers<br />
+                <%= check_box_tag 'privilege[]', 11%> Transporter<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Orders </strong><br />
+                <%= check_box_tag 'privilege[]', 12%> Orders <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Refunds").id %> Order Refunds <br />
+              </div>
+            </div>
+            </div><br/>
+
+            <div class="modal-footer"></div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div style="position: relative;">
+                  <strong> Coupons </strong><br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Influencer Coupons").id %> Influencer Coupon <br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Referral Coupons").id %> Referral Coupon <br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Restaurant Coupons").id %> Restaurant Coupons/Promo Code <br />
+                </div>
+              </div>
+            </div><br>
+
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Ads </strong><br />
+                <%= check_box_tag 'privilege[]', 13%> Advertisement List <br />
+                <%= check_box_tag 'privilege[]', 14%> New Ads<br />
+                <%= check_box_tag 'privilege[]', 15%> Rejected Ads List<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Club </strong><br />
+                <%= check_box_tag 'privilege[]', 16%> Club <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Area Management </strong><br />
+                <%= check_box_tag 'privilege[]', 17%> Coverage Areas <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Zones").id %> Zones <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Districts").id %> Districts <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Subscription </strong><br />
+                <%= check_box_tag 'privilege[]', 18%> Report Subscription <br />
+                <%= check_box_tag 'privilege[]', 19%> Branch Subscription <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Transaction </strong><br />
+                <%= check_box_tag 'privilege[]', 20%> Transaction Details <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> App </strong><br />
+                <%= check_box_tag 'privilege[]', 21%> App Settings <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Document </strong><br />
+                <%= check_box_tag 'privilege[]', 22%> Admin Documents <br />
+                <%= check_box_tag 'privilege[]', 27%> Restaurant Documents <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Notifications </strong><br />
+                <%= check_box_tag 'privilege[]', 23%> All Notifications <br />
+                <%= check_box_tag 'privilege[]', 26%> Send Push <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Contacts </strong><br />
+                <%= check_box_tag 'privilege[]', 24%> Contacts <br />
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Delivery </strong><br />
+              <%= check_box_tag 'privilege[]', 28%> All Company <br />
+              <%= check_box_tag 'privilege[]', 29%> Requested Company <br />
+              <%= check_box_tag 'privilege[]', 30%> Rejected Company <br />
+              <%= check_box_tag 'privilege[]', 31%> Add New Company <br />
+
+              </div>
+            </div>
+            </div>
+            <br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;">
+              <strong> Charges & Taxes </strong><br />
+                <%= check_box_tag 'privilege[]', 32%> Delivery Charges <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Tax").id %> Tax <br />
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Tutorials & Events</strong><br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Tutorials").id %> Tutorials <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Events").id %> Events <br />
+              </div>
+            </div>
+            </div><br/>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn theme-btn pull-right" value="Add" id="add-role">
+          </div>
+
+       <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="edit-role-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Role and Privileges</h4>
+      </div>
+      <div class="modal-body">
+
+        <%=form_for :role,url: update_role_path,html: {:id=>"edit-role_privilege_form"}, :authenticity_token => true do |f|%>
+        <input type="hidden" name="role_id" id="role_id" value="">
+        <input type="hidden" name="role_index" id="role_index" value="">
+          <div class="row">
+            <input type="hidden" name="index" id="index" value="">
+            Role Name :
+            <input type="text" value="" name="name" placeholder="Name" id="role_name" class="form-control" autocomplete="off">
+            </div><br>
+          <%p params[:restaurant_id]%>
+          <p><strong>Assign Privileges </strong></p>
+          <br>
+          <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> User </strong><br />
+               <span class="checkbox-inline"> <%= check_box_tag 'privilege[]', 1%> Create User <br /></span>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Approval </strong><br />
+                <%= check_box_tag 'privilege[]', 2%> Approval <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Restaurant </strong><br />
+                <%= check_box_tag 'privilege[]', 3%> All Restaurant <br />
+                <%= check_box_tag 'privilege[]', 4%> Requested Restaurant<br />
+                <%= check_box_tag 'privilege[]', 5%> Rejected Restaurant<br />
+                <%= check_box_tag 'privilege[]', 6%> Name Change Approval<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Cuisine </strong><br />
+                <%= check_box_tag 'privilege[]', 7%> Cuisine <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Users </strong><br />
+              <span class="checkbox-inline"><%= check_box_tag 'privilege[]', 8%> Business owners </span><br />
+                <%= check_box_tag 'privilege[]', 9%> Manager<br />
+                <%= check_box_tag 'privilege[]', 10%> Customers<br />
+                <%= check_box_tag 'privilege[]', 11%> Transporter<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Orders </strong><br />
+                <%= check_box_tag 'privilege[]', 12%> Orders <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Refunds").id %> Order Refunds <br />
+              </div>
+            </div>
+            </div><br/>
+
+            <div class="modal-footer"></div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div style="position: relative;" class="chkBoxDiv">
+                  <strong> Coupons </strong><br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Influencer Coupons").id %> Influencer Coupon <br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Referral Coupons").id %> Referral Coupon <br />
+                  <%= check_box_tag "privilege[]", Privilege.find_by(privilege_name: "Restaurant Coupons").id %> Restaurant Coupons/Promo Code <br />
+                </div>
+              </div>
+            </div><br>
+
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Ads </strong><br />
+                <%= check_box_tag 'privilege[]', 13%> Advertisement List <br />
+                <%= check_box_tag 'privilege[]', 14%> New Ads<br />
+                <%= check_box_tag 'privilege[]', 15%> Rejected Ads List<br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Club </strong><br />
+                <%= check_box_tag 'privilege[]', 16%> Club <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Area Management </strong><br />
+                <%= check_box_tag 'privilege[]', 17%> Coverage Areas <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Zones").id %> Zones <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Districts").id %> Districts <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Subscription </strong><br />
+                <%= check_box_tag 'privilege[]', 18%> Report Subscription <br />
+                <%= check_box_tag 'privilege[]', 19%> Branch Subscription <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Transaction </strong><br />
+                <%= check_box_tag 'privilege[]', 20%> Transaction Details <br />
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> App </strong><br />
+                <%= check_box_tag 'privilege[]', 21%> App Settings <br />
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Document </strong><br />
+              <%= check_box_tag 'privilege[]', 22%> Admin Documents <br />
+              <%= check_box_tag 'privilege[]', 27%> Restaurant Documents <br />
+
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Notifications </strong><br />
+                <%= check_box_tag 'privilege[]', 23%> All Notifications <br />
+                <%= check_box_tag 'privilege[]', 26%> Send Push <br />
+
+              </div>
+            </div>
+            </div><br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Contacts </strong><br />
+                <%= check_box_tag 'privilege[]', 24%> Contacts <br />
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Delivery </strong><br />
+              <%= check_box_tag 'privilege[]', 28%> All Company <br />
+              <%= check_box_tag 'privilege[]', 29%> Requested Company <br />
+              <%= check_box_tag 'privilege[]', 30%> Rejected Company <br />
+              <%= check_box_tag 'privilege[]', 31%> Add New Company <br />
+
+              </div>
+            </div>
+
+            </div>
+            <br/>
+            <div class="modal-footer"></div>
+            <div class="row">
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Charges & Taxes </strong><br />
+                <%= check_box_tag 'privilege[]', 32%> Delivery Charges <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Tax").id %> Tax <br />
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div style="position: relative;" class="chkBoxDiv">
+              <strong> Tutorials & Events </strong><br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Tutorials").id %> Tutorials <br />
+                <%= check_box_tag 'privilege[]', Privilege.find_by(privilege_name: "Events").id %> Events <br />
+              </div>
+            </div>
+            </div><br/>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn theme-btn pull-right" value="Update" id="editrole">
+          </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+<%if flash[:success].present?%>
+  swal("Success","<%=flash[:success]%>","success")
+<%elsif flash[:error].present?%>
+  swal("Error","<%=flash[:error]%>","error")
+<%end%>
+</script>

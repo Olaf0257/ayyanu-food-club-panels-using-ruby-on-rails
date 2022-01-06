@@ -1,0 +1,73 @@
+<div class="customer-dashboard">
+  <main>
+    <section>
+      <div class="block less-spacing gray-bg top-padd30">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+              <div class="sec-box">
+                <div class="dashboard-tabs-wrapper">
+                  <div class="row">
+                    <div class="col-md-4 col-sm-12 col-lg-4">
+                      <div class="profile-sidebar brd-rd5 wow fadeIn" data-wow-delay="0.2s">
+                        <div class="profile-sidebar-inner brd-rd5">
+                          <div class="user-info red-bg">
+                            <%= image_tag(@user&.image, class: "user-dashboard-image") %>
+                            <div class="user-info-inner">
+                              <h5 itemprop="headline"><a href="#" title="" itemprop="url" class="no-click"><%= @user&.name&.upcase || "Guest User" %></a></h5>
+                              <span><a href="#" title="" itemprop="url" class="no-click"><%= @user&.email %></a></span>
+                            </div>
+                          </div>
+
+                          <ul class="nav nav-tabs">
+                            <li class="active"><a href="#my-orders" data-toggle="tab"><i class="fa fa-shopping-basket"></i> MY ORDERS</a></li>
+
+                            <% if @user.present? %>
+                              <li><a href="#statement" data-toggle="tab"><i class="fa fa-wpforms"></i> MY POINTS</a></li>
+                              <li><a href="#my-reviews" data-toggle="tab"><i class="fa fa-comments"></i> FAVOURITES</a></li>
+                              <li><a href="#shortlists" data-toggle="tab"><i class="fa fa-heart"></i> SWEET DEALS</a></li>
+                              <li><a href="#dashboard" data-toggle="tab"><i class="fa fa-dashboard"></i> MY CLUBS</a></li>
+                              <li><a href="#address" data-toggle="tab"><i class="fa fa-address-book"></i> MY ADDRESSES</a></li>
+                              <li><a href="#my-bookings" data-toggle="tab"><i class="fa fa-file-text"></i> REFER TO EARN</a></li>
+                              <li><a href="#account-settings" data-toggle="tab"><i class="fa fa-cog"></i> ACCOUNT SETTINGS</a></li>
+                            <% end %>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-8 col-sm-12 col-lg-8">
+                      <div class="tab-content">
+                        <%= render "orders" %>
+
+                        <% if @user.present? %>
+                          <%= render "points" %>
+                          <%= render "favorites" %>
+                          <%= render "offers" %>
+                          <%= render "clubs" %>
+                          <%= render "address" %>
+                          <%= render "referral" %>
+                          <%= render "settings" %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACAG0hdhzYNaX80y68Fsn2D5-jQnSGm-Q&libraries=places"></script>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

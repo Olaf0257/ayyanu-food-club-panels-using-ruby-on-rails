@@ -1,0 +1,141 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Edit Address</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, user_address_list_path(user_id: @address.user_id), class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Edit Address</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_for @address, url: user_update_address_path, html: { class: "form-horizontal", autocomplete: "off" } do |f| %>
+        <%= hidden_field_tag(:address_id, @address.id) %>
+        <%= hidden_field_tag(:is_view_address, params[:is_view_address]) %>
+        <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <%= hidden_field_tag(:selected_user_id, params[:selected_user_id]) %>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :coverage_area_id %>
+            <%= f.select(:coverage_area_id, options_for_select(@areas, @address.coverage_area_id), { prompt: "Select Coverage Area" }, { required: true, class: "form-control admin-search-field" }) %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :address_type %>
+            <%= f.select(:address_type, options_for_select(["Villa", "Apartment", "Office"], @address.address_type), { prompt: "Select Address Type" }, { required: true, class: "form-control admin-search-field" }) %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :address_name %>
+            <%= f.text_field(:address_name, required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :block %>
+            <%= f.text_field(:block, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :street, "Road No" %>
+            <%= f.text_field(:street, required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :building %>
+            <%= f.text_field(:building, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :floor %>
+            <%= f.text_field(:floor, required: true, class: "form-control") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :apartment_number, "Villa/ Apartment/ Office No" %>
+            <%= f.text_field(:apartment_number, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= f.label :additional_direction %>
+            <%= f.text_field(:additional_direction, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-sm-6">
+            <%= label_tag :mobile, "Contact" %><br>
+            <%= text_field_tag(:mobile, @address.contact, class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= f.label :landline %>
+            <%= f.text_field(:landline, class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <center><%= f.submit "Update Address", class: "btn btn-success btn-sm" %></center>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+<% if flash[:success].present? %>
+  swal("Success", "<%= flash[:success] %>", "success")
+<% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+<% end %>
+
+$(".select2_state, .select2_district, .select2_zone").select2();
+  setTimeout(function(){ 
+    $("#address_contact").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "address_contact_number",
+      initialCountry: "auto",
+      nationalMode: true,
+      initialCountry: 'bh',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      preferredCountries: ['bh'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+    });
+  }, 1000);
+</script>

@@ -1,0 +1,107 @@
+<% pos_tables = @branch.pos_tables.where(floor_name: params[:floor_name]) %>
+<% if pos_tables&.present? %>
+  <% table_data = JSON.parse(pos_tables.to_json) %>
+  <% if params["no_of_table"].present? %>
+      <% difference = pos_tables.length - params["no_of_table"].to_i %>
+      <% (0...difference.abs).each do |value| %>
+        <% difference < 0 ? table_data.push(table_data.length.to_s) : table_data.pop %>
+      <% end %>
+  <% end %>
+<% else %>
+  <% table_data = (0...params["no_of_table"].to_i).to_a.map(&:to_s) %>
+<% end %>
+<% table_data.each do |table_no| %>
+  <div class="row no-row-chair" style="text-align: center;">
+    <!-- <div class="form-group form-inline"> -->
+    <div class="col-xs-6 col-md-6">
+      <%= label_tag :pos_table_no, "Table No" %><br>
+      <%= text_field_tag('pos_table_no[]', table_no['pos_table_no'] ? table_no['pos_table_no']  : "#{ table_no.is_a?(Hash) ? table_no['pos_table_no'].to_i+1 : table_no.to_i+1}", class: "form-control", style: "width: 100%") %>
+      <span class="hide error" style="display: block;padding-top: 16px;"></span>
+    </div>
+
+    <div class="col-xs-6 col-md-6">
+      <%= label_tag :no_of_chair, "No of Chair" %><br>
+      <%= text_field_tag('no_of_chair[]', table_no['no_of_chair'] ? table_no['no_of_chair'] : '', class: "form-control chair_details", onkeypress: "return isNumber(event)", style: "width: 100%")%>
+      <span class="hide error" style="display: block;text-align: left;color: red;">Please add no of chair</span>
+    </div>
+  </div>
+<% end %>
+<script>
+$(document).click(function(){
+  $(".context-menu").removeClass('show-context-menu');
+});
+
+$(function() {
+  $('.pos_begin_check').click(function(){
+    $('#checkGuestForm').attr('action', $(this).data('table-url'));
+    $('#checkNoOfGuest').modal();
+  })
+  
+  
+  $("body").on("contextmenu", "a", function(e) {
+    var contextMenu = $(this).siblings('.context-menu');
+    if (contextMenu.hasClass('show-context-menu')){
+      contextMenu.removeClass('show-context-menu')
+    }
+    else{
+      contextMenu.addClass('show-context-menu')
+    }
+    return false;
+  });
+
+  // var pressTimer;
+  //  $("a").mouseup(function(e){
+  //    clearTimeout(pressTimer);
+  //   //  Clear timeout
+  //    return false;
+  //  }).click(function(e){
+  //    e.stopImmediatePropagation();
+  //    e.stopPropagation();
+  //  }).mousedown(function(e){
+  //   // Set timeout
+  //    var contextMenu = $(this).siblings('.context-menu');
+  //    pressTimer = window.setTimeout(function() { 
+  //      if (contextMenu.hasClass('show-context-menu')){
+  //        contextMenu.removeClass('show-context-menu')
+  //      }
+  //      else{
+  //        contextMenu.addClass('show-context-menu');
+  //      }
+  //    }, 2000);
+  //    return false; 
+  //  }).click(function(e){
+  //    debugger;
+  //   e.stopImmediatePropagation();
+  //   e.stopPropagation();
+  //  })
+  
+});
+
+<% if params[:branch_selected] == "true" %>
+  $('#select_branch').modal({backdrop: 'static', keyboard: false});
+<% end %>
+
+$(".pos_table_list").draggable();
+
+$('#submit_pos').click(function(){
+  var table_ids = {}
+  $.each($('.pos_table_list'), function( index, value ) {
+    if(value.getAttribute('style') != ""){
+      // value.getAttribute('style').split(";")[1]
+      // table_ids.push(value.getAttribute('pos_table_id'))
+      // table_ids
+      // table_ids
+    }
+  });
+})
+
+
+$('.pos_table_key').click(function(){
+  $.ajax({
+    type: "GET",
+    url: "<%= business_partner_find_pos_tables_path %>",
+    data: { floor_name: this.value, restaurant_id: "<%= params[:restaurant_id] %>" }
+  });
+})
+
+</script>

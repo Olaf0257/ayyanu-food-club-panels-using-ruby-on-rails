@@ -1,0 +1,269 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+
+<style type="text/css">
+  .mrgin-bottom-2 {
+    margin-bottom: 2%;
+  }
+
+  .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+    background: rgba(255, 0, 0, 0.13) !important;
+    color: red !important;
+    cursor: not-allowed !important;
+  }
+
+  .offer-title-select {
+    height: 35px !important;
+  }
+</style>
+
+<div class="container">
+  <%= form_for :marina,url: business_branch_menu_offer_add_path, html: { id: "add-marina-form", class: "form-horizontal", multipart: true} do |f| %>
+    <div class="row setup-content" id="step-1">
+      <div class="col-lg-12">
+        <div class="panel panel-default" style="margin-bottom:5%;margin-top: 1%;">
+          <div class="panel-heading text-center"><h3>Add Sweet Deals</h3></div>
+          <div class="panel-body" >
+            <div>
+              <input type="hidden" name='include_in_pos' id="include_in_pos_hidden_offer" value="true">
+              <input type="hidden" name='include_in_app' id="include_in_app_hidden_offer" value="true">
+              <input type="checkbox" id="include_in_pos_offer" name="include_in_pos_offer" checked>
+              <label for="include_in_pos_offer">Include in POS</label>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" name="include_in_app_offer" id="include_in_app_offer" checked>
+              <label for="include_in_app_offer">Include in App</label>
+            </div>
+            <div class="row mrgin-bottom-2">
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <label> Branch </label>
+                <select class="form-control"  name="branch" id="branch_id" onload="area_data(this.options[this.selectedIndex].value);" onchange="get_states(this.options[this.selectedIndex].value,'region','')" style="height:30%;">
+                  <%= @branches.each do |b| %>
+                    <option value="<%= b.id %>" <%= @branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%= b.address %></option>
+                  <% end %>
+                </select>
+              </div>
+
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <input type="hidden", name="rest_id", value="<%= params[:restaurant_id] %>">
+                <label> Title </label>
+                <%= select_tag(:admin_offer_id, options_for_select(@available_admin_offers), prompt: "Select Offer Title", class: "form-control offer-title-select", id: "create_offer_title") %>
+              </div>
+
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <label>Start Date</label> <br>
+
+                <input type="text" id="datepicker" style="height: 32px;width: 100%;" name="start_date" autocomplete="off">
+              </div>
+
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <label> End Date </label> <br>
+                 <input type="text" id="enddatepicker" style="height: 32px;width: 100%;border-radius: 0;border:1px solid lightgray;padding-left: 10px;" name="end_date" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="row mrgin-bottom-2">
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label>Start Time</label> <br>
+                <%= select_tag(:start_time, options_for_select(Offer::TIME_LIST), class: "form-control", style: "height: 34px;") %>
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label> End Time </label> <br>
+                <%= select_tag(:end_time, options_for_select(Offer::TIME_LIST), class: "form-control", style: "height: 34px;") %>
+              </div>
+
+              <div class="col-sm-4 col-md-4 col-lg-4">
+                <label> Quantity </label>
+                <%= check_box_tag(:limited_quantity, nil, false, class: "offer-qty-checkbox") %><br>
+                <%= number_field_tag(:quantity, "", min: 1, class: "form-control offer-qty-input", readonly: true) %>
+              </div>
+
+              <div class="col-lg-4 col-md-4 col-lg-4" style="margin-top: 10px;">
+                <label>Offer Limit Per User</label>
+                <%= number_field_tag(:limit, "", class: "form-control", id: "offer_limit") %>
+              </div>
+            </div>
+
+            <div class="row mrgin-bottom-2">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="">
+                  <div class="form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                      <label> Offer Type </label>
+                      <select class="form-control"  name="offer_type" id="offer_type" style="height:30%;" onchange="change_offer_type(this.options[this.selectedIndex].value,'','')">
+                        <option value="individual">Individual</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="area_id">
+                      <label> Menu Item </label>
+                      <select class="form-control"  name="menu_item" id="region" style="height:30%;">
+                        <!-- <option>Select State</option> -->
+                      </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top: 10px;">
+                      <label>Offer Percentage (Min 15%)</label>
+                      <input type="text" placeholder="Enter offer discount percentage" name="discount_percentage" class="form-control"  id="discount_percentage" autocomplete="off">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong> Save </strong></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+<script type="text/javascript">
+  <% if flash[:check_marina].present? %>
+    swal("warning", "<%= flash[:check_marina] %>", "warning")
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning")
+  <% end %>
+
+  $(document).ready(function () {
+    $("#step-1").css("display","block")
+    $("#step-2").css("display","none")
+    $("#step1").removeClass('btn-default').addClass('btn-warning');
+  });
+
+  $("#add-marina-form").on("submit",function(){
+    var percentage = /^([0-9]*|\d*\.\d{1}?\d*)$/;
+    var floatValues =  /[+-]?([0-9]*[.])?[0-9]+/;
+    var end_date = $.trim($('#enddatepicker').val());
+    var start_date =  $.trim($('#datepicker').val());
+    var tax_percentage =  /^\d+(\.\d{1,2})?$/;
+
+    if($.trim($('#create_offer_title').val()) === "") {
+      $('#create_offer_title').focus();
+      swal("Warning","Please select Offer Title","warning");
+      return false;
+    } else if($.trim($('#datepicker').val())==="") {
+      $('#datepicker').focus();
+      swal("Warning","Please Select Start Date","warning");
+      return false;
+    } else if($.trim($('#enddatepicker').val())==="") {
+       $('#enddatepicker').focus();
+      swal("Warning","Please Select End Date","warning");
+      return false;
+    } else if(Date.parse(start_date) > Date.parse(end_date)) {
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select valid date","warning");
+      return false;
+    } else if(start_date === end_date ) {
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select Different Date","warning");
+      return false;
+    } else if(!tax_percentage.test($('#discount_percentage').val())) {
+      $('#discount_percentage').focus();
+      swal("Warning","Please enter valid offer percentage","warning");
+      return false;
+    } else if(!$("#discount_percentage").is('[readonly]') && parseFloat($("#discount_percentage").val()) < 15) {
+      $('#discount_percentage').focus();
+      swal("Warning", "Offer Percentage should be atleast 15%", "warning");
+      return false;
+    } else {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+  function get_states(branch_id,region,v){
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/branch/menu/list",
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        menue_items = data.menue_items ? data.menue_items : ''
+        print_state(menue_items,region)
+      },
+      error: function() {
+        swal("Error", "Something went wrong", "Error")
+      }
+    });
+  }
+
+  function print_state(menue_items,region){
+    if (menue_items) {
+      $("#" + region).empty();
+      var option_state_str = document.getElementById(region);
+      for (var i = 0; i < menue_items.length; i++) {
+        var option = document.createElement("OPTION");
+        option.innerHTML = menue_items[i].item_name;
+        option.value = menue_items[i].id;
+        option_state_str.options.add(option);
+      }
+    }
+  }
+
+  window.onload =function area_data(branch_id) {
+    branch_id = "<%= @branches.first.id %>"
+    region = "region"
+
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/branch/menu/list",
+      dataType: "JSON",
+      data: {
+        branch_id: branch_id
+      },
+      success: function(data) {
+        menu = data.menue_items ? data.menue_items : ''
+        print_state(menu,region)
+      },
+      error: function() {
+        swal("Error", "Something went wrong", "Error")
+      }
+    });
+  }
+
+  $(function() {
+    var opened = false;
+
+    var dp = $("#datepicker").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: "yyyy-mm-dd",
+      startDate: new Date(),
+    }).on("show", function(){
+    });
+  });
+
+  $(function() {
+    var opened = false;
+
+    var dp = $("#enddatepicker").datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: "yyyy-mm-dd",
+      startDate: new Date(),
+    }).on("show", function(){
+    });
+  });
+
+  function change_offer_type(offer_type) {
+    if (offer_type == "all") {
+      document.getElementById("area_id").hidden = "hidden";
+      document.getElementById("region").hidden = "";
+      $("#discount_percentage").closest("div").css("margin-top", "0");
+    } else {
+      document.getElementById("area_id").hidden = "";
+      $("#discount_percentage").closest("div").css("margin-top", "10px");
+    }
+  }
+</script>

@@ -1,0 +1,50 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <%if @users.present?%>
+      <%@users.each do |user|%>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+          <div class="contact-box" style="min-height: 200px !important;padding-left: 0;padding-right: 0;">
+            <a href="<%=customer_wallet_path(user_id: encode_token(user.id),restaurant_id: params[:restaurant_id])%>">
+              <div class="col-sm-4">
+                <div class="text-center">
+                  <img alt="image" class="img-circle m-t-xs" src="<%=user.image.present? ? user.image : "/assets/user.png" %>" style="width:90px;height: 90px;">
+                  <div class="m-t-xs font-bold"><%=user.name%></div>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <h3><strong><%=user.name%></strong></h3>
+                <p><strong>User Name:</strong> <%=user.user_name.present? ? user.user_name : "N/A"%></p>
+                <address style="word-break: break-all;">
+                  <strong><i class="fa fa-envelope"></i> <%=user.email%></strong><br>
+                  <abbr title="Phone">P:</abbr> <%=user.contact.present? ? user.contact : "Not Available"%>
+                </address>
+
+                <div class="clearfix">
+                  <a class="label label-success" href="/bulk/notification?email=<%=user.email%>" style="font-size: 15px;color:white;padding:5px;"> Send Push</a>
+                </div>
+              </div>
+
+            </a>
+          </div>
+        </div>
+      <%end%>
+      <div class="col-lg-12">
+        <center> <%= will_paginate @users ,renderer: BootstrapPagination::Rails %></center><br>
+      </div>
+    <%else%>
+      <div class="alert alert-danger text-center">No User available yet.</div>
+    <%end%>
+  </div>
+</div>
+<% content_for :javascript do %>
+<script type="text/javascript">
+  $(function () {
+
+      $('.contact-box').each(function () {
+          animationHover(this, 'pulse');
+      });
+
+  });
+
+</script>
+<% end %>

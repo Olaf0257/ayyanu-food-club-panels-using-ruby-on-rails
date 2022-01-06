@@ -1,0 +1,18 @@
+$('#check_redirection').val("<%= business_partner_pos_new_transaction_path(
+    restaurant_id: encode_token(@branch&.restaurant_id),
+    table: @pos_check.pos_table_id.present? ? encode_token(@pos_check.pos_table_id) : 'no_table',
+    check: encode_token(@pos_check.id)) %>");
+$('#employeeDetails .okEmployeeDetails').addClass('d-none');
+$('#employeeDetails #submit_check_details').removeClass('d-none');
+$('#EditClosedCheckPopup').modal('hide');
+$('#employeeDetails .check_no').text('<%= @pos_check.check_id %>');
+$('#employeeDetails .current_time').text(moment("<%= @pos_check.saved_at || @pos_check.created_at  %>").format('MM-DD-YYYY') + ' ' + moment("<%= @pos_check.saved_at || @pos_check.created_at %>").format('h:mm A'));
+$('#employeeDetails .total_amount').text('<%= number_with_precision(@pos_check.pos_transactions.sum(&:total_amount).to_f || 0.0, precision: 3) %> BHD');
+$('#employeeDetails').modal('show');
+$('#submit_check_details').click(function(e){
+    <% @current_check.destroy if @current_check.present? && !@current_check.order_type_id.present? %>
+    window.location = "<%= business_partner_pos_new_transaction_path(
+        restaurant_id: encode_token(@branch&.restaurant_id),
+        table: @pos_check.pos_table_id.present? ? encode_token(@pos_check.pos_table_id) : 'no_table',
+        check: encode_token(@pos_check.id)) %>";
+});

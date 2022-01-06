@@ -1,0 +1,39 @@
+<% if @pos_check.offer_id.present?  %>
+	toastr.error("Discount already applied");
+<% else %>
+	<% if @isAlreadyApplied %>
+		toastr.error("Coupon code already applied");
+	<% else %>
+		<% if @applied_coupon.present? || @restaurant_coupon.present? %>
+			<% if params[:pos_check_id_coupon] == params[:pos_check_id] %>
+				<% if @pos_payment.present? %>
+					var payment_amount = parseFloat($('#remain_payment_amount').val())
+					var amount_paid = parseFloat("<%= @pos_payment.paid_amount %>");
+					var new_amount = payment_amount - amount_paid;
+					var total_paid_amount = parseFloat("<%= @pos_check.pos_payments.where(pending_delete: false).pluck(:paid_amount).sum %>");
+					$('#pos_total').text(new_amount.toFixed(3)+'BHD');
+					$('#remain_payment_amount').val(new_amount.toFixed(3));
+					$('#selected_qty').val('');
+					$('.numberpadDisplaySelection, .quickPaynumberpadDisplaySelection').text('');
+					$('.gift_coupon_btn').addClass('selected_discount');
+				    $('#discount_row').removeClass('selected_discount');
+					$('.gift-card-amount').append("<div style='margin: 0px 0px 15px 0px;' class='payment_detail' data-payment-id='<%= @pos_payment&.id %>'><span><%= @pos_payment.payment_method.name %></span><span style='float: right;'><%= number_with_precision(@pos_payment.paid_amount, precision: 3) %><%= @pos_payment.currency_type.present? ? @pos_payment.currency_type.currency : 'BHD' %></span></div>");
+					toastr.success("Coupon Code applied Successfully.");
+					$('#coupon_modal_popup').modal('hide');
+					voidSelection();
+				<% else %>
+					<% if @restaurant_coupon.present? && @restaurant_coupon.menu_item_ids.present? %>
+						toastr.error("This coupon valid on <%= @restaurant_coupon.menu_items.pluck('item_name').join(', ') %>");
+					<% elsif @applied_coupon.present? && @applied_coupon.menu_item_ids.present? %>
+						toastr.error("This coupon valid on <%= @applied_coupon.menu_items.pluck('item_name').join(', ') %>");
+					<% end %>
+				<% end %>
+			<% else %>
+				$('#coupon_modal_popup').modal('hide');
+				toastr.success("Coupon Code applied Successfully.");
+			<% end%>
+		<% else %>
+			toastr.error("Coupon not found.");
+		<% end %>
+	<% end %>
+<% end %>

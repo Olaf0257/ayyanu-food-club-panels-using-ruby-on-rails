@@ -1,0 +1,78 @@
+<div class="customer-dashboard">
+  <main>
+    <section>
+      <div class="block less-spacing gray-bg top-padd30">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+              <div class="sec-box">
+                <div class="dashboard-tabs-wrapper">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <div class="tab-content">
+                        <div class="tab-pane fade in active" id="shortlists">
+                          <div class="tabs-wrp brd-rd5">
+                            <h4 itemprop="headline">PARTY POINTS</h4>
+
+                            <div class="restaurants-list">
+                              <% if @data.present? %>
+                                <% @data.each do |data| %>
+                                  <div class="featured-restaurant-box style3 brd-rd5">
+                                    <div class="row">
+                                      <div class="featured-restaurant-thumb col-sm-3">
+                                        <%= link_to customer_restaurants_list_path(restaurant_id: encode_token(data[:restaurant]["id"])) do %>
+                                          <%= image_tag(data[:restaurant]["logo"]) %>
+                                        <% end %>
+                                      </div>
+
+                                      <div class="featured-restaurant-info col-sm-6">
+                                        <span class="red-clr"><b><%= data[:discount] %>: DISCOUNT</b></span>
+
+                                        <h4 itemprop="headline">
+                                          <%= link_to data[:restaurant]["title"], customer_restaurants_list_path(restaurant_id: encode_token(data[:restaurant]["id"])) %>
+                                        </h4>
+
+                                        <ul class="post-meta">
+                                          <li><%= data[:available_points] %> POINTS</li>
+                                        </ul>
+                                      </div>
+
+                                      <div class="col-sm-3">
+                                        <% if current_user %>
+                                          <span class="btn btn-sm btn-default party-point-details-link" data-user='<%= data[:user]["id"] %>' data-restaurant='<%= data[:restaurant]["id"] %>'>Points Details</span>
+                                          <span class="btn btn-sm btn-warning buy-party-points-btn" data-buyer='<%= current_user.id %>' data-seller='<%= data[:user]["id"] %>' data-restaurant='<%= data[:restaurant]["id"] %>' data-sell='<%= data[:selling_price] %>' data-points='<%= data[:available_points] %>'>Buy Now</span>
+                                        <% else %>
+                                          <span class="btn btn-xs btn-default">Login To Buy</span>
+                                        <% end %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <% end %>
+                              <% else %>
+                                <h4>No Party Points Present Now</h4>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%= render "card_details" %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

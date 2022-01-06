@@ -1,0 +1,26 @@
+<div class="modal fade" id='reject_modal' role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: none;">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div style="margin-bottom: 15px">
+            <div class="wrapper wrapper-content animated fadeInRight">
+              <div class="row">
+                <label>Please specify the reason to reject the purchase order.</label>
+               <%= form_tag(reject_purchase_order_inventory_restaurant_purchase_orders_path, :method => "post") do %>
+               <%= text_area_tag(:rejected_reason,'', class: 'form-control', rows: 4, required: true) %><br/>
+               <%= hidden_field_tag :id, '' %>
+               <%= hidden_field_tag :restaurant_id, params[:restaurant_id] %>
+               <%= submit_tag("Submit", class: 'btn btn-success btn-md pull-right') %>
+               <% end %>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>

@@ -1,0 +1,130 @@
+class ReferralCouponsController < ApplicationController
+  before_action :require_admin_logged_in, :find_enabled_restaurants
+  layout "admin_application"
+
+  def index
+    if @admin.class.name == "SuperAdmin"
+      @coupons = ReferralCoupon.all
+    else
+      @coupons = ReferralCoupon.where(country_id: @admin.country_id)
+    end
+
+    @countries = @coupons.joins(:country).pluck("countries.name, countries.id").uniq.sort
+    @coupons = @coupons.filter_by_keyword(params[:searched_country_id], params[:keyword], params[:start_date], params[:end_date])
+    @coupons = @coupons.distinct.order_by_date
+
+    respond_to do |format|
+      format.html { @coupons = @coupons.paginate(page: params[:page], per_page: 50) }
+      format.csv { send_data @coupons.referral_coupon_list_csv(params[:searched_country_id], params[:start_date], params[:end_date]), filename: "referral_coupon_list.csv" }
+    end
+  end
+
+  def new
+    @coupon = ReferralCoupon.new
+  end
+
+  def create
+    @coupon = ReferralCoupon.new(referral_coupon_params)
+    existing_offers = Offer.where(branch_id: params.select { |k, _v| k.include?("branch_ids") }.values.flatten.uniq).select { |o| (o.start_date.to_date..o.end_date.to_date).overlaps?(referral_coupon_params[:start_date].to_date..referral_coupon_params[:end_date].to_date) }
+
+    if existing_offers.present?
+      flash[:error] = "Sweet Deals already present for this date range"
+      render "new"
+    else
+      @coupon.referrer_quantity = @coupon.total_referrer_quantity
+      @coupon.referred_quantity = @coupon.total_referred_quantity
+      @coupon.country_id = params[:country_id]
+
+      if @coupon.save
+        update_referral_coupon_restaurants(@coupon)
+        flash[:success] = "Coupon Successfully Created!"
+        redirect_to referral_coupons_path
+      else
+        flash[:error] = @coupon.errors.full_messages.first.to_s
+        render "new"
+      end
+    end
+  end
+
+  def edit
+    @coupon = ReferralCoupon.find(params[:id])
+  end
+
+  def update
+    @coupon = ReferralCoupon.find(params[:id])
+    existing_offers = Offer.where(branch_id: params.select { |k, _v| k.include?("branch_ids") }.values.flatten.uniq).select { |o| (o.start_date.to_date..o.end_date.to_date).overlaps?(referral_coupon_params[:start_date].to_date..referral_coupon_params[:end_date].to_date) }
+
+    if existing_offers.present?
+      flash[:error] = "Sweet Deals already present for this date range"
+      render "edit"
+    else
+      old_referrer_qty = @coupon.total_referrer_quantity
+      old_referred_qty = @coupon.total_referred_quantity
+
+      if @coupon.update(referral_coupon_params)
+        new_referrer_qty = @coupon.total_referrer_quantity
+        referrer_qty_diff = new_referrer_qty - old_referrer_qty
+        @coupon.update(referrer_quantity: (@coupon.referrer_quantity + referrer_qty_diff))
+        new_referred_qty = @coupon.total_referred_quantity
+        referred_qty_diff = new_referred_qty - old_referred_qty
+        @coupon.update(referred_quantity: (@coupon.referred_quantity + referred_qty_diff))
+        update_referral_coupon_restaurants(@coupon)
+        flash[:success] = "Coupon Successfully Updated!"
+        redirect_to referral_coupons_path
+      else
+        flash[:error] = @coupon.errors.full_messages.first.to_s
+        render "edit"
+      end
+    end
+  end
+
+  def show
+    @coupon = ReferralCoupon.find(params[:id])
+    @branches = @coupon.branches.group_by(&:restaurant_id)
+  end
+
+  def activate
+    @coupon = ReferralCoupon.find(params[:id])
+    @coupon.update(active: params[:active].present?)
+    flash[:success] = "Coupon #{params[:active].present? ? 'Activated' : 'Deactivated'} Successfully!"
+    redirect_to referral_coupons_path
+  end
+
+  def user_list
+    @coupon = ReferralCoupon.find(params[:id])
+    @referral_coupon_users = @coupon.referral_coupon_users.where(available: false)
+    @referral_coupon_users = @referral_coupon_users.where("DATE(created_at) >= ?", params[:start_date].to_date) if params[:start_date].present?
+    @referral_coupon_users = @referral_coupon_users.where("DATE(created_at) <= ?", params[:end_date].to_date) if params[:end_date].present?
+    @referral_coupon_users = @referral_coupon_users.order(id: :desc)
+
+    respond_to do |format|
+      format.js {}
+      format.csv { send_data @referral_coupon_users.list_csv(@coupon.coupon_code), filename: "referral_coupon_users_list_.csv" }
+    end
+  end
+
+  def view_notes
+    @coupon = ReferralCoupon.find(params[:id])
+  end
+
+  def destroy
+    @coupon = ReferralCoupon.find(params[:id])
+    @coupon.destroy
+    flash[:success] = "Coupon Deleted Successfully!"
+    redirect_to referral_coupons_path
+  end
+
+  private
+
+  def find_enabled_restaurants
+    @restaurants = if @admin.class.name == "User"
+                     Restaurant.joins(:branches).where(is_signed: true, country_id: @admin.country_id, branches: { is_approved: true }).where.not(title: "").distinct.pluck(:title, :id).sort
+                   else
+                     Restaurant.joins(:branches).where(is_signed: true, country_id: params[:country_id], branches: { is_approved: true }).where.not(title: "").distinct.pluck(:title, :id).sort
+                   end
+  end
+
+  def referral_coupon_params
+    params.require(:referral_coupon).permit(:coupon_code, :referrer_discount, :referred_discount, :total_referrer_quantity, :total_referred_quantity, :start_date, :end_date, :notes)
+  end
+end

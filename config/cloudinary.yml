@@ -1,0 +1,24 @@
+---
+development:
+  cloud_name: dllkw7sbd
+  api_key: '219232111866511'
+  api_secret: lRYJj7djzfDwQRv6Ah2Z3RoEK4M
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: dllkw7sbd
+  api_key: '219232111866511'
+  api_secret: lRYJj7djzfDwQRv6Ah2Z3RoEK4M
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: dllkw7sbd
+  api_key: '219232111866511'
+  api_secret: lRYJj7djzfDwQRv6Ah2Z3RoEK4M
+  enhance_image_tag: true
+  static_image_support: false
+
+
+
+
+

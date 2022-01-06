@@ -1,0 +1,10 @@
+var targetRow = $(".target-row");
+
+targetRow.find(".manual-order-addon-list, .manual-order-item-quantity").html("");
+targetRow.find(".manual-order-addon-list-wrapper").html('<span class="manual-order-addon-list"></span>');
+targetRow.find(".add-manual-order-item").addClass("hide");
+
+targetRow.find(".manual-order-item-list").html('<%= escape_javascript select_tag("item_id_" + @count.to_s, options_for_select(@items.to_a), prompt: "Select Item", class: "form-control business-search-field manual-order-menu-item", required: true) %>');
+targetRow.find(".manual-order-item-quantity").html('<%= escape_javascript number_field_tag("quantity_" + @count.to_s, "", min: 1, required: true, placeholder: "Enter Quantity", class: "form-control") %><br><%= escape_javascript text_field_tag("description_" + @count.to_s, "", placeholder: "Special Request", class: "form-control") %>');
+
+$(".target-row").removeClass("target-row");

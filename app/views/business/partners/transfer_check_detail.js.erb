@@ -1,0 +1,11 @@
+<% if @error.present? %>
+    toastr.error('<%= @error %>')
+<% else %>
+    $('#transferCheckData').modal('hide');
+    $('#modelPopupData').empty().append('<%= j render partial: 'transfer_check_confirmation', locals: {child_check: @child_check, parent_check_id: decode_token(params[:mergable_check_id])} %>');
+    $('#transferCheckDetail').modal();
+    $('#transferCheckData').modal('hide')
+    $('#transferCheckData').find('form')[0].reset();
+	$('.validated_field').addClass('pending_transaction');
+    transferCheck();
+<% end %>

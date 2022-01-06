@@ -1,0 +1,480 @@
+<head>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+<script src="/assets/bootstrap-toggle.min.js"></script>
+</head>
+<style type="text/css">
+  .product-imitation {
+  text-align: center;
+  padding: 18px 0;
+  background-color: #f8f8f9;
+  color: #bebec3;
+  font-weight: 600;
+  }
+  .product-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #676a6c;
+  display: block;
+  margin: 2px 0 5px 0;
+  }
+  .icheckbox_square-green {
+    background-position: 0 0;
+  }
+  .icon_cross{
+    color: #FF0000;
+  }
+  .icon_check{
+    color: #228B22;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Profile</h2>
+  </div>
+  <!-- <div class="col-lg-2">
+  </div> -->
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+    <div class="col-lg-3 col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Profile Details</h5>
+        </div>
+        <div>
+          <div class="ibox-content no-padding border-left-right" >
+            <center><img alt="image" class="img-responsive" src="<%=@user.image.present? ? @user.image : "/assets/user.png" %>" style="width:130px;height: 135px;margin-top:5px;"></center>
+
+
+           <center> <h3><strong><%=@user.name%></strong></h3></center>
+            <center> <p><strong>User Name:</strong> <%=@user.user_name.present? ? @user.user_name : "N/A"%></p></center>
+            <center> <address>
+                  <strong><i class="fa fa-envelope"></i> <%=@user.email%></strong>
+
+                  <% if @user.auths.first&.role != "transporter" && params[:is_view_address] != 'true' %>
+                    <i class="fa fa-pencil" aria-hidden="true" data-target="#email-change-model" data-toggle="modal"  data-backdrop="static" data-keyboard="false"></i><br>
+                  <% end %>
+
+                 <abbr title="Phone">P:</abbr> <%=@user.contact.present? ? @user.contact : "Not Available"%>
+                </address></center>
+            <div class="user-button">
+              <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 col-md-12">
+      <div class="ibox float-e-margins">
+        <% if @user.auths.last.role=="customer" %>
+            <div class="ibox-title">
+              <h5>Orders</h5>
+            </div>
+            <div class="ibox-content table-responsive">
+              <% if @customer_orders.present? %>
+                <% if is_call_center_executive?(@admin) %>
+                  <%= render "call_center_orders_table" %>
+                <% else %>
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Address</th>
+                        <th>Order Type</th>
+                        <th>Total Amount (<%= @customer_orders.first&.currency_code_en %>)</th>
+                        <th>Customer Name</th>
+                        <% if params[:is_view_address] != 'true' %>
+                          <th>Action</th>
+                        <% end %>
+                        <th>Comments</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% @customer_orders.each do |b| %>
+                        <tr id="card-<%=b.id%>" class="<%= 'changed-delivery-order' if b.changed_delivery %>">
+                          <td><%=b.id%></td>
+                          <td><%=b.branch.restaurant.title%></td>
+                          <td><%=b.branch.address%></td>
+                          <td><%=b.order_type =="prepaid" ? "Online" : "Cash on delivery" %></td>
+                          <td><%=b.total_amount%></td>
+                          <td><%=b.user ? b.user.name : b.cart.user.name%></td>
+                          <% if params[:is_view_address] != 'true' %>
+                            <td>
+                            <a href="<%=order_path(encode_token(b.id))%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                            </td>
+                          <% end %>
+                          <td><b><%= b.changed_delivery ? "Changed Order" : "" %></b></td>
+                        </tr>
+                      <%end%>
+                    </tbody>
+                  </table>
+                <% end %>
+              <%else%>
+                <div class="alert alert-danger text-center">No orders available yet.</div>
+              <%end%>
+            </div>
+
+            <div class="col-lg-12">
+              <center> <%= will_paginate @customer_orders ,renderer: BootstrapPagination::Rails %></center><br>
+            </div>
+
+          <%elsif @user.auths.last.role=="business"%>
+
+  <!--change code !-->
+     <%if @user.restaurants.present?%>
+     <%@user.restaurants.each do |rest|%>
+      <div class="col-md-12">
+        <div class="ibox">
+          <div class="ibox-content product-box">
+            <div class="product-imitation">
+       <img style = "width: 250px;height: 200px;" src='<%=rest.logo.present? ? "#{rest.logo}" : "/assets/placeholder.png"%>' alt="logo" >
+            </div>
+            <div class="product-desc">
+            <div class="col-lg-12 ibox-content">
+            <div class="col-md-3 todo-list m-t">
+              <% if rest.is_signed%><i class="icon_check fa fa-check" aria-hidden="true"></i>Restaurant Verified <%else%><i class="icon_cross fa fa-times"> <span class="m-l-xs">Verify Restaurant</span> </i><%end%>
+
+            </div>
+            <div class="col-md-3 todo-list m-t  icheckbox_square-green ">
+             <% if rest.restaurant_document%>
+              <%if rest.restaurant_document.is_approved %> <i class="icon_check fa fa-check" aria-hidden="true"></i><span class="m-l-xs">Restaurant Document Verified</span> <%else%><i class="icon_cross fa fa-times"></i> <span class="m-l-xs">Restaurant Document Verify</span><%end%>
+            <%else%>
+            <i class="icon_cross fa fa-times"></i><span class="m-l-xs">Upload Restaurant Document</span>
+            <%end%>
+            </div>
+            <%if !rest.restaurant_document%>
+              <div class="col-lg-12 ibox-content">
+
+                 <span class="m-l-xs"><b>Document : <font color="red">Not Available </font></b></span>
+
+              </div>
+              <%else%>
+              <div class="col-lg-12 ibox-content">
+                <span class="m-l-ms" style="font-weight: bold;">Document : <a href="/restaurant/doc/<%=rest.id%>" style="color: green;word-break: break-all;"><%=rest.restaurant_document.doc_url%></a></span><br><br>
+                <%=form_for :upload_contract_document,url: business_upload_contract_doc_path do |f|%>
+                  <%=f.file_field :file,:style=>"display: inline-block;"%>
+                  <%=f.submit :upload%>
+                  <input type="hidden"  name="restaurant_id" value="<%=rest.id%>" />
+                <%end%>
+              </div>
+              <%end%>
+            </div>
+
+
+                  <%if !rest.user.present?%>
+           <!--  <div class="product-desc"> -->
+              <div class="col-lg-12 ibox-content">
+                <span class="m-l-xs"><b>Owner : <font color="red">Not Available </font></b></span>
+                <a href="<%=restaurant_owner_path(:id=>encode_token(rest.id))%>" class="btn btn-sm btn-outline btn-danger pull-right inline">Add User<i class="fa fa-long-arrow-right"></i> </a>
+              </div>
+            <!-- </div> -->
+            <%else%>
+          <!--   <div class="product-desc"> -->
+              <div class="col-lg-12 ibox-content">
+
+                <span class="m-l-xs"><b>Owner Name :  <font color="green"><%=rest.user.name%></font></b></span>
+                <a href="<%=edit_user_details_path(encode_token(rest.id))%>" class="btn btn-sm btn-outline btn-danger pull-right inline">Edit User<i class="fa fa-long-arrow-right"></i> </a>
+
+              </div>
+            <!-- </div> -->
+            <%end%>
+
+
+              <span class="product-price">
+              <%for i in 1..2%>
+              <i class="fa fa-star"></i>
+              <%end%>
+              </span>
+              <div class="row" style="margin-left: 1px; margin-right: 1px;">
+                <a href="<%=restaurant_details_path(encode_token(rest.id))%>" class="product-name pull-left"><%=rest.title%></a>
+                <a href="<%=restaurant_details_path(encode_token(rest.id))%>" class="btn btn-sm btn-outline btn-warning pull-right inline" style="margin-left: 12px;">View <i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=branch_show_path(encode_token(rest.id))%>" class="btn btn-sm btn-outline btn-primary pull-right inline" style="margin-left: 12px;">Branches<i class="fa fa-long-arrow-right"></i> </a>
+                <a href="<%=restaurant_menu_managment_path(encode_token(rest.id))%>" class="btn btn-sm btn-outline btn-danger pull-right inline">Menu Management<i class="fa fa-long-arrow-right"></i> </a>
+              </div>
+              <div style="display: inline-block;" >
+                <%=form_for :restaurant,url: change_restaurant_state_path,:html=>{:multipart=>true,:id=>"#{rest.id}-submit-form_restaurant"},:remote=>true do |f|%>
+                <input type="hidden" name="restaurant_id" value="<%=rest.id%>">
+                <input type="hidden" name="status" id="<%=rest.id%>-signed" value="false">
+                <input type="checkbox" style="height:323px;" value="<%=rest.id%>" id="<%=rest.id%>-signedcon" class="input-signed" <%if rest.is_signed %> checked <%end%> data-toggle="toggle" data-style="ios" data-on="Signed"  data-off="Not Signed">
+                <%end%>
+              </div><br>
+              <div class="row" style="margin-top: 12px;">
+              <div class="col-md-6">
+                 <a href="<%=admin_over_all_report_path(:restaurant_id=>rest.id)%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;">Branch Performance Report</a>
+              </div>
+              <div class="col-md-6">
+                 <a href="<%=admin_revenue_growth_lost_report_path(rest.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;">Revenue Growth / Lost Revenue </a>
+              </div>
+
+              </div>
+              <div class="row" style="margin-top: 12px;">
+                <div class="col-md-6">
+                 <a href="<%=area_orders_report_path(id: rest.id )%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;width: 181px;">Area Wise Order Report</a>
+              </div>
+             <div class="col-md-6">
+                 <a href="<%=admin_cancel_order_report_path(rest.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;width: 205px;">Cancelled Order Report</a>
+              </div>
+
+              </div>
+              <div class="row" style="margin-top: 12px;">
+             <div class="col-md-6">
+                 <a href="<%=admin_new_customer_report_path(rest.id)%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;width: 181px;">Monthly Customer</a>
+              </div>
+              <div class="col-md-6">
+                 <a href="<%=admin_top_selling_item_report_path(rest.id)%>" class="btn btn-xs btn-info" style="font-size: 13px; color: white;width: 205px;">Top Selling Item</a>
+              </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <center> <%=  %></center>
+        <br>
+      </div>
+      <%end%>
+    <%else%>
+    <div class="col-lg-12">
+      <div class="alert alert-danger text-center">No Restaurant Available yet</div>
+    </div>
+    <%end%>
+
+<!--end change !-->
+
+
+        <%elsif @user.auths.last.role=="manager"%>
+            <div class="ibox-title">
+              <h5>Orders</h5>
+            </div>
+            <div class="ibox-content table-responsive">
+              <%if @orders.present?%>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Restaurant Name</th>
+                      <th>Address</th>
+                      <th>Order Type</th>
+                      <th>Total Amount (<%= @orders.first&.currency_code_en %>)</th>
+                      <th>Customer Name</th>
+                      <% if params[:is_view_address] != 'true' %>
+                        <th>Action</th>
+                      <% end %>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%@orders.each do |b|%>
+                      <tr id="card-<%=b.id%>">
+                        <td><%=b.id%></td>
+                        <td><%=b.branch.restaurant.title%></td>
+                        <td><%=b.branch.address%></td>
+                        <td><%=b.order_type =="prepaid" ? "Online" : "Cash on delivery" %></td>
+                        <td><%=b.total_amount%></td>
+                        <td><%=b.user ? b.user.name : b.cart.user.name%></td>
+                        <% if params[:is_view_address] != 'true' %>
+                          <td>
+                          <a href="<%=order_path(encode_token(b.id))%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                          </td>
+                        <% end %>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table>
+              <%else%>
+                <div class="alert alert-danger text-center">No orders available yet.</div>
+              <%end%>
+            </div>
+            <div class="col-lg-12">
+              <center></center><br>
+            </div>
+
+        <%elsif @user.auths.last.role=="transporter"%>
+            <div class="ibox-title">
+              <h5>Orders</h5>
+            </div>
+            <div class="ibox-content table-responsive">
+              <%if @trans_order.present?%>
+                <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Restaurant Name</th>
+                        <th>Address</th>
+                        <th>Order Type</th>
+                        <th>Total Amount (<%= @trans_order.first&.currency_code_en %>)</th>
+                        <th>Customer Name</th>
+                        <% if params[:is_view_address] != 'true' %>
+                          <th>Action</th>
+                        <% end %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <%@trans_order.each do |b|%>
+                        <tr id="card-<%=b.id%>">
+                          <td><%=b.id%></td>
+                          <td><%=b.branch.restaurant.title%></td>
+                          <td><%=b.branch.address%></td>
+                          <td><%=b.order_type =="prepaid" ? "Online" : "Cash on delivery" %></td>
+                          <td><%=b.total_amount%></td>
+                          <td><%=b.user ? b.user.name : b.cart.user.name%></td>
+                          <% if params[:is_view_address] != 'true' %>
+                            <td>
+                            <a href="<%=order_path(encode_token(b.id))%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                            </td>
+                          <% end %>
+                        </tr>
+                      <%end%>
+                    </tbody>
+                </table>
+              <%else%>
+                <div class="alert alert-danger text-center">No orders available yet.</div>
+              <%end%>
+            </div>
+
+        <%else%>
+        <%end%>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id='email-change-model' role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">User Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom:10px;">
+          <p>Name</p>
+          <input type="text" name="name" id="name" placeholder="Enter Name" required="true" class="form-control" autocomplete="off" value="<%=@user.name%>">
+          <br>
+          <p>User Email</p>
+          <input type="email" name="user_email" id="user_email" placeholder="User Email" required="true" class="form-control" autocomplete="off" value="<%=@user.email%>">
+          <br>
+          <p>Contact No</p>
+          <input type="text" name="contact_no" id="user_contact" placeholder= "Enter contact number" required= "true" class="form-control" pattern="^[0-9 -]+$" title="Numbers only" autocomplete="off" value="<%=@user.contact%>">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="chnage-email-form">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<% content_for :javascript do %>
+  <script type="text/javascript">
+    <% if flash[:success].present? %>
+      swal("Success", "<%= flash[:success] %>", "success")
+    <% elsif flash[:error].present? %>
+      swal("Error", "<%= flash[:error] %>", "error")
+    <% end %>
+
+    $(function() {
+      $("span.pie").peity("pie", {
+          fill: ['#1ab394', '#d7d7d7', '#ffffff']
+      })
+
+      $(".line").peity("line", {
+          fill: '#1ab394',
+          stroke: '#169c81',
+      })
+
+      $(".bar").peity("bar", {
+          fill: ["#1ab394", "#d7d7d7"]
+      })
+    });
+
+    $("#chnage-email-form").on("click",function(){
+      var ck_email = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var name = $(this).closest('.modal-content').find("#name").val();
+      var email = $(this).closest('.modal-content').find('#user_email').val();
+      var contact = $(this).closest('.modal-content').find("#user_contact").val();
+      var user_id = $(this).closest('.modal-content').find("#user_id").val();
+      var contactNumber = /^[0-9 ]+$/;
+      var countryCode = $(this).closest('.modal-content').find(".selected-dial-code").text();
+
+      if ($.trim(name).length == 0){
+        swal("warning","Name can't be blank");
+        $("#name").focus();
+        return false;
+      }
+      else if (!ck_email.test(email)){
+        swal("warning","please enter valid email");
+        $("#user_email").focus();
+        return false;
+      } else if (!contactNumber.test($("#user_contact").val())) {
+        swal("warning","Contact No. is not valid");
+        $("#user_contact").focus();
+        return false;
+      }
+      else{
+        swal({
+          title: "Wait",
+          text: "Please wait while we process your request",
+          imageUrl: '/assets/rest-loading.gif',
+          showConfirmButton: false
+        });
+        $.ajax({
+          type: "POST",
+          url: '/change/email',
+          data: {email: email, name: name, contact: contact, country_code: countryCode, user_id: <%= @user.id %> },
+          dataType: "JSON",
+          success:function(result) {
+            if (result.code == 200){
+              location.reload();
+            } else {
+              swal("Error", result.message ,"error")
+            }
+          },
+          error: function() {
+            swal("Error","Something went wrong","error")
+          }
+        });
+      }
+    })
+
+    $("#user_contact").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: true,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      excludeCountries: [],
+      formatOnDisplay: true,
+      geoIpLookup: function(callback) {
+        $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
+      hiddenInput: "full_phone_contact",
+      initialCountry: "auto",
+      nationalMode: true,
+      initialCountry: 'bh',
+      onlyCountries: [],
+      placeholderNumberType: "MOBILE",
+      preferredCountries: ['bh'],
+      separateDialCode: true,
+      utilsScript: "/assets/telinput/utils.js"
+    });
+  </script>
+<% end %>

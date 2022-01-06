@@ -1,0 +1,40 @@
+<div class="row" style="margin: 10px 30px;">
+  <div class='col-md-12'>
+    <%= link_to business_new_order_types_path(params[:restaurant_id]), remote: true,style: 'float: right;' do %>
+        <button class="btn btn-success">Create order Type</button>
+    <% end %>
+  </div>
+  <div class="order-type-form-data hide" style="background-color: white;padding-bottom: 15px;width: 80%;">
+  </div>
+  <table class="table table-striped">
+    <thead class='thead-dark'>
+      <tr>
+        <th>Type</th>
+        <th>Enabled</th>
+        <th>Created By</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @order_types.present? %>
+        <% @order_types.each do |order_type| %>
+          <tr>
+            <td><%= order_type.name %></td>
+            <td><%= check_box_tag '', '', order_type.is_enabled, style:'pointer-events: none;'%></td>
+            <td><%= [1, 2, 3, 4].include?(order_type.id) ? '' : order_type.created_by.name %></td>
+            <td><%= set_time_formated(order_type.created_at) %></td>
+            <td>
+              <% unless [1, 2, 3, 4].include?(order_type.id) %>
+                <%= link_to 'Edit', business_edit_order_types_path(params[:restaurant_id], order_type.id), remote: true, class: 'btn btn-success' %>
+                <%= link_to 'Delete', business_delete_order_types_path(params[:restaurant_id], order_type.id),  method: :delete, class: 'btn btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr style="text-align: center;"><td colspan=4> No Data found!</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

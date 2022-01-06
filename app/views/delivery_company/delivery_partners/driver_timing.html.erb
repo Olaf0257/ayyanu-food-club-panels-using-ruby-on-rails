@@ -1,0 +1,156 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .setheight {
+    height: 100% !important;
+  }
+
+  .mrgin-bottom-2 {
+    margin-bottom: 2%;
+  }
+
+  .private_dock {
+    display: none;
+  }
+
+  .form-group {
+    width: 100% !important;
+    margin-bottom: 15px !important;
+  }
+
+  .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+    background: rgba(255, 0, 0, 0.13) !important;
+    color: red !important;
+    cursor: not-allowed !important;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-6">
+    <h2 style="margin-top:20px;">
+      <b><%= @transporter.name %> Timings</b>
+      <%= link_to "View Shifts", delivery_company_driver_shift_list_path(user_id: @transporter.id), remote: true, class: "btn btn-xs btn-success" %>
+    </h2>
+  </div>
+
+  <div class="col-xs-6">
+    <h2 style="margin-top:20px;"><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, delivery_company_driver_timing_report_path, class: "btn btn-sm btn-danger pull-right" %></h2>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+    <%= hidden_field_tag(:user_id, @transporter.id) %>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <%= text_field_tag(:start_date, (params[:start_date].presence || Date.today), autocomplete: :off, class: "form-control business-search-field", placeholder: "start date", id: "start_datepicker") %>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <%= text_field_tag(:end_date, (params[:end_date].presence || Date.today), autocomplete: :off, class: "form-control business-search-field", placeholder: "end date", id: "end_datepicker") %>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <%= submit_tag "SEARCH", class: "btn btn-success btn-sm" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="col-sm-3">
+    <%= link_to delivery_company_driver_timing_path(format: :csv, user_id: @transporter.id, start_date: params[:start_date], end_date: params[:end_date]) do  %>
+      <button class="btn btn-sm btn-info pull-right" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+    <% end %>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= @transporter.name %> Timings</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @timings.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Login Time</th>
+                  <th>Logout TIme</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @timings.each do |timing| %>
+                  <tr>
+                    <td><%= timing.created_at&.strftime("%A") %></td>
+                    <td><%= timing.login_time&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                    <td><%= timing.logout_time&.strftime("%d %b %Y %l:%M:%S %p") %></td>
+                    <td><%= time_diff(timing.logout_time, timing.login_time) if timing.login_time && timing.logout_time %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No timings available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div>
+          <center> <%= will_paginate @timings, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if @timings.present? %>
+    <% assigned_time = @timings.uniq { |t| t.created_at.to_date }.map(&:shift_duration).sum %>
+    <% working_time = @timings.map(&:session_duration).sum %>
+
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-6">
+        <div class="ibox-content bg-white">
+          <h3 class="text-center">Summary</h3>
+          <table class="table">
+            <tbody>
+              <% if @transporter.delivery_company_id %>
+                <tr>
+                  <td><b>Total Assigned Time</b></td>
+                  <td><%= time_duration(assigned_time) %></td>
+                </tr>
+              <% end %>
+
+              <tr>
+                <td><b>Total Working Time</b></td>
+                <td><%= time_duration(working_time) %></td>
+              </tr>
+
+              <% if @transporter.delivery_company_id %>
+                <tr>
+                  <td><b>Total Break Time</b></td>
+                  <td><%= time_duration(assigned_time - working_time) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

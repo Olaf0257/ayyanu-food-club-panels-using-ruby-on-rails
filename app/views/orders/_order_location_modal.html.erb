@@ -1,0 +1,45 @@
+<div class="modal fade" id="order_location_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">ORDER LOCATIONS</h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="wrapper wrapper-content animated fadeInRight">
+          <div class="row" style="width: 100%; height: 550px;">
+            <div id="map_canvas"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var locations = <%= raw @orders.map { |o| [o.id, o.latitude.to_f, o.longitude.to_f] } %>;
+  var image = "https://ik.imagekit.io/sodhemlpr/output-onlinepngtools__6Zj9Lkne.png";
+
+  function InitializeOrderLocationMap() {
+    var map;
+    var latlng = new google.maps.LatLng(locations[0][1], locations[0][2]);
+    var mapOptions = { zoom: 12, center: latlng };
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+    for (var i = 0; i < locations.length; i++) {
+      var item = locations[i];
+      var marker = new MarkerWithLabel({
+        position: { lat: item[1], lng: item[2] },
+        map: map,
+        icon: image,
+        labelContent: item[0],
+      });
+    }
+    marker.setMap(map);
+  }
+</script>

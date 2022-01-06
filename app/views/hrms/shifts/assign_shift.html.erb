@@ -1,0 +1,132 @@
+<%= stylesheet_link_tag 'admin_application', media: 'all', 'data-turbolinks-track' => true %>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-6">
+    <h2>Assign Shifts</h2>
+  </div>
+
+  <div class="col-sm-6">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <% if is_super_admin?(@admin) %>
+            <%= select_tag(:searched_country_id, options_for_select(@countries, params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+          <% end %>
+
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Title", autocomplete: :off) %>
+          <%= date_field_tag(:searched_date, params[:searched_date], class: "form-control admin-search-field") %>
+        </div>
+
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <div id='external-events'>
+            <p>
+              <h4><b>SHIFTS</b></h4>
+            </p>
+
+            <% @events.each do |event| %>
+              <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
+                <div class='fc-event-main'>
+                  <%= event.name %>
+                </div>
+              </div>
+
+              <div>
+                <%#= link_to "View Dates", event_date_list_hrms_shift_path(event.id), class: "btn btn-xs btn-info", remote: true %>
+                <button class="btn btn-xs btn-info"><%= event.start_time %> - <%= event.end_time %></button>
+              </div>
+              <br>
+            <% end %>
+          </div>
+
+          <div id='calendar-container'>
+            <div id='calendar'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var Calendar = FullCalendar.Calendar;
+    var Draggable = FullCalendar.Draggable;
+
+    var containerEl = document.getElementById("external-events");
+    var calendarEl = document.getElementById("calendar");
+
+    new Draggable(containerEl, {
+      itemSelector: ".fc-event",
+      eventData: function(eventEl) {
+        return {
+          title: eventEl.innerText
+        };
+      }
+    });
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      initialDate: "<%= params[:searched_date].presence || Date.today.strftime('%Y-%m-%d') %>",
+      headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: ""
+      },
+      editable: true,
+      eventDrop: function(info) {
+        var eventId = info.event.id;
+        var eventStartDate = info.event.start.toISOString();
+
+        if (info.event.end == null) {
+          var eventEndDate = "";
+        } else {
+          var eventEndDate = info.event.end.toISOString();
+        }
+
+        $.get("/hrms/shifts/edit_event_date?event_id=" + eventId + "&start_date=" + eventStartDate + "&end_date=" + eventEndDate);
+      },
+
+      droppable: true,
+      drop: function(info) {
+        var eventDate = info.dateStr;
+        var eventName = info.draggedEl.outerText;
+        $.get("/hrms/shifts/add_event_date?event_title=" + eventName + "&event_date=" + eventDate);
+      },
+      eventResize: function(info) {
+        var eventId = info.event.id;
+        var eventStartDate = info.event.start.toISOString();
+
+        if (info.event.end == null) {
+          var eventEndDate = "";
+        } else {
+          var eventEndDate = info.event.end.toISOString();
+        }
+
+        $.get("/hrms/shifts/edit_event_date?event_id=" + eventId + "&start_date=" + eventStartDate + "&end_date=" + eventEndDate);
+      },
+      events: <%= raw @event_dates %>,
+      eventClick: function(info){
+        if(confirm("Do you want to Remove this Event from this Date?")) {
+          info.event.remove();
+          $.get("/hrms/shifts/remove_event_date?event_id=" + info.event.id);
+        }
+      }
+    });
+
+    calendar.render();
+  });
+</script>

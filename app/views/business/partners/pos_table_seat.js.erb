@@ -1,0 +1,8 @@
+<% if @pos_check.present? %>
+	$('.validated_field').addClass('pending_transaction');
+    toastr.success('Seat Number set as <%= @seat_no %>');
+<% else %>
+    toastr.error('Table not found');
+<% end %>
+$('#seat_no_form')[0].reset();
+$('#seatNumber').modal('hide')

@@ -1,0 +1,231 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-sm-8">
+		<h2>Setup Master >> Stage >> Edit</h2>
+	</div>
+
+	<div class="col-sm-4">
+		<span class="pull-right">
+			<h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, business_setup_stages_path, class: "btn btn-danger" %></h2>
+		</span>
+	</div>
+</div>
+<br>
+
+<div class="container">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="text-center">Edit New Stage</h3>
+		</div>
+
+		<div class="panel-body">
+			<%= form_for(@stage, url: business_setup_stage_path(@stage,restaurant_id: params[:restaurant_id]), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>STAGE NAME</label>
+				</div>
+                 
+				<div class="col-sm-5">
+				 <%#= f.text_field :name, class: "form-control" %>
+				 <input type="text" id="stage_name" name="name" value="<%=@stage.name%>" class="create_input" />
+				</div>
+               
+				<div class="col-sm-1">
+					<%= f.label :ENABLED %>
+				</div>
+
+				<div class="col-sm-3">
+					<%= f.check_box(:enabled) %>
+				</div>
+			</div>
+            
+            <strong>CHOOSE FROM BELOW OPTION</strong><br/><br/>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<%#= f.label :BANK %>
+					<label>BANK</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:bank) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>DATE</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:date) %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					 <label>DEPOSITOR Name</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:depositor_number) %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					 <label>ACCOUNT NAME</label> 
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:account_name) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>NOTE</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:note) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>SERIAL NUMBER</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:serial_number) %>
+				</div>
+			</div>
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>VENDOR NAME</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:vendor_name) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>AUTHORIZED PERSON</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:autorize_person) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>EMPLOYEE NAME</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:employee_name) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>VENDOR NUMBER</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:vendor_number) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>CARD TYPES</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:card_types) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>ACCOUNT NUMBER</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:account_number) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>NUMBER OF MACHINE</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:number_of_machine) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>DEDUCTION TYPE</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:deduction_type) %>
+				</div>
+			</div>
+
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>AMOUNTS</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:amounts) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>EXCHANGE NAME</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:exchange_name) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<div class="col-sm-2">
+					<label>PERSON RECIEVE</label>
+				</div>
+
+				<div class="col-sm-5">
+					<%= f.check_box(:person_recieve) %>
+				</div>
+			</div>
+
+			<div class="row form-group">
+				<center><%= f.submit "Update New Stage", class: "btn btn-success btn-sm" %></center>
+			</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	<% if flash[:success].present? %>
+	swal("Success", "<%= flash[:success] %>", "success")
+	<% elsif flash[:error].present? %>
+	swal("Error", "<%= flash[:error] %>", "error")
+	<% end %>
+</script>

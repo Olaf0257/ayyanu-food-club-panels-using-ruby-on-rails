@@ -1,0 +1,244 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<style type="text/css">
+    .datepicker-dropdown table td.disabled, .datepicker-dropdown table td.disabled:hover {
+            background: rgba(255, 0, 0, 0.13) !important;
+            color: red !important;
+            cursor: not-allowed !important;
+        }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-xs-10">
+      <h2><b>Budget List</b></h2>
+    </div>
+     <div class="col-xs-2">
+      <a href="" style="margin-top: 22px;" class="pull-right btn btn-primary btn-circle addclube " data-target="#add-category-modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<br><br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Budget Table</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @budgets.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Branch Address</th> 
+                  <th>Start Date</th>                  
+                  <th>End Date</th>
+                  <th>Amount</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <%@budgets.each do |doc|%>
+                  <tr >
+                    <td><%=doc.id%></td>
+                    <td><%=doc.branch.address%></td>
+                    <td><%=doc.start_date%></td>  
+                    <td><%=doc.end_date%></td>  
+                     <td><%=doc.amount%></td>            
+                   
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No doc available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%= will_paginate @budgets ,renderer: BootstrapPagination::Rails %></center><br>
+       </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="add-document-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center>
+        <div id="showimage"></div>
+      </center>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Budget</h4>
+      </div>
+      <%=form_for :budget,url: business_add_budget_path(:restaurant_id=>params[:restaurant_id]),:html=>{:multipart=> true} do |f| %>
+      <div class="modal-body">
+        <div class="row" style="margin-bottom:10px;">          
+          <div class="col-lg-6">
+            <h4>Branch</h4>    
+            <select name="branch" id="marina_type" class="form-control" style="height: 30%">          
+              <%@branches.each do |branch|%>                
+                  <option value="<%=branch.id%>"><%=branch.address%></option>          
+               <%end%>                     
+            </select>  
+          </div>
+           <div class="col-lg-6">
+            <h4>Amount</h4>
+              <input type="text"  name="amount" id="budget_amount"  placeholder="Budget amount" required="true" class="form-control" autocomplete="off">                  
+              
+          </div>
+              
+        </div> 
+        <div class="row" style="margin-bottom:10px;"">
+         <div class="col-lg-6">
+            <h4>Start Date</h4>
+              <input type="text" id="datepicker" style="height: 30%;width: 251px;" name="start_date" autocomplete="off">
+          </div>
+          <div class="col-lg-6">
+            <h4>End Date</h4>
+              <input type="text" id="enddatepicker" style="height: 30%;width: 251px;" name="end_date" autocomplete="off">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+          <input type="submit" value ="Submit" class="btn theme-btn pull-right" id="add_budget">
+        </div>
+      </div>
+      <%end%>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+
+    $(document).ready(function() {
+   $(document).on("click", '.addclube', function(event) { 
+    $('#add-document-modal').modal({backdrop: 'static', keyboard: false});
+    $('#add-document-modal').modal('show');
+
+    })
+
+  });
+
+   $(function(){
+    var opened = false;
+    var dp = $('#datepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+
+   $(function(){
+    var opened = false;
+    var dp = $('#enddatepicker').datepicker({
+      autoclose: true,
+      todayHighlight: true,
+      format: 'yyyy-mm-dd',
+      startDate: new Date(),
+    }).on('show', function(){
+      if(!opened){
+        $.ajax({
+          url: 'https://api.jsonbin.io/b/5a4005be0401cf6341fb830b', //["28.12.2017","20.01.2018","27.01.2018"]
+          dataType: 'json',
+          type: 'get',
+          success: function(d){
+            opened = true;
+            dp.datepicker('setDatesDisabled', d);
+          },
+          error: function(){
+            alert('error');
+          }
+        });
+      }
+    });
+  });
+
+   $('#add_budget').on("click",function() {
+    var amount = /^0$|^[1-9]\d*$|^\.\d+$|^0\.\d*$|^[1-9]\d*\.\d*$/;
+    var start_date = $.trim($('#datepicker').val());
+    var end_date =  $.trim($('#enddatepicker').val());
+   if(start_date==""){
+      $('#datepicker').focus();
+      swal("Warning","Please Select Start Date","warning");
+      return false;    
+    }else if(end_date==""){
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select End Date","warning");
+      return false;
+    }
+
+    else if(!amount.test($('#budget_amount').val())|| $('#budget_amount').val().length>10)
+    {
+      $('#budget_amount').focus();
+     swal("Warning","Please enter valid amount","warning");
+     return false;
+    }
+    else if($.trim($('#budget_amount')).val()==="")
+    {
+      $('#budget_amount').focus();
+     swal("Warning","Amount Can't be blank","warning");
+     return false;
+    }
+    else if($('#budget_amount').val()<0)
+    {
+      $('#budget_amount').focus();
+     swal("Warning","Please enter positive amount","warning");
+     return false;
+    }
+    else if(start_date === end_date ) {
+      $('#enddatepicker').focus();
+      swal("Warning","Please Select Diffrent Date","warning");
+      return false;
+    } 
+
+    else if($('#budget_amount').val().length >= 11)
+    {
+      $('#budget_amount').focus();
+      swal("Warning","Please enter valid amount","warning");
+      return false;
+    }
+
+    else
+    {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<img src='/assets/rest-loading.gif' width='20%'>",
+        showConfirmButton: false
+      });
+     
+    }
+  });
+</script>

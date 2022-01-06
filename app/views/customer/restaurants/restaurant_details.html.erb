@@ -1,0 +1,449 @@
+<div class="customer-restaurant-details">
+  <main>
+    <section>
+      <div class="block gray-bg top-padd30">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-12">
+              <div class="sec-box">
+                <div class="sec-wrapper">
+                  <div class="row">
+                    <div class="col-md-8 col-sm-12 col-lg-8">
+                      <div class="restaurant-detail-wrapper">
+                        <div class="restaurant-detail-info">
+                          <div class="restaurant-detail-thumb">
+                            <ul class="restaurant-detail-img-carousel">
+                              <li><%= image_tag(@branch.image, alt: "", height: "400px", class: "restaurant-branch-image") %></li>
+                            </ul>
+                          </div>
+
+                          <div class="restaurant-detail-title">
+                            <h1 itemprop="headline"><%= @branch.restaurant.title %></h1>
+
+                            <div class="info-meta">
+                              <span><%= @branch.address %></span>
+
+                              <span>
+                                <% @branch.category_names.each do |c| %>
+                                  <%= link_to c, "#", style: "pointer-events: none;" %>
+                                <% end %>
+                              </span>
+                            </div>
+
+                            <div class="rating-wrapper">
+                              <a class="gradient-brd brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-star"></i> Rate <i><%= @branch.avg_rating %></i></a>
+
+                              <div class="rate-share brd-rd5">
+                                <div class="rating-box-wrapper">
+                                  <span>Rate</span>
+                                  <div class="rating-box">
+                                    <span class="brd-rd2 clr1 on"></span>
+                                    <span class="brd-rd2 clr2 on"></span>
+                                    <span class="brd-rd2 clr3 on"></span>
+                                    <span class="brd-rd2 clr4 on"></span>
+                                    <span class="brd-rd2 clr5 on"></span>
+                                    <span class="brd-rd2 clr6 on"></span>
+                                    <span class="brd-rd2 clr7 off"></span>
+                                    <span class="brd-rd2 clr8 off"></span>
+                                    <i>4.0</i>
+                                  </div>
+                                </div>
+
+                                <div class="share-wrapper">
+                                  <div class="fb-share">
+                                    <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="switch-slider brd-rd30"></span>
+                                    </label>
+                                    <a class="facebook brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-facebook-square"></i> Share on Facebook</a>
+                                  </div>
+
+                                  <div class="fb-share">
+                                    <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="switch-slider brd-rd30"></span>
+                                    </label>
+                                    <a class="twitter brd-rd2" href="#" title="" itemprop="url"><i class="fa fa-twitter"></i> Share on Twitter</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="restaurant-detail-tabs">
+                            <ul class="nav nav-tabs">
+                              <li class="active"><a href="#tab1-1" data-toggle="tab"><i class="fa fa-cutlery"></i> Menu</a></li>
+                              <li><a href="#tab1-3" data-toggle="tab"><i class="fa fa-star"></i> Reviews</a></li>
+                              <li><a href="#tab1-5" data-toggle="tab"><i class="fa fa-info"></i> Restaurant Info</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                              <div class="tab-pane fade in active" id="tab1-1">
+                                <%= form_for :search, method: :get, html: { class: "search-dish" } do |f| %>
+                                  <%= hidden_field_tag(:id, params[:id]) %>
+                                  <%= hidden_field_tag(:area_id, params[:area_id]) %>
+                                  <%= text_field_tag(:keyword, params[:keyword], placeholder: "Search Restaurant", autocomplete: :off) %>
+                                  <button type="submit"><i class="fa fa-search"></i> Search</button>
+                                <% end %>
+
+                                <% @menu.each do |menu| %>
+                                  <div class="dishes-list-wrapper">
+                                    <h4 class="title3 branch-menu-expand" itemprop="headline"><span class="sudo-bottom sudo-bg-red"><%= menu["category_title"] %></span> <i class="fa fa-plus-circle hide" aria-hidden="true"></i> <i class="fa fa-minus-circle" aria-hidden="true"></i></h4>
+
+                                    <ul class="dishes-list">
+                                      <% all_items = menu[:items].presence || menu["items"] %>
+                                      <% all_items.each do |item| %>
+                                        <li class="wow fadeInUp" data-wow-delay="0.2s">
+                                          <div class="featured-restaurant-box">
+                                            <div class="featured-restaurant-thumb">
+                                              <% if item["item_image"].present? %>
+                                                <%= image_tag(item["item_image"], alt: "", height: "90px", width: "120px", class: "restaurant-menu-item-image") %>
+                                              <% end %>
+                                            </div>
+
+                                            <div class="featured-restaurant-info">
+                                              <h4 itemprop="headline"><a href="#" title="" itemprop="url" style="pointer-events: none;"><%= item["item_name"] %></a></h4>
+                                              <span class="price">
+                                                <% if item["price_per_item"].to_f.zero? %>
+                                                  <span class="price-on-selection">Price on Selection</span>
+                                                <% else %>
+                                                  <% if item["discount"].to_f > 0 %>
+                                                    <strike><small><%= number_with_precision(item["price_per_item"], precision: 3) %> <%= @branch.currency_code_en %></small></strike>
+                                                    <%= number_with_precision(item["after_discount_amount"], precision: 3) %> <%= @branch.currency_code_en %>
+                                                  <% else %>
+                                                    <%= number_with_precision(item["price_per_item"], precision: 3) %> <%= @branch.currency_code_en %>
+                                                  <% end %>
+                                                <% end %>
+                                              </span><br>
+                                              <p itemprop="description"><%= item["item_description"] %></p>
+                                            </div>
+
+                                            <div class="ord-btn">
+                                              <a class="brd-rd2 order-item-details-btn" href="#" title="Order Now" itemprop="url" data-id="<%= item['id'] %>"><%=  %>Order Now</a>
+                                            </div>
+                                          </div>
+                                        </li>
+                                      <% end %>
+                                    </ul>
+                                  </div>
+                                <% end %>
+                              </div>
+
+                              <div class="tab-pane fade" id="tab1-3">
+                                <div class="customer-review-wrapper">
+                                  <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Custo</span>mer Reviews</h4>
+
+                                  <ul class="comments-thread customer-reviews">
+                                    <% @reviews.each do |review| %>
+                                      <li>
+                                        <div class="comment">
+                                          <%= image_tag(review.user.image, alt: "", class: "brd-rd50", height: "100px", width: "100px") %>
+
+                                          <div class="comment-info">
+                                            <h4 itemprop="headline">
+                                              <a href="#" title="" itemprop="url" style="pointer-events: none;">
+                                                <% if review.rating.present? %>
+                                                  (<i class="fa fa-star-o"></i> <%= review.rating %>)
+                                                <% end %>
+
+                                                <%= review.user&.name %>
+                                              </a>
+                                            </h4>
+
+                                            <% if review.review_description.present? %>
+                                              <p itemprop="description"><%= review.review_description %></p>
+                                            <% end %>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    <% end %>
+                                  </ul>
+
+                                  <% if current_user %>
+                                    <div class="your-review">
+                                      <h4 class="title3" itemprop="headline"><span class="sudo-bottom sudo-bg-red">Write</span> Review Here</h4>
+
+                                      <%= form_tag(customer_submit_branch_rating_path, class: "review-form", remote: true) do %>
+                                        <%= hidden_field_tag(:rating_branch_id, @branch.id) %>
+                                        <%= hidden_field_tag(:user_id, current_user.id) %>
+                                        <%= text_area_tag(:review, "", class: "brd-rd5", placeholder: "Write your review here...") %>
+                                        <button class="brd-rd2 red-bg rating-submit-btn" type="submit">POST REVIEW</button>
+                                      <% end %>
+                                    </div>
+                                  <% end %>
+                                </div>
+                              </div>
+
+                              <div class="tab-pane fade" id="tab1-5">
+                                <div class="restaurant-info-wrapper">
+                                  <div class="loc-map" id="loc-map"></div>
+
+                                  <ul class="restaurant-info-list">
+                                    <li>
+                                      <i class="fa fa-map-marker red-clr"></i>
+                                      <strong>Address :</strong>
+                                      <span><%= @branch.address %></span>
+                                    </li>
+
+                                    <li>
+                                      <i class="fa fa-phone red-clr"></i>
+                                      <strong>Contact us</strong>
+                                      <span><%= @branch.contact %></span>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12 col-lg-4 user-cart-container">
+                      <div class="order-wrapper right wow fadeIn" data-wow-delay="0.2s">
+                        <div class="order-inner gradient-brd">
+                          <h4 itemprop="headline">Your Cart</h4>
+                          <div class="order-list-wrapper">
+                            <ul class="order-list-inner">
+                              <%= render "customer/orders/cart_details" %>
+                            </ul>
+                          </div>
+
+                          <% if current_user %>
+                            <%= link_to "CHECKOUT", customer_cart_item_list_path, class: "btn btn-primary checkout-btn" %>
+                          <% elsif params[:scan_branch].present? %>
+                            <%= text_field_tag(:table_number, "", class: "form-control dine-in-order-table-textbox", placeholder: "Enter your table number here..") %>
+
+                            <div class="dine-in-payment-options">
+                              <p><b>Order Type:</b></p>
+                              <p><%= radio_button_tag "order_type", "dine_in", true %> Dine In</p>
+                              <p><%= radio_button_tag "order_type", "takeaway", false %> Takeaway</p>
+                            </div>
+
+                            <div class="dine-in-payment-options">
+                              <p><b>Payment by:</b></p>
+                              <p><%= radio_button_tag "payment", "cash", true %> Cash</p>
+                              <p><%= radio_button_tag "payment", "online", false %> Online</p>
+                              <p><%= radio_button_tag "payment", "credit_card_machine", false %> Credit Card Machine</p>
+                            </div>
+
+                            <%= link_to "CHECKOUT", "#", class: "btn btn-primary checkout-btn dine-in-order-btn", data: { guest: @guestToken } %>
+                          <% else %>
+                            <%= link_to "CHECKOUT", customer_customer_login_path(guest_token: session[:guest_token]), class: "btn btn-primary checkout-btn" %>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="log-popup text-center">
+      <div class="sign-popup-wrapper brd-rd5">
+        <div class="sign-popup-inner brd-rd5">
+          <a class="log-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+          <div class="sign-popup-title text-center">
+            <h4 itemprop="headline">SIGN IN</h4>
+            <span>with your social network</span>
+          </div>
+          <div class="popup-social text-center">
+            <a class="facebook brd-rd3" href="#" title="Facebook" itemprop="url" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
+            <a class="google brd-rd3" href="#" title="Google Plus" itemprop="url" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
+            <a class="twitter brd-rd3" href="#" title="Twitter" itemprop="url" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
+          </div>
+          <span class="popup-seprator text-center"><i class="brd-rd50">or</i></span>
+          <form class="sign-form">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <input class="brd-rd3" type="text" placeholder="Username or Email">
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <input class="brd-rd3" type="password" placeholder="Password">
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <button class="red-bg brd-rd3" type="submit">SIGN IN</button>
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <a class="sign-btn" href="#" title="" itemprop="url">Not a member? Sign up</a>
+                <a class="recover-btn" href="#" title="" itemprop="url">Recover my password</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="sign-popup text-center">
+      <div class="sign-popup-wrapper brd-rd5">
+        <div class="sign-popup-inner brd-rd5">
+          <a class="sign-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+          <div class="sign-popup-title text-center">
+            <h4 itemprop="headline">SIGN UP</h4>
+            <span>with your social network</span>
+          </div>
+          <div class="popup-social text-center">
+            <a class="facebook brd-rd3" href="#" title="Facebook" itemprop="url" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
+            <a class="google brd-rd3" href="#" title="Google Plus" itemprop="url" target="_blank"><i class="fa fa-google-plus"></i> Google</a>
+            <a class="twitter brd-rd3" href="#" title="Twitter" itemprop="url" target="_blank"><i class="fa fa-twitter"></i> Twitter</a>
+          </div>
+          <span class="popup-seprator text-center"><i class="brd-rd50">or</i></span>
+          <form class="sign-form">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <input class="brd-rd3" type="text" placeholder="Username">
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <input class="brd-rd3" type="email" placeholder="Email">
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <input class="brd-rd3" type="password" placeholder="Password">
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <button class="red-bg brd-rd3" type="submit">REGISTER NOW</button>
+              </div>
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <a class="sign-btn" href="#" title="" itemprop="url">Already Registered? Sign in</a>
+                <a class="recover-btn" href="#" title="" itemprop="url">Recover my password</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="payment-popup-wrapper cash-method text-center">
+      <div class="payment-popup-inner" style="background-image: url(assets/images/payment-popup-bg.jpg);">
+        <a class="payment-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+        <h4 class="payment-popup-title" itemprop="headline"><i class="fa fa-money red-clr"></i> Cash Payment</h4>
+        <div class="payment-popup-info">
+          <h5 itemprop="headline">Billing Details</h5>
+          <form class="payment-popup-info-inner">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-lg-6">
+                <ul class="payment-info-list">
+                  <li><span>Name:</span> John Smith</li>
+                  <li><span>Email:</span> john@domain.com</li>
+                  <li><span>Phone:</span> 0231456879</li>
+                  <li><span>Country:</span> India</li>
+                  <li><span>Address:</span> 121 King Street Melbourne Victoria Austrailia <a class="red-clr" href="#" title="" itemprop="url"><i class="fa fa-pencil"></i> Edit</a></li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6">
+                <label>Order Note <sup>*</sup></label>
+                <textarea class="brd-rd3" placeholder="Description..."></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="confrm-order red-bg">
+          <ul class="order-total">
+            <li><span>SubTotal</span> <i>$158</i></li>
+            <li><span>Delivery fee</span> <i>$70</i></li>
+            <li><span>Tax</span> <i>$12</i></li>
+          </ul>
+          <div class="confrm-order-btn">
+            <a class="brd-rd3" href="#" title="" itemprop="url">CONFIRM ORDER</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment-popup-wrapper card-method text-center">
+      <div class="payment-popup-inner" style="background-image: url(assets/images/payment-popup-bg.jpg);">
+        <a class="payment-close-btn" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+        <h4 class="payment-popup-title" itemprop="headline"><i class="fa fa-money red-clr"></i> Card Payment</h4>
+        <div class="payment-popup-info">
+          <h5 itemprop="headline">Billing Details</h5>
+          <form class="payment-popup-info-inner">
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-lg-6">
+                <ul class="payment-info-list">
+                  <li><span>Name:</span> John Smith</li>
+                  <li><span>Email:</span> john@domain.com</li>
+                  <li><span>Phone:</span> 0231456879</li>
+                  <li><span>Country:</span> India</li>
+                  <li><span>Address:</span> 121 King Street Melbourne Victoria Austrailia <a class="red-clr" href="#" title="" itemprop="url"><i class="fa fa-pencil"></i> Edit</a></li>
+                </ul>
+                <h5 itemprop="headline">Payment Method</h5>
+                <ul class="payment-method">
+                  <li>
+                    <div class="radio-box">
+                      <input type="radio" name="mthd22" id="mthd2-1">
+                      <label for="mthd2-1"><img src="assets/images/card-img.jpg" alt="card-img.jpg" itemprop="image"></label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="radio-box">
+                      <input type="radio" name="mthd22" id="mthd2-2">
+                      <label for="mthd2-2"><img src="assets/images/bank-img.jpg" alt="bank-img.jpg" itemprop="image"></label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6 col-sm-6 col-lg-6">
+                <label>Order Note <sup>*</sup></label>
+                <textarea class="brd-rd3" placeholder="Description..."></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="confrm-order red-bg">
+          <ul class="order-total">
+            <li><span>SubTotal</span> <i>$158</i></li>
+            <li><span>Delivery fee</span> <i>$70</i></li>
+            <li><span>Tax</span> <i>$12</i></li>
+          </ul>
+          <div class="confrm-order-btn">
+            <a class="brd-rd3" href="#" title="" itemprop="url">CONFIRM ORDER</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="payment-popup-wrapper thanks-message text-center">
+      <div class="payment-popup-inner red-bg">
+        <a class="thanks-close" href="#" title="" itemprop="url"><i class="fa fa-close"></i></a>
+        <i><img src="assets/images/tick-icon.png" alt="tick-icon.png" itemprop="image"></i>
+        <h3 itemprop="headline">Thanks For Your Order</h3>
+        <p itemprop="description">You Will Receive an email Confirmation Shortly at <a href="#" title="" itemprop="url">info@domain.com</a></p>
+        <img class="thanks-message-mockup right" src="assets/images/resource/thanks-message-mockup.png" alt="thanks-message-mockup.png" itemprop="image">
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACAG0hdhzYNaX80y68Fsn2D5-jQnSGm-Q&libraries=places"></script>
+
+<script>
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("", "<%= flash[:error] %>", "error")
+  <% elsif flash[:warning].present? %>
+    swal("<%= flash[:warning] %>")
+  <% end %>
+
+  <% if @branch.latitude.present? && @branch.longitude.present? %>
+    var latitude = <%= @branch.latitude %>;
+    var longitude = <%= @branch.longitude %>;
+
+    function initMap() {
+      const myLatLng = { lat: latitude, lng: longitude };
+      const map = new google.maps.Map(document.getElementById("loc-map"), {
+        zoom: 15,
+        center: myLatLng
+      });
+      new google.maps.Marker({
+        position: myLatLng,
+        map,
+      });
+    }
+
+    google.maps.event.addDomListener(window, "load", initMap);
+  <% end %>
+
+  if($(window).width() <= 480) {
+    $(".branch-menu-expand").trigger("click");
+  }
+</script>

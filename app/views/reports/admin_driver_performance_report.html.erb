@@ -1,0 +1,147 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-md-4">
+    <h2>Driver Performance Report</h2>
+  </div>
+
+    <%= form_for :search, method: :get, html: { class: "form-inline" }, authenticity_token: true do |f| %>
+      <div class="col-md-2">
+        <h2><%= text_field_tag(:start_date, @start_date, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %></h2>
+      </div>
+
+      <div class="col-md-2">
+        <h2><%= text_field_tag(:end_date, @end_date, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %></h2>
+      </div>
+
+      <div class="col-md-2">
+        <h2><%= select_tag(:searched_company_id, options_for_select(@companies, params[:searched_company_id]), prompt: "Select Company", class: "form-control admin-search-field") %></h2>
+      </div>
+
+      <div class="col-md-2">
+        <h2><%= select_tag(:searched_restaurant_id, options_for_select(@restaurants, params[:searched_restaurant_id]), prompt: "Select Restaurant", class: "form-control admin-search-field") %></h2>
+      </div>
+
+      <div class="col-md-2">
+        <h2><%= text_field_tag(:keyword, params[:keyword], placeholder: "Search by Id,Name,CPR", class: "form-control admin-search-field", autocomplete: :off) %></h2>
+      </div>
+
+      <div class="col-md-2">
+        <h2><%= submit_tag "SEARCH", class: "btn btn-success btn-sm" %></h2>
+      </div>
+    <% end %>
+
+  <div class="col-md-2">
+    <h2>
+      <%= link_to admin_driver_performance_report_path(format: :csv, start_date: params[:start_date], end_date: params[:end_date], searched_company_id: params[:searched_company_id], searched_restaurant_id: params[:searched_restaurant_id], keyword: params[:keyword]) do  %>
+        <button class="btn btn-sm btn-info" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5><%= page_entries_info @transporters %></h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @transporters.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>CPR No</th>
+                  <th>Delivery Company</th>
+                  <th>Restaurant</th>
+                  <th>Total Orders</th>
+                  <th>Total Delivered Orders</th>
+                  <th>Cancelled Deliveries</th>
+                  <th>Cancelled Due to Customer</th>
+                  <th>Cancelled after Pickup</th>
+                  <th>Delivery Time</th>
+                  <th>Order Accept Time</th>
+                  <th>Not Onway in 30 mins</th>
+                  <th>Shifts Present</th>
+                  <th>Late Shifts</th>
+                  <th>Late Shifts Rate</th>
+                  <th>Planned Hours</th>
+                  <th>Worked Hours</th>
+                  <th>Worked Hours Rate</th>
+                  <th>Break Time</th>
+                  <th>Busy Time</th>
+                  <th>Idle Time</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @transporters.each do |user| %>
+                  <% user_orders = user.order_transporters.where("DATE(orders.created_at) >= ? AND DATE(orders.created_at) <= ?", @start_date, @end_date) %>
+                  <% timings = user.transporter_timings.where("DATE(transporter_timings.created_at) >= ? AND DATE(transporter_timings.created_at) <= ?", @start_date, @end_date) %>
+                  <% planned_time = timings.uniq { |t| t.created_at.to_date }.map(&:shift_duration).sum %>
+                  <% working_time = timings.map(&:session_duration).sum %>
+                  <% busy_time = user.busy_time(user_orders) %>
+
+                  <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.name %></td>
+                    <td><%= user.cpr_number %></td>
+                    <td><%= user.delivery_company&.name.presence || "NA" %></td>
+                    <td><%= user.branches.first&.restaurant&.title.presence || "NA" %></td>
+                    <td><%= link_to user_orders.size, transporter_order_list_path(user_id: user.id, start_date: params[:start_date], end_date: params[:end_date]) %></td>
+                    <td><%= user_orders.select { |o| o.is_delivered == true }.size %></td>
+                    <td><%= user_orders.select { |o| o.is_cancelled == true }.size %></td>
+                    <td><%= user_orders.select { |o| o.is_cancelled == true && o.cancel_request_by == "Customer" }.size %></td>
+                    <td><%= user_orders.select { |o| o.is_cancelled == true && o.pickedup == true }.size %></td>
+                    <td><%= user_orders.select { |o| o.is_delivered == true }.present? ? user.average_order_delivery_time(user_orders).to_s + " mins" : "NA" %></td>
+                    <td><%= user_orders.select { |o| o.driver_accepted_at.present? }.present? ? user.average_order_accept_time(user_orders).to_s + " mins" : "NA" %></td>
+                    <td><%= user_orders.select { |o| o.pickedup_at && o.driver_accepted_at && ((o.pickedup_at - o.driver_accepted_at).to_i > 1800) }.size %></td>
+                    <td><%= total_shifts = timings.map(&:shifts_done).uniq.count %></td>
+                    <td><%= late_shifts = timings.map(&:late_shifts).uniq.count %></td>
+
+                    <td>
+                      <% if user.delivery_company && total_shifts.positive? %>
+                        <%= ((late_shifts / total_shifts.to_f) * 100).to_f.round(2).to_s + "%"  %>
+                      <% end %>
+                    </td>
+
+                    <td><%= time_duration(planned_time) if user.delivery_company %></td>
+                    <td><%= time_duration(working_time) %></td>
+
+                    <td>
+                      <% if user.delivery_company && planned_time.to_f.positive? %>
+                        <%= ((working_time / planned_time.to_f) * 100).to_f.round(2).to_s + "%"  %>
+                      <% end %>
+                    </td>
+
+                    <td><%= time_duration(planned_time - working_time) if user.delivery_company %></td>
+                    <td><%= time_duration(busy_time) %></td>
+                    <td><%= time_duration(working_time - busy_time) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No driver available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div>
+          <center> <%= will_paginate @transporters, renderer: BootstrapPagination::Rails %></center><br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+</script>

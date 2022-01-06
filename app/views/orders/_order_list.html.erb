@@ -1,0 +1,213 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+
+<style type="text/css">
+  .setheight {
+    height:100% !important;
+  }
+
+  .form-group {
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+
+  .csv-button {
+    margin-left: 15px;
+    margin-top: 0px;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+</style>
+
+<% currency = @orders.first&.currency_code_en %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-md-2">
+      <h2>Order List <span class="timer">25</span></h2>
+    </div>
+    <div class="col-md-10">
+      <div class="">
+        <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+          <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+            <%= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i), class: "form-control admin-search-field", style: "width: 100px !important;" %>
+
+            <% if is_super_admin?(@admin) %>
+              <%= select_tag(:country_id, options_for_select(@countries, params[:country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+            <% end %>
+
+            <%= select_tag(:order_type, options_for_select(Order::ORDER_TYPE, params[:order_type]), prompt: "Select Order Type", class: "form-control admin-search-field") %>
+            <%= select_tag(:delivery_type, options_for_select(Order::DELIVERY_TYPE, params[:delivery_type]), prompt: "Select Delivery Type", class: "form-control admin-search-field") %>
+            <%= select_tag(:order_status, options_for_select(Order::STATUSES, params[:order_status]), prompt: "Select Status", class: "form-control admin-search-field") %>
+            <input type="text" class="form-control admin-search-field" name="keyword" value="<%=params[:keyword]%>" placeholder="ID, Restaurant, Branch" autocomplete="off">
+
+            <span class="form-groups">
+              <%= text_field_tag(:start_date, (params[:start_date].presence || Date.today), autocomplete: :off, class: "form-control admin-search-field", placeholder: "start date", id: "start_datepicker") %>
+            </span>
+
+            <span class="form-groups">
+              <%= text_field_tag(:end_date, (params[:end_date].presence || Date.today), autocomplete: :off, class: "form-control admin-search-field", placeholder: "end date", id: "end_datepicker") %>
+            </span>
+
+            <button type="submit" class="btn btn-danger"> Search </button>
+
+            <% if @orders.present? %>
+              <%= link_to "View Locations", order_list_path(keyword: params[:keyword], country_id: params[:country_id], order_type: params[:order_type], delivery_type: params[:delivery_type], order_status: params[:order_status], start_date: params[:start_date], end_date: params[:end_date], map: true), remote: true, class: "btn btn-info" %>
+            <% end %>
+          <% end %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="padding: 10px; height: 55px;">
+          <div>
+            <%= link_to order_list_path(format: :csv, keyword: params[:keyword], country_id: params[:country_id], order_type: params[:order_type], delivery_type: params[:delivery_type], order_status: params[:order_status], start_date: params[:start_date], end_date: params[:end_date]) do %>
+              <button class="btn btn-sm btn-warning csv-button pull-right" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+            <% end %>
+          </div>
+          <span class="pull-right" style="padding: 6px;"><b><%= @orders.total_entries %> ORDERS</b></span>
+
+          <h5 style="padding: 8px;">Total Amount: <%= number_with_precision(@orders.sum(:total_amount).to_f, precision: 3) %> <%= currency %></h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name</th>
+                  <th>Branch</th>
+                  <th>Order Type</th>
+                  <th>Delivery Type</th>
+                  <th>Order Time</th>
+                  <th>Total Amount (<%= currency %>)</th>
+                  <th>Customer Name</th>
+                  <th>Transporter</th>
+                  <th>Status</th>
+                  <th>Distance(km)</th>
+
+                  <% if is_super_admin?(@admin) || @admin.role_id != 7 %>
+                    <th>Action</th>
+                    <th>Comments</th>
+                  <% end %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @orders.each do |b| %>
+                  <tr id="card-<%= b.id %>" class="<%= 'changed-delivery-order' if b.changed_delivery %> <%= 'late-delivered-order' if b.late_delivered_order %>">
+                    <td><%= b.id %></td>
+                    <td><%= b.branch.restaurant.title %></td>
+                    <td><%= b.branch.address %></td>
+
+                    <td>
+                      <%= b.order_type == "prepaid" ? "Online" : b.order_type == "postpaid" ? "Cash on delivery" : "Credit Card Machine" %>
+
+                      <% if b.on_demand %>
+                        (<b>On Demand</b>)
+                      <% end %>
+
+                      <% if b.card_type.present? %>
+                        (<b><%= b.card_type %> Card</b>)
+                      <% end %>
+                    </td>
+
+                    <td><%= b.third_party_delivery ? "Food Club" : "Restaurant" %></td>
+                    <td><%= b.created_at.strftime("%d %b %Y %l:%M%p") %></td>
+                    <td><%= b.total_amount %></td>
+                    <td><%= b.user ? b.user.name : b.cart.user.name %></td>
+                    <td><%= b.transporter&.name %></td>
+                    <td><b><%= b.current_status %></b></td>
+                    <td><%= b.distance %></td>
+
+                    <% if is_super_admin?(@admin) || @admin.role_id != 7 %>
+                      <td>
+                        <% if b.late_delivered_order && b.late_delivery_duration.to_i.positive? %>
+                          <b>Late: <%= b.late_delivery_duration.to_i %> mins<b><br>
+                        <% end %>
+
+                        <a href="<%= order_path(encode_token(b.id)) %>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+
+                        <% unless b.dine_in %>
+                          <% if b.order_drivers.present? %>
+                            <%= link_to '<i class="fa fa-history"></i>'.html_safe + " Driver History", order_transporter_history_path(order_id: b.id), class: "btn btn-xs btn-info", remote: true %>
+                          <% end %>
+
+                          <% if b.current_status == "ONWAY" %>
+                            <%= link_to '<i class="fa fa-map-marker"></i>'.html_safe + " Live Tracking", customer_live_order_tracking_path(id: b.id), class: "btn btn-xs btn-warning", target: "_blank" %>
+                          <% end %>
+
+                          <% if b.transporter_id && !b.is_delivered && !b.is_cancelled %>
+                            <%= link_to '<i class="fa fa-repeat"></i>'.html_safe + " Change Driver", admin_change_driver_path(order_id: b.id), class: "btn btn-xs btn-success", remote: true %>
+                          <% end %>
+                        <% end %>
+
+                        <% if b.transporter&.delivery_company_id.present? && !b.is_delivered && !b.is_cancelled %>
+                          <%= link_to '<i class="fa fa-map-marker"></i>'.html_safe + " Driver Locations", order_all_driver_locations_path, class: "btn btn-xs btn-info", target: "_blank" %>
+                        <% end %>
+                      </td>
+
+                      <td>
+                        <% if b.dine_in %>
+                          <b><%= b.table_number.present? ? "DINE IN" : "TAKEAWAY" %></b>
+                        <% else %>
+                          <b><%= b.changed_delivery ? "Changed Order" : "" %></b>
+                        <% end %>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No orders available yet.</div></center>
+          <% end %>
+        </div>
+
+        <div class="col-lg-12">
+         <center><%= will_paginate @orders, renderer: BootstrapPagination::Rails %></center><br>
+       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+
+  var timer = 25;
+
+  var interval = setInterval(function() {
+    if($("#other_drivers_modal:visible").length == 0 && $("#order_driver_history_modal:visible").length == 0) {
+      timer--;
+      $(".timer").text(timer);
+
+      if (timer === 0) {
+        clearInterval(interval);
+        $.ajax({
+          url: "/order/list?agex=true&per_page=" + "<%= params[:per_page].presence || 20 %>" + "&page=" + "<%= params[:page].presence || 1 %>"+ "&keyword=" + "<%= params[:keyword].to_s %>" + "&order_type=" + "<%= params[:order_type] %>" + "&delivery_type=" + "<%= params[:delivery_type] %>" + "&country_id=" + "<%= params[:country_id] %>" + "&order_status=" + "<%= params[:order_status] %>" + "&start_date=" + "<%= params[:start_date] %>" + "&end_date=" + "<%= params[:end_date] %>",
+          type: "GET",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          dataType: "script",
+          success: function(response) {}
+        });
+      }
+
+      window.setInterval(timer, 1000);
+    }
+  },
+  1000);
+</script>

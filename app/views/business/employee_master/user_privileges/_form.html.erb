@@ -1,0 +1,189 @@
+<%= form_for(@privilege, url: (params[:action] == "edit" ? business_employee_master_restaurant_user_privilege_path : business_employee_master_restaurant_user_privileges_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+	<%= f.hidden_field :restaurant_id, value: params[:restaurant_id]%>
+
+	<div class="row form-group">
+				<div class="col-md-6">
+					<%= f.label :country , class: "label_align"%>
+					<%= f.select(:country_ids, options_from_collection_for_select(Country.all, :id, :name, @privilege.country_ids), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+				</div>
+
+				<div class="col-md-6">
+					<%= f.label :branch , class: "label_align"%>
+					<div id="branch_container">
+						<% if params[:action] == "edit"%>
+							<%= f.select(:branch_ids, options_from_collection_for_select(@restaurant.branches.where(country: Country.where(id: @privilege.country_ids).map(&:name)), :id, :address, find_location_assign_ids(@privilege)), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+						<% else %>
+							<%= f.select(:branch_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+						<% end %>
+					</div>
+				</div>
+	</div>
+
+
+
+	<div class="row form-group">
+		<div class="col-md-6">
+			<%= f.label :department , class: "label_align"%>
+			<%= f.select(:department_ids, options_from_collection_for_select(@restaurant.departments, :id, :name, @privilege.department_ids), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+		</div>
+
+		<div class="col-md-6">
+			<%= f.label :designation , class: "label_align"%>
+			<div id="designation_container">
+				<% if params[:action] == "edit" %>
+					<%= f.select(:designation_ids, options_from_collection_for_select(Designation.where(id: @privilege.designation_ids), :id, :name, @privilege.designation_ids), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+				<% else %>
+					<%= f.select(:designation_ids, options_for_select([]), {:include_hidden => false}, {class: 'form-control setheight select2_branch', style: 'height: 40px!important;', multiple: true, required: true}) %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+
+	<%= f.hidden_field :created_by_id, value: @user.id %>
+
+	<div class="row form-group" style="margin-top: 20px">
+		<div class="col-md-12">
+			<label>Assign Privileges</label>
+		</div>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'fc' %>
+	</div>
+
+
+	<div class="row form-group">
+		<%= render 'pos' %>
+	</div>
+
+
+	<div class="row form-group">
+		<%= render 'pos_order_tracking' %>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'pos_other_pages' %>
+	</div>
+
+
+	<div class="row form-group">
+		<%= render 'hrms' %>
+	</div>
+
+
+	<div class="row form-group">
+		<%= render 'mc' %>
+	</div>
+
+
+	<div class="row form-group">
+		<%= render 'kds' %>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'task_management' %>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'masters' %>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'training' %>
+	</div>
+
+	<div class="row form-group">
+		<%= render 'document_scan' %>
+	</div>
+
+	<!-- <div class="row form-group">
+		<%#= render 'enterprise' %>
+	</div> -->
+
+
+	<div class="row form-group">
+		<%= render 'reports' %>
+	</div>
+
+
+
+	<div class="row form-group">
+		<% if params[:action] == "edit" %>
+			<center><%= f.submit "Update Privilege", class: "btn btn-success btn-sm" %></center>
+		<% else %>
+			<center><%= f.submit "Create Privilege", class: "btn btn-success btn-sm" %></center>
+		<% end %>
+	</div>
+<% end %>
+
+
+
+<script type="text/javascript">
+
+	$("#user_privilege_country_ids").select2({
+    	placeholder: "Select Country",
+    	allowClear: true
+	});
+
+	$('#user_privilege_country_ids').change(function(){
+		var select = $('#user_privilege_country_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+		$.ajax({
+		  type: "GET",
+		  url: "<%= find_country_based_branch_business_employee_master_restaurant_user_privileges_path(restaurant_id: params[:restaurant_id]) %>",
+		  data: { country_name: selected_options }
+		});
+	});
+
+	$("#user_privilege_branch_ids").select2({
+    	placeholder: "Select Branch",
+    	allowClear: true
+	});
+
+	$("#user_privilege_department_ids").select2({
+    	placeholder: "Select Department",
+    	allowClear: true
+	});
+
+	$('#user_privilege_department_ids').change(function(){
+		var select = $('#user_privilege_department_ids option:selected')
+		var selected_options = []
+		for (var i = 0; i < select.length; i++){
+			selected_options.push(select[i].text)
+		}
+    $.ajax({
+      type: "GET",
+      url: "<%= find_designation_based_department_business_employee_master_restaurant_user_privileges_path(restaurant_id: params[:restaurant_id]) %>",
+      dataType: 'script',
+      data: {id: selected_options}
+    });
+  });
+
+  $("#user_privilege_designation_ids").select2({
+    	placeholder: "Select Designation",
+    	allowClear: true
+	});
+
+	$("#user_privilege_employee_ids").select2({
+    	placeholder: "Select Employee",
+    	allowClear: true
+	});
+
+
+</script>
+
+
+<style type="text/css">
+	.label_align{
+		text-align: center;
+		display: block;
+	}
+	.label_color{
+		color: grey;
+	}
+</style>
+

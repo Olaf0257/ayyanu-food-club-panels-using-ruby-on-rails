@@ -1,0 +1,8 @@
+<% if addon_categories.present? %>
+	<% isValid = false %>
+	<% addon_categories.each_with_index do |addon_category, index| %>
+		<div class="blue add-on-item <%= !isValid && category_hash[addon_category.id].present? ? 'active-menuon' : '' %>" data-category="<%= addon_category.id %>" data-category-max-qty="<%= addon_category.max_selected_quantity %>" data-category-min-qty="<%= addon_category.min_selected_quantity %>" data-current-count="<%= getCurrentCount(addon_category, params[:pos_table_id], params[:menu_item_id]) %>"><%= addon_category.addon_category_name %></div>
+		<% isValid =  category_hash[addon_category.id].present? %>
+	<% end %>
+	<div class="blue add-on-item" data-category="comment">Comment</div>
+<% end %>

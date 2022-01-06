@@ -1,0 +1,796 @@
+<style type="text/css">
+  .button-action{
+  margin-top: 20px;
+  margin-right: -262px;
+  }
+  .bs-wizard {margin-top: 40px;}
+  .bs-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
+  .bs-wizard > .bs-wizard-step {padding: 0; position: relative;}
+  .bs-wizard > .bs-wizard-step + .bs-wizard-step {}
+  .bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
+  .bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
+  .bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block;  left: 50%; margin-top: -35px; margin-left: -15px; border-radius: 50%;}
+  .bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #2E92FF; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
+  .bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 2px; box-shadow: none; margin: 20px 0;}
+  .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #2E92FF;}
+  .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
+  .bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:100%;}
+  .bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:100%;}
+  .bs-wizard > .bs-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+  .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot {background-color: #dbd7d6;}
+  .bs-wizard > .bs-wizard-step.disabled > .bs-wizard-dot:after {opacity: 0;}
+  /*.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 50%;}*/
+  /*.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}*/
+  .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
+
+  .bs-wizard > .bs-wizard-step {
+      padding-bottom: 15px;
+  }
+
+  .left-col{
+    display: flex;
+    display: -webkit-flex;
+  }
+@media screen and (max-width: 575px){
+  .left-col{
+    padding-bottom: 6px;
+    padding-top: 15px;
+  }
+}
+  @media screen and (max-width: 512px){
+    .bs-wizard > .bs-wizard-step .bs-wizard-stepnum{
+      font-size: 13px;
+      font-weight: bold;
+    }
+  }
+
+  .order-img{
+    width: 80px;
+    height: 80px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .contact-box {
+      background-color: white;
+      border: 1px solid #e7eaec;
+      padding: 20px;
+      margin-bottom: 20px;
+      min-height: 17em;
+  }
+  @media screen and (max-width:575px){
+    .contact-box {
+        height: auto;
+    }
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-4">
+    <h2>Order Details</h2>
+  </div>
+  <div class="col-md-4">
+    <% if @order.is_cancelled %>
+      <h5 style="color:red;margin-top: 24px;">Cancelled by: <b><%= @order.cancel_request_by&.upcase.to_s %> <br> Reason: <%= @order.cancellation_reason %></b></h5>
+    <%elsif (@order.is_rejected==true and @order.cancel_reason.present?)%>
+      <h5 style="color:red;margin-top: 24px;">Reject Reason : <%=@order.is_rejected ==true ? @order.cancel_reason: "" %></h5>
+    <%end%>
+  </div>
+  <%if @order.is_accepted == false and @order.is_rejected ==false and @order.pickedup ==false and @order.is_delivered ==false and @order.is_ready == false and @order.is_cancelled == false %>
+  <a class="btn btn-sm pull-right btn-danger" onclick="accept_order(<%=@order.id%>,'reject')" style="font-size: 13px; margin-top: 22px; color: white;"><i aria-hidden="true"></i> Decline Order</a>
+  <a  class="btn btn-sm pull-right" onclick="accept_order(<%=@order.id%>,'accept')" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>Accept Order</a>
+  <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+  <%elsif @order.is_accepted == true and @order.is_rejected ==false and @order.pickedup ==false and @order.is_delivered ==false and @order.is_ready == false and @order.is_cancelled == false  %>
+  <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+  <%if @order.is_ready == false and @order.cooked_at.present?%>
+    <a href="#" class="btn btn-sm pull-right" onclick="coocking_finished_order(<%=@order.id%>,<%=@order.branch_id%>)" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>COOKING FINISH / DRIVER ARRIVED</a>
+
+    <% unless @order.dine_in %>
+      <a href="#" class="btn btn-sm pull-right changeTransporter <%= 'hide' if @order&.third_party_delivery %>" data-target="#change-transporter-model" data-toggle="modal"  data-backdrop="static" data-keyboard="false" style="font-size: 13px; background-color: #EA2B12; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true">Change Driver</i></a>
+    <% end %>
+  <%else%>
+    <% if @order&.third_party_delivery %>
+      <a href="<%= business_transporter_auto_assign_path(order_id: @order.id) %>" class="btn btn-sm pull-right" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>COOKING</a>
+    <% elsif @order.dine_in %>
+      <a href="<%= business_transporter_assign_dine_in_order_path(order_id: @order.id) %>" class="btn btn-sm pull-right" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>COOKING</a>
+    <% else %>
+      <a href="#" class="btn btn-sm pull-right addTransporter " data-target="#add-transporter-model" data-toggle="modal"  data-backdrop="static" data-keyboard="false" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>COOKING</a>
+    <% end %>
+  <%end%>
+  <%elsif @order.is_accepted == true and @order.is_rejected ==false and @order.pickedup ==false and @order.is_delivered ==false and @order.is_ready == true and @order.is_cancelled == false  %>
+ <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+
+  <% if @order.dine_in %>
+    <a href="#" class="btn btn-sm pull-right" onclick="order_onway(<%=@order.id%>)" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true">Order OnWAY</i></a>
+  <% end %>
+
+  <%elsif @order.is_accepted == true and @order.is_rejected ==false and @order.pickedup ==true and @order.is_delivered ==false and @order.is_ready == true and @order.is_cancelled == false  %>
+  <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+
+  <% if @order.dine_in %>
+    <a href="#" class="btn btn-sm pull-right" onclick="web_business_order_delivered(<%=@order.id%>,<%=@order.branch.id%>)" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>DELIVERED</a>
+  <% end %>
+
+  <% unless @order.dine_in %>
+    <a href="<%=business_order_live_tracking_path(:restaurant_id=>params[:restaurant_id] ,id: @order.id)%>" class="btn btn-sm pull-right" style="font-size: 13px; background-color: #23c6c8; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>Live Tracking</a>
+  <% end %>
+
+  <%elsif @order.is_accepted == false and @order.is_rejected ==true and @order.pickedup ==false and @order.is_delivered ==false and @order.is_ready == false and @order.is_cancelled == false   %>
+  <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+  <label class="btn btn-sm pull-right" style="font-size: 13px; background-color: #dc3545; color: white;margin-right: 11px; margin-top: 22px;"><i aria-hidden="true"></i>Order Rejected</label>
+  <%else %>
+  <%if (@user.auths.first.role=="business")%>
+    <a href="<%=business_order_invoice_path(:restaurant_id=>params[:restaurant_id],id: @order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%elsif(@user.auths.first.role=="manager") %>
+    <a href="<%=business_manager_order_invoice_path(@order.id)%>" style="font-size: 13px; color: white;margin-right: 11px; margin-top: 22px;" class="btn btn-primary pull-right"><i class="fa fa-print"></i> View Invoice </a>
+  <%end%>
+
+ <%end%>
+</div>
+
+
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row bs-wizard " style="border-bottom:0;">
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 bs-wizard-step active text-center">
+      <div class="text-center bs-wizard-stepnum">ORDER INITIATE</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+        <input type="hidden" name="restaurant_id" value="<%params[:restaurant_id]%>">
+      </div>
+      <!-- <a href="/assets/tracking1.png" class="bs-wizard-dot"></a> -->
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking1.png">
+      <span><%=@order.created_at.present? ? (@order.created_at).strftime("%d %b %Y %l:%M %p") : ""%></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 text-center bs-wizard-step <%=@order.is_accepted ? 'active' : 'disabled'%>">
+      <!-- complete -->
+      <div class="text-center bs-wizard-stepnum">ORDER ACCEPTED</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking2.png">
+      <span><%=@order.accepted_at.present? ? (@order.accepted_at).strftime("%d %b %Y %l:%M %p") : "" %></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 text-center bs-wizard-step <%=@order.is_ready ? 'active' : 'disabled'%>">
+      <!-- complete -->
+      <div class="text-center bs-wizard-stepnum"><%=@order.is_ready==false ? @order.cooked_at.present? ? "COOKING" : "COOKING" : "COOKING FINISH" %></div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking3.png">
+      <span><%=@order.cooked_at.present? ? (@order.cooked_at).strftime("%d %b %Y %l:%M %p") : ""%></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 text-center bs-wizard-step <%=@order.pickedup ? 'active' : 'disabled'%>">
+      <!-- complete -->
+      <div class="text-center bs-wizard-stepnum">ORDER ONWAY</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking4.png">
+      <span><%=@order.pickedup_at.present? ? (@order.pickedup_at).strftime("%d %b %Y %l:%M %p") : "" %></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 text-center bs-wizard-step <%=@order.is_delivered ? 'active' : 'disabled'%>">
+      <!-- active -->
+      <div class="text-center bs-wizard-stepnum">DELIVERY</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking5.png">
+      <span><%=@order.delivered_at.present? ? (@order.delivered_at).strftime("%d %b %Y %l:%M %p") : "" %></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4 text-center bs-wizard-step <%=@order.is_settled ? 'active' : 'disabled'%>">
+      <!-- active -->
+      <div class="text-center bs-wizard-stepnum">SETTLED</div>
+      <div class="progress">
+        <div class="progress-bar"></div>
+      </div>
+      <img alt="image" class="img-circle m-t-s img-responsive bs-wizard-dot" src="/assets/tracking6.png">
+      <span><%=@order.settled_at.present? ? (@order.settled_at).strftime("%d %b %Y %l:%M %p") : "" %></span>
+      <div class="bs-wizard-info text-center"></div>
+    </div>
+
+  </div>
+
+   <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="contact-box">
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img alt="image" class="order-img img-circle m-t-xs img-responsive" src="<%=@order.user.present? ? @order.user.image.present? ? @order.user.image : '/assets/user.png' : '/assets/user.png'%>">
+            <div class="m-t-xs font-bold">Customer</div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <h3><strong><%=@order.user.present? ? @order.user.name : 'No Name'%></strong></h3>
+          <!-- <p><i class="fa fa-envelope"></i> <%#=@order.user.present? ? @order.user.email : 'Not Present'%></p> -->
+          <p><i class="fa fa-phone"></i> <%=@order.contact? ? @order.contact : 'Not Present'%></p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="contact-box">
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img alt="image" class="order-img img-circle m-t-xs img-responsive" src="<%=@order.branch.restaurant.logo.present? ? @order.branch.restaurant.logo : '/assets/ic_placeholder.png'%>">
+            <div class="m-t-xs font-bold">Branch</div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <h3><strong><%=@order.branch.restaurant.title%></strong></h3>
+          <p><i class="fa fa-map-marker"></i> <%=@order.branch.address%> <%= ',' + @order.branch.city%></p>
+          <p> <%=@order.branch.daily_timing%> timings</p>
+          <p> <%=@order.branch.contact.present? ? @order.branch.contact : 'Not available'%></p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div class="contact-box">
+        <div class="col-sm-4">
+          <div class="text-center">
+            <img alt="image" class="order-img img-circle m-t-xs img-responsive" src="<%=@order.transporter.present? ? @order.transporter.image.present? ? @order.transporter.image : '/assets/user.png'  : '/assets/user.png' %>">
+            <div class="m-t-xs font-bold">Transporter</div>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <h3><strong><%=@order.transporter.present? ? @order.transporter.name : 'No Name'%></strong></h3>
+          <p><i class="fa fa-envelope"></i> <%=@order.transporter.present? ? @order.transporter.cpr_number : 'No cpr'%></p>
+          <p><i class="fa fa-phone"></i> <%=@order.transporter.present? ? @order.transporter.country_code + '' + @order.transporter.contact : 'Not Present'%></p>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+<input type="hidden" name="restaurant_id" value="<%=params[:restaurant_id]%>">
+   <div class="row">
+    <div class="col-lg-12">
+      <div class='panel panel-primary active table-responsive'>
+        <table class="table table-striped table-bordered">
+          <tbody>
+            <tr>
+              <th style="color:black;">
+                <center>Order Detail</center>
+              </th>
+              <th style="color:black;">
+                <center>Payment Detail</center>
+              </th>
+              <th style="color:black;">
+                <center>Delivery Address</center>
+              </th>
+            </tr>
+            <tr>
+              <td>
+                <table class="table table-striped table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>Order Id </td>
+                      <td>
+                        <%=@order.id%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Items</td>
+                      <td>
+                        <%=@order.order_items.count%> items
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Amount</td>
+                      <td>
+                        <%=number_with_precision(@order.total_amount,:precision => 3)%> BD
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Ordered </td>
+                      <td>
+                        <%=(@order.created_at).strftime("%d %b %Y %l:%M %p")%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Contact</td>
+                      <td>
+                        <%=@order.contact.present? ? @order.contact : 'Not Available'%>
+                      </td>
+                    </tr>
+
+                    <% if @order.dine_in %>
+                      <tr>
+                        <td>Order Type</td>
+                        <td>
+                          <b><%= @order.table_number.present? ? "DINE IN" : "TAKEAWAY"  %></b>
+                        </td>
+                      </tr>
+
+                      <% if @order.table_number.present? %>
+                        <tr>
+                          <td>Table Number</td>
+                          <td>
+                            <%= @order.table_number %>
+                          </td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </td>
+              <td>
+                <table class="table table-striped table-bordered">
+                  <tbody>
+                    <tr>
+                      <td>Status</td>
+                      <td>
+                        <span class="label label-info"><%=@order.is_paid ? 'Paid' : 'Not Paid'%></span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Transaction No</td>
+                      <td>
+                        <%=@order.transection_id.present? ? @order.transection_id : "N/A"%>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Paid Amount</td>
+                      <td>
+                        <%=number_with_precision(@order.total_amount,:precision => 3)%> BD
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Order Type</td>
+                      <td>
+                      <%p @order%>
+                        <%=@order.order_type=='prepaid' ? 'Online' : @order.order_type=='postpaid' ? 'Cash on Delivery' : 'CREDIT CARD MACHINE' %>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Payment By</td>
+                      <td>
+                        <%=@order.pos_check_id.present? ? @order.payment_mode : @order.payment_mode== 'online' ? 'Card' : @order.payment_mode== 'COD' ? 'Cash' : "CREDIT CARD MACHINE"%>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+              <td>
+                <table class="table table-striped table-bordered">
+                  <tbody>
+                    <% if @order.area.present? %>
+                      <tr>
+                        <td>Area</td>
+                        <td><%= @order.area %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.address_type.present? %>
+                      <tr>
+                        <td>Property Type</td>
+                        <td><%= @order.address_type %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.block.present? %>
+                      <tr>
+                        <td>Block</td>
+                        <td><%= @order.block %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.street.present? %>
+                      <tr>
+                        <td>Road Number</td>
+                        <td><%= @order.street %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.building.present? %>
+                      <tr>
+                        <td>Building</td>
+                        <td><%= @order.building %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.floor.present? %>
+                      <tr>
+                        <td>Floor</td>
+                        <td><%= @order.floor %></td>
+                      </tr>
+                    <% end %>
+
+                    <% if @order.apartment_number.present? %>
+                      <tr>
+                        <td><%= @order.address_type %> No</td>
+                        <td><%= @order.apartment_number %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-lg-12">
+      <div class="ibox-content bg-white" style="padding:5px 20px;">
+        <h3>Delivery Request : <%=@order.note.present? ? @order.note : "N/A"%></h3>
+      </div>
+    </div>
+  </div>     <br>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox-content bg-white" style="padding:5px 20px;">
+        <h2>Ordered Items</h2>
+        <div class="full-height-scroll">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Quantity</th>
+                  <th>Item List</th>
+                  <th>Unit Price (BD)</th>
+                  <th>Discount (BD)</th>
+                  <th>Total Price (BD)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@order_items.each do |item|%>
+                <tr>
+                  <td>
+                    <% if item.menu_item&.item_image.present? %>
+                      <a href=""><img src="<%= item.menu_item.item_image %>" style="height:5vh;"></a>
+                    <% end %>
+                  </td>
+
+                <td><strong><%=item.quantity%></strong></td>
+                <td>
+                  <div><strong><%=item.menu_item.item_name%></strong></div>
+                  <small><%if (item.order_item_addons.present?)%>
+                    <%item.order_item_addons.each do |ad|%>
+                    <span ><%=ad.item_addon.present? ? ad.item_addon.addon_title.to_s + " " + number_with_precision(ad.item_addon.addon_price, precision: 3).to_s + " BD"  : ''%></span>
+                    <%end%>
+                  <%end%>
+                  </small>
+                  <%if item.description.present?%><small>
+                  (<%=item.description%>)
+                  </small>
+                  <%end%>
+                </td>
+
+                <td>
+                  <% if item.menu_item.present? %>
+                    <% if item.menu_item.price_per_item.to_f.zero? %>
+                      Price on Selection
+                    <% else %>
+                      <%= number_with_precision(item.menu_item.price_per_item, precision: 3) %> BD
+                    <% end %>
+                  <% else %>
+                    0 BD
+                  <% end %>
+                </td>
+
+                  <td><%=item.discount_amount > 0 ? number_with_precision(item.discount_amount,:precision => 3) : '0'%> BD</td>
+                  <td><%=item.total_item_price > 0 ? number_with_precision(item.total_item_price,:precision => 3) : '0'%> BD</td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+
+            <% currency_code = @order.currency_code_en %>
+
+           <table class="table invoice-total">
+          <tbody>
+            <tr>
+              <td><strong class="t-u">Base Price</strong></td>
+              <td><%= (number_with_precision((@order.sub_total.to_f), precision: 3) || 0.000) %> <%= currency_code %></td>
+            </tr>
+
+            <tr>
+              <td><strong class="t-u">Points Redeemed</strong></td>
+              <td><%= @order.is_redeem == true ? @order.used_point.to_f.round(3) : 0.0 %></td>
+            </tr>
+
+            <% unless @order.dine_in %>
+              <% if !@order.third_party_delivery || @order.changed_delivery %>
+                <tr>
+                  <td><strong class="t-u">Delivery</strong></td>
+                  <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+                </tr>
+              <% end %>
+            <% end %>
+
+            <% if @order.order_taxes.present? %>
+              <% @order.order_taxes.each do |tax| %>
+                <tr>
+                  <td><strong class="t-u"><%= tax.name %> (<%= tax.percentage %>%)</strong></td>
+                  <td><%= number_with_precision(tax.amount, precision: 3) %> <%= currency_code %></td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td><strong class="t-u">VAT (<%= @order.tax_percentage || @order.branch.tax_percentage %>%)</strong></td>
+                <td><%= (number_with_precision(@order.tax_amount.present? ? @order.tax_amount : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+              </tr>
+            <% end %>
+
+            <% if @order.third_party_delivery && !@order.changed_delivery && !@order.dine_in %>
+              <tr>
+                <td><strong class="t-u">Service Charge</strong></td>
+                <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+              </tr>
+            <% end %>
+
+            <tr>
+              <td><strong class="t-u">Total Payable (<%= currency_code %>)</strong></td>
+              <td style="font-weight: bold;"><%= (number_with_precision(@order.total_amount, precision: 3) || 0.000) %> <%= currency_code %></td>
+            </tr>
+          </tbody>
+        </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= render "shared/driver_performance_details" %>
+</div>
+<br>
+
+<%= render "add_transporter_modal" %>
+<%= render "change_transporter_modal" %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+  function accept_order(order_id,status){
+    $.ajax({
+      type: "POST",
+      url: "/business/order/action",
+      data: {
+        order_id: order_id,
+        action_for: status
+      },
+      dataType: "JSON",
+      success: function(data){
+        if (data.code == 200) {
+          location.reload();
+          swal("Message",data.message,"success");
+
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  function coocking_finished_order(order_id,branch_id){
+    console.log(order_id)
+    $.ajax({
+      type: "POST",
+      url: "/business/order/move/kitchen",
+      data: {
+        order_id: order_id,
+        branch_id: branch_id
+      },
+      dataType: "JSON",
+      success: function(data){
+        if (data.code == 200) {
+          location.reload();
+          swal("Message",data.message,"success");
+
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+
+  function  order_move_to_kitchen(order_id,branch_id){
+    // $.ajax({
+    //   type: "POST",
+    //   url: "/business/order/move/kitchen",
+    //   data: {
+    //     order_id: order_id,
+    //     branch_id: branch_id
+    //   },
+    //   dataType: "JSON",
+    //   success: function(data){
+    //     if (data.code == 200) {
+    //       $('#add-content').modal({backdrop: 'static', keyboard: false});
+    //       $("#add-content").modal("show");
+
+
+    //     } else {
+    //      swal("warning",data.message,"warning");
+    //     }
+    //   },
+    //   error: function() {
+    //     swal("error","Something went wrong","error")
+    //   }
+    // });
+  };
+
+
+
+
+  function order_onway(order_id){
+    $.ajax({
+      type: "POST",
+        url: "/business/change/order/stage",
+      data: {
+        order_id: order_id
+      },
+      dataType: "JSON",
+      success: function(data){
+        if (data.code == 200) {
+           location.reload();
+         swal("Message",data.message,"success");
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+
+  function  change_transporter_in_order(order_id,user_id){
+    var amount = $('#change_iou-'+ user_id).val()
+    $.ajax({
+      type: "POST",
+        url: "/business/business/update/transporter",
+      data: {
+        order_id: order_id,
+        transporter_id: user_id,
+        amount: amount
+      },
+      dataType: "JSON",
+      success: function(data){
+        if (data.code == 200) {
+           location.reload();
+         swal("Message",data.message,"success");
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  function  add_transporter_in_order(order_id,user_id){
+    var amount = $('#iou-'+ user_id).val()
+    console.log(amount)
+    $.ajax({
+      type: "POST",
+        url: "/business/transporter/assign",
+      data: {
+        order_id: order_id,
+        user_id: user_id,
+        amount: amount
+      },
+      dataType: "JSON",
+      success: function(data){
+        console.log(data)
+        if (data.code == 200) {
+          console.log(data.code)
+          location.reload();
+         swal("Message",data.message,"success");
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  function web_business_order_delivered(order_id,branch_id){
+    $.ajax({
+      type: "POST",
+        url: "/business/order/delivered",
+      data: {
+        order_id: order_id,
+        branch_id: branch_id
+      },
+      dataType: "JSON",
+      success: function(data){
+        console.log(data)
+        if (data.code == 200) {
+          console.log(data.code)
+          location.reload();
+         swal("Message",data.message,"success");
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  $(document).ready(function() {
+    $(document).on("click", '.addTransporter', function(event) {
+      $('#add-transporter-model').modal({backdrop: 'static', keyboard: false});
+      $('#add-transporter-model').modal('show');
+    });
+  });
+
+    $(document).ready(function() {
+   $(document).on("click", '.changeTransporter', function(event) {
+    $('#change-transporter-model').modal({backdrop: 'static', keyboard: false});
+    $('#change-transporter-model').modal('show');
+
+    })
+
+  });
+
+    $("#assign_order").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var number = /^[0-9]{1,6}$/
+    var iou = /^(?![0.]+$)\d+(\.\d{1,2})?$/
+    // var contact = /\\(?\d{3}\\)?([\-\s\.])?\d{3}\1?\d{4}/
+    // if(!iou.test($('#iou').val())){
+    //   swal("warning","Please enter valid iou","warning");
+    //   $('#iou').focus();
+    //   return false;
+    // }
+    // if{
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    // }
+  });
+
+  $("body").on("contextmenu", "img", function(e) {
+  return false;
+});
+</script>

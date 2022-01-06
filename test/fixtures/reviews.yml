@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  review_type: MyString
+  vote_type: MyString
+  review_for: MyString
+
+two:
+  review_type: MyString
+  vote_type: MyString
+  review_for: MyString

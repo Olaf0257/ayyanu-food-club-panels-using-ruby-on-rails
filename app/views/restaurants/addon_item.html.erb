@@ -1,0 +1,135 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Add AddOn Item
+    <a href="<%= admin_branch_menu_items_path(encode_token(@branch.id)) %>" class="pull-right"><button class="btn btn-success btn-sm">Back to Menu <i class="fa fa-arrow-right"></i></button></a>
+  </div>
+
+  <div class="col-lg-10">
+    <ol class="breadcrumb">
+      <li><a href="<%= restaurant_details_path(encode_token(@branch.restaurant.id)) %>">Restaurant</a></li>
+      <li><a href="<%= branch_show_path(encode_token(@branch.restaurant.id)) %>">Branch</a></li>
+      <li><a href="<%= admin_branch_menu_items_path(encode_token(@branch.id)) %>">Menu Items</a></li>
+      <li class="active"><strong>Add AddOn Item</strong></li>
+    </ol>
+  </div>
+</div>
+
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Add AddOn Item</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= render partial: "welcome/alerts" %>
+
+      <%= form_for :menu_item, url: add_new_addon_item_path, html: { multipart: true } do |f| %>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-check">
+              <input type="hidden" name='include_in_pos' id="include_in_pos" value="true">
+              <input class="form-check-input" type="checkbox" checked id="include_in_pos_checkbox">
+              <label class="form-check-label" style="padding-left: 20px;" for="include_in_pos_checkbox">
+                Include In POS
+              </label>
+              <input type="hidden" name='include_in_app' id="include_in_app" value="true">
+              <input class="form-check-input" type="checkbox" checked id="include_in_app_checkbox">
+              <label class="form-check-label" style="padding-left: 20px;" for="include_in_app_checkbox">
+                Include In App
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Addon Item (English)</label>
+              <input type="text" name="item_name" id="item_name" class="form-control" required="true" placeholder="Item name (english)" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" name="price_per_item" id="item_price" class="form-control" required="true" placeholder="0.000" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Addon Category</label>
+              <select class="form-control" name="addon_category_id" id="menu_category_id" style="height: 40px;">
+                <% @addon_categories.order(:addon_category_name).each do |cat| %>
+                  <option <% if params[:category_id].to_i == cat.id %> selected <% end %> value="<%= cat.id %>"><%= cat.addon_category_name %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>Addon Item (Arabic)</label>
+              <input type="text" name="item_name_ar" id="item_name_ar" class="form-control" required="true" placeholder="Item name (arabic)" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <label class="control-label">Is Available</label>
+
+            <select class="form-control" name="available" style="height: 40px;">
+              <option value="true">Available</option>
+              <option value="false">Not available</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form-group">
+              <center><button type="submit" class="btn btn-danger btn-sm" id="add_menu_item" style="width: 90%; margin-top: 20px;">Add Addon</button></center>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#add_menu_item").on("click", function() {
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var price = /^0$|^[1-9]\d*$|^\.\d+$|^0\.\d*$|^[1-9]\d*\.\d*$/;
+
+    if($("#item_name").val().length >= 41 || $("#item_name").val().length <= 0) {
+      $("#item_name").focus();
+      swal("Warning", "Please enter the addon item name", "warning");
+      return false;
+    } else if(!price.test($("#item_price").val()) || $("#item_price").val().length >= 6) {
+      $("#item_price").focus();
+      swal("Warning", "Please enter a valid price", "warning");
+      return false;
+    } else if(($.trim($("#menu_category_id").val()) === "")) {
+      $("#menu_category_id").focus();
+      swal("Warning", "Please Select a addon category", "warning");
+      return false;
+    } else if( $("#item_name_ar").val().length >= 41 || $("#item_name_ar").val().length <= 0) {
+      $("#item_name_ar").focus();
+      swal("Warning", "Please Enter addon item name in arabic", "warning");
+      return false;
+    } else {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+</script>

@@ -1,0 +1,135 @@
+<div class="panel-body">
+  <% stage = document_upload.stage%>
+
+  <% if stage.vendor_name.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Vendor Name</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload&.vendor&.user&.first_name %>
+    </div>
+  </div>
+  <%end%>
+
+  <% if stage.date.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Date</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.date %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.depositor_number.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Depositor Number</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.depositor_number %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.account_name.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Account Name</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.account_name %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.account_number.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Account Number</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.account_number %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.note.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Notes</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.note %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.serial_number.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Serial Number</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.serial_number %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.employee_name.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Empolyee Name</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.emplyee.(:name) %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.vendor_number.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Vendor Number</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.vendor_number %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.card_types.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Card Type</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.card_type.name%>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.exchange_name.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Exchange Name</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.exchange_name %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.amounts.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Amount</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.exchange_name %>
+    </div>
+  </div>
+  <%end%>
+  <% if stage.deduction_type.present?%>
+  <div class="row form-group">
+    <div class="col-sm-3">
+      <label>Amount</label>
+    </div>
+    <div class="col-sm-9">
+      <%= document_upload.deduction_type %>
+    </div>
+  </div>
+  <%end%>
+</div>

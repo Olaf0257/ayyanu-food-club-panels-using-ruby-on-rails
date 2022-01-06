@@ -1,0 +1,4 @@
+class ReimbursementType < ApplicationRecord
+
+end
+

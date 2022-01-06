@@ -1,0 +1,125 @@
+<style type="text/css">
+  .dropdown-toggle::after {
+    border-right: 0em solid transparent;
+    border-left: 0em solid transparent;
+  }
+
+  .smalltext {
+    padding-top: 5px;
+    font-size: 16px;
+  }
+
+  #clockdiv {
+    padding: 10px;
+    border-radius: 3px;
+    background: #00BF96;
+    display: inline-block;
+  }
+</style>
+
+<div class="row border-bottom">
+  <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+    </div>
+
+    <ul class="nav navbar-top-links ">
+      <li>
+        <span class="m-r-sm text-muted"><h3 style="margin-top: 19px;margin-left: 20px; text-align: center;"><b>
+          <% if params[:controller] == "business/enterprises" %>
+            ENTERPRISE
+          <% else %>
+            <%=restaurant_title(params[:restaurant_id])%>
+          <% end %>
+          <%if params[:branch_id].present? or params[:id].present?%>(<%=branch_address(params[:branch_id].present? ? params[:branch_id] : params[:id])%>)<%end%></b></h3></span>
+      </li>
+
+      <% if params[:action] == "pos_new_transaction"%>
+        <li style="margin-left: 27%;">
+          <span class="m-r-sm text-muted"><h3 style="margin-top: 19px;margin-left: 20px; text-align: center;"><b>
+            <%= Branch.find_by_id(session[:branch_id])&.address %>
+            </b></h3></span>
+        </li>
+      <% end %>
+      
+
+      <% if request.url.include?('pos_dashboard').present? %>
+        <li style="" class="newOrderFoodClub <%= 'hide' if @newOrders.to_i == 0 %>">
+          <span class="btn btn-sm btn-danger fcPanelText help-button" style="float: left;margin-left: 110%;"><h3 class="btn btn-sm btn-danger fcPanelText help-button"><b>FOOD CLUB ORDER </b><span class="fcSpan fcSpanDesign"><%= @newOrders || 0 %></span></h3></span>
+        </li>
+      <% end %>    
+      <ul class="nav navbar-top-links navbar-right">
+        <li>
+          <span class="m-r-sm text-muted welcome-message">
+            <% if @user.auths.first.role == "business" %>
+              Welcome <%= @user&.name %> <!-- in Food Club Partner. -->
+            <% elsif @user.auths.first.role == "manager" %>
+              Welcome <%= @user.name %>
+            <% elsif @user.auths.first.role == "kitchen_manager" || @user.auths.first.role == "delivery_company" || @user.influencer %>
+              Welcome <%= @user.name %>
+            <% end %>
+          </span>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown count-info" data-toggle="dropdown" href="#" style="right: 0px;" id="noti-change">
+            <i class="fa fa-bell"></i> <span class="label label-warning" id="notification-count" style="right: -5px;top: 8px;display: block"></span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-alerts" id="notifications-dropdown" style="height: 500px;overflow: auto;white-space: nowrap;">
+            <%= render partial: "business/notifications/business_notifications_lists", data: { restaurant_id: params[:restaurant_id] } %>
+          </ul>
+        </li>
+
+        <li>
+          <a href="<%= business_partner_logout_path %>">
+            <i class="fa fa-sign-out"></i> Log out
+          </a>
+        </li>
+
+        <li>
+          <span class="btn btn-sm btn-danger help-button">
+            <%= link_to "HELP", list_posts_path(user_role: (@user.influencer ? "influencer" : @user.auth_role)), target: "_blank" %>
+          </span>
+        </li>
+      </ul>
+    </ul>
+  </nav>
+</div>
+
+<script type="text/javascript">
+  $.ajax({
+    type: "POST",
+    url: "/business/noti/count",
+    dataType: "JSON",
+    data: {
+        user: '<%= @user.id %>',
+      },
+    success:function(data) {
+      $("#notification-count").text(data.notifications);
+    },
+    error: function() {
+      swal("Error","Something went wrong","Error");
+    }
+  });
+
+  $("#noti-change").on("click",function(){
+    $.ajax({
+      type: "POST",
+      url: "/business/update/business/notification",
+      dataType: "script",
+      data: {
+        restaurant_id: '<%= params[:restaurant_id] %>',
+        user: '<%= @user.id %>',
+      },
+      success:function(data) {
+        // if(data.notifications == true){
+         $("#notification-count").text(0)
+        // }
+      },
+      error: function(e) {
+        swal("Error","Something went wrong","Error");
+      }
+    });
+  });
+</script>

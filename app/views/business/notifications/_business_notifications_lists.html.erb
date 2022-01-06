@@ -1,0 +1,29 @@
+<li>
+  <div class="col-lg-12 col-sm-12 col-md-12">
+   <center><a href=<%=business_notifications_path(:restaurant_id=>params[:restaurant_id])%>> All Notifications</a></center> 
+  </div>
+</li>
+<br><br>
+<%if business_unseen_notifications.present?%>
+  <%business_unseen_notifications.each do |r|%>
+ 
+        <div>
+          <i class="fa fa-bell" aria-hidden="true"></i> <%=r.message%>
+          <span class="pull-right text-muted small"><%=time_ago_in_words(r.created_at).gsub('about','') + ' ago'%></span>
+        </div>
+      </a>
+      <hr>
+    </li>
+  <%end%>
+<%else%>
+  <div class="alert alert-default text-center">No new notification is there.</div>
+<%end%>
+<li class="divider"></li>
+<li>
+  <div class="text-center link-block">
+    <a href=<%=business_notifications_path(restaurant_id: params[:restaurant_id])%>>
+      <strong>See All Notifications</strong>
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+</li>

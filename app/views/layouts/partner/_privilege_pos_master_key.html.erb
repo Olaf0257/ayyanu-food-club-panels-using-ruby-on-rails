@@ -1,0 +1,728 @@
+<% selected_user = @selected_user || @user %>
+<% privilage = check_user_privillage(selected_user) %>
+<% user_privilages = privilage.assign_privileges %>
+<nav class="navbar-default navbar-static-side partner-navbar-side" role="navigation">
+  <div class="sidebar-collapse">
+    <ul class="nav metismenu" id="side-menu">
+      <li class="nav-header partner-nav-header">
+        <div class="dropdown profile-element">
+          <% if selected_user.auths.first.role == "business" %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon1.png" width="50%"/></span>
+          <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+          </span>
+          <% elsif selected_user.auths.first.role=="manager" %>
+          <span><img alt="image" class="image-responsive" src="/assets/ic_manager.png" width="50%" /></span>
+          <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= selected_user.branch_managers.first.branch.restaurant.title %> Manager</span>
+          </span>
+          <% elsif selected_user.auths.first.role == "kitchen_manager" %>
+          <span><img alt="image" class="image-responsive" src="/assets/ic_kitchen.png" width="50%" /></span>
+          <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= selected_user.branch_kitchen_managers.first.branch.restaurant.title %> Kitchen Manager</span>
+          </span>
+          <% elsif selected_user.auths.first.role == "delivery_company" %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+          <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= selected_user.name %></span>
+          </span>
+          <% elsif selected_user.influencer %>
+          <span><img alt="image" class="image-responsive" src="/assets/favicon.png" width="50%" /></span>
+          <br><b><%= selected_user.get_country_name.to_s.upcase %></b>
+
+          <span class="clear">
+            <span class="block m-t-xs"><strong class="font-bold">Food Club</strong></span>
+            <span class="text-muted text-xs block"><%= selected_user.name %> (Influencer)</span>
+          </span>
+          <% end %>
+        </div>
+      </li>
+      
+      <div class="search-container ml-1 mb-1">
+        <form action="/action_page.php">
+          <input type="text" placeholder="Search.." name="search">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </div>
+
+      <%# if selected_user.auths.first.role == "business" %>
+      <% unless (user_privilages["MASTERS"].include?("Preparation Type").blank? && user_privilages["MASTERS"].include?("Reason Codes").blank? && user_privilages["MASTERS"].include?("Production Items").blank? && user_privilages["MASTERS"].include?("Schedule Shift").blank? && user_privilages["MASTERS"].include?("Assign Shift").blank? && user_privilages["MASTERS"].include?("Add Shift").blank? && user_privilages["MASTERS"].include?("Add Stations").blank? && user_privilages["MASTERS"].include?("Branch Info").blank? && user_privilages["MASTERS"].include?("Brands").blank?)%>
+        <li class="displayMaster <%= is_active_customer('customers_list') || is_active_controller('master/stations') ? 'active' : nil %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Main Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <li><%= link_to "Categories", '#' %></li>
+            <li><%= link_to "Standard Portions", '#' %></li>
+            <% unless user_privilages["MASTERS"].include?("Preparation Type").blank? %>
+              <li><%= link_to "Preparation Type", '#' %></li>
+            <% end %>
+            <%# unless user_privilages["MASTERS"].include?("Branch Info").blank? %>
+              <li><%= link_to "Family Groups", '#' %></li>
+            <%# end %>
+            <%# unless user_privilages["MASTERS"].include?("Branch Info").blank? %>
+              <li><%= link_to "Condiments Sets", '#' %></li>
+            <%# end %>
+            <% unless user_privilages["MASTERS"].include?("Reason Codes").blank? %>
+              <li><%= link_to "Reason Code", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Production Items").blank? %>
+              <li><%= link_to "Production Items", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Schedule Shift").blank? %>
+              <li><%= link_to "Schedule Shift", schedule_shift_hrms_shifts_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Assign Shift").blank? %>
+              <li><%= link_to "Assign Shift", assign_shift_hrms_restaurant_shifts_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Add Shift").blank? %>
+              <li><%= link_to "Add Shift", hrms_restaurant_shifts_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Add Stations").blank? %>
+              <li class="<%= is_active_action('index') && is_active_controller('master/stations') %>"><%= link_to_if( params[:restaurant_id].present?, "Add Stations", master_restaurant_stations_path(restaurant_id: params[:restaurant_id])) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Branch Info").blank? %>
+              <li class="<%= is_active_action('resturant_branch') %>">
+                <a href="<%= business_resturant_branch_path(restaurant_id: params[:restaurant_id]) %>">Branch Info</a>
+              </li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Brands").blank? %>
+              <li class="<%= is_active_action('restaurant')%>">
+                <a href="<%= business_restaurant_path(restaurant_id: params[:restaurant_id]) %>">Brand Info</a>
+              </li>
+            <% end %>
+            <%# unless user_privilages["MASTERS"].include?("Branch Info").blank? %>
+              <li class="<%= is_active_action('restaurant')%>">
+                <a href="#">Enterprise Info</a>
+              </li>
+            <%# end %>
+          </ul>
+        </li>
+      <% end %>
+      
+      <% unless (user_privilages["MASTERS"].include?("Over Group").blank? && user_privilages["MASTERS"].include?("Major Group").blank? && user_privilages["MASTERS"].include?("Item Group").blank? && user_privilages["MASTERS"].include?("Recipe group").blank? && user_privilages["MASTERS"].include?("Production Group").blank && user_privilages["MASTERS"].include?("Combo Meal").blank? && user_privilages["MASTERS"].include?("Store Type").blank? && user_privilages["MASTERS"].include?("Cost Center / Store").blank? && user_privilages["MASTERS"].include?("Units").blank? && user_privilages["MASTERS"].include?("Article").blank? && user_privilages["MASTERS"].include?("Branch Info").blank?) %>
+        <li class="displayMaster <%= (params[:controller].include?('master') && !params[:controller].eql?('business/employee_master/user_privileges') && !params[:controller].eql?('master/brands') && !params[:controller].eql?('master/stations')) || is_active_controller('setup/units') ? 'active' : nil %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">MC Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% if params[:restaurant_id].present? %>
+
+              <% unless user_privilages["MASTERS"].include?("Over Group").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/over_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Over Group", master_restaurant_over_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Major Group").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/major_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Major Group", master_restaurant_major_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Item Group").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/item_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Item Group", master_restaurant_item_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Recipe group").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/recipe_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Recipe group", master_restaurant_recipe_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Production Group").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/production_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Production Group", master_restaurant_production_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Combo Meal").blank? %>
+                <li class="displayMaster <%= is_active_controller('master/combo_meal_groups') %>">
+                  <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Combo Meals</span></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li class="<%= is_active_action('index') && is_active_controller('master/combo_meal_groups') %>"><%= link_to_if( params[:restaurant_id].present?, "Combo Meal Group", master_restaurant_combo_meal_groups_path(restaurant_id: params[:restaurant_id])) %></li>
+                    <li><%= link_to "Combo Meal", '#' %></li>
+                  </ul>
+                </li>
+              <% end %>
+              <li class="displayMaster <%= is_active_controller('master/store_types') || is_active_controller('master/stores') %>">
+                <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Stores</span></a>
+                <ul class="nav nav-second-level collapse">
+                  <% unless user_privilages["MASTERS"].include?("Store Type").blank? %>
+                    <li class="<%= is_active_action('index') && is_active_controller('master/store_types') %>"><%= link_to_if( params[:restaurant_id].present?, "Store Type", master_restaurant_store_types_path(restaurant_id: params[:restaurant_id])) %></li>
+                  <% end %>
+                  <% unless user_privilages["MASTERS"].include?("Cost Center / Store").blank? %>
+                    <li class="<%= is_active_action('index') && is_active_controller('master/stores') %>"><%= link_to_if( params[:restaurant_id].present?, "Cost Center / Store", master_restaurant_stores_path(restaurant_id: params[:restaurant_id])) %></li>
+                  <% end %>
+                </ul>
+              </li>
+              <% unless user_privilages["MASTERS"].include?("Units").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('setup/units') %>"><%= link_to_if( params[:restaurant_id].present?, "Units", setup_restaurant_units_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+              <% unless user_privilages["MASTERS"].include?("Article").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('master/articles') %>"><%= link_to_if( params[:restaurant_id].present?, "Article", master_restaurant_articles_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% unless user_privilages["MASTERS"].include?("Stages").blank? %>
+        <li class="displayMaster <%= is_active_customer('customers_list') || (params[:controller].include?('setup') && !params[:controller].eql?('setup/units')) ? 'active' : nil %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">DC Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% if params[:restaurant_id].present? %>
+              <% unless user_privilages["MASTERS"].include?("Stages").blank? %>
+                <li class="<%= is_active_action('index') && is_active_controller('business/setup/stages') %>"><%= link_to_if( params[:restaurant_id].present?, "Stages", business_setup_stages_path(restaurant_id: params[:restaurant_id])) %></li>
+              <% end %>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+
+      <% unless (user_privilages["MASTERS"].include?("Privileges").blank? && user_privilages["MASTERS"].include?("Department").blank? && user_privilages["MASTERS"].include?("Designation").blank? && user_privilages["MASTERS"].include?("Salary Master").blank? && user_privilages["MASTERS"].include?("Prepare Letter").blank? && user_privilages["MASTERS"].include?("Add Bulletin Board").blank? && user_privilages["MASTERS"].include?("Mass Employee Email").blank? && user_privilages["MASTERS"].include?("Regenerate Employee Password").blank? && user_privilages["MASTERS"].include?("Reimbursement Types").blank? && user_privilages["MASTERS"].include?("Loan Types").blank?) %>
+        <li class="displayMaster <%= params[:controller].eql?('business/employee_master/user_privileges') ? 'active' : nil %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Employee Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Privileges").blank? %>
+              <li class="<%= is_active_action('index') && is_active_controller('business/employee_master/user_privileges') %>"><%= link_to "Privileges", business_employee_master_restaurant_user_privileges_path(params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Department").blank? %>
+              <li><%= link_to "Department", business_employee_master_restaurant_departments_path(params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Designation").blank? %>
+              <li><%= link_to "Designation", business_employee_master_restaurant_designations_path(params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Salary Master").blank? %>
+              <li><%= link_to "Salary Master", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Prepare Letter").blank? %>
+              <li><%= link_to "Prepare Letter", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Add Bulletin Board").blank? %>
+              <li><%= link_to "Add Bulletin Board", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Mass Employee Email").blank? %>
+              <li><%= link_to "Mass Employee Email", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Regenerate Employee Password").blank? %>
+              <li><%= link_to "Regenerate Employee Password ", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Reimbursement Types").blank? %>
+              <li><%= link_to "Reimbursement Types", business_employee_master_reimbersments_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Loan Types").blank? %>
+              <li><%= link_to "Loan Types", business_employee_master_loan_types_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <!-- <li class="displayMaster">
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label">Product / Service Master</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li><%#= link_to "Menu ", '#' %></li>
+          <li><%#= link_to "Cuisine", '#' %></li>
+         </ul> 
+       </li> -->
+       <% unless (user_privilages["MASTERS"].include?("Void Reasons").blank? && user_privilages["MASTERS"].include?("POS Selection Services").blank? && user_privilages["MASTERS"].include?("POS Categories").blank? && user_privilages["MASTERS"].include?("Table Configuration").blank? && user_privilages["MASTERS"].include?("Manage Recipe Groups").blank?) %>
+         <li class="displayMaster">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">POS Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Void Reasons").blank? %>
+              <li><%= link_to "Void Reasons", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("POS Selection Services").blank? %>
+              <li><%= link_to "POS Selection Services", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("POS Categories").blank? %>
+              <li><%= link_to "POS Categories", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Table Configuration").blank? %>
+              <li><%= link_to "Table Configuration", '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Manage Recipe Groups").blank? %>
+              <li><%= link_to "Manage Recipe Groups", '#' %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% unless (user_privilages["MASTERS"].include?("Manage Advertisement").blank? && user_privilages["MASTERS"].include?("Manage Advertisement").blank? && user_privilages["MASTERS"].include?("Pending / Rejected Ads").blank? && user_privilages["MASTERS"].include?("Sweet Deals").blank? && user_privilages["MASTERS"].include?("Event Type").blank? && user_privilages["MASTERS"].include?("Event Type").blank? && user_privilages["MASTERS"].include?("Event Place").blank? && user_privilages["MASTERS"].include?("Loyalty Type").blank? && user_privilages["MASTERS"].include?("Discounts").blank?) %>
+        <li class="displayMaster">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Marketing Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Manage Advertisement").blank? %>
+              <li><%= link_to 'Manage Advertisement', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Pending / Rejected Ads").blank? %>
+              <li><%= link_to 'Pending / Rejected Ads', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Sweet Deals").blank? %>
+              <li><%= link_to 'Sweet Deals', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Event Type").blank? %>
+              <li><%= link_to 'Event Type', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Event Place").blank? %>
+              <li><%= link_to 'Event Place', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Loyalty Type").blank? %>
+              <li><%= link_to 'Loyalty Type', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Discounts").blank? %>
+              <li><%= link_to 'Discounts', '#' %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% unless (user_privilages["MASTERS"].include?("Add Task").blank? && user_privilages["MASTERS"].include?("Task Activity").blank? && user_privilages["MASTERS"].include?("Task Sub Category").blank? && user_privilages["MASTERS"].include?("Task Category").blank? && user_privilages["MASTERS"].include?("Task Title").blank?) %>
+        <li class="displayMaster">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Task Management</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Add Task").blank? %>
+              <li><%= link_to 'Add Task', business_task_management_restaurant_task_lists_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Task Activity").blank? %>
+              <li><%= link_to 'Task Activity', business_task_management_restaurant_task_activities_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Task Sub Category").blank? %>
+              <li><%= link_to 'Task Sub Category', business_task_management_restaurant_task_sub_categories_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Task Category").blank? %>
+              <li><%= link_to 'Task Category', business_task_management_restaurant_task_categories_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Task Title").blank? %>
+              <li><%= link_to 'Task Title', business_task_management_restaurant_task_types_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+
+      <% unless (user_privilages["MASTERS"].include?("Add Assets").blank? && user_privilages["MASTERS"].include?("Asset Category").blank? && user_privilages["MASTERS"].include?("Asset Type").blank? && user_privilages["MASTERS"].include?("Brands").blank?) %>
+        <li class="displayMaster <%= is_active_customer('customers_list') || params[:controller].include?('asset') || is_active_controller('master/brands')  ? 'active' : nil %>">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Asset Management</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Add Assets").blank? %>
+              <li><%= link_to "Add Assets", business_asset_management_assets_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Asset Category").blank? %>
+              <li><%= link_to "Asset Category", business_employee_master_asset_categories_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Asset Type").blank? %>
+              <li><%= link_to "Asset Type", business_asset_management_asset_types_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Brands").blank? %>
+              <li class="<%= is_active_action('index') && is_active_controller('master/brands') %>"><%= link_to_if( params[:restaurant_id].present?, "Brands", master_restaurant_brands_path(restaurant_id: params[:restaurant_id])) %></li>
+            <% end %>
+            <!-- <li><%#= link_to 'Add Asset Types', '#' %></li> -->
+           <!--  <li>
+              <a href="#"><span class="nav-label">Add Asset</span><span class="fa arrow" /></a>
+              <ul class="nav nav-second-level collapse">
+                <li><%#= link_to "Asset No", "#" %></li>
+                <li><%#= link_to "Asset Group Drop Down", "#" %></li>
+                <li><%#= link_to "Asset Type Drop Down", "#" %></li>
+                <li><%#= link_to "Description", "#" %></li>
+                <li><%#= link_to "Department", "#" %></li>
+                <li><%#= link_to "Photo Upload", "#" %></li>
+                <li><%#= link_to "Brand", "#" %></li>
+                <li><%#= link_to "Model No", "#" %></li>
+                <li><%#= link_to "Serial No", "#" %></li>
+                <li><%#= link_to "Purchase Date", "#" %></li>
+                <li><%#= link_to "Invoice No", "#" %></li>
+                <li><%#= link_to "Original Value", "#" %></li>
+                <li><%#= link_to "Current Value", "#" %></li>
+                <li><%#= link_to "Warranty", "#" %></li>
+                <li><%#= link_to "Notes", "#" %></li>
+                <li><%#= link_to "Invoice Upload", "#" %></li>
+              </ul>
+            </li> -->
+          </ul>
+        </li>
+      <% end %>
+
+      <% unless (user_privilages["MASTERS"].include?("Password Settings").blank? && user_privilages["MASTERS"].include?("Nationality Types").blank? && user_privilages["MASTERS"].include?("Card Types").blank? && user_privilages["MASTERS"].include?("Banks").blank? && user_privilages["MASTERS"].include?("Vendors").blank? && user_privilages["MASTERS"].include?("Manuals").blank?) %>
+        <li class="displayMaster ">
+          <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Setup Master</span></a>
+          <ul class="nav nav-second-level collapse">
+            <% unless user_privilages["MASTERS"].include?("Password Settings").blank? %>
+              <li><%= link_to 'Password Settings', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Nationality Types").blank? %>
+              <li><%= link_to 'Nationality Types', '#' %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Card Types").blank? %>
+              <li><%= link_to 'Card Types', business_setup_restaurant_card_types_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Banks").blank? %>
+              <li><%= link_to 'Banks', business_setup_banks_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Vendors").blank? %>
+              <li><%= link_to 'Vendors', business_setup_vendors_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <% unless user_privilages["MASTERS"].include?("Manuals").blank? %>
+              <li><%= link_to 'Manuals', business_setup_restaurant_manuals_path(restaurant_id: params[:restaurant_id]) %></li>
+            <% end %>
+            <li><%#= link_to "Center Payment Methods", business_payment_methods_path(params[:restaurant_id])%></li>
+            <li>
+              <a href="#"><span class="nav-label">Taxes and Order Types</span><span class="fa arrow"></a>
+              <ul class="nav nav-second-level collapse">
+                <li><%= link_to "Tax Rates", "#" %></li>
+                <li><%= link_to "Tax Classes", "#" %></li>
+                <li><%= link_to "Tax Parameters", "#" %></li>
+                <li><%#= link_to "Order Type Parameters", business_order_types_path(params[:restaurant_id])%></li>
+              </ul>
+            </li>
+            <li><%= link_to 'Barcodes', '#' %></li>
+            <li>
+              <a href="#"><span class="nav-label">Hardware / Interfaces</span><span class="fa arrow"></a>
+              <ul class="nav nav-second-level collapse">
+                <li>
+                  <a href="#"><span class="nav-label">Clients And Printing</span><span class="fa arrow"></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li><%= link_to "Workstations", "#" %></li>
+                    <li><%= link_to "Printers", "#" %></li>
+                    <li><%= link_to "Barcode Format Sets", "#" %></li>
+                    <li><%= link_to "Routing Groups", "#" %></li>
+                    <li><%= link_to "Workstation Class", "#" %></li>
+                  </ul>
+                </li>
+
+                <li>
+                  <a href="#"><span class="nav-label">KDS</span><span class="fa arrow"></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li><%= link_to "KDS Controllers", "#" %></li>
+                    <li><%= link_to "KDS Displays", "#" %></li>
+                    <li><%= link_to "KDS Tool Bars", "#" %></li>
+                    <li><%= link_to "KDS Bump Bars", "#" %></li>
+                    <li><%= link_to "KDS Highlight Schemes", "#" %></li>
+                    <li><%= link_to "Kitchen Themes", "#" %></li>
+                  </ul>
+                </li>
+
+                <li>
+                  <a href="#"><span class="nav-label">Interfaces</span><span class="fa arrow"></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li><%= link_to "Payments", "#" %></li>
+                    <li><%= link_to "Payment Drivers", "#" %></li>
+                    <li><%= link_to "Payment Device", "#" %></li>
+                    <li><%= link_to "Loyalty Module", "#" %></li>
+                    <li><%= link_to "Loyalty Driver", "#" %></li>
+                    <li><%= link_to "Stored Value Module", "#" %></li>
+                    <li><%= link_to "Stored Value Driver", "#" %></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#"><span class="nav-label">Cash Management</span><span class="fa arrow"></a>
+              <ul class="nav nav-second-level collapse">
+                <li>
+                  <a href="#"><span class="nav-label">Currency</span><span class="fa arrow"></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li><%= link_to "Currency", "#" %></li>
+                    <li><%= link_to "Currency Parameters", "#" %></li>
+                    <li><%= link_to "Currency Availability", "#" %></li>
+                    <li><%= link_to "Currency Conversions", "#" %></li>
+                  </ul>
+                </li>
+
+                <li>
+                  <a href="#"><span class="nav-label">Configurations</span><span class="fa arrow"></a>
+                  <ul class="nav nav-second-level collapse">
+                    <li><%= link_to "Cash Management Parameters", "#" %></li>
+                    <li><%= link_to "Cash Management Classes", "#" %></li>
+                    <li><%= link_to "Cash Pull Threshold Sets", "#" %></li>
+                    <li><%= link_to "PAR level Sets", "#" %></li>
+                    <li><%= link_to "Count Sheets", "#" %></li>
+                    <li><%= link_to "Accounts", "#" %></li>
+                    <li><%= link_to "Vendors", "#" %></li>
+                    <li><%= link_to "Templates", "#" %></li>
+                    <li><%= link_to "Receptacles", "#" %></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><%= link_to 'Reminder Setup ', '#' %></li>
+          </ul>
+        </li>
+      <% end %>
+
+      <li class="displayMaster <%= is_active_customer('customers_list') %>">
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Customer Master</span></a>
+        <ul class="nav nav-second-level collapse">
+          <li><a href="javascript:void(0)" class="add-new-customer">New Customer</a></li>
+          <li><a href="<%= business_download_template_path(restaurant_id: params[:restaurant_id]) %>">Download Template</a></li>
+          <li><a href="javascript:void(0)" class="upload-bulk-customer">Upload Bulk Customer</a></li>
+          <li><a href="<%= business_customers_list_path(restaurant_id: params[:restaurant_id]) %>">Customer List</a></li>
+        </ul>
+      </li>
+
+      <li class="displayMaster <%= params[:controller].include?('finance') ? 'active' : nil %>">
+        <a href="#"><i class="fa fa-building-o" aria-hidden="true"></i><span class="fa arrow"></span> <span class="nav-label">Finance Master</span></a>
+        <% if params[:restaurant_id].present? %>
+        <ul class="nav nav-second-level collapse">
+          <li class="<%= is_active_action('index') && is_active_controller('finance/account_types') %>"><%= link_to "Account Type", finance_restaurant_account_types_path(restaurant_id: params[:restaurant_id]) %></li>
+          <li class="<%= is_active_action('index') && is_active_controller('finance/account_categories') %>"><%= link_to "Account Category", finance_restaurant_account_categories_path(restaurant_id: params[:restaurant_id]) %></li>
+        </ul>
+        <% end %>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+<div id="newCustomerPopupMasterKey" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 100%;height: 66%;top: 20%;overflow-y: scroll;">
+    <div class="modal-content" style="max-width: 100%;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <span style="font-size: 20px;
+        font-weight: 700;
+        width: 28%;
+        display: block;
+        margin: auto;;">New Customer</span>
+      </div>
+      <div class="modal-body">
+        <%= form_tag business_new_customer_master_key_path, autocomplete: :off do %>
+        <%= hidden_field_tag(:address_id, '', class: 'newCutomerFormAddressId') %>
+        <input type="hidden" name="restaurant_id" class="unique_restaurant_id" value='<%= params[:restaurant_id] %>'>
+        <div class="wrapper wrapper-content animated fadeInRight">
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Name: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:user_name, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Email: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= email_field_tag(:user_email, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <h3 class="text-center">Address Details</h3>
+
+          <div class="row hide">
+            <div class="form-group">
+              <label class="col-sm-5">Address:</label>
+
+              <div class="col-sm-7 user-address-list">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Address Area: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7 manual-order-area-list">
+                <%= select_tag(:area_id, options_for_select(@areas.to_a), prompt: "Select Area", class: "form-control business-search-field area-selection-pos-check", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Address Name: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:address_name, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Address Type: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= select_tag(:address_type, options_for_select(["Villa", "Apartment", "Office"]), prompt: "Select Address Type", class: "form-control business-search-field address-type-pos-check", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Block: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:block, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Road No: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:road, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Building: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:building, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Floor:</label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:floor, "", class: "form-control") %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row villa-text">
+            <div class="form-group">
+              <label class="col-sm-5">Villa/ Apartment/ Office No: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:apartment_number, "", class: "form-control", required: true) %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Additional Directions (Optional):</label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:additional_direction, "", class: "form-control") %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Mobile: <span class="text-danger">*</span></label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:mobile, "", class: "form-control", required: true, pattern: "^[0-9 -]+$", title: "Numbers only", id: "address_contact") %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group">
+              <label class="col-sm-5">Landline Number (Optional):</label>
+
+              <div class="col-sm-7">
+                <%= text_field_tag(:landline, "", class: "form-control", pattern: "^[0-9 -]+$", title: "Numbers only") %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group text-center">
+              <%= submit_tag "Save Details", class: "btn btn-md btn-success", data: { disable_with: "Saving..." } %>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+      <div class="modal-footer" style="background-color: white;">
+        <button class="btn btn-success" data-dismiss="modal" style="float: right;display: flex;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="uploadBulkCustomerPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 35%;top: 25%;left: 5%;height: 275px;">
+    <div class="modal-content" style="max-width: 100%;width: auto !important;height: 100%;">
+      <div class="modal-body" style="padding-bottom: 0px;height: 195px;">
+        <%= file_field_tag :upload_customer, class: 'form-control', required: true %>
+        <span>(Only CSV File)</span>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag "Upload", class: "btn btn-primary form-button create-customer", data: { disable_with: "Saving..." }, style: '    padding: 15px;float:left;' %>
+        <button type="button" class="btn btn-primary form-button" style="padding: 15px;float:right;width: 35%;" data-dismiss="modal">Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<style type="text/css">
+#newCustomerPopupMasterKey .modal-body .row {
+  margin-bottom: 10px
+}
+</style>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script src="/assets/select2.full.min.js"></script>
+
+<script type="text/javascript">
+$("#address_contact").intlTelInput({
+  allowDropdown: true,
+  autoHideDialCode: true,
+  autoPlaceholder: "on",
+  dropdownContainer: "body",
+  excludeCountries: [],
+  formatOnDisplay: true,
+  geoIpLookup: function(callback) {
+    $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+      var countryCode = (resp && resp.country) ? resp.country : "";
+      callback(countryCode);
+    });
+  },
+  hiddenInput: "address_contact_number",
+  initialCountry: "auto",
+  nationalMode: true,
+  initialCountry: 'bh',
+  onlyCountries: [],
+  placeholderNumberType: "MOBILE",
+  preferredCountries: ['bh'],
+  separateDialCode: true,
+  utilsScript: "/assets/telinput/utils.js"
+});
+
+$('.add-new-customer').on('click', function(e) {
+  $('#newCustomerPopupMasterKey').modal('show');
+  e.stopImmediatePropagation();
+});
+
+$('.upload-bulk-customer').on('click', function(e) {
+  $('.create-customer').removeClass('disabled');
+  $('#uploadBulkCustomerPopup').modal('show');
+  e.stopImmediatePropagation();
+})
+
+$('.create-customer').on('click', function(e) {
+  if(document.getElementById('upload_customer').files[0]) {
+    $(this).addClass('disabled');
+    var form_data = new FormData();
+    form_data.append('restaurant_id', $('.unique_restaurant_id').val());
+    form_data.append("attachments", document.getElementById('upload_customer').files[0]);
+    $.ajax({
+      method: "POST",
+      url: '/business/restaurant/branches/bulk_customer_creation',
+      data: form_data,
+      contentType: false,
+      processData: false,
+    });
+  }
+  e.stopImmediatePropagation();
+})
+</script>

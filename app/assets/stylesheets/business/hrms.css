@@ -1,0 +1,16 @@
+.payment-detail-container{
+  display: none;
+}
+.payment-detail-container-dd{
+  display: none;
+}
+.location-display-none{
+  display: none;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}

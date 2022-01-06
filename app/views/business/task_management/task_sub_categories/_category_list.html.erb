@@ -1,0 +1,1 @@
+<%= select_tag(:task_category_id, options_from_collection_for_select(@task_categories, :id, :category_name, @task_list&.task_category_id), {class: 'form-control', style: 'height: 40px!important;', required: true, include_blank: "Select Task Category", name: 'task_sub_category[task_category_id]'}) %>

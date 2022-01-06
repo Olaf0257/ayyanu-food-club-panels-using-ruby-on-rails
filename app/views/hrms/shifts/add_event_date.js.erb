@@ -1,0 +1,6 @@
+<% if flash[:success].present? %>
+  swal("Success", "<%= flash[:success] %>", "success")
+  window.location.reload();
+<% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+<% end %>

@@ -1,0 +1,336 @@
+
+
+<style type="text/css">
+  .ibox img.enlarge
+  {
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  }
+  .ibox{
+  padding: 10px;
+  }
+  .table{
+    border:1px solid lightgray;
+  }
+  .table tr td{
+    /*border-top:none !important;*/
+    padding-left: 14px !important;
+  }
+  .table tr td h5{
+    font-weight: normal;
+    font-size: 13px;
+    margin: 0;
+    padding-bottom: 6px;
+  }
+  .table tr td h5 span{
+    font-weight: bold;
+  }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Restaurant Management</h2>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox product-detail">
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-lg-4 col-md-12">
+              <div class="product-images">
+                <div>
+                  <div class="image-imitation">
+                    <img style = "width:100%;height: 300px;" src='/assets/placeholder.png' alt="marina logo" >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <h2 class="font-bold m-b-xs">
+                    <%= @req_restaurant.restaurant_name%>
+                  </h2>
+                </div>
+                <div class="col-md-6">
+                  <h4 class="font-bold m-b-xs pull-right">
+                    Request Food Club Joined date:  <%= @req_restaurant.created_at.strftime("%Y-%m-%d")%>
+                  </h4>
+                </div>
+              </div>
+              <small>Login Id :  <%= "N/A" %></small>
+              <hr>
+              <h4 style="font-size: 18px;">Restaurant Details</h4>
+              <div class="row table-responsive">
+                <table class="table">
+                  <tr>
+                    <td><h5><span>Owner Email :</span> <%=@req_restaurant.email? ? @req_restaurant.email : "N/A" %></h5></td>
+                    <td><h5><span>Owner Name :</span> <%=@req_restaurant.owner_name? ? @req_restaurant.owner_name :
+                    "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>Mother Company Name :</span> <%=@req_restaurant.mother_company_name? ? @req_restaurant.mother_company_name : "N/A" %></h5></td>
+                    <td><h5><span>Serving :</span> <%=@req_restaurant.serving? ? @req_restaurant.serving : "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>Contact Number :</span>  <%=@req_restaurant.contact_number? ? @req_restaurant.contact_number : "N/A" %></h5></td>
+                    <td><h5><span>Nationality :</span>  <%=@req_restaurant.nationality? ? @req_restaurant.nationality : "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>CPR Number :</span>  <%=@req_restaurant.cpr_number? ?  @req_restaurant.cpr_number : "N/A" %></h5></td>
+                    <td><h5><span>Cuisine :</span> <%=@req_restaurant.cuisine? ? @req_restaurant.cuisine : "" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>Block :</span> <%=@req_restaurant.block.present? ? @req_restaurant.block : "N/A" %></h5></td>
+                    <td><h5><span>Road Number :</span> <%=@req_restaurant.road_number.present? ? @req_restaurant.road_number : "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>Building :</span> <%=@req_restaurant.building.present? ? @req_restaurant.building : "N/A" %></h5></td>
+                    <td><h5><span>Unit Number:</span> <%=@req_restaurant.unit_number.present? ? @req_restaurant.unit_number : "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                    <td><h5><span>Floor :</span> <%=@req_restaurant.floor.present? ? @req_restaurant.floor : "N/A" %></h5></td>
+                    <td><h5><span>Food Club Representative :</span> <%=@req_restaurant.submitted_by.present? ? @req_restaurant.submitted_by : "N/A" %> </h5></td>
+                  </tr>
+                   <tr>
+                     <td><h5><span>Submitted By :</span> <%=@req_restaurant.person_name.present? ? @req_restaurant.person_name.capitalize : "N/A" %> (<%=@req_restaurant.role == "business" ? "Owner" : "Other" %>)</h5></td>
+                     <td><h5><span>Delivery Status :</span> <%=@req_restaurant.delivery_status.present? ? @req_restaurant.delivery_status : "N/A" %></h5></td>
+                  </tr>
+                  <tr>
+                     <td><h5><span>Email :</span> <%=@req_restaurant.other_user_email.present? ? @req_restaurant.other_user_email : "N/A" %></h5></td>
+                     <td><h5><span>Designation :</span> <%=@req_restaurant.other_user_role.present? ? @req_restaurant.other_user_role.capitalize : "N/A" %></h5></td>
+                  </tr>
+
+                  <tr>
+                    <td><h5><span>Country :</span> <%= @req_restaurant.country&.name.presence || "N/A" %></h5></td>
+                    <td><h5><span>Area :</span> <%= @req_restaurant.coverage_area&.area.presence || "N/A" %></h5></td>
+                  </tr>
+                </table>
+              </div>
+
+
+              <hr>
+              <% if @req_restaurant.is_rejected%>
+                <h5 style="color: red">Reject Resion : <%=@req_restaurant.reject_reason? ? @req_restaurant.reject_reason : "N/A" %></h5>
+                <hr>
+              <%end%>
+
+              <div class="btn-group" style="width: 100%;">
+                <h4>Restaurant Documents</h4>
+                <div class="row ">
+                  <!--  <div class="col-lg-12"> -->
+                  <%if @images.present?%>
+                  <%@images.each_with_index do |position,index|%>
+                  <div class="col-md-4">
+                  <% p index%>
+                    <h4 style="padding-left: 10px;"><%=index==0 ? "Cr  Document" : "CPR  Document"%></h4>
+                    <div class="ibox">
+                      <%#if position.present?%>
+                        <img class="enlarge" style="width: 100%;height:100%;" src="/assets/choose_file.png"></a>
+                        <div class="ibox">
+
+                        <center><a href="<%=position.url%>" target="blank" class="btn btn-primary btn-sm " href="javascript:void(0)" id=""><i class="fa fa-eye"></i> View / Download</a></center>
+                       <!--  <a class="btn btn-info btn-sm" href="javascript:void(0)"onclick="restaurant_image_download(<%=position.id%>)"><i class="fa fa-download"></i> Dowload</a></div> -->
+                      <%#end%>
+                      </div>
+                    </div></div>
+                  <%end%>
+                  <%else%>
+                  <div class="col-md-4">
+                  <h4 style="padding-left: 10px;">Cr  Document</h4>
+                    <div class="ibox">
+                      <div class="ibox-content product-box">
+                        <!--  <div class="product-imitation"> -->
+                        <img class="enlarge" style="width: 100%;height:100%;" src="/assets/choose_file.png">
+
+                        <!-- </div>   -->
+                      </div>
+                    </div>
+                  </div>
+                   <div class="col-md-4">
+                   <h4 style="padding-left: 10px;">CPR  Document</h4>
+                    <div class="ibox">
+                      <div class="ibox-content product-box">
+                        <!--  <div class="product-imitation"> -->
+                        <img class="enlarge" style="width: 100%;height:100%;" src="/assets/choose_file.png">
+
+                        <!-- </div>   -->
+                      </div>
+                    </div>
+                  </div>
+                  <%end%>
+                  <!-- </div> -->
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="btn-group">
+                  <div style="padding-left: 15px;">
+                   <% if !@req_restaurant.is_approved and !@req_restaurant.is_rejected %>
+
+                      <a class="btn btn-primary btn-sm" style="margin-bottom: 5px;margin-right: 5px;" href="#" onclick="restaurant_approved(<%=@req_restaurant.id%>)"><i class="fa fa-thumbs-up"></i></i> Approve
+                      </a>
+
+
+                      <a class="btn btn-danger btn-sm editcategories" style="margin-bottom: 5px;margin-right: 5px;" href="javascript:void(0)" id="<%=@req_restaurant.id%>-edit"><i class="fa fa-ban"></i> Reject</a>
+
+                    <%else%>
+
+                      <% if @req_restaurant.is_approved%>
+                      <span class="label label-info" style="margin-right: 5px;"> Approved </span>
+                      <%else%>
+                      <span class="label label-danger" style="margin-right: 5px;"> Rejected </span>
+                      <%end%>
+
+                   <%end%>
+
+                   <% p @req_restaurant%>
+                      <a href="<%=request_resturant_csv_path(format: :xlsx,restaurant:
+                    @req_restaurant.id)%>" style="margin-bottom: 5px;" class="btn btn-success btn-sm"><strong>Download Xlsx</strong></a>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="reject-restaurant-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center>
+        <div id="showimage"></div>
+      </center>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Reject Restaurant</h4>
+      </div>
+      <div class="modal-body">
+        <%=form_for :category,url: reject_restaurant_path,html: {multipart: :true,:id=>"add-city_content_form"},:authenticity_token => true do |f|%>
+        <div class="row">
+          <input type="hidden" name="req_restaurant_id" id="req_restaurant_id" value="">
+          Reject Reason:
+          <input type="text" value="" name="reject_reason" placeholder="Reject reason" id="reason" class="form-control" autocomplete="off">
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" style="margin-left:4px" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn theme-btn pull-right" value="Submit" id="add-reject-reson">
+        </div>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("success","<%=flash[:success]%>","success")
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning")
+  <%end%>
+  $(document).ready(function() {
+
+    $(document).on("click", '.editcategories', function(event) {
+      var id = $(this).attr("id").split('-')[0]
+      $('#req_restaurant_id').val(id);
+      // var name = $("#cat-name-"+id).val();
+      // $('#category_name').val(name);
+
+      // var image = $("#cat-image-"+id).attr('src');
+      // $('#catimage').attr('src',image);
+
+      // $('#cat_index').val($("#cat_index-"+id).val());
+      $('#reject-restaurant-modal').modal({backdrop: 'static', keyboard: false});
+      $('#reject-restaurant-modal').modal('show');
+    })
+  });
+   function restaurant_approved(req_restaurant_id){
+    swal({
+      html:true,
+      title: "Please wait...",
+      text: "<img src='/assets/rest-loading.gif' width='20%'>",
+      showConfirmButton: false,
+      timer: 6000
+    });
+
+    $.ajax({
+      type: "POST",
+        url: "/approved/restaurant",
+      data: {
+        req_restaurant_id: req_restaurant_id
+      },
+      dataType: "JSON",
+      success: function(data){
+        console.log(data)
+        if (data.code == 200) {
+         swal("Message",data.message,"success");
+          location.reload();
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+  $('#add-reject-reson').on("click",function() {
+   if($('#reason').val().length >= 41 || $('#reason').val().length <= 0  )
+    {
+      $('#reason').focus();
+     swal("Reject reson can't be blank!","Please enter reject reason","warning")
+     return false;
+    }
+    else
+    {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<img src='/assets/rest-loading.gif' width='20%'>",
+        showConfirmButton: false
+      });
+    }
+  });
+
+
+
+function restaurant_image_download(req_restaurant_img_id){
+    // swal({
+    //   html:true,
+    //   title: "Please wait...",
+    //   text: "<img src='/assets/rest-loading.gif' width='20%'>",
+    //   showConfirmButton: false,
+    //   timer: 6000
+    // });
+    $.ajax({
+      type: "GET",
+        url: "/restaurant/document/download",
+      data: {
+        req_restaurant_img_id: req_restaurant_img_id
+      },
+      dataType: "JSON",
+      success: function(data){
+        console.log(data)
+        if (data.code == 200) {
+         swal("Message",data.message,"success");
+          location.reload();
+        } else {
+         swal("warning",data.message,"warning");
+        }
+      },
+      error: function() {
+        swal("Error","Something went wrong","Error")
+      }
+    });
+  };
+
+</script>

@@ -1,0 +1,12 @@
+<% if @new_check.present? %>
+	var width = 100/($('.check-table').length + 1)
+	$('#check_listing').append("<%= j render partial: 'add_split_check_data', locals: { current_check: @new_check, width: 10} %>");
+	$('.check-table').css('width', width + '%');
+	$('#add_new_split_check').removeClass('disabled');
+	$('.remove_last_split_btn').data('last-check-id', '<%= @new_check.id %>')
+	checkTableTrSelect();
+	splitCheck();
+	shareItemPopup();
+<% elsif @check.merged_checks.where(check_status: 1).count > 8 %>
+	toastr.error("You Can't Add More Than 10 Check");
+<% end %>

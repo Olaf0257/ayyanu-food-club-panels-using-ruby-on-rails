@@ -1,0 +1,83 @@
+<style type="text/css">
+  .setheight{
+    height:100% !important;
+  }
+</style>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12" style="height: 4%;">
+    <div class="col-lg-3">
+      <h2>Order List</h2>
+    </div>
+    <div class="col-lg-9">
+      <!-- <div class="col-lg-12"> -->
+        <span class="pull-right" style="padding-top: .4cm;width: 100%;">
+          <!-- <div class="form-group col-lg-2"> -->
+            <%#= select_tag :per_page, options_for_select([20,40,60,80,100], params[:per_page].to_i),
+           :onchange => "if(this.value){window.location='?per_page='+this.value;}",:class=>"form-control setheight"%>
+          <!-- </div>   -->
+          <%#=form_for :search,method: :get,:html=>{:class=>"form-inline"} do |f|%>
+          <!--   <div class="form-group pull-right">
+              <input type="text" class="form-control" name="keyword" value="<%#=params[:keyword]%>" placeholder="Search Transaction" style="width:100%;">
+              <button type="submit" class="btn btn-danger"> Search </button>
+            </div>            
+            
+          <%#end%> -->
+        </span> 
+      <!-- </div>   -->
+    </div>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+        <span class="pull-right" style="margin-top: -5px; margin-left:5px;">
+          <!-- <a class="btn btn-success btn-sm" href="#"><strong>CSV</strong></a>  -->
+          <a href="#" class="btn btn-success btn-sm"><strong>Xlsx</strong></a></span>
+          <span class="pull-right"><%#= page_entries_info @transactions %></span>
+          <h5>Orders Table</h5>
+        </div>
+        <div class="ibox-content table-responsive">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Restaurant Name</th> 
+                  <th>Address</th>
+                  <th>Order Type</th>
+                  <th>Total Amount</th>                 
+                  <th>Customer Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%@orders.each do |b|%>
+                  <tr id="card-<%=b.id%>">
+                    <td><%=b.id%></td>
+                    <td><%=b.branch.restaurant.title%></td>
+                    <td><%=b.branch.address%></td>
+                    <td><%=b.order_type =="prepaid" ? "Online" : "Cash on delivery" %></td> 
+                    <td><%=b.total_amount%> BD</td> 
+                    <td><%=b.user ? b.user.name : b.cart.user.name%></td>                 
+                    <td>
+                    <a href="<%=order_path(encode_token(b.id))%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <%else%>
+            <center><div class="alert alert-danger">No orders available yet.</div></center>
+          <%end%>
+        </div>
+        <div class="col-lg-12">
+         <center> <%#= will_paginate @orders ,renderer: BootstrapPagination::Rails %></center><br>
+       </div> 
+      </div>
+    </div>
+  </div>
+</div>

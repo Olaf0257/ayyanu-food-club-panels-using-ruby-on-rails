@@ -1,0 +1,125 @@
+<div class="modal fade" id="order_detail_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Order #<%= @order.id %> Details</h4>
+      </div>
+
+      <div class="modal-body">
+        <% currency_code = @order.currency_code_en %>
+
+        <div class="tabs-wrp brd-rd5">
+          <div class="statement-table">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Quantity</th>
+                  <th>Item List</th>
+                  <th>Unit Price (<%= currency_code %>)</th>
+                  <th>Discount (<%= currency_code %>)</th>
+                  <th>Total Price (<%= currency_code %>)</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @order.order_items.each do |item| %>
+                  <tr>
+                    <td><a href=""><img alt="image" src="<%= item.menu_item.present? ? item.menu_item.item_image: 'No Menu' %>" style="height:5vh;"></a></td>
+                    <td><strong><%= item.quantity %></strong></td>
+
+                    <td>
+                      <div><strong><%= item.menu_item.item_name %></strong></div>
+
+                      <small>
+                        <% if (item.order_item_addons.present?) %>
+                          <% item.order_item_addons.each do |ad| %>
+                            <span><%= ad.item_addon.present? ? ad.item_addon.addon_title.to_s + ": " + number_with_precision(ad.item_addon.addon_price, precision: 3).to_s + @order.currency_code_en  : "" %>; </span>
+                          <% end %>
+                        <% end %>
+                      </small>
+
+                      <% if item.description.present? %>
+                        <small>(<%= item.description %>)</small>
+                      <% end %>
+                    </td>
+
+                    <td>
+                      <% if item.menu_item.present? %>
+                        <% if item.menu_item.price_per_item.to_f.zero? %>
+                          Price on Selection
+                        <% else %>
+                          <%= number_with_precision(item.menu_item.price_per_item, precision: 3) %> <%= @currency_code %>
+                        <% end %>
+                      <% else %>
+                        0" <%= @currency_code %>
+                      <% end %>
+                    </td>
+
+
+                    <td><%= item.discount_amount > 0 ? number_with_precision(item.discount_amount, precision: 3) : "0" %> <%= @currency_code %></td>
+                    <td><%= item.total_item_price > 0 ? number_with_precision(item.total_item_price, precision: 3) : "0" %> <%= @currency_code %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <table class="table invoice-total">
+              <tbody>
+                <tr>
+                  <td><strong class="t-u">Base Price</strong></td>
+                  <td><%= (number_with_precision((@order.sub_total.to_f), precision: 3) || 0.000) %> <%= currency_code %></td>
+                </tr>
+
+                <tr>
+                  <td><strong class="t-u">Points Redeemed</strong></td>
+                  <td><%= @order.is_redeem == true ? @order.used_point.to_f.round(3) : 0.0 %></td>
+                </tr>
+
+                <% unless @order.dine_in %>
+                  <% if !@order.third_party_delivery || @order.changed_delivery %>
+                    <tr>
+                      <td><strong class="t-u">Delivery</strong></td>
+                      <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+
+                <% if @order.order_taxes.present? %>
+                  <% @order.order_taxes.each do |tax| %>
+                    <tr>
+                      <td><strong class="t-u"><%= tax.name %> (<%= tax.percentage %>%)</strong></td>
+                      <td><%= number_with_precision(tax.amount, precision: 3) %> <%= currency_code %></td>
+                    </tr>
+                  <% end %>
+                <% else %>
+                  <tr>
+                    <td><strong class="t-u">VAT (<%= @order.tax_percentage || @order.branch.tax_percentage %>%)</strong></td>
+                    <td><%= (number_with_precision(@order.tax_amount.present? ? @order.tax_amount : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+                  </tr>
+                <% end %>
+
+                <% if @order.third_party_delivery && !@order.changed_delivery && !@order.dine_in %>
+                  <tr>
+                    <td><strong class="t-u">Service Charge</strong></td>
+                    <td><%= (number_with_precision(@order.delivery_charge.present? ? @order.delivery_charge : 0.000 , precision: 3) || 0.000)%> <%= currency_code %></td>
+                  </tr>
+                <% end %>
+
+                <tr>
+                  <td><strong class="t-u">Total Payable (<%= currency_code %>)</strong></td>
+                  <td style="font-weight: bold;"><%= (number_with_precision(@order.total_amount, precision: 3) || 0.000) %> <%= currency_code %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

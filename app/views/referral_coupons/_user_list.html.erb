@@ -1,0 +1,63 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Coupon Users for <%= @coupon.coupon_code %></h4>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <%= form_for :search, method: :get, html: { class: "form-inline", remote: true } do |f| %>
+            <div class="form-group">
+              <%= date_field_tag(:start_date, params[:start_date], class: "form-control") %>
+              <b>To:</b> <%= date_field_tag(:end_date, params[:end_date], class: "form-control") %>
+            </div>
+
+            <%= submit_tag "Search", class: "btn btn-sm btn-info pull-right" %>
+          <% end %>
+        </div>
+      </div><br><br>
+
+      <% if @referral_coupon_users.present? %>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Sl No</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Type</th>
+              <th>Used On</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @referral_coupon_users.each_with_index do |coupon_user, i| %>
+              <% user = User.find(coupon_user.user_id) %>
+
+              <tr>
+                <td><%= i + 1 %></td>
+                <td><%= user.name %></td>
+                <td><%= user.email %></td>
+                <td><%= coupon_user.referrer ? "Referrer" : "Referred" %></td>
+                <td><%= coupon_user.created_at.strftime("%d %b %Y %l:%M %p") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        No Coupon Users Present.
+      <% end %>
+    </div>
+
+    <div class="modal-footer">
+      <% if @referral_coupon_users.present? %>
+        <%= link_to user_list_referral_coupon_path(@coupon.id, format: :csv) do %>
+          <button style="float:left" class="btn btn-warning csv-button" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+        <% end %>
+      <% end %>
+
+      <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>

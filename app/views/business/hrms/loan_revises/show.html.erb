@@ -1,0 +1,61 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+<%= stylesheet_link_tag "business/hrms" %>
+
+<style type="text/css">
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height:40px !important;
+  }
+
+  .branch-select-div {
+    height: 70px;
+  }
+  .show-detail-back-btn{
+    margin-right: 1%;
+    margin-top: 1.5%;
+    padding-bottom: %;
+    padding: 8px 65px 8px;
+    outline: none !important;
+  }
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-5">
+    <h2 style="margin-top:20px;"><b>Loan Revise</b></h2>
+  </div>
+  <div class="col-xs-7">
+    <a href="<%= request.referer %>" >
+      <button class="btn btn-info pull-right show-detail-back-btn">Back</button>
+    </a>
+  </div>
+</div>
+
+<br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <br>
+
+    <div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-2 well well-sm bg-white">
+      <h3 class="text-center">Loan Revise</h3>
+      <hr>
+      <%= render 'disabled_form' %>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<script src="/assets/select2.full.min.js"></script>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>

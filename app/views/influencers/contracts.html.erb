@@ -1,0 +1,62 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <h2>Contracts List for <%= @user.name %></h2>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Contracts List</h5>
+
+          <span class="pull-right">
+            <a href="" class="btn btn-success btn-xs"  data-target="#add_contract_modal" data-toggle="modal"  data-backdrop="static" data-keyboard="false">Add New Contract</a>
+          </span>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @contracts.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @contracts.each do |contract| %>
+                  <tr class="<%= 'text-danger' if contract.end_date < Date.today %>">
+                    <td><%= contract.id %></td>
+                    <td class="start-date" data-id="<%= contract.start_date&.strftime("%Y-%m-%d") %>"><%= contract.start_date&.strftime("%d/%m/%Y") %></td>
+                    <td class="end-date" data-id="<%= contract.end_date&.strftime("%Y-%m-%d") %>"><%= contract.end_date&.strftime("%d/%m/%Y") %></td>
+
+                    <td>
+                      <span class="btn btn-xs btn-info edit-contract" id="<%= contract.id %>-edit"> <i class="fa fa-edit" ></i> Edit </span>
+                      <span class="btn btn-xs btn-danger delete-contract" value="<%= contract.id %>" > <i class="fa fa-ban"></i> Remove </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Contracts present.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "add_contract_modal" %>
+<%= render "edit_contract_modal" %>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

@@ -1,0 +1,19 @@
+<div class="row form-group coupon-restaurant-list" id ="<%= @count %>">
+  <div class="col-sm-2">
+    <%= select_tag("restaurant_id_" + @count.to_s, options_for_select(@restaurants), prompt: "Select Restaurant", required: true, class: "form-control admin-search-field coupon-restaurant-select") %>
+  </div>
+
+  <div class="col-sm-3 coupon-branch-list">
+  </div>
+
+  <div class="col-sm-3 coupon-category-list">
+  </div>
+
+  <div class="col-sm-3 coupon-item-list">
+  </div>
+
+  <div class="col-sm-1">
+    <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-coupon-restaurant" %>
+    <%= link_to "Remove", "#", class: "btn btn-xs btn-danger remove-coupon-restaurant" %>
+  </div>
+</div>

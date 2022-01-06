@@ -1,0 +1,9 @@
+<% if @pos_checks.present? %>
+	<% if ActiveModel::Type::Boolean.new.cast(params[:is_pickup_check]) %>
+	    $('.driver-th').removeClass('hide');
+	<% end %>
+	$('#pickupCheckModalPopup .modal-body tbody').empty().append("<%= j render partial: 'pickup_table_row', locals: { pickup_checks: @pos_checks, is_display_driver: ActiveModel::Type::Boolean.new.cast(params[:is_pickup_check]) }%>");
+	selectSinglePickupCheckRow();
+<% else %>
+	$('#pickupCheckModalPopup .modal-body tbody').empty().append("<tr><td colspan='10' style='text-align:center;'>No Data Found</td></tr>");
+<% end %>

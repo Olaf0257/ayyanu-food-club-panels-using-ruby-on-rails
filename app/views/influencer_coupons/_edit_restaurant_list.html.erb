@@ -1,0 +1,66 @@
+<hr>
+
+<div class="row form-group">
+  <div class="col-xs-12">
+    <h3><%= check_box_tag "all_restaurants", "1", @coupon.branches.blank?, class: "coupon-all-restaurant-checkbox" %> ALL RESTAURANTS</h3>
+  </div>
+</div>
+
+<% restaurants = Restaurant.where(id: @coupon.branches.pluck(:restaurant_id).uniq) %>
+
+<% if restaurants.present? %>
+  <% restaurants.each_with_index do |restaurant, i| %>
+    <% branches = restaurant.branches.where(is_approved: true).order(:address) %>
+    <% categories = MenuCategory.where(branch_id: @coupon.branches.where(restaurant_id: restaurant.id).pluck(:id)).order(:category_title) %>
+    <% items = MenuItem.where(menu_category_id: categories.pluck(:id)).order(:item_name) %>
+
+    <div class="row form-group coupon-restaurant-list" id ="<%= i+1 %>">
+      <div class="col-sm-2">
+        <%= select_tag("restaurant_id_" + (i+1).to_s, options_for_select(@restaurants, @coupon.branches.pluck(:restaurant_id).uniq.select { |i| i == restaurant.id }), prompt: "Select Restaurant", required: true, class: "form-control admin-search-field coupon-restaurant-select") %>
+      </div>
+
+      <div class="col-sm-3 coupon-branch-list">
+        <%= select_tag("branch_ids_#{(i+1).to_s}[]", options_for_select(branches.pluck(:address, :id), @coupon.branches.pluck(:id)), prompt: "All Branches", class: "form-control admin-search-field coupon-branch-select", multiple: true) %>
+      </div>
+
+      <div class="col-sm-3 coupon-category-list">
+        <%= select_tag("category_ids_#{(i+1).to_s}[]", options_for_select(categories.pluck(:category_title, :id), @coupon.menu_items.pluck(:menu_category_id).uniq), prompt: "All Categories", class: "form-control admin-search-field coupon-category-select", multiple: true) %>
+      </div>
+
+      <div class="col-sm-3 coupon-item-list">
+        <%= select_tag("item_ids_#{(i+1).to_s}[]", options_for_select(items.pluck(:item_name, :id), @coupon.menu_items.pluck(:id).uniq), prompt: "All Items", class: "form-control admin-search-field coupon-item-select", multiple: true) %>
+      </div>
+
+      <div class="col-sm-1">
+        <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-coupon-restaurant #{'hide' if restaurants.count != (i + 1)}" %>
+        <%= link_to "Remove", "#", class: "btn btn-xs btn-danger remove-coupon-restaurant" %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="row form-group coupon-restaurant-list hide" id ="1">
+    <div class="col-sm-2">
+      <%= select_tag("restaurant_id_1", options_for_select(@restaurants), prompt: "Select Restaurant", class: "form-control admin-search-field coupon-restaurant-select") %>
+    </div>
+
+    <div class="col-sm-3 coupon-branch-list">
+    </div>
+
+    <div class="col-sm-3 coupon-category-list">
+    </div>
+
+    <div class="col-sm-3 coupon-item-list">
+    </div>
+
+    <div class="col-sm-1">
+      <%= link_to "Add More", "#", class: "btn btn-xs btn-primary add-coupon-restaurant" %>
+      <%= link_to "Remove", "#", class: "btn btn-xs btn-danger remove-coupon-restaurant" %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function () {
+    $(".coupon-restaurant-select, .coupon-branch-select, .coupon-category-select, .coupon-item-select").select2();
+  });
+</script>

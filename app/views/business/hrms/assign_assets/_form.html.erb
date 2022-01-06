@@ -1,0 +1,146 @@
+<%= form_for(@assign_asset, url: (params[:id].blank? ? business_hrms_assign_assets_path : edit_business_hrms_assign_asset_path(@assign_asset).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <%= hidden_field_tag 'assign_asset[restaurant_id]', params[:restaurant_id] %>
+
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :employee %>
+      <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @assign_asset.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_type_id %>
+      <%= f.select(:asset_type_id, options_from_collection_for_select(@asset_types, :id, :name), {include_blank: "Select Asset Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_category %>
+      <%= f.select(:asset_category_id, options_from_collection_for_select([], :id, :name, @assign_asset.asset_category_id), {include_blank: "Select Asset Category"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6" id="designation_container">
+      <%= f.label :asset %>
+      <%= f.select(:asset_id, options_from_collection_for_select([], :id, :name, @assign_asset.asset_id), {include_blank: "Select Asset"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :asset_status %>
+      <%if @assign_asset.id.blank?%>
+       <%= f.select(:asset_status, options_for_select([['Issue','issue']], @assign_asset.asset_status), {include_blank: "Select Asset Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+       <%else%>
+       <%= f.select(:asset_status, options_for_select(AssignAsset::STATUS, @assign_asset.asset_status), {include_blank: "Select Asset Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true}) %>
+      <%end%> 
+
+    </div>
+     <div class="col-xs-6 col-md-6">
+      <%= f.label :valid_till %>
+      <%= f.date_field :valid_till, class: 'form-control', placeholder: 'Valid Till', name: 'assign_asset[valid_till]', required: true  %>
+    </div>
+
+  </div>
+
+  <div class="row">
+   
+    <div class="col-xs-6 col-md-6 display-none" id="returned_on_container">
+       <%= f.label :returned_on %>
+        <%= f.date_field :returned_on, class: 'form-control', placeholder: 'Returned On', name: 'assign_asset[returned_on]'  %>
+    </div>
+    <div class="col-xs-6 col-md-6 display-none" id="returned_on_container1" >
+        <%= f.label :picture %>
+        <%= f.file_field :picture, class: 'form-control', placeholder: 'Asset Pic Upload', name: 'assign_asset[picture]' %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :remarks %>
+      <%= f.text_field :remarks, class: 'form-control', placeholder: 'Remarks', name: 'assign_asset[remarks]', required: true  %>
+    </div>
+  </div>
+   
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+
+  <br>
+  <%= f.submit 'Add Assign Assets', class: 'btn btn-lg btn-primary btn-block', id: 'add_family' %>
+<% end %>
+
+<script type="text/javascript">
+  $('#assign_asset_asset_status').change(function(){
+    if(this.value == "returned"){
+      $('#returned_on_container').removeClass('display-none');
+      $('#assign_asset_returned_on')[0].setAttribute('required','true');
+      $('#returned_on_container1').addClass('display-none');
+      $('#assign_asset_returned_on')[0].removeAttribute('required','true');
+    }
+    else{
+      $('#returned_on_container').addClass('display-none');
+      $('#assign_asset_returned_on')[0].removeAttribute('required','true');
+    }
+
+   if(this.value == "damaged"){
+      $('#returned_on_container1').removeClass('display-none');
+      $('#assign_asset_returned_on')[0].setAttribute('required','true');
+      $('#assign_asset_returned_on')[0].removeAttribute('required','true');
+    }
+    else{
+      $('#returned_on_container1').addClass('display-none');
+      $('#assign_asset_returned_on')[0].removeAttribute('required','true');
+    } 
+  })
+
+  $('#assign_asset_asset_group_id').change(function(){
+     $.ajax({
+      type: "GET",
+      url: "/business/hrms/assign_assets/department_designation",
+      dataType: 'script',
+      data: {id: $(this).val()}
+    });
+  })
+
+
+$("#assign_asset_asset_type_id").change(function(){
+ var asset_type_id = $("#assign_asset_asset_type_id").val();
+ $.ajax({
+  type: "GET",
+  url: "/business/asset_management/assets/find_asset_type_list",
+  data: {asset_category_id: asset_type_id},
+  cache: false,
+  success: function(data){
+    var asset_types = data.asset_types
+    var options =  '<option value=""><strong>Add Asset Category</strong></option>'; //create your "title" option
+    $(asset_types).each(function(index, value){ //loop through your elements
+            options += '<option value="'+value.id+'">'+value.name+'</option>'; //add the option element as a string
+    });
+
+    $('#assign_asset_asset_category_id').html(options); 
+  }
+});
+});
+
+
+$("#assign_asset_asset_category_id").change(function(){
+ var asset_category_id = $("#assign_asset_asset_category_id").val();
+ $.ajax({
+  type: "GET",
+  url: "/business/hrms/assign_assets/find_asset_list",
+  data: {asset_category_id: asset_category_id},
+  cache: false,
+  success: function(data){
+    var assets = data.assets
+    var options =  '<option value=""><strong>Add Asset</strong></option>'; //create your "title" option
+    $(assets).each(function(index, value){ //loop through your elements
+            options += '<option value="'+value.id+'">'+value.name+'</option>'; //add the option element as a string
+    });
+
+    $('#assign_asset_asset_id').html(options); 
+  }
+});
+});
+</script>
+<style type="text/css">
+  .display-none{
+    display: none;
+  }
+</style>

@@ -1,0 +1,81 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-6">
+    <h2 class="font-bold ">Shifts</h2>
+  </div>
+
+  <div class="col-sm-6">
+    <h2 class="pull-right">
+      <%= link_to delivery_company_delivery_company_shifts_path(format: :csv) do  %>
+        <button class="btn btn-sm btn-warning" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-sm-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <%= link_to new_delivery_company_delivery_company_shift_path do %>
+              <span class="dim btn btn-primary btn-circle" title="Add New Shift"><i class="fa fa-plus" aria-hidden="true"></i></span>
+            <% end %>
+          </div>
+        </div>
+
+        <div class="ibox-content">
+          <% if @shifts.present? %>
+            <div class="full-height-scroll">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Driver Count</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% @shifts.each do |shift| %>
+                      <tr>
+                        <td><%= DeliveryCompanyShift::DAY_NAMES[shift.day] %></td>
+                        <td><%= shift.start_time %></td>
+                        <td><%= shift.end_time %></td>
+
+                        <td>
+                          <%= link_to shift.users.size.to_s + " Drivers", delivery_company_delivery_company_shift_path(shift.id), remote: true, class: "btn btn-xs btn-primary" %>
+                          <%= link_to "Add Drivers", free_driver_list_delivery_company_delivery_company_shift_path(shift.id), remote: true, class: "btn btn-xs btn-success" %>
+                        </td>
+
+                        <td>
+                          <% if session[:admin_user_id].present? %>
+                            <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", edit_delivery_company_delivery_company_shift_path(shift.id), class: "btn btn-xs btn-info" %>
+                            <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", delivery_company_delivery_company_shift_path(shift.id), method: :delete, class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to Delete?" } %>
+                          <% end %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          <% else %>
+            <center><div class="alert alert-danger">No Shift available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Done!", "<%= flash[:success] %>", "success");
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning");
+  <% end %>
+</script>

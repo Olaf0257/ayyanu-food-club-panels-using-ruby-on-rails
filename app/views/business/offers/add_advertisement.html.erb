@@ -1,0 +1,312 @@
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
+<style type="text/css">
+  .mrgin-bottom-2 {
+    margin-bottom: 2%;
+  }
+
+  .private_dock {
+    display: none;
+  }
+
+  .form-group select {
+    height: 34px !important;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .form-control {
+    width: 100%;
+  }
+</style>
+
+<div class="container">
+  <div class="row">
+    <h2>
+      <a href="<%= business_advertisement_list_path(restaurant_id: params[:restaurant_id]) %>"><button class="btn btn-danger pull-right">Back <i class="fa fa-arrow-right"></i> </button></a>
+    </h2>
+  </div>
+<br>
+  <div class="row">
+    <%= form_for :marina, url: business_new_advertisement_path, html: { id: "add-marina-form", class: "form-vertical", multipart: true } do |f| %>
+      <div class="row setup-content" id="step-1">
+        <div class="col-lg-12">
+          <div class="panel panel-default" style="margin-bottom:5%;">
+            <div class="panel-heading text-center"><h3>Add offer</h3></div>
+
+            <div class="panel-body" >
+              <div class="row mrgin-bottom-2">
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <label> Advertisement Type </label>
+
+                    <select class="form-control"  name="advertisement_type" id="advertisement_type">
+                      <option value="banner">Banner</option>
+                      <option value="list">List View</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <label>Advertisement Week </label>
+                      <select class="form-control"  name="weeks" id="week">
+                        <%= @weeks %>
+
+                        <%= @weekes.each do |b| %>
+                          <option value="<%= b. id %>" <%= b.present? ? 'selected' : 'false' %>><%= b.start_date %> To <%= b.end_date %></option>
+                        <% end %>
+                      </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <label> Branch </label>
+
+                    <select class="form-control"  name="branch" id="branch_id" onload="area_data(this.options[this.selectedIndex].value);" onchange="get_states(this.options[this.selectedIndex].value,'region','')">
+                      <%= @branches.each do |b| %>
+                        <option value="<%= b.id %>" <%= @branch.present? ? @branch.id == b.id ? 'selected' : 'false' : 'false' %>><%= b.address %></option>
+                      <% end %>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" id="area_id">
+                  <div class="form-group">
+                    <label> Area </label>
+                    <select class="form-control"  name="region" id="region">
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <label> Select Space </label>
+
+                    <select class="form-control position-text"  name="space" id="space">
+                      <option value="1">Place 1</option>
+                      <option value="2">Place 2</option>
+                      <option value="3">Place 3</option>
+                      <option value="4">Place 4</option>
+                      <option value="5">Place 5</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group">
+                    <label> Amount </label>
+                    <input type="text" placeholder="Enter amount" name="amount" class="form-control"  id="amount" autocomplete="off">
+                  </div>
+                </div>
+
+                <input type="hidden", name="rest_id", value="<%= params[:restaurant_id] %>">
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group title-div">
+                    <label> Title </label>
+                    <input type="text" placeholder="Enter title" name="title" class="form-control"  id="marina_title" autocomplete="off">
+                  </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                  <div class="form-group description-div">
+                    <label> Description (English) Max Length 150</label>
+                    <textarea name="description" class="form-control" rows="4" id="add_desc" placeholder="Enter description"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4 image-div">
+                  <h4>Upload Image (Optional)</h4>
+
+                  <div style="position: relative;">
+                    <a href='javascript:;'>
+                      <img src="/assets/ic_placeholder.png" class="img-tag add-img-tag" width="85%" height="100vh" onmouseover="showXbutton(this);" onmouseout="hideXbutton(this);">
+                      <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                      <br><br>
+
+                      <label class="file">
+                        <input type="file" id='add-img-tag' name="branch_image" onchange='readURL(event)' aria-label="File browser example">
+                        <span class="file-custom"></span>
+                      </label>
+                    </a>
+
+                    <p style="margin-top: -10px;"><b>Image size :</b> 800X300</p>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary pull-right" id="saveBtn"> <strong> Save & Next</strong></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script src="/assets/bootstrap-toggle.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-UNzzgG2Ng8uQduSSO_nlspaP31orqRc&libraries=places&sensor=false"></script>
+
+<script type="text/javascript">
+  <% if flash[:check_marina].present? %>
+    swal("warning", "<%= flash[:check_marina] %>", "warning")
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning")
+  <% end %>
+
+  var readURL = function(event) {
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#update-'+componentId).val(componentId);
+  }
+
+  var readImageURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+  }
+
+  var readLogoURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $("#marina-logo").attr("src",getImagePath);
+  }
+
+  var readmapURL = function(event){
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('.'+componentId).attr("src",getImagePath );
+    $('#map-'+componentId).val(componentId)
+  }
+
+  function getLatLng() {
+    var country = $('#country').val()
+    var city = $('#city').val()
+    var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': city,country}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location.lat() + "," +results[0].geometry.location.lng()
+        $("#marinalatlng").val(latlng)
+      } else {
+        console.log("Something got wrong" + status)
+      }
+    });
+  }
+
+  $("#saveBtn").on("click",function() {
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var contact = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+    var zipregex = /^[0-9]{5,6}$/;
+    var floatValues =  /[+-]?([0-9]*[.])?[0-9]+/;
+
+    if ($("#marina_title").is(":visible") && ($("#marina_title").val().length >= 41 || $("#marina_title").val().length <= 0 || $.trim($("#marina_title").val()) === "")) {
+     swal({
+        title: "Please enter a valid title",
+        type: "warning",
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Ok",
+      }),
+
+     $("#marina_title").focus();
+      return false;
+    } else if(!floatValues.test($("#amount").val()) || $("#amount").val() < 0) {
+      $("#amount").focus();
+      swal("warning", "Please enter valid amount", "warning");
+      return false;
+    } else if($("#add_desc").is(":visible") && ($("#add_desc").val().length >= 150 || $.trim($("#add_desc").val()) === "")) {
+      $("#add_desc").focus();
+      swal("Warning", "Please Enter valid description(English)", "warning");
+      return false;
+    } else {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+  function get_states(branch_id, region, v) {
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/branch/areas",
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        areas = data.areas ? data.areas : ''
+        print_state(areas,region)
+      },
+      error: function() {
+        swal("Error", "Something went wrong", "Error")
+      }
+    });
+  }
+
+  function print_state(areas,region){
+    if (areas){
+      $("#"+region).empty();
+      var option_state_str = document.getElementById(region);
+
+      for (var i = 0; i < areas.length; i++) {
+        var option = document.createElement("OPTION");
+        option.innerHTML = areas[i].area;
+        option.value = areas[i].coverage_area_id;
+        option_state_str.options.add(option);
+      }
+    }
+  }
+
+  window.onload = function area_data(branch_id) {
+    branch_id = "<%= @branches.first.id %>"
+    region = "region"
+
+    $.ajax({
+      type: "POST",
+      url: "/api/v1/branch/areas",
+      dataType: "JSON",
+      data: {
+        branch_id:branch_id
+      },
+      success:function(data) {
+        areas = data.areas ? data.areas : ''
+        print_state(areas,region)
+      },
+      error: function() {
+        swal("Error", "Something went wrong", "Error")
+      }
+    });
+  }
+
+  $("#advertisement_type").on("change", function () {
+    var type = $(this).val();
+
+    if (type == "banner") {
+      $(".title-div, .description-div, .image-div").removeClass("hide");
+      $('.position-text option:contains("Top 1")').text('Place 1');
+      $('.position-text option:contains("Top 2")').text('Place 2');
+      $('.position-text option:contains("Top 3")').text('Place 3');
+      $('.position-text option:contains("Top 4")').text('Place 4');
+      $('.position-text option:contains("Top 5")').text('Place 5');
+    } else {
+      $(".title-div, .description-div, .image-div").addClass("hide");
+      $('.position-text option:contains("Place 1")').text('Top 1');
+      $('.position-text option:contains("Place 2")').text('Top 2');
+      $('.position-text option:contains("Place 3")').text('Top 3');
+      $('.position-text option:contains("Place 4")').text('Top 4');
+      $('.position-text option:contains("Place 5")').text('Top 5');
+    }
+  });
+
+
+</script>

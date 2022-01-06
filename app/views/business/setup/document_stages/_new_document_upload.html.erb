@@ -1,0 +1,224 @@
+<div class="panel-body">
+  <%= form_for(@document_upload, url: document_upload_business_setup_document_stages_path(restaurant_id: params[:restaurant_id]), html: { class: "form-horizontal", autocomplete: "off", :multipart => true, }) do |f| %>
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <div class="col-md-7">
+    <div class="row form-group">
+      <div style="margin-bottom: 15px" class="col-lg-8">
+        <a href='javascript:;'>
+          <!-- <img src="<%#= @menu_item.item_image.presence || '/assets/ic_placeholder.png' %>" class="img-tag edit-img-tag" width="60%"> -->
+          <!-- <br><br> -->
+          <label class="file">
+            <!-- <input type="file" id='edit-img-tag' name="document_upload[image]" onchange='readURL(event)' aria-label="File browser example"> -->
+            <%= f.file_field :image, id: 'edit-img-tag', onchange: 'readURL(event)'%>
+            <span class="file-custom"></span>
+          </label>
+        </a>
+        <!-- <p style="margin-top:-10px;"><b>Image size:</b> 500X500</p> -->
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-2">
+        <%= f.label :name %>
+      </div>
+      <div class="col-sm-10">
+        <%=stage.name%>
+      </div>
+    </div>
+    <% if stage.vendor_name.present?%>
+    <div class="row form-group">
+      <div class="col-sm-2">
+        <label>Vendor Name</label>
+      </div>
+      <div class="col-sm-10">
+        <%= f.select :vendor_id, Vendor.all.map{|c| c.user&.first_name}, {promt: "Select Vendor"}, {class: "form-control"} %>
+      </div>
+    </div>
+    <%end%>
+
+    <% if stage.enabled %>
+      <% if stage.date.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Date</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.date_field :date, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.depositor_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Depositor Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :depositor_number, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.account_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :account_name, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.account_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Account Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :account_number, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.note.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Notes</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_area :note, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.serial_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Serial Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :serial_number, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.employee_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Empolyee Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :emplyee_id, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.vendor_number.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Vendor Number</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :vendor_number, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.card_types.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Card Type</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.select :card_type_id, CardType.all.map{|c| [c.name,c.id]}, {promt: "Select CardType"}, {class: "form-control"} %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.exchange_name.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Exchange Name</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :exchange_name, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.amounts.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Amount</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :exchange_name, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+      <% if stage.deduction_type.present?%>
+      <div class="row form-group">
+        <div class="col-sm-2">
+          <label>Amount</label>
+        </div>
+        <div class="col-sm-10">
+          <%= f.text_field :deduction_type, class: "form-control" %>
+        </div>
+      </div>
+      <%end%>
+    <% end %>
+    <input type="hidden" id="request_some_column" name="document_stage" value="<%=document_stage.id%>" />
+    <input type="hidden" id="request_some_column" name="stage" value="<%=stage.id%>" />
+    <p style="margin-left: -15px;">QR Code</p>
+    <div class="row form-group" >
+      <!-- <img class="barcode-container" src="<%#= document_upload.barcode_url.html_safe %>" /> -->
+      <div class="col-md-8" style="border: 1px solid;padding: 3%;padding-left: 0;    border: 1px solid;padding: 3%;padding-left: 0;min-height: 200px;">
+        <div class="col-md-6">
+          <%#= @document_upload.barcode_url.html_safe %>
+          <%# serial_number = @document_upload.serial_number || "" %>
+          <!-- <p style="width: 327px;">Scan Serial# <%#= @document_upload.stage.name.gsub(" ","_") + "_" + Date.today.strftime("%d-%m-%Y") + serial_number %></p> -->
+        </div>
+        <div class="col-md-6">
+          <p><%#= @document_upload.stage.name %></p>
+          <!-- <p>Invoice</p> -->
+          <p><%#= @document_upload.created_at.strftime("%B") + "_" + @document_upload.created_at.strftime("%Y") %></p>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+    <div class="col-md-8" style="text-align: right;padding-right: 0;">
+      <%= f.submit "Save", class: "btn btn-success" %>
+      <!-- <a class="btn btn-success btn-sm generate_qr_code" href="#">Generate QR Code</a> -->
+    </div>
+  </div>
+  <p id="image-preview-txt">Image Preview</p>
+  <div class="col-md-5" style="min-height: 400px;border: 1px solid black;">
+    <img class="edit-img-tag" src="#"  style="width: 100%;display: none;" alt="Image Preview" />
+  </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  var readURL = function(event) {
+      var componentId = event.target.id
+      var getImagePath = URL.createObjectURL(event.target.files[0]);
+      $("." + componentId).attr("src", getImagePath );
+      var file = document.getElementById("edit-img-tag").files[0];
+      $('.edit-img-tag').show();
+    }
+  
+    $('.generate_qr_code').click(function(){
+      $.ajax({
+         type: "GET",
+         url: "<%= generate_qr_code_business_setup_document_stages_path %>",
+         dataType: "script"
+       });
+  
+    })
+  
+    // $('form').submit(function() {  
+    //   var valuesToSubmit = $(this).serialize();
+    //   $.ajax({
+    //       type: "POST",
+    //       url: $(this).attr('action'), //sumbits it to the given url of the form
+    //       data: valuesToSubmit,
+    //       dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
+    //   })
+    //   return false; // prevents normal behaviour
+    // });
+</script>
+<style type="text/css">
+  .modal-dialog {
+  width: 1500px;
+  /*margin: auto;*/
+  }
+</style>

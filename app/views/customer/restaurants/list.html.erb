@@ -1,0 +1,269 @@
+<div class="customer-restaurant-list">
+  <main>
+    <section>
+      <div class="block gray-bg bottom-padd210 top-padd30">
+        <% if @area %>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-lg-12">
+                <div class="sec-box">
+                  <div class="sec-wrapper top-padd80">
+                    <div class="row">
+                      <div class="col-md-3 col-sm-12 col-lg-3">
+                        <div class="sidebar left">
+                          <div class="widget style2 Search_filters">
+                            <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Cuisine Available</h4>
+
+                            <div class="widget-data">
+                              <ul>
+                                <li><%= link_to "All", customer_restaurants_list_path(search: params[:search].presence || @area&.area, cuisine_id: nil, keyword: params[:keyword], restaurant_id: params[:restaurant_id], filter: params[:filter]), class: "#{'active-cuisine-link' if @cuisine_id.nil? }" %></li>
+
+                                <% @cuisines.each do |cuisine| %>
+                                  <li><%= link_to cuisine.title, customer_restaurants_list_path(search: params[:search].presence || @area&.area, cuisine_id: encode_token(cuisine.id), keyword: params[:keyword], restaurant_id: params[:restaurant_id], filter: params[:filter]), class: "#{'active-cuisine-link' if @cuisine_id.to_i == cuisine.id }" %></li>
+                                <% end %>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="widget style2 quick_filters">
+                            <h4 class="widget-title2 sudo-bg-red" itemprop="headline">Quick Filters</h4>
+                            <div class="widget-data">
+                              <ul>
+                                <li><%= link_to "All", customer_restaurants_list_path(search: params[:search].presence || @area&.area, cuisine_id: params[:cuisine_id], keyword: params[:keyword], restaurant_id: params[:restaurant_id]), class: "#{'active-cuisine-link' if params[:filter].blank?  }" %></li>
+                                <li><%= link_to "Offers", customer_restaurants_list_path(filter: "offers", search: params[:search].presence || @area&.area, cuisine_id: params[:cuisine_id], keyword: params[:keyword], restaurant_id: params[:restaurant_id]), class: "#{'active-cuisine-link' if params[:filter] == "offers"  }" %></li>
+                                <li><%= link_to "Free Delivery", customer_restaurants_list_path(filter: "free_delivery", search: params[:search].presence || @area&.area, cuisine_id: params[:cuisine_id], keyword: params[:keyword], restaurant_id: params[:restaurant_id]), class: "#{'active-cuisine-link' if params[:filter] == "free_delivery"  }" %></li>
+                                <li><%= link_to "Open Restaurants", customer_restaurants_list_path(filter: "open_restaurants", search: params[:search].presence || @area&.area, cuisine_id: params[:cuisine_id], keyword: params[:keyword], restaurant_id: params[:restaurant_id]), class: "#{'active-cuisine-link' if params[:filter] == "open_restaurants"  }" %></li>
+                                <li><%= link_to "New Restaurants", customer_restaurants_list_path(filter: "new_restaurants", search: params[:search].presence || @area&.area, cuisine_id: params[:cuisine_id], keyword: params[:keyword], restaurant_id: params[:restaurant_id]), class: "#{'active-cuisine-link' if params[:filter] == "new_restaurants"  }" %></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-9 col-sm-12 col-lg-9">
+                        <div class="title2-wrapper">
+                          <h3 class="marginb-0" itemprop="headline">Restaurants in <%= @area.area %> (<%= @branches.size %>)</h3>
+
+                          <%= form_for :search, method: :get, html: { class: "search-dish" } do |f| %>
+                            <%= hidden_field_tag(:search, params[:search].presence || @area&.area) %>
+                            <%= hidden_field_tag(:cuisine_id, params[:cuisine_id]) %>
+                            <%= hidden_field_tag(:filter, params[:filter]) %>
+                            <%= text_field_tag(:keyword, params[:keyword], placeholder: "Search Restaurants and Items", autocomplete: :off) %>
+                            <button type="submit"><i class="fa fa-search"></i> Search</button>
+                          <% end %>
+                        </div>
+
+                        <div class="remove-ext">
+                          <% if @branches.present? || @menu_items.present? %>
+                            <div class="row">
+                              <% @branches.each do |branch| %>
+                                <% bca = BranchCoverageArea.find_by(branch_id: branch.id, coverage_area_id: @area_id) %>
+
+                                <div class="col-md-6 col-sm-6 col-lg-6">
+                                  <div class="featured-restaurant-box with-bg style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
+                                    <div class="featured-restaurant-thumb">
+
+                                      <% if bca %>
+                                        <% if bca.is_closed %>
+                                          <span class="post-rate yellow-bg brd-rd2 closed-busy-branch"> CLOSED</span>
+                                        <% elsif bca.is_busy %>
+                                          <span class="post-rate yellow-bg brd-rd2 closed-busy-branch"> BUSY</span>
+                                        <% end %>
+                                      <% end %>
+
+                                      <% if branch.is_approved && bca&.coverage_area_id == @area_id %>
+                                        <%= link_to customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id)) do %>
+                                          <%= image_tag(branch.restaurant.logo, alt: "") %>
+                                        <% end %>
+                                      <% else %>
+                                        <%= image_tag(branch.restaurant.logo, alt: "") %>
+                                      <% end %>
+                                    </div>
+
+                                    <div class="featured-restaurant-info">
+                                      <span class="red-clr" title="<%= branch.address %>"><%= branch.address.to_s.truncate(30) %></span>
+                                      <h4 itemprop="headline">
+                                        <% if branch.is_approved && bca&.coverage_area_id == @area_id %>
+                                          <%= link_to branch.restaurant.title, customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id)) %>
+                                        <% else %>
+                                          <%= link_to branch.restaurant.title, "#", class: "no-click" %>
+                                        <% end %>
+
+                                        <% if current_user && branch.is_approved && bca&.coverage_area_id == @area_id %>
+                                          <% if current_user.favorites.pluck(:branch_id).include?(branch.id) %>
+                                            <i class="fa fa-heart remove-favorite-branch-btn" data-branch="<%= branch.id %>" data-user="<%= current_user.id %>"></i>
+                                          <% else %>
+                                            <i class="fa fa-heart-o add-favorite-branch-btn" data-branch="<%= branch.id %>" data-user="<%= current_user.id %>"></i>
+                                          <% end %>
+                                        <% end %>
+
+                                        <% if branch.discount.to_f > 0 %>
+                                          <br><small><span class="red-clr"><%= branch.discount %>% OFF</span></small>
+                                        <% end %>
+                                      </h4>
+
+                                      <span class="food-types">Type of food:
+                                        <% branch.category_names.each do |c| %>
+                                          <%= link_to c, "#" %>
+                                        <% end %>
+                                      </span>
+
+                                      <ul class="post-meta">
+                                        <% if bca %>
+                                          <li><i class="fa fa-check-circle-o"></i> Min order: <%= number_with_precision(bca.min_order_amount, precision: 3) %> <%= branch.restaurant.currency_code_en %></li>
+                                          <li><i class="flaticon-transport"></i> <%= bca.delivery_time %> mins</li>
+
+                                          <li><i class="flaticon-money"></i>
+                                            Accepted Payment Methods: <%= bca.payment_methods %>
+                                          </li>
+                                        <% end %>
+                                      </ul>
+
+                                      <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> <%= branch.avg_rating %></span>
+
+                                      <% if branch.is_approved && bca&.coverage_area_id == @area_id %>
+                                        <%= link_to customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id)), class: "brd-rd30" do %>
+                                          <i class="fa fa-angle-double-right"></i> Order Online
+                                        <% end %>
+                                      <% else %>
+                                        <%= link_to "#", class: "brd-rd30 web-suggest-restaurant-btn", data: { branch: branch.id, area: @area_id, user: current_user&.id } do %>
+                                          <i class="fa fa-angle-double-right"></i> Suggest Restaurant
+                                        <% end %>
+                                      <% end %>
+                                    </div>
+                                  </div>
+                                </div>
+                              <% end %>
+                            </div>
+
+                            <div class="row">
+                              <% if @menu_items.present? %>
+                                <div class="title2-wrapper suggested-item-header">
+                                  <h3 class="marginb-0" itemprop="headline">Items (<%= @menu_items.size %>)</h3>
+                                </div>
+
+                                <% @menu_items.to_a.each do |item| %>
+                                  <% branch = item.menu_category.branch %>
+                                  <% bca = BranchCoverageArea.find_by(branch_id: branch.id, coverage_area_id: @area_id) %>
+
+                                  <div class="col-md-6 col-sm-6 col-lg-6">
+                                    <div class="featured-restaurant-box with-bg style2 brd-rd12 wow fadeIn" data-wow-delay="0.1s">
+                                      <div class="featured-restaurant-thumb">
+                                        <%= link_to customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id), keyword: item.item_name) do %>
+                                          <%= image_tag(item.item_image, alt: "") %>
+                                        <% end %>
+                                      </div>
+
+                                      <div class="featured-restaurant-info">
+                                        <span class="red-clr" title="<%= branch.address %>"><%= branch.address.to_s.truncate(30) %></span>
+                                        <h4 itemprop="headline">
+                                          <%= link_to item.item_name + " (" + branch.restaurant.title + ")", customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id), keyword: item.item_name) %>
+
+                                          <% if branch.discount.to_f > 0 %>
+                                            <br><small><span class="red-clr"><%= branch.discount %>% OFF</span></small>
+                                          <% end %>
+                                        </h4>
+
+                                        <span class="food-types">Type of food:
+                                          <% branch.category_names.each do |c| %>
+                                            <%= link_to c, "#" %>
+                                          <% end %>
+                                        </span>
+
+                                        <ul class="post-meta">
+                                          <% if bca %>
+                                            <li><i class="fa fa-check-circle-o"></i> Min order: <%= number_with_precision(bca.min_order_amount, precision: 3) %> <%= branch.restaurant.currency_code_en %></li>
+                                            <li><i class="flaticon-transport"></i> <%= bca.delivery_time %> mins</li>
+
+                                            <li><i class="flaticon-money"></i>
+                                              Accepted Payment Methods: <%= bca.payment_methods %>
+                                            </li>
+                                          <% end %>
+                                        </ul>
+
+                                        <span class="post-rate yellow-bg brd-rd2"><i class="fa fa-star-o"></i> <%= branch.avg_rating %></span>
+
+                                        <%= link_to customer_restaurant_details_path(encode_token(branch.id), area_id: encode_token(@area_id), keyword: item.item_name), class: "brd-rd30" do %>
+                                          <i class="fa fa-angle-double-right"></i> Order Online
+                                        <% end %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                <% end %>
+                              <% end %>
+                            </div>
+                          <% elsif @all_areas.blank? %>
+                            <h3>No Restaurants Found</h3>
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <div class="container area-search-container">
+            <div class="search-details-box">
+              <% if params[:cuisine_id].present? %>
+                <% category = Category.find(@cuisine_id) %>
+                <%= image_tag(category.icon) %><br>
+                <span class="yellow-clr"><%= category.title %></span>
+              <% elsif params[:restaurant_id].present? %>
+                <% restaurant = Restaurant.find(@restaurant_id) %>
+                <%= image_tag(restaurant.logo) %><br>
+                <span class="yellow-clr"><%= restaurant.title %></span>
+              <% end %>
+            </div>
+
+            <h1 class="text-center">Select Area To Proceed</h1>
+
+            <div class="all-items">
+              <div class="search col-xs-12 col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+                <%= form_for :search, method: :get do |f| %>
+                  <%= hidden_field_tag(:search, params[:search].presence || @area&.area) %>
+                  <%= hidden_field_tag(:keyword, params[:keyword]) %>
+                  <%= hidden_field_tag(:cuisine_id, params[:cuisine_id]) %>
+                  <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+                  <%= text_field_tag(:search, "", placeholder: "Search Area", autocomplete: :off, id: "area_search", class: "search-location", required: true) %>
+
+                  <div class="icon-btn">
+                    <div class="cross-icon">
+                      <i class="fa fa-crosshairs show-delivery-map"></i>
+                    </div>
+
+                    <div class="s-m-btn">
+                      <button class="search-meal-btn btn-link">Show Restaurants</button>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  </main>
+</div>
+
+<%= render "/welcome/delivery_area_modal" %>
+
+<script>
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% elsif flash[:warning].present? %>
+    swal("<%= flash[:warning] %>")
+  <% end %>
+
+  <% if @all_areas %>
+    var areas = <%= raw @all_areas.pluck(:area).sort %>;
+    autocomplete_area(document.getElementById("area_search"), areas);
+  <% end %>
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+</script>

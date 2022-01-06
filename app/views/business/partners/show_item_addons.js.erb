@@ -1,0 +1,24 @@
+var targetRow = $(".target-row");
+
+targetRow.find(".manual-order-addon-list-wrapper").html('<span class="manual-order-addon-list"></span>');
+targetRow.find(".manual-order-item-quantity").html("");
+
+<% if @addon_categories.present? %>
+  <% @addon_categories.each_with_index do |category, i| %>
+    <% item_addons = category.item_addons.map { |i| [i.addon_title.to_s + " (" + number_with_precision(i.addon_price, precision: 3) + ") ", i.id] }.sort %>
+    targetRow.find(".manual-order-addon-list").after('<%= category.addon_category_name %> (Select <%= category.min_selected_quantity %> to <%= category.max_selected_quantity %>) <%= escape_javascript select_tag("addon_ids_" + @count.to_s + "_" + (i+1).to_s, options_for_select(item_addons), class: "form-control business-search-field manual-order-addon-items", required: category.min_selected_quantity.to_i > 0, multiple: true, min: 1, max: 3) %> <br><br>');
+  <% end %>
+<% end %>
+
+targetRow.find(".manual-order-item-quantity").html('<%= escape_javascript number_field_tag("quantity_" + @count.to_s, "", min: 1, required: true, placeholder: "Enter Quantity", class: "form-control") %><br><%= escape_javascript text_field_tag("description_" + @count.to_s, "", placeholder: "Special Request", class: "form-control") %>');
+
+<% if @item %>
+  if ($(".add-manual-order-item:visible").length <= 1) {
+    targetRow.find(".add-manual-order-item").removeClass("hide");
+  }
+<% else %>
+  targetRow.find(".add-manual-order-item").addClass("hide");
+<% end %>
+
+targetRow.find(".manual-order-addon-items").select2();
+$(".target-row").removeClass("target-row");

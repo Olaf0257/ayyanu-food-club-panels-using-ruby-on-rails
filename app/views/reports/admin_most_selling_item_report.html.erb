@@ -1,0 +1,113 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" />
+<link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+<link href="/assets/select2.min.css" rel="stylesheet">
+<script src="/assets/select2.full.min.js"></script>
+
+<style type="text/css">
+  .form-inline {
+    display: inline;
+  }
+
+  .gj-datepicker-md {
+    display: inline;
+    margin-right: 20px;
+  }
+
+  .select2-container {
+    width: 220px !important;
+    max-width: 100% !important;
+  }
+</style>
+
+<% currency = @restaurants.first&.currency_code_en.to_s %>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-3">
+    <h2>Top Selling Items</h2>
+  </div>
+
+  <div class="col-sm-9">
+    <br><span class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <%= select_tag(:country_id, options_for_select(@countries, params[:country_id]), prompt: "Select Country", class: "form-control admin-search-field") %>
+        <%= select_tag(:restaurant_id, options_for_select(@restaurants.pluck(:title, :id).sort, params[:restaurant_id]), prompt: "Select Restaurant", class: "form-control admin-search-field select2-search") %>
+        <%= select_tag(:area, options_for_select(@areas.pluck(:area), params[:area]), prompt: "All Areas", class: "form-control admin-search-field select2-search", style: "width: 100%;") %>
+        <%= select_tag(:delivery_type, options_for_select(BranchCoverageArea::DELIVERY_TYPE, params[:delivery_type]), prompt: "Select Delivery Type", class: "form-control admin-search-field") %>
+        <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search Branch Address", autocomplete: :off) %>
+        <%= text_field_tag(:start_date, params[:start_date].presence, autocomplete: :off, class: "form-control", placeholder: "start date", id: "start_datepicker") %>
+      <%= text_field_tag(:end_date, params[:end_date].presence, autocomplete: :off, class: "form-control", placeholder: "end date", id: "end_datepicker") %>
+        <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+      <% end %>
+
+      <%= link_to admin_most_selling_item_report_path(format: :xlsx, country_id: params[:country_id], restaurant_id: params[:restaurant_id], area: params[:area], delivery_type: params[:delivery_type], keyword: params[:keyword], start_date: params[:start_date], end_date: params[:end_date]) do  %>
+        <button class="btn btn-warning" title="Download CSV">Download XLSX <i class="fa fa-download"></i></button>
+      <% end %>
+    </span>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Top 20 Most Selling Items</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @items.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Restaurant</th>
+                  <th>Branch</th>
+                  <th>Item Name</th>
+                  <th>Item Price (<%= currency %>)</th>
+                  <th>Total Order</th>
+                  <th>Total Order Amount (<%= currency %>)</th>
+                  <th>% Order</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @items.each do |o| %>
+                  <% item = MenuItem.find(o[:id]) %>
+
+                  <tr>
+                    <td><%= item.menu_category.branch.restaurant.country.name %></td>
+                    <td><%= item.menu_category.branch.restaurant.title %></td>
+                    <td><%= item.menu_category.branch.address %></td>
+                    <td><%= o[:item_name] %></td>
+                    <td><%= number_with_precision(o[:price_per_item], precision: 3) %></td>
+                    <td><%= o[:totalItemCount] %></td>
+                    <td><%= number_with_precision((o[:price_per_item].to_f * o[:totalItemCount].to_i), precision: 3) %></td>
+                    <td><%= o[:percentage] %></td>
+                  </tr>
+                <% end %>
+
+                <tr class="total-summary-row">
+                  <td colspan="4" class="text-right">TOTAL</td>
+                  <td><%= number_with_precision(@items.sum { |i| i[:price_per_item].to_f }, precision: 3) %></td>
+                  <td><%= @items.sum { |i| i[:totalItemCount].to_i } %></td>
+                  <td><%= number_with_precision(@items.sum { |i| i[:price_per_item].to_f * i[:totalItemCount].to_i }, precision: 3) %></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No reports available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $("#start_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $("#end_datepicker").datepicker({ format: "yyyy-mm-dd" });
+  $(".select2-search").select2();
+</script>

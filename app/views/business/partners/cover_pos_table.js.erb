@@ -1,0 +1,16 @@
+<% if @pos_check.present? %>
+	$('#guestCoverModal').modal('hide');
+    $('#userConfirmation').modal('hide');
+    $('.totalGuestSpan').removeClass('hide');
+	$('.displayNoofGuest').text("<%= check_guest_type(@pos_check.no_of_guest) || 0 %>");
+	<% if @pos_transactions.present? %>
+		<% @pos_transactions.each do |pos| %>
+			$("#transaction_data_"+"<%= pos.id %>"+" .transaction_seat_no").text("1");
+			$("#transaction_data_"+"<%= pos.id %>"+" #pos_transaction_seat_no").val("1");
+		<% end %>
+	<% end %>
+	$('.validated_field').addClass('pending_transaction');
+	toastr.success('Cover updated successfully');
+<% else %>
+	toastr.error('Check not found');
+<% end %>

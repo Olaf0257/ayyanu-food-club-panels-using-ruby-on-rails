@@ -1,0 +1,22 @@
+<div id='check_listing'>
+  <% merged_checks = @check.reload.merged_checks.where(check_status: 1) %>
+  <% width = "#{100/(merged_checks.length + 1)}%" %>
+  <input type='hidden' id='parent_split_check_id' value='<%= current_check.id %>'>
+  <%= render partial: 'add_split_check_data', locals: {current_check: current_check, width: width } %>
+  <% merged_checks.each do |merged_check| %>
+    <%= render partial: 'add_split_check_data', locals: {current_check: merged_check, width: width} %>
+  <% end %>
+</div>
+
+<div style="margin-top: 10px">
+  <%= link_to business_add_check_path(@check.id), method: :post, remote: true, id: 'add_new_split_check'  do%>
+    <button type="button" class="btn btn-primary form-button">
+      Add Check
+    </button>
+  <% end %>
+  <button type="button" class="btn btn-primary form-button share_item_popup">Share Item</button>
+  <button type="button" class="btn btn-primary form-button clear_selection">Clear Selection</button>
+  <button type="button" class="btn btn-primary form-button remove_last_split_btn" data-last-check-id ="<%= merged_checks&.order('created_at')&.last&.id %>">Remove Last Split</button>
+  <button type="button" class="btn btn-primary form-button submit-split-check">Save</button>
+  <button type="button" class="btn btn-default form-button" id='cancelSplitCheck'>Cancel</button>
+</div>

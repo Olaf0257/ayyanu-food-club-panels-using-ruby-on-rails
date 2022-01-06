@@ -1,0 +1,59 @@
+<div class="modal fade" id="event_branch_sale_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 800px;">
+      <div class="modal-header">
+        <h4 class="modal-title"><%= @event_date.event.title %> : <%= @event_date.start_date.strftime("%d/%m/%Y").to_s + "#{@event_date.end_date ? '-' : ''}" + @event_date.end_date&.strftime("%d/%m/%Y").to_s %></h4>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <% if @orders.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Restaurant</th>
+                  <th>Branch</th>
+                  <th>Delivery Orders</th>
+                  <th>Delivery Order Amount</th>
+                  <th>Dine In Orders</th>
+                  <th>Dine In Order Amount</th>
+                  <th>Total Orders</th>
+                  <th>Total Order Amount</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @orders.group_by(&:branch_id).each do |branch_id, orders| %>
+                  <% branch = Branch.find(branch_id) %>
+
+                  <tr>
+                    <td><%= branch.restaurant.title %></td>
+                    <td><%= branch.address %></td>
+                    <td><%= orders.select { |o| o.dine_in == false }.size %></td>
+                    <td><%= number_with_precision(orders.select { |o| o.dine_in == false }.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                    <td><%= orders.select { |o| o.dine_in == true }.size %></td>
+                    <td><%= number_with_precision(orders.select { |o| o.dine_in == true }.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                    <td><%= orders.size %></td>
+                    <td><%= number_with_precision(orders.map(&:total_amount).map(&:to_f).sum, precision: 3) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <p class="text-center"><b>No Restaurant Present</b></p>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <% if @orders.present? %>
+          <%= link_to admin_calendar_restaurant_report_path(format: :csv, event_date_id: @event_date.id) do %>
+            <button style="float:left" class="btn btn-warning csv-button" title="Download CSV">Download CSV <i class="fa fa-download"></i></button>
+          <% end %>
+        <% end %>
+
+        <button type="button" class="btn btn-danger zone-area-modal-close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

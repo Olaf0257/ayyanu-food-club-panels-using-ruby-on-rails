@@ -1,0 +1,314 @@
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2>Setup Master >> Vendor >> New</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <span class="pull-right">
+      <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, business_setup_vendors_path(restaurant_id: params[:restaurant_id]), class: "btn btn-danger" %></h2>
+    </span>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="text-center">Add New Vendor</h3>
+    </div>
+
+    <div class="panel-body">
+      <%= form_for(@vendor,url: business_setup_vendors_path(restaurant_id: params[:restaurant_id]), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+      <%= f.hidden_field 'mobile_code' %>
+      <%= f.hidden_field 'landline_code' %>
+      <div class="modal-demo-body">
+         <div class="form-group">
+          <label class="control-label col-sm-3">Country: <span class="text-danger">*</span></label>
+
+          <div class="col-sm-9">
+            <%= f.select :country_id, Country.all.map{|c| [c.name,c.id]}, {promt: "Select Country"}, {class: "form-control"} %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">First Name: <span class="text-danger">*</span></label>
+
+          <div class="col-sm-9">
+            <%= f.text_field :first_name, class: 'form-control', required: true, name: 'user[first_name]', value: (params[:user][:first_name] rescue '')  %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Middle Name:</label>
+
+          <div class="col-sm-9">
+           <%= f.text_field :middle_name, class: 'form-control', name: 'user[middle_name]', value: (params[:user][:middle_name] rescue '')  %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Last Name:</label>
+
+          <div class="col-sm-9">
+           <%= f.text_field :last_name, class: 'form-control', name: 'user[last_name]', value: (params[:user][:last_name] rescue '')  %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Email:</label>
+
+          <div class="col-sm-9">
+           <%= f.email_field :email, class: 'form-control', name: 'user[email]', value: (params[:user][:email] rescue '')  %>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Company:</label>
+
+          <div class="col-sm-9">
+            <%= f.text_field(:company_name, class: "form-control") %>
+          </div>
+        </div>
+
+         <div class="form-group">
+          <label class="control-label col-sm-3">Company Registration No: </label>
+
+          <div class="col-sm-9">
+            <%= f.text_field(:company_registration_no, required: true, class: "form-control") %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Company registration expiry date </label>
+
+          <div class="col-sm-9">
+           <%= f.date_field :company_registration_expiry_date, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Mobile Numer(*Required):</label>
+
+          <div class="col-sm-9">
+            <%= f.text_field :mobile_no, class: 'form-control', required: true, id: 'user_contact' %>
+                  <!-- <input type="tel" name="mobile_no" id="user_contact" class="form-control" autocomplete="off" /> -->
+                  <span id="valid-msg" class="hide">✓ Valid</span>
+                  <span id="error-msg" class="hide">Invalid number</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Phone (Landline):</label>
+
+          <div class="col-sm-9">
+            <%= f.text_field :phone_no, class: 'form-control',id: "vendor_contact", type: "Mobile" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Area:</label>
+          <div class="col-sm-9">
+            <!-- <select class="form-control setheight" name="vendor[area_id]" id="area" style="height: 30%;" required> -->
+              <%= f.select(:area_id, options_from_collection_for_select(@areas, :id, :area, (params[:vendor][:area_id] rescue '')), {include_blank: "Select Area"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+
+              <%#= f.select(:area_id, options_from_collection_for_select(@areas, :id, :area), {include_blank: "Select Account Type"}, {class: 'form-control', style: 'height: 40px!important;'}) %>
+
+            <!-- </select> -->
+          </div>
+        </div>
+
+                <div class="form-group">
+          <label class="control-label col-sm-3">Address <span class="text-danger">*</span></label>
+
+          <div class="col-sm-9">
+           <%= f.text_field :address, class: 'form-control', required: true %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Tax No.</label>
+
+          <div class="col-sm-9">
+           <%= f.text_field :tax_percentage, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Name of company representative </label>
+
+          <div class="col-sm-9">
+           <%= f.text_field :name_of_company_representative, class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label col-sm-3">Status:<span class="text-danger">*</span></label>
+
+          <div class="col-sm-9">
+           <%= f.select(:status, options_for_select(Vendor::STATUS, (params[:vendor][:status] rescue '')), {include_blank: "Select Status"}, {class: 'form-control', required: true, style: 'height: 40px!important;'}) %>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row form-group">
+        <center><%= f.submit "Create New Vendor", class: "btn btn-success btn-sm", id: 'vendor-form-submit' %></center>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+  swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+  swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+
+$("#user_contact, #vendor_contact").intlTelInput({
+    allowDropdown: true,
+    autoHideDialCode: true,
+    autoPlaceholder: "on",
+    dropdownContainer: "body",
+    excludeCountries: [],
+    formatOnDisplay: true,
+    geoIpLookup: function(callback) {
+      $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+        var countryCode = (resp && resp.country) ? resp.country : "";
+        callback(countryCode);
+      });
+    },
+    hiddenInput: "full_phone",
+    initialCountry: "auto",
+    nationalMode: true,
+    initialCountry: '<%=@user.country_code.present? ? @user.country_code.split('+')[1] : '' %>',
+    onlyCountries: [],
+    placeholderNumberType: "MOBILE",
+    preferredCountries: ['bh'],
+    separateDialCode: true,
+    utilsScript: "/assets/telinput/utils.js"
+  });
+
+
+  $("#saveBtn").on("click",function(){
+    var name = /^([a-zA-Z]+\s)*[a-zA-Z]+$/
+    var time = /\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))$/;
+    var amount = /^([0-9]*|\d*\.\d{1}?\d*)$/;
+    var country_code = $("#user_contact").intlTelInput("getSelectedCountryData");
+    var countrycode = "+"+country_code.dialCode
+    var tax_percentage =  /^\d+(\.\d{1,2})?$/
+
+    if(($.trim($('#minimum_order_amount').val())==="") || !amount.test($('#minimum_order_amount').val())) {
+      $('#minimum_order_amount').focus();
+      swal("Warning","Please Enter the valid minimum order amount","warning");
+      return false;
+    } else if ($('#area').val()=="Select Area") {
+      $('#area').focus();
+      swal("Warning","Please Select a Area","warning");
+      return false;
+    } else if (($.trim($('#user_contact').val())==="")) {
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid contact No. for Branch.","warning");
+      return false;
+    } else if(($.trim($('#country').val())==="") || ($.trim($('#country').val())=='Select Country')) {
+      $('#country').focus();
+      swal("Warning","Please Select a Country","warning");
+      return false;
+    } else if(($.trim($('#area').val())==="") || ($.trim($('#area').val())=='Select Area')) {
+      $('#area').focus();
+      swal("Warning","Please Select a Area","warning");
+      return false;
+    } else if(!tax_percentage.test($('#tax_percentage').val())) {
+      $('#tax_percentage').focus();
+      swal("Warning","Please enter valid tax percentage","warning")
+      return false;
+    } else if(($.trim($('#delivery_charges').val())==="") || !amount.test($('#delivery_charges').val())) {
+      $('#delivery_charges').focus();
+      swal("Warning","Please enter valid delivery charges","warning");
+      return false;
+    } else if(!testContact()) {
+      $('#user_contact').focus();
+      swal("Warning","Please enter a valid phone number","warning")
+      return false;
+    } else {
+      swal({
+        html:true,
+        title: "Please wait...",
+        text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+        showConfirmButton: false
+      });
+      return true
+    }
+  });
+
+  var telInput = $("#user_contact"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  telInput.blur(function() {
+    testContact()
+  });
+
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+
+  var testContact = function(){
+    reset();
+    if ($.trim(telInput.val())) {
+      if (telInput.intlTelInput("isValidNumber")) {
+        validMsg.addClass("hide");
+        errorMsg.removeClass("show");
+        return true;
+      } else {
+        err =  telInput.intlTelInput('getValidationError'),
+        message = null;
+
+        switch (err) {
+          case intlTelInputUtils.validationError.INVALID_COUNTRY_CODE:
+            message = 'The country code is not valid';
+            break;
+          case intlTelInputUtils.validationError.TOO_SHORT:
+            message = 'The phone number is too short';
+            break;
+          case intlTelInputUtils.validationError.TOO_LONG:
+            message = 'The phone number is too long';
+            break;
+          case intlTelInputUtils.validationError.NOT_A_NUMBER:
+            message = 'The value is not a number';
+            break;
+          default:
+            message = 'The phone number is not valid';
+            break;
+        }
+        telInput.addClass("error");
+        errorMsg.removeClass("hide");
+        errorMsg.addClass("show");
+        errorMsg.text(message);
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }  
+
+  $('#vendor-form-submit').click(function(){
+    $('#vendor_mobile_code').val($('.selected-dial-code')[0].innerText)
+    $('#vendor_landline_code').val($('.selected-dial-code')[1].innerText)
+  })
+  
+
+</script>
+ 
+ <style type="text/css">
+ .intl-tel-input {
+    width: 100% !important;
+  }
+</style>

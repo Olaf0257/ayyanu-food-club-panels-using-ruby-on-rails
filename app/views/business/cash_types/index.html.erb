@@ -1,0 +1,44 @@
+<div class="row" style="margin: 10px 30px;">
+  <div class='col-md-12'>
+    <span class="pull-right" style="margin-top:20px;">
+      <%= link_to business_new_cash_types_path(params[:restaurant_id]), remote: true, class: "btn btn-primary btn-circle", title: "Add Cash Type", style: 'float: right;' do %>
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      <% end %>
+    </span>
+  </div>
+  <div class="cash-type-form-data hide" style="background-color: white;padding-bottom: 15px;width: 80%;">
+  </div>
+  <table class="table table-striped">
+    <thead class='thead-dark'>
+      <tr>
+        <th>Currency Name</th>
+        <th>Currency Amount</th>
+        <th>Conversion</th>
+        <th>Enabled</th>
+        <th>Created By</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @cash_types.present? %>
+        <% @cash_types.each do |cash_type| %>
+          <tr>
+            <td><%= cash_type.pos_cash_type %></td>
+            <td><%= cash_type.amount %></td>
+            <td><%= cash_type.converted_amount %></td>
+            <td><%= check_box_tag '', '', cash_type.is_enabled, style:'pointer-events: none;'%></td>
+            <td><%= cash_type.created_by.name %></td>
+            <td><%= set_time_formated(cash_type.created_at) %></td>
+            <td>
+                <%= link_to 'Edit', business_edit_cash_types_path(params[:restaurant_id], cash_type.id), remote: true, class: 'btn btn-success' %>
+                <%= link_to 'Delete', business_delete_cash_types_path(params[:restaurant_id], cash_type.id),  method: :delete, class: 'btn btn-danger' %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr style="text-align: center;"><td colspan=7> No Data found!</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

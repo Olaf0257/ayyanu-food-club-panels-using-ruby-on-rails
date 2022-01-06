@@ -1,0 +1,43 @@
+<% if params[:action] == "edit" %>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Join Date</label>
+      <%= date_field_tag :confirmation_date, @salary.user&.user_detail&.confirmation_date&.to_date, class: 'form-control', disabled: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Experience</label>
+      <%= text_field_tag :total_experience, @salary.user&.user_detail&.total_experience, class: 'form-control', disabled: true, placeholder: 'Allowences', name: 'salary[allowences]'  %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Department</label>
+      <%= text_field_tag :department, @salary.user&.user_detail&.department&.name, class: 'form-control', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Designation</label>
+      <%= text_field_tag :designation, @salary.user&.user_detail&.designation, class: 'form-control', disabled: true %>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Join Date</label>
+      <%= date_field_tag :confirmation_date, @user.user_detail&.confirmation_date&.to_date, class: 'form-control', disabled: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Experience</label>
+      <%= text_field_tag :total_experience, @user.user_detail&.total_experience, class: 'form-control', disabled: true  %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Department</label>
+      <%= text_field_tag :department, @user.user_detail&.department&.name, class: 'form-control', disabled: true %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label for="user_name">Designation</label>
+      <%= text_field_tag :designation, @user.user_detail&.designation&.capitalize&.gsub("Kitchen_manager","Kitchen Manager"), class: 'form-control', disabled: true %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,258 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Start time</th>
+      <th scope="col">End time</th>
+      <th scope="col">Check Number</th>
+      <th scope="col">Customer</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @schedules.each do |schedule| %>
+      <% pos_check = PosCheck.unscoped.find_by(id: schedule.pos_check_id) %>
+      <tr>
+        <td><%= schedule.start_time.strftime('%d-%m-%Y %I:%M %p') %></td>
+        <td><%= schedule.end_time.strftime('%d-%m-%Y %I:%M %p') %></td>
+        <td><%= pos_check.is_scheduled_check ? 'Not scheduled' : pos_check&.check_id  %></td>
+        <td><%= pos_check&.user&.name %></td>
+        <td><%= link_to "Edit", edit_business_catering_schedule_path(schedule.id), remote: true  %></td>
+        <td><%= link_to "View", business_catering_schedule_path(schedule.id), remote: true  %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<div id="CateringEditPopup"></div>
+<div id="CateringShowPopup"></div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_store_pos_table_path, method: :post do |f| %>
+      <input type="hidden" name="selected_table_id" class="selected_table_id">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Guest Count</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter number of guests</p>
+          <input type="text" class="form-control no-of-guest" name="no_of_guest">
+          <div class="no-guest-error text-danger">Please add number of guest</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">1</button>
+              <button type="button" class="btn btn-default num-button">2</button>
+              <button type="button" class="btn btn-default num-button">3</button>
+              <button type="button" class="btn btn-default num-button"><-</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">4</button>
+              <button type="button" class="btn btn-default num-button">5</button>
+              <button type="button" class="btn btn-default num-button">6</button>
+              <button type="button" class="btn btn-default num-button">X</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">7</button>
+              <button type="button" class="btn btn-default num-button">8</button>
+              <button type="button" class="btn btn-default num-button">9</button>
+            </div>
+
+            <div class="col-md-12">
+              <button type="button" class="btn btn-default num-button">0</button>
+              <button type="button" class="btn btn-default num-button">.</button>
+              <button type="button" class="btn btn-default num-button">00</button>
+            </div>
+
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button save-no-guest-btn" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div id="pickupCheckModalPopup" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="height: 90%">
+    <div class="modal-content" style="height: auto;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Pickup Check</h4>
+      </div>
+      <div class="modal-body" style="height: 404px;overflow-y: auto;">
+        <div class='searching'></div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Check id</th>
+              <th>Order Type</th>
+              <th>Total Amount</th>
+              <th>Advance Amount</th>
+              <th>Remaining Amount</th>
+              <th class="driver-th">Driver</th>
+              <th class="driver-th">Order Status</th>
+              <th>Customer Name</th>
+              <th>Customer Number</th>
+              <th>Created At</th>
+              <th>Table no</th>
+          </thead>
+          <tbody style="height: 75%;overflow-y: auto;">
+          </tbody>
+        </table>
+      </div>
+      <div class="button-list" style="padding: 5%">
+        <button type="button" class="btn btn-default okBtnPickUpCheck form-button" style="width: 21%" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-default form-button" style="width: 21%" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="checkNoOfGuest" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width: 28%">
+    <%= form_for :branch, url: business_partner_pos_new_transaction_path(restaurant_id: encode_token(@branch.restaurant_id)), method: :post, remote: false, html:{ id:'checkGuestForm'} do |f| %>
+      <input type="hidden" name="table_id" class="check_selected_table_id">
+      <input type="hidden" name="selected_resturant_id" class="selected_resturant_id" , value="<%= @pos_table&.branch&.restaurant_id ? encode_token(@pos_table&.branch&.restaurant_id) : '' %>">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Guest Count</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter number of guests</p>
+          <input type="text" class="form-control no-of-guest check-no-of-guest" name="no_of_guest">
+          <div class="check-no-guest-error text-danger hide">Please add number of guest</div>
+          <div class="row custom-button" style="margin-top: 10px;margin-left: 10%;">
+            <%= render partial: 'business/partners/pos_number_pad' %>
+            <div class="col-md-12">
+              <%= submit_tag "OK", class: "btn btn-default form-button save-check-no-guest-btn" %>
+              <button type="button" class="btn btn-default form-button" data-dismiss="modal">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .context-menu {
+    position: absolute;
+    display:none;
+    max-height: 150px !important;
+    overflow: hidden !important;
+    overflow-y: auto !important;
+  }
+  .show-context-menu {
+    display: block;
+    position: absolute;
+    left: 150px;
+    top: 90px;
+  }
+  .flex{
+  display: flex;
+  padding-left: .5em;
+  padding-right: .5em;
+  }
+  .flex .text-right{
+  width: 100%;
+  text-align: right;
+  }
+  .fa-5x {
+  font-size: 3em;
+  }
+
+.checkbox label:after,
+.radio label:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.checkbox .cr,
+.radio .cr {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+}
+
+.radio .cr {
+    border-radius: 50%;
+}
+
+.checkbox .cr .cr-icon,
+.radio .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.radio .cr .cr-icon {
+    margin-left: 0.04em;
+}
+
+.checkbox label input[type="checkbox"],
+.radio label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.radio label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.radio label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="checkbox"]:disabled + .cr,
+.radio label input[type="radio"]:disabled + .cr {
+    opacity: .5;
+}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    vertical-align: middle;
+}
+
+.custom-button div {
+  margin-bottom: 10px;
+}
+
+.custom-button .num-button {
+  height: 50px;
+  width: 50px;
+  font-size: 23px;
+  font-weight: bold;
+  background-color: blue !important;
+}
+
+.form-button {
+  height: 50px;
+  width: 38%;
+  font-size: 16px;
+  background-color: #00b5ff !important;
+}
+
+.no-of-guest {
+  border: 1px solid black;
+  border: 1px solid black;
+  padding: 22px;
+  padding-left: 10px;
+  font-size: 25px;
+}
+</style>

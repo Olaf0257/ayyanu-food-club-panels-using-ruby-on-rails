@@ -1,0 +1,146 @@
+<link href="/assets/select2.min.css" rel="stylesheet">
+<%= stylesheet_link_tag "business/hrms" %>
+
+<style type="text/css">
+  .bg-white {
+    background-color: white;
+  }
+
+  .form-control {
+    margin-bottom: 10px !important;
+    height: 40px;
+  }
+
+  .setheight {
+    height:40px !important;
+  }
+
+  .branch-select-div {
+    height: 70px;
+  }
+  .show-detail-back-btn{
+    margin-right: 1%;
+    margin-top: 1.5%;
+    padding-bottom: %;
+    padding: 8px 65px 8px;
+    outline: none !important;
+  }
+/*label {
+    margin: 21px;
+    padding-left: 32px;
+}
+
+input[type='sumbit'] {
+    margin-top: 15px;
+}*/
+.upload-img{
+  margin-right: 1%;
+    margin-top: 1.5%;
+}
+#upload-img-save-btn{
+  margin-right: 12%;
+}
+
+#preloader{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  z-index:100000;
+  opacity:0.5;
+  background:#ededed;
+  top:0 !important;
+  left: 0 !important;
+}
+
+#preloader #inner-div-preloader{
+  position: fixed;
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  top:0;
+  height:100%;  
+}
+
+</style>
+
+<link rel="stylesheet" href="/assets/intlTelInput.css">
+
+<div id="preloader">
+  <div id="inner-div-preloader">
+    <%= image_tag 'loader.gif', id: "preloader-img", alt: "loader" %>
+  </div>
+</div>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-3">
+    <h2 style="margin-top:20px;"><b>Add Employee</b></h2>
+  </div>
+  <div class="col-xs-9">
+    <!-- <label class="file-col-md-30 text-center">
+      <input type="file" id='add-img-tag' name="image" onchange='readURL(event)' aria-label="File browser example">
+      <span class="file-custom"></span>
+    </label> -->
+    <!-- <a href="#" class="btn btn-info upload-img">Upload Image</a> -->
+    <a href="<%= business_hrms_employees_path(restaurant_id: params[:restaurant_id])%>" >
+      <button class="btn btn-info pull-right show-detail-back-btn">Back</button>
+    </a>
+    
+    <%#= form_for :upload_passport_business_hrms_employees_path, method: :post, html: { class: "form-inline" } do |f| %>
+    <%= form_for(@employee, url: upload_passport_business_hrms_employees_path, html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+    <% passport_attributes = params["passport_attributes"]&.permit!&.to_h || {} %>
+      <!-- <input type="file" name="" class="btn btn-info pull-right show-detail-back-btn"> -->
+      <%= f.file_field :image, class: "btn btn-info pull-left show-detail-back-btn",id:'edit-img-tag','aria-label':"File browser example", style: 'padding: 6px 20px 6px;margin-left: 7%;', required: true %>
+      <!-- <button class="btn btn-info pull-right show-detail-back-btn" id="upload-img-save-btn">Save</button> -->
+      <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+
+      <%= hidden_field_tag 'name', passport_attributes["name"], id: 'hidden_user_name' %>
+      <%= hidden_field_tag 'dob', passport_attributes["dob"], id: 'hidden_dob' %>
+      <%= hidden_field_tag 'cpr_number', passport_attributes["cpr_number"], id: 'hidden_cpr_number' %>
+      <%= hidden_field_tag 'cpr_expiry', passport_attributes["cpr_expiry"],  id: 'hidden_cpr_expiry' %>
+      <%= hidden_field_tag 'father_name', passport_attributes["father_name"], id: 'hidden_father_name' %>
+      <%= hidden_field_tag 'passport_number', passport_attributes["passport_number"], id: 'hidden_passport_number' %>
+      <%= hidden_field_tag 'passport_expiry', passport_attributes["passport_expiry"], id: 'hidden_passport_expiry' %>
+      <%= hidden_field_tag 'nationality', passport_attributes["nationality"], id: 'hidden_nationality' %>
+      <%= hidden_field_tag 'cpr_expiry', passport_attributes["cpr_expiry"], id: 'hidden_cpr_number_expiry' %>
+
+      <%= submit_tag('Save', class: 'btn btn-info pull-right show-detail-back-btn', id:"upload-img-save-btn") %>
+      <!-- <button class="btn btn-info pull-right show-detail-back-btn">Upload Image</button> -->
+      
+    <% end %>    
+  </div>
+</div>
+
+<br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <br>
+
+    <div class="col-xs-12 col-sm-12 col-md-7 col-md-offset-2 well well-sm bg-white">
+      <h3 class="text-center"> Add Employee</h3>
+      <hr>
+      <%= render 'form' %>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<script src="/assets/select2.full.min.js"></script>
+<script type="text/javascript" src="/assets/telinput/intlTelInput.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/formvalidation@0.6.2-dev/dist/js/formValidation.min.js"></script>
+<script type="text/javascript">
+  <% unless params[:image_url].blank? %>
+    $( document ).ready(function() {
+      $("#preloader").show();
+      var image_url = "<%= params[:image_url] %>";
+      $.ajax({
+        type: "GET",
+        url: "/business/hrms/employees/auto_populate_info",
+        data: { image_url: image_url, name: $('#hidden_user_name').val(), dob: $('#hidden_dob').val(), passport_number: $('#hidden_passport_number').val(), passport_expiry: $('#hidden_passport_expiry').val(), father_name: $('#hidden_father_name').val(), cpr_number: $('#hidden_cpr_number').val(), cpr_expiry: $('#hidden_cpr_number_expiry').val(), nationality: $('#hidden_nationality').val() }
+      });
+    });
+  <% end %>
+</script>

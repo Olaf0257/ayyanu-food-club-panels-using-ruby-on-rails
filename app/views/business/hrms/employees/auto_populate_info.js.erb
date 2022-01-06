@@ -1,0 +1,22 @@
+$('#user_name').val("<%= @passport_attributes["name"]&.titleize %>");
+$('#date').val("<%= @passport_attributes["dob"]&.to_date %>");
+$('#user_user_detail_attributes_passport_number').val("<%= @passport_attributes["passport_number"] %>");
+$('#user_user_detail_attributes_passport_expiry').val("<%= @passport_attributes["passport_expiry"]&.to_date %>");
+$('#user_user_detail_attributes_father_name').val("<%= @passport_attributes["father_name"]&.titleize %>");
+$('#user_cpr_number').val("<%= @passport_attributes["cpr_number"] %>");
+$('#user_user_detail_attributes_nationality').val("<%= @passport_attributes["nationality"] %>");
+$('#cpr_number_expiry').val("<%= @passport_attributes["cpr_expiry"]&.to_date %>");
+$("#preloader").hide();
+
+
+$('#hidden_user_name').val("<%= @passport_attributes["name"]&.titleize %>");
+$('#hidden_dob').val("<%= @passport_attributes["dob"]&.to_date %>");
+$('#hidden_passport_number').val("<%= @passport_attributes["passport_number"] %>");
+$('#hidden_passport_expiry').val("<%= @passport_attributes["passport_expiry"]&.to_date %>");
+$('#hidden_father_name').val("<%= @passport_attributes["father_name"]&.titleize %>");
+$('#hidden_cpr_number').val("<%= @passport_attributes["cpr_number"] %>");
+$('#hidden_nationality').val("<%= @passport_attributes["nationality"] %>");
+$('#hidden_cpr_number_expiry').val("<%= @passport_attributes["cpr_expiry"]&.to_date %>");
+
+
+

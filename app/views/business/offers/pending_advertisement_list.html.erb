@@ -1,0 +1,99 @@
+<style>
+  .setheight {
+    height: 40px !important;
+  }
+</style>
+
+<div class="row white-bg page-heading" style="padding-bottom: 10px;">
+  <div class="col-xs-7">
+    <h2 style="margin-top:20px;"><b>Pending / Rejected Offers List</b></h2>
+  </div>
+
+  <div class="col-xs-3">
+    <h2 class="pull-right" style="margin-top:20px;">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <%= select_tag(:ad_type, options_for_select(["list", "banner"], params[:ad_type]), class: "form-control business-search-field ad-type-filter") %>
+      <% end %>
+    </h2>
+  </div>
+
+  <div class="col-xs-2">
+    <h2 class="pull-right" style="margin-top:20px;">
+      <%= link_to business_pending_advertisement_list_path(format: :csv, restaurant_id: params[:restaurant_id], ad_type: params[:ad_type]) do %>
+        <button class="btn btn-sm btn-warning csv-button pull-right" title="Download CSV">Download CSV<i class="fa fa-download"></i></button>
+      <% end %>
+    </h2>
+  </div>
+</div>
+<br><br>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+
+        <div class="ibox-title">
+          <h5>Pending / Rejected Offers Table</h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @ads.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Place Type</th>
+                  <th>Position</th>
+                  <th>Title</th>
+                  <th>Branch</th>
+                  <th>Area</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Amount (<%= @ads.first&.branch&.currency_code_en %>)</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @ads.each do |offer| %>
+                  <tr id="offer-<%= offer.id %>">
+                    <td><%= offer.id %></td>
+                    <td><%= offer.place %></td>
+                    <td><%= offer.position %></td>
+                    <td><%= offer.title %></td>
+                    <td><%= offer.branch.address %></td>
+                    <td><%= offer.coverage_area.area %></td>
+                    <td><%= offer.week.start_date.strftime("%A, %d %B %Y") %> </td>
+                    <td><%= offer.week.end_date.strftime("%A, %d %B %Y") %></td>
+                    <td><%= offer.amount %></td>
+                    <td><%= offer.is_reject ? '<label class="label label-danger">Reject</label>'.html_safe : '<label class="label label-default">Not Accepted</label>'.html_safe%></td>
+
+                    <td>
+                      <a href="<%= business_business_offer_show_path(offer_id: encode_token(offer.id), restaurant_id: params[:restaurant_id]) %>" class="btn btn-xs btn-success" style="font-size: 13px; color: white;"><i class="fa fa-eye" aria-hidden="true"> View </i> </a>
+
+                      <% if (offer.is_reject.nil? and offer.is_accepted == false) %>
+                        <a href="<%= business_offers_update_pending_offer_path(offer_id: encode_token(offer.id), restaurant_id: params[:restaurant_id])%>" class="btn btn-xs btn-primary" style="font-size: 13px; color: white;"><i class="fa fa-edit" aria-hidden="true"> Edit </i> </a>
+                      <% end %>
+                    </td>
+                  </tr>
+                <%end%>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No offers available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:check_marina].present? %>
+    swal("warning", "<%= flash[:check_marina] %>", "warning")
+  <% elsif flash[:error].present? %>
+    swal("warning", "<%= flash[:error] %>", "warning")
+  <% end %>
+</script>

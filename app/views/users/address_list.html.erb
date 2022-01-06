@@ -1,0 +1,102 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-6">
+    <h2><%= @user.name %> Addresses</h2>
+  </div>
+
+  <div class="col-sm-4">
+    <h2 class="pull-right">
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="form-group">
+          <%= hidden_field_tag(:user_id, @user.id) %>
+          <%= select_tag(:searched_country_id, options_for_select((@countries || []), params[:searched_country_id]), prompt: "Select Country", class: "form-control admin-search-field address-country-search") %>
+        </div>
+      <% end %>
+    </h2>
+  </div>
+
+  <div class="col-sm-2">
+    <h2 class="pull-right"><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, (params[:is_view_address] == 'true' ? business_customers_list_path(restaurant_id: params[:restaurant_id]) : user_list_path(role: "customer")), class: "btn btn-danger" %></h2>
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Addresses Table</h5>
+
+          <h5 class="pull-right">
+            <%= link_to user_address_list_path(format: :csv, user_id: @user.id, searched_country_id: params[:searched_country_id]) do  %>
+              <button class="btn btn-xs btn-primary" title="Download CSV"> Download CSV <i class="fa fa-download"></i></button>
+            <% end %>
+          </h5>
+        </div>
+
+        <div class="ibox-content table-responsive">
+          <% if @addresses.present? %>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Country</th>
+                  <th>Area</th>
+                  <th>Address Name</th>
+                  <th>Address Type</th>
+                  <th>Block</th>
+                  <th>Road No</th>
+                  <th>Building</th>
+                  <th>Floor</th>
+                  <th>Villa/ Apartment/ Office No</th>
+                  <th>Additional Directions</th>
+                  <th>Contact</th>
+                  <th>Landline</th>
+                  <% if params[:is_view_address] != 'true' %>
+                    <th>Actions</th>
+                  <% end %>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @addresses.sort_by(&:area_name).each do |address| %>
+                  <tr>
+                    <td><%= address.coverage_area&.country&.name %></td>
+                    <td><%= address.area_name %></td>
+                    <td><%= address.address_name %></td>
+                    <td><%= address.address_type %></td>
+                    <td><%= address.block %></td>
+                    <td><%= address.street %></td>
+                    <td><%= address.building %></td>
+                    <td><%= address.floor %></td>
+                    <td><%= address.apartment_number %></td>
+                    <td><%= address.additional_direction %></td>
+                    <td><%= address.contact %></td>
+                    <td><%= address.landline %></td>
+                    <% if params[:is_view_address] != 'true' %>
+                      <td>
+                        <%= link_to '<i class="fa fa-edit"></i>'.html_safe + " Edit", user_edit_address_path(address_id: address.id, is_view_address: (params[:is_view_address] || false),selected_user_id: params[:selected_user_id], restaurant_id: params[:restaurant_id]), class: "btn btn-xs btn-success" %>
+
+                        <% if is_super_admin?(@admin) %>
+                          <%= link_to '<i class="fa fa-trash"></i>'.html_safe + " Delete", user_delete_address_path(address_id: address.id), class: "btn btn-xs btn-danger", data: { confirm: "Are you sure you want to delete this Address?" } %>
+                        <% end %>
+                      </td>
+                    <% end %>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <center><div class="alert alert-danger">No Addresses available yet.</div></center>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  <% if flash[:success].present? %>
+    swal("Success", "<%= flash[:success] %>", "success")
+  <% elsif flash[:error].present? %>
+    swal("Error", "<%= flash[:error] %>", "error")
+  <% end %>
+</script>

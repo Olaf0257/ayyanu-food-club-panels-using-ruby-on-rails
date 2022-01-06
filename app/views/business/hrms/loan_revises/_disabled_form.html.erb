@@ -1,0 +1,50 @@
+<%#= form_with(url: business_hrms_loan_revises_path(@loan_revises), class: 'form-horizontal', local:true)  do |f| %>
+<%= form_for(@loan_revise, url: (params[:id].blank? ? business_hrms_loan_revises_path : edit_business_hrms_loan_revise_path(@loan_revise).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+
+  <div class="row">
+    <div class="col-xs-6">
+      <%= f.label :employee %>
+      <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @loan_revise.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true, disabled: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Loan</label>
+      <%#= f.select(:loan_id, options_from_collection_for_select(find_loans(params[:restaurant_id]), :id, :account_number, @loan_revise.loan_id), {include_blank: "Select Loan"}, {class: 'form-control', style: 'height: 40px!important;', disabled: true}) %>
+       <%= select_tag(:loan_id, options_from_collection_for_select(Loan.where(id: @loan_revise.loan_id), :id, :id, @loan_revise.loan_id), {class: 'form-control', style: 'height: 40px!important;', include_blank: "Select Loan", name: 'loan_revise[loan_id]', id: 'loan_revise_loan_id', required: true, disabled: true}) %>
+    </div>
+    
+  </div>
+
+  <div id="loan_detail_container">
+    <%= render 'loan_detail' if params[:action] == "show" %>
+  </div>
+
+  <div class="row">
+   
+    
+    <div class="col-xs-6 col-md-6">
+      <label> Topup Amount </label>
+      <%= f.number_field :topup_amount, step: :any, class: 'form-control', placeholder: 'Topup Amount', required: true, disabled: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <label>Loan Period</label>
+      <%= f.number_field :loan_period, class: 'form-control', placeholder: 'Loan Period', required: true, disabled: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+   
+    
+    <div class="col-xs-6 col-md-6">
+      <label for="new_interest_rate">New Interest Rate</label>
+      <%= f.number_field :new_interest_rate, step: :any, class: 'form-control', placeholder: 'New Interest Rate', required: true, disabled: true  %>
+    </div>
+  </div>
+
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'loan_revise[restaurant_id]', params[:restaurant_id] %>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+
+  <br>
+<% end %>

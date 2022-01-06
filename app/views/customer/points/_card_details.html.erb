@@ -1,0 +1,125 @@
+<div class="modal fade" id="add_card_details_modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <center>
+        <div id="showimage"></div>
+      </center>
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Card Details</h4>
+      </div>
+
+      <form id="form-container" method="post" action="/charge">
+        <div class="modal-body">
+          <div id="element-container"></div>
+          <div id="error-handler" role="alert"></div>
+
+          <div id="success" style=" display: none;;position: relative;float: left;">
+            Success! Your token is <span id="token"></span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger pull-right" style="margin-left: 4px; color: white;" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-secondary pull-right"  id="tap-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+<script src="https://secure.gosell.io/js/sdk/tap.min.js"></script>
+
+<script>
+  var tap = Tapjsli("<%= Rails.application.secrets['tap_publishable_key'] %>");
+
+  var elements = tap.elements({});
+
+  var style = {
+    base: {
+      color: "#535353",
+      lineHeight: "18px",
+      fontFamily: "sans-serif",
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "rgba(0, 0, 0, 0.26)",
+        fontSize:"15px"
+      }
+    },
+    invalid: {
+      color: "red"
+    }
+  };
+
+  var labels = {
+    cardNumber: "Card Number",
+    expirationDate: "MM/YY",
+    cvv: "CVV",
+    cardHolder: "Card Holder Name"
+  };
+
+  var paymentOptions = {
+    currencyCode: ["BHD", "INR", "JOD", "KWD", "OMR", "QAR", "SAR", "AED", "USD"],
+    labels : labels,
+    TextDirection: "ltr"
+  }
+
+  var card = elements.create("card", { style: style }, paymentOptions);
+  card.mount("#element-container");
+
+  card.addEventListener("change", function(event) {
+    if(event.BIN) {
+      console.log(event.BIN)
+    }
+
+    if(event.loaded) {
+      console.log("UI loaded :" + event.loaded);
+      console.log("current currency is :" + card.getCurrency())
+    }
+
+    var displayError = document.getElementById("error-handler");
+
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = "";
+    }
+  });
+
+  var form = document.getElementById("form-container");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    tap.createToken(card).then(function(result) {
+      console.log(result);
+      if (result.error) {
+        var errorElement = document.getElementById("error-handler");
+        errorElement.textContent = result.error.message;
+      } else {
+        var tokenElement = document.getElementById("token");
+        tokenElement.textContent = result.id;
+        console.log(result.id);
+
+        var sellerId = $(".buy-party-points-btn").data("seller");
+        var buyerId = $(".buy-party-points-btn").data("buyer");
+        var restaurantId = $(".buy-party-points-btn").data("restaurant");
+        var sellingPrice = $(".buy-party-points-btn").data("sell");
+        var points = $(".buy-party-points-btn").data("points");
+
+        swal({
+          html: true,
+          title: "Please Wait...",
+          text: "<center><img src='/assets/rest-loading.gif' width='30%'></center>",
+          showConfirmButton: false
+        });
+
+        $.get("/party_points_charge_customer?seller_id=" + sellerId + "&buyer_id=" + buyerId + "&restaurant_id=" + restaurantId + "&selling_price=" + sellingPrice + "&available_points=" + points + "&token_id=" + result.id);
+        $("#add_card_details_modal").modal("hide");
+      }
+    });
+  });
+</script>

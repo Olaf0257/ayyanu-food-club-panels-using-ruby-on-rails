@@ -1,0 +1,90 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+   <div class="col-sm-8">
+      <h2>Material Control >> Recipe >> Details</h2>
+   </div>
+   <div class="col-sm-4">
+      <span class="pull-right">
+         <h2><%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, inventory_restaurant_recipes_path, class: "btn btn-danger" %></h2>
+      </span>
+   </div>
+</div>
+<br>
+<div class="container">
+   <div class="panel panel-primary">
+      <div class="panel-heading">
+         <h3 class="text-center">Recipe Details</h3>
+      </div>
+      <div class="panel-body">
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Name</strong>
+            </div>
+            <div class="col-sm-10">
+               <%= @recipe.name %>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Recipe Yields</strong>
+            </div>
+            <div class="col-sm-10">
+               <%= @recipe.yields %>
+            </div>
+         </div>
+         <div class="row form-group">
+            <div class="col-sm-2">
+               <strong>Total Quantity</strong>
+            </div>
+            <div class="col-sm-10">
+               <%=@ingredients.sum(:quantity)%>
+            </div>
+         </div>
+
+         <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row white-bg">
+               <div class="col-lg-12">
+                  <div class="ibox float-e-margins">
+                     <h3 class="text-success">Ingredients</h3>
+                     <hr style="border: 1px solid;">
+                     <% if @ingredients.present? %>
+                     <div class="full-height-scroll">
+                        <div class="table-responsive">
+                           <table class="table table-striped">
+                              <thead>
+                                 <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Item Group</th>
+                                    <th>Recipe Group</th>
+                                    <th>Weight</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <% @ingredients.each do |group| %>
+                                 <tr>
+                                    <td><%=group.id%></td>
+                                    <td><%=group.ingredientable.name%></td>
+                                    <td><%= group.quantity %></td>
+                                    <td><%= group.item_group.try(:name) || "----------" %> </td>
+                                    <td><%= group.recipe_group.try(:name) || "----------" %> </td>
+                                    <td><%= group.weight %> </td>
+                                 </tr>
+                                 <%end%>
+                                 <tr>
+                                    <th colspan="5">Total</th>
+                                    <td><%= @ingredients.sum(:quantity) %></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                     <%end%>
+                  </div>
+               </div>
+            </div>
+            <br> 
+         </div>
+      </div>
+   </div>
+</div>

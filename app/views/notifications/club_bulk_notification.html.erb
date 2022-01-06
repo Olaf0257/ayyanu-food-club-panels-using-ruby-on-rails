@@ -1,0 +1,194 @@
+<style type="text/css">
+  .stepwizard {
+      /*display: table;*/
+      width: 100%;
+      position: relative;
+  }
+  .stepwizard-row:before {
+      top: 40px;
+      /*bottom: 0;*/
+      position: absolute;
+      content:" ";
+      width: 100%;
+      height: 1px;
+      background-color: #ccc;
+      z-index: 0;
+  }
+  .stepwizard-step {
+      /*display: table-cell;*/
+      margin-bottom: 23px;
+      margin-top: 20px;
+      text-align: center;
+      position: relative;
+  }
+  .btn-circle {
+      width: 35px;
+      height: 32px;
+  }
+</style>
+
+<div class="row white-bg page-heading">
+  <div class="col-lg-12" style="margin-top:1%;">
+    <h2><b>Notifications</b>
+      <span class="pull-right">
+       <!--  -->
+      </span>
+    </h2>
+  </div>
+</div>
+
+
+<div class="container">
+
+  <br>
+  <%=form_for :notification,url: send_club_notifications_path,:html=>{id: "add-notification-form",:class=>"form-horizontal",:multipart => true} do |f|%> 
+
+    <div class="row setup-content" ">
+      <div class="col-lg-12">
+        <div class="modal-content" style="margin-bottom:5%;">
+          <div class="modal-header">
+            <center><h3>Send Notification</h3></center>
+          </div>
+          <div class="modal-body">          
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <label> Title (*Required)</label> 
+                <input type="text" placeholder="Enter title" name="title" minlength="1" maxlength="40" class="form-control"  id="title" value="Where does it come from?" autocomplete="off">
+              </div> 
+            </div>   
+              <br>
+              <input type="hidden" name="category_id"   value="<%=params[:club_id]%>">
+              <input type="hidden" name="category_type" value="<%=params[:cat]%>">
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-lg-12">
+                <label> Description (*Required)</label> 
+                <textarea name="description" class="form-control" minlength="1"  rows="5" id="description" placeholder="Enter description">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</textarea>
+              </div>  
+            </div> 
+           <!--  <div class="row">
+              <div class="col-lg-2">
+                <br>
+                <label> Image</label> 
+                <a href='javascript:;'>
+                  <img src="/assets/upload_image.png" class="img-tag img-tag" width="100%;" onmouseover="showXbutton(this);" onmouseout="hideXbutton(this);" id="fileUpload1">
+                  <button type="button" class="btn-tag val" style="display: none;">Hello</button>
+                  <input type="file" id='fileUpload' style='position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;height: 100%;width: 100%;' name="image" onchange='readURL(event)'>
+                </a>
+              </div> -->
+            <!-- </div>            -->
+          </div>
+          <div class="modal-footer">
+            <input type="submit" name="Send" value="Send" class="btn btn-md btn-primary pull-right" > 
+          </div><br>
+        </div>  
+      </div>
+    </div>      
+  <%end%>
+</div>    
+
+<script type="text/javascript">
+
+  <%if flash[:notice].present? %>
+    swal("Success","<%=flash[:notice]%>","success")
+  <%elsif flash[:error].present? %>
+    swal("Error","<%=flash[:error]%>","error")   
+  <%end%>
+    
+
+  var readURL = function(event){
+    var fileUpload = $("#fileUpload")[0];             
+    var componentId = event.target.id
+    var getImagePath = URL.createObjectURL(event.target.files[0]);
+    $('#'+componentId+"1").attr("src",getImagePath );
+    var file = event.target.files[0]
+    var t = file.type.split('/').pop().toLowerCase();
+    if (t != "jpeg" && t != "jpg" && t != "png" && t != "bmp") {
+      $("#add-img-tag").focus();
+      swal("Warning","The Image field contains an unapproved filename","warning");
+      return false;
+    }
+    else if(typeof (fileUpload.files) != "undefined"){
+      var reader = new FileReader();
+      reader.readAsDataURL(fileUpload.files[0]);
+      reader.onload = function (e) {
+        var image = new Image();
+        //Set the Base64 string return from FileReader as source.
+        image.src = e.target.result;
+        image.onload = function () {
+          //Determine the Height and Width.
+          // var height = this.height;
+          // var width = this.width;
+          // if (height > 225 && width > 450) {
+          //   swal("Warning","Height must not exceed 225px and Width must not exceed 450px.","error");
+          //   return false;
+          // }
+          return true;
+        };
+      } 
+    }
+    else{
+      return true;
+    }  
+  }
+
+  $("#add-notification-form").submit(function(){
+    if( $('#title').val().length <= 41 && $('#title').val().length <= 0 ){
+      $('#title').focus();
+      swal("Warning","Please enter a valid title.","warning");
+      return false;
+    }
+    else if($('#description').val().length <= 50){
+      $('#description').focus();
+      swal("Warning","Please enter a valid description with min length 50 characters.","warning");
+      return false;
+    } 
+    else{
+      return true;
+    }
+  });
+
+
+  $("#by_location").on("click",function(){
+    swal({
+      title: "Are you sure?",
+      text: "Do you want to Send this Push",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "Yes, Send it!",
+      cancelButtonText: "No, cancel plz!",
+      closeOnConfirm: false,
+      closeOnCancel: false
+    },
+    function(isConfirm){
+      if (isConfirm) { 
+        $.ajax({
+          type: "POST",
+          url: '/admin/locationbased/notification',
+          dataType: "JSON",
+          success:function(data) {
+            swal("Done",data.response_message,"success")          
+          },
+          error: function() {  
+            swal("Error","Something went wrong","Error")
+          }
+        });     
+      }else {
+        swal("Cancelled", "No change in city", "error");
+      }
+    });
+  })
+
+  <%if params[:email].present?%>
+    document.getElementById("email_select").style.display = 'block'
+    document.getElementById("filter_select").style.display = 'none'
+    $("#exampleFormControlSelect1").val('')
+  <%else%>
+    document.getElementById("filter_select").style.display = 'block'
+    document.getElementById("email_select").style.display = 'none'
+  <%end%>
+
+ 
+ 
+
+</script>

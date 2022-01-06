@@ -1,0 +1,7 @@
+<% drivers.each_with_index do |user, index| %>
+	<tr style="cursor: pointer;" data-driver-id="<%= user.id %>" data-check-id="<%= pos_check.id %>">
+		<td><%= user.name %></td>
+		<td><%= user.email %></td>
+		<td><%= user.contact %></td>
+	</tr>
+<% end %>

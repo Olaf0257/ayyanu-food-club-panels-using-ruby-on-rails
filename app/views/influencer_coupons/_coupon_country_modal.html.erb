@@ -1,0 +1,23 @@
+<div class="modal fade" id="coupon_country_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <%= link_to 'Back <i class="fa fa-arrow-circle-right"></i>'.html_safe, influencer_coupons_path, class: "btn btn-xs btn-danger pull-right" %>
+        <h4 class="modal-title">Select Country</h4>
+      </div>
+
+      <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+        <div class="modal-body">
+          <div class="row">
+            <%= label_tag :country_id %><br>
+            <%= select_tag(:country_id, options_for_select(Country.pluck(:name, :id).sort), prompt: "Select Country", class: "form-control admin-search-field", required: true) %>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <%= submit_tag "Submit", class: "btn btn-success pull-right" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

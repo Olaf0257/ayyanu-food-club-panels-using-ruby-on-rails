@@ -1,0 +1,14 @@
+$('.display-table').empty();
+<% @branch.reload.pos_tables.where(floor_name: params[:floor_name]).each do |pos_table| %>
+	$('.display-table').append('<div class="col-md-3"><%= link_to  (pos_table.table_status.eql?("running") ? business_partner_pos_new_transaction_path(restaurant_id: encode_token(@branch.restaurant_id), :table => encode_token(pos_table.id)) : "javascript:void(0);"), class: "pos_table_btn", data: { restaurant_id: encode_token(@branch.restaurant_id), table_id: encode_token(pos_table.id) }  do %><%= image_tag "#{pos_table.no_of_chair}_table", style: "width: 150px; height: 150px;padding: 10px" %><p style="color: black;font-size: 20px;padding: 10px;">Table No <%= pos_table.pos_table_no %></p><% end %></div>');
+<% end %>
+
+posTableClick();
+checkNoOfChair();
+posTableClick();
+numericaPadForGuest();
+allowFloatValue();
+isErrorCheckFunction();
+
+// swal("Success", "Floor Management updated!", "success")
+window.location = "<%= business_pos_management_floor_managements_path(restaurant_id: params[:restaurant_id]) %>"

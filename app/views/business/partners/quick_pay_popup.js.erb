@@ -1,0 +1,9 @@
+$('#quickpayPayment').modal('show');
+$('#quickpayPayment').find('tbody').empty();
+var checkId = $('#check_id').val();
+<% @pos_checks.each do |pos_check| %>
+	if(checkId != "<%= pos_check.id %>") {
+		$('#quickpayPayment').find('tbody').append("<%= j render partial: 'pos_check_data', locals: { pos_check: pos_check, tax: @tax } %>");
+	}
+<% end %>
+payBtnInQuickPay();

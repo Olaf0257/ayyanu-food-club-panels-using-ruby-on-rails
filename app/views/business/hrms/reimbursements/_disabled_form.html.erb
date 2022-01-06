@@ -1,0 +1,45 @@
+<%= form_for(@reimbursement, url: (params[:id].blank? ? business_hrms_reimbursements_path : edit_business_hrms_reimbursement_path(@reimbursement).gsub("/edit","")), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+
+  <%= hidden_field_tag 'reimbursement[country_code]', '', id: 'country-code' %>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :employee %>
+      <%= f.select(:user_id, options_from_collection_for_select(@employees, :id, :name, @reimbursement.user_id), {include_blank: "Select Employee"}, {class: 'form-control', style: 'height: 40px!important;', required: true, disabled: true}) %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :reimbursement_type %>
+      <%= f.select(:reimbursement_type_id, options_from_collection_for_select(ReimbursementType.all, :id, :name, @reimbursement.reimbursement_type_id), {include_blank: "Select Reimbursement Type"}, {class: 'form-control', style: 'height: 40px!important;', required: true, disabled: true}) %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+       <%= f.label :reimbursement_date %>
+        <%= f.date_field :reimbursement_date, class: 'form-control', name: 'reimbursement[reimbursement_date]', required: true, disabled: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+       <%= f.label :amount %>
+        <%= f.number_field :amount, step: 'any', class: 'form-control', placeholder: 'Amount', name: 'reimbursement[amount]', required: true, disabled: true  %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-6 col-md-6">
+      <%= f.label :remarks %>
+        <%= f.text_field :remarks, class: 'form-control', placeholder: 'Remarks', name: 'reimbursement[remarks]', required: true, disabled: true  %>
+    </div>
+    <div class="col-xs-6 col-md-6">
+      <%#= f.label :status_of_confirmation %>
+         <%#= f.text_field :status, class: 'form-control', placeholder: 'Status', name: 'reimbursement[status]', required: true, disabled: true  %>
+    </div>
+  </div>
+  <%#= hidden_field_tag 'reimbursement[created_by_id]', value: @user.id %>
+
+  <%= hidden_field_tag 'restaurant_id', params[:restaurant_id] %>
+  <%= hidden_field_tag 'reimbursement[restaurant_id]', params[:restaurant_id] %>
+
+  <br>
+  <%= f.hidden_field :created_by_id, value: @user.id %>
+ 
+<% end %>

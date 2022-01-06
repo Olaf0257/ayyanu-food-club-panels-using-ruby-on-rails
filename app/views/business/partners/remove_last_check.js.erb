@@ -1,0 +1,22 @@
+<% if @error.present? %>
+    toastr.error('<%= @error %>')
+<% else %>
+    var width = 100/($('.check-table').length + 1)
+    $('.check-table').css('width', width + '%');
+    $('.check_<%= params[:check_id] %>').remove();
+    <% if @transactions.present? %>
+        <% @transactions.each do |transaction| %>
+            var amount = "<%= number_with_precision(transaction.total_amount, precision: 3) %>"
+            $('#check_data_<%= transaction.pos_check_id %>').find('#transaction_data_<%= transaction.id %>').find('td:eq(2)').text(amount);
+            var sum = 0.0;
+            $('.check_<%= transaction.pos_check_id %>').find('tbody tr').find('td:eq(2)').each(function(){
+                sum += parseFloat($(this).text());
+            });
+            $('.span_check_<%= transaction.pos_check_id %>').text(sum.toFixed(3) + ' BHD')
+        <% end %>
+    <% end %>
+    toastr.success('Last check removed successfully.')
+<% end %>
+splitCheck();
+checkTableTrSelect();
+shareItemPopup();

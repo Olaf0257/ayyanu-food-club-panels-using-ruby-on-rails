@@ -1,0 +1,7 @@
+$('#menu_category-<%=@menu_category.id%>').html("<%= j render :partial => 'edit_menu_category', :locals=> { :menu_category=>@menu_category}  %>");
+$('#edit_content').modal('hide');
+swal({
+	title: 'success',
+	text:  "updated successfully",
+	type: 'success'
+}); 

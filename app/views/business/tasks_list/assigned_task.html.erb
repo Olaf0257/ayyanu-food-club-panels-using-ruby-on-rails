@@ -1,0 +1,98 @@
+<style>
+  input.form-check-input {
+    width: 25px;
+    height: 25px;
+  }
+</style>
+
+
+<!-- <div class="card">
+  <div class="card-body" style="height: 60px;">
+    <h1 style="margin-left: 15px;">
+    	<b>  TASK LIST</b>
+    </h1>
+  </div>
+</div>
+<br>
+<br> -->
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-sm-8">
+    <h2><b>  TASK LIST</b></h2>
+  </div>
+</div>
+<br>
+
+<div class="row" style="padding-left: 15px;
+    padding-right: 15px;">
+  <div class="col-md-12">
+    <% @employee_tasks.each_with_index do |emp_task, index| %>
+      <div class="row" style="background: white;">
+        <div>
+          <h3 style="margin-left: 15px; margin-top: 15px;"><b>TASK</b></h3><hr>
+        </div>
+      </div>
+      <div class="row" style="background: white;">
+        <div class="col-md-12" style="padding-bottom: 2%;">
+          <div class="col-md-3">
+            <p><h3>Task Name</h3></p>
+            <br/>
+            <p><h3><b><%=emp_task.task_list.name%></b></h3></p>
+          </div>
+          <div class="col-md-2">
+            <p><h3>Start</h3></p>
+            <br/>
+            <p><h3><b><%=emp_task.task_list.time_to%></b></h3></p>
+          </div>
+          <div class="col-md-2">
+            <p><h3>End</h3></p>
+            <br/>
+            <p><h3><b><%=emp_task.task_list.time_from%></b></h3></p>
+          </div>
+          <div class="col-md-2">
+            <p><h3>Assigned By</h3></p>
+            <br/>
+            <p><h3><b><%=User.find_by_id(emp_task.task_list.created_by_id).name%></b></h3></p>
+          </div>
+          <div class="col-md-3">
+            <p><h3>Action</h3></p>
+            <br/>
+            <% if emp_task.task_list.checkbox_check == true %>
+              <input class="form-check-input task_checkbox" type="checkbox" value="" task_list_id="<%= emp_task.task_list.id %>">
+            <% else %>
+             <%= form_for(emp_task.task_list, url: ( business_tasks_list_upload_complete_task_path), html: { class: "form-horizontal", autocomplete: "off" }) do |f| %>
+               <%= f.file_field :url, class: "btn", id:'edit-img-tag','aria-label':"File browser example" %>
+              <div style="margin-top: 10px">
+                <input type="hidden" name="task_list_id" value="<%= emp_task.task_list_id %>">
+                <button type="submit" class="btn btn-danger"> Upload </button>
+              </div>
+                <%end%>
+            <% end %>
+            
+          </div>
+        </div>
+      </div>
+      <br/>
+      <%end%>
+      <br/>
+      <br/>
+  
+  </div>
+  
+</div>
+<script type="text/javascript">
+  $('.task_checkbox').change(function(){
+    if(this.checked){
+      $.ajax({
+        type: "GET",
+        url: "/business/tasks_list/complete_task",
+        data: { task_list_id: this.getAttribute("task_list_id")  }
+      })
+    }
+  })
+
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

@@ -1,0 +1,71 @@
+<div class="modal fade" id="manual_order_cart_modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Order Details</h4>
+      </div>
+
+      <div class="modal-body">
+        <% currency = @total_price[:currency_code_en] %>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ITEM</th>
+              <th>QTY</th>
+              <th>ADDONS</th>
+              <th>TOTAL PRICE (INCL. VAT)</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @cart_data.each do |data| %>
+              <tr>
+                <td><%= data["item_name"] %></td>
+                <td><%= data["quantity"] %></td>
+                <td><small><%= data["item_addons"].map { |i| i["addon_title"] }.join(", ") %></small></td>
+                <td><%= data["total_price"] %> <%= currency %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <br><b><hr></b><br>
+
+        <h3 class="text-center">SUMMARY</h3>
+
+        <table class="table">
+          <tbody>
+            <tr>
+              <td colspan="4">Base Price</td>
+              <td><%= number_with_precision(@total_price[:sub_total], precision: 3) %> <%= currency %></td>
+            </tr>
+
+            <% @total_price[:taxes].each do |tax_data| %>
+              <tr>
+                <td colspan="4"><%= tax_data["tax_name"] %> (<%= tax_data["tax_percentage"] %> %)</td>
+                <td><%= number_with_precision(tax_data["tax_amount"], precision: 3) %> <%= currency %></td>
+              </tr>
+            <% end %>
+
+            <tr>
+              <td colspan="4">Service Charge</td>
+              <td><%= number_with_precision(@total_price[:delivery_charges], precision: 3) %> <%= currency %></td>
+            </tr>
+
+            <tr>
+              <td colspan="4">Total Payable</td>
+              <td><span class="chargeable-amount"><%= number_with_precision(@total_price[:total_price], precision: 3) %></span> <%= currency %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="modal-footer">
+        <%= link_to "Add to Cart (For Online)", business_send_customer_order_mail_path(user_id: @customer.id), class: "btn btn-success pull-left" %>
+        <%= link_to "Place Order (For Cash)", business_create_manual_order_path(user_id: @customer.id, address_id: @address.id, note: params[:note], restaurant_id: Branch.find(@branch_id).restaurant_id), method: :post, class: "btn btn-primary pull-left", data: { disable_with: "Please wait..." } %>
+        <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

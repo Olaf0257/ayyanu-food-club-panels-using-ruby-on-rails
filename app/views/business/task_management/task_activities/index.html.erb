@@ -1,0 +1,85 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <div class="col-sm-3">
+      <h2 class="font-bold ">Task Activity</h2>
+    </div>
+
+    <div class="col-sm-9">
+      <br><span class="pull-right">
+        <%= form_for :search, method: :get, html: { class: "form-inline" } do |f| %>
+          <%= text_field_tag(:keyword, params[:keyword], class: "form-control admin-search-field", placeholder: "Search by Name", autocomplete: :off) %>
+          <button type="submit" style="height: 35px;" class="btn btn-info">Search</button>
+          <%= hidden_field_tag(:restaurant_id, params[:restaurant_id]) %>
+        <% end %>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row white-bg">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title" style="border:none;">
+          <div class="ibox-tools">
+            <a class="dim btn btn-primary btn-circle" title="Add New Asset Type" href="<%= new_business_task_management_restaurant_task_activity_path(restaurant_id: params[:restaurant_id]) %>"> <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+        <div class="ibox-content">
+          <% if @task_activities.present? %>
+          <div class="full-height-scroll">
+           <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Countries</th>
+                  <th>Branch</th>
+                  <!-- <th>Task Type</th> -->
+                  <!-- <th>Task Category</th> -->
+                  
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @task_activities.each do |task_activity| %>
+                <tr id="trans-<%=task_activity.id %>">
+                  <td id="<%=task_activity.id %>-id"><%= task_activity.id %></td>
+                  <td id="<%=task_activity.id %>-id"><%= task_activity.name%></td>
+                  <td id="<%=task_activity.id %>-id"><%= task_activity.countries.pluck(:name).join(",") %></td>
+                  <td id="<%=task_activity.id %>-id"><%= find_branch(task_activity) %></td>
+                  <!-- <td id="<%=task_activity.id %>-id"><%#= task_activity.task_type&.name%></td> -->
+                  
+                  <!-- <td id="<%=task_activity.id %>-id"><%#= task_activity.task_category.category_name %></td> -->
+                  
+                  <td><%= created_by(task_activity) %></td>
+                  <td id="<%=task_activity.id %>-id"><%=task_activity.created_at.strftime("%d/%m/%Y")%></td>
+                  <td>
+                    <%= link_to '<i class="fa fa-pencil"></i> Edit Task Activity'.html_safe, edit_business_task_management_restaurant_task_activity_path(task_activity,restaurant_id: params[:restaurant_id]), class: 'btn btn-warning btn-sm' %>
+                     <%= link_to '<i class="fa fa-remove"></i> Remove Task Activity'.html_safe, business_task_management_restaurant_task_activity_path(task_activity,restaurant_id: params[:restaurant_id]), method: :delete, confirm: 'Are you sure?', class: 'btn btn-danger btn-sm' %>
+                  </td>
+                </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <%else%>
+        <center><div class="alert alert-danger">No Task Activity available yet.</div></center>
+        <%end%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script type="text/javascript">
+  <%if flash[:success].present?%>
+    swal("Done!", "<%=flash[:success]%>", "success");
+  <%elsif flash[:error].present?%>
+    swal("warning","<%=flash[:error]%>","warning");
+  <%end%>
+</script>

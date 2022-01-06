@@ -1,0 +1,2 @@
+class EnterpriseDocument < ApplicationRecord
+end
